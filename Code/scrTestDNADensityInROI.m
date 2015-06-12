@@ -17,11 +17,11 @@ angle0           = pi;
 b                = sqrt(3);
 diffusionConst   = 1;
 springConst      = 2*(dimension*diffusionConst./b^2)*ones(numParticles);
-bendingConst     = 1*dimension*diffusionConst./b^2;
+bendingConst     = 2*dimension*diffusionConst./b^2;
 particlePosition = cumsum(sqrt(2*diffusionConst*dt)*randn(numParticles,dimension));
 
 connectivityMap  = (diag(ones(1,numParticles-1),1)+diag(ones(1,numParticles-1),-1))~=0;
-minParticleDist  = 0;
+minParticleDist  = 0.5;
 fixedParticleNum = [];
 
 gyrationRadius   = sqrt(numParticles/6)*b; % for large numParticles
@@ -81,7 +81,7 @@ cm    = mean(particlePosition,1); % center of mass
 % create the beam 
 numCirclesInBeam = 40;
 circlezPos       = linspace(-2*gyrationRadius,2*gyrationRadius,numCirclesInBeam);
-theta            = 0:0.1:2*pi;
+theta            = linspace(0,2*pi,30);
 cosTheta = cos(theta);
 sinTheta = sin(theta);
 for cIdx = 1:numCirclesInBeam;
@@ -180,7 +180,7 @@ for sIdx = 1:numSteps
         % fixind time 
       for aIdx = 1:numParticles            
             if affectedBeads(aIdx)
-               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*2;
+               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*4;
             end
       end
         affectedBeads = false(numParticles,1);

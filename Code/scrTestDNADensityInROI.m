@@ -5,7 +5,7 @@
 % parameter values are set proportional to (dimension*diffusionConst/b^2)
 close all 
 %% parameters
-numParticles     = 600;
+numParticles     = 1000;
 dimension        = 3;
 % relxation time 
 % (numParticles*b)^2 / (3*diffusionConst*pi^2)
@@ -17,7 +17,7 @@ angle0           = pi;
 b                = sqrt(3);
 diffusionConst   = 1;
 springConst      = 2*(dimension*diffusionConst./b^2)*ones(numParticles);
-bendingConst     = 2*dimension*diffusionConst./b^2;
+bendingConst     = 3*dimension*diffusionConst./b^2;
 particlePosition = cumsum(sqrt(2*diffusionConst*dt)*randn(numParticles,dimension));
 
 connectivityMap  = (diag(ones(1,numParticles-1),1)+diag(ones(1,numParticles-1),-1))~=0;
@@ -25,8 +25,8 @@ minParticleDist  = 0.5;
 fixedParticleNum = [];
 
 gyrationRadius   = sqrt(numParticles/6)*b; % for large numParticles
-beamRad          = gyrationRadius/15;
-roiRadius        = gyrationRadius/10;
+beamRad          = gyrationRadius/25;
+roiRadius        = gyrationRadius/20;
 roiRes           = 20; % number of rows and columns in roi
 affectedBeads    = false(numParticles,1);
 
@@ -180,7 +180,8 @@ for sIdx = 1:numSteps
         % fixind time 
       for aIdx = 1:numParticles            
             if affectedBeads(aIdx)
-               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*4;
+               bendingConst = bendingConst/2;
+               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*2;
             end
       end
         affectedBeads = false(numParticles,1);

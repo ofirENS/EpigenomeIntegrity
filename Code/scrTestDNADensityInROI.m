@@ -5,7 +5,7 @@
 % parameter values are set proportional to (dimension*diffusionConst/b^2)
 close all 
 %% parameters
-numParticles     = 1000;
+numParticles     = 800;
 dimension        = 3;
 % relxation time 
 % (numParticles*b)^2 / (3*diffusionConst*pi^2)
@@ -166,25 +166,26 @@ for sIdx = 1:numSteps
         baseLineDensity = ConcentricDensityInRoi(particlePosition,[cm(1)-roiRadius,cm(2)-roiRadius,2*roiRadius,2*roiRadius],roiRes);
         
         % turn off diffusion 
-        diffusionFlag = false;
-        for aIdx = 1:numParticles            
-            if affectedBeads(aIdx)
-               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)/2;
-            end
-        end
+        diffusionFlag   = false;
+        minParticleDist = minParticleDist*2;
+%         for aIdx = 1:numParticles            
+%             if affectedBeads(aIdx)
+%                springConst(aIdx,aIdx) = springConst(aIdx,aIdx)/2;
+%             end
+%         end
         sprintf('%s%f','Beam fired at time: ', sIdx*dt)
         
     end
     
     if sIdx ==fixTime
         % fixind time 
-      for aIdx = 1:numParticles            
-            if affectedBeads(aIdx)
-               bendingConst = bendingConst/2;
-               springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*2;
-            end
-      end
-        affectedBeads = false(numParticles,1);
+%       for aIdx = 1:numParticles            
+%             if affectedBeads(aIdx)
+%                springConst(aIdx,aIdx) = springConst(aIdx,aIdx)*4;
+%             end
+%       end
+        minParticleDist = minParticleDist/2;
+        affectedBeads   = false(numParticles,1);
         sprintf('%sf','Fixed at time: ', sIdx*dt); 
     end
 end

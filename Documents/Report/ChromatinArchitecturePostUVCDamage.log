@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  12 JUN 2015 16:25
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  15 JUN 2015 17:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -336,39 +336,48 @@ LaTeX Warning: No \author given.
 
 [1
 
-{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 15.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): de
+stination with the same identifier (name{page.1}) has been already used, duplic
+ate ignored
 <to be read again> 
                    \relax 
-l.15 \end{document}
-                    [1]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 15.
+l.29 		\item 2
+              0\% loss of DNA signal in the damage region, accompanied by an...
+[1] [2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 78.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 78.
  (./ChromatinArchitecturePostUVCDamage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 15.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 15.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 78.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 78.
 Package rerunfilecheck Info: File `ChromatinArchitecturePostUVCDamage.out' has 
 not changed.
-(rerunfilecheck)             Checksum: C0BE9E15585F2F7193C4C89F6349E675;61.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 15.
+(rerunfilecheck)             Checksum: A9B298454B4D800E0F9BFF7594D13B69;448.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 78.
  ) 
 Here is how much of TeX's memory you used:
- 6019 strings out of 493315
- 85605 string characters out of 6145893
- 169406 words of memory out of 5000000
- 9420 multiletter control sequences out of 15000+600000
- 7442 words of font info for 29 fonts, out of 8000000 for 9000
+ 6080 strings out of 493315
+ 86226 string characters out of 6145893
+ 173406 words of memory out of 5000000
+ 9445 multiletter control sequences out of 15000+600000
+ 12443 words of font info for 48 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 29i,6n,28p,267b,343s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,6n,28p,267b,410s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf
-/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf/fonts/type1/public/
-amsfonts/cm/cmr17.pfb>
-Output written on ChromatinArchitecturePostUVCDamage.pdf (2 pages, 31575 bytes)
-.
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf/fonts/type1/public
+/amsfonts/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi6.
+pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texm
+f/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf/fonts/type1/public
+/amsfonts/cm/cmr17.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr6.pf
+b></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/a
+msfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti12.pf
+b>
+Output written on ChromatinArchitecturePostUVCDamage.pdf (4 pages, 131772 bytes
+).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
- 9 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 128 PDF objects out of 1000 (max. 8388607)
+ 108 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 57 words of extra memory for PDF output out of 10000 (max. 10000000)
 

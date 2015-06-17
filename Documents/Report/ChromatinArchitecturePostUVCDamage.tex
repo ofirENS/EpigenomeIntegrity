@@ -14,12 +14,12 @@
 		\item Cell type used: U20S, which are human osteosarcoma cells;
 		\item H3.3 histones are tagged 48 hours before experiments using the SNAP-tag method, tag color is red;
 		\item Repair factors XFP are labeled with GFP;
-		\item UVC damage is induced in a particular region of the cell;
+		\item UVC damage is induced in a region of the cell using a 266 nm laser (0.266 $\mu m$);
 		\item Changed to the red fluorescence signal were measured in the entire volume of the cell, post UVC;
-		\item images where acquired using confocal microscopy, with an auto-focus module on, to acquire images from the best focal plane;
+		\item Images were acquired using confocal microscopy, with an auto-focus module on, to acquire images from the best focal plane;
 		\item Fluorescence intensity were normalized against values measured in undamaged nucleus;
 		\item Fluorescence loss at irradiated sites was determined by dividing the intensity in the illuminated area by the intensity of the entire nucleus after background subtraction;
-		\item illuminated area was defined 15 minutes post UVC based on GFP labeled repair factors and was kept similar throughout;
+		\item Illuminated area was defined 15 minutes post UVC based on GFP labeled repair factors and was kept similar throughout measurements;
 		\item Fluorescent recovery was measured relative to previous illumination starting from the frame with the minimal fluorescent values;
 		\item 2D projection of the 3D images were obtained by \textit{maximal intensity z projection}
 		\item For sensitivity, most of the cell H3.3 fluorescence was photo-bleached, aside from the region of UVC illumination;
@@ -37,36 +37,35 @@
 	\section{Simulation Setting}
 	
 	\subsection{The chromatin}
-     The chromatin is modeled as a Rouse chain of $N$ monomers. The dynamics of the chain is governed by 3 forces: thermal fluctuations, spring force, and bending force 
+     The chromatin is modeled as a Rouse chain of $N$ monomers. The dynamics of the chain is governed by 3 forces: thermal fluctuations, spring force, and bending force.
      Thermal diffusion fluctuation, resulting from the random collision of the polymer with the particles of its surrounding, and is given by 
      \begin{equation*}
-     F_d = \sqrt{2D}\dot{w}
+     F_d(t) = \sqrt{2D}\frac{dw}{dt}
      \end{equation*}
-      with $D$ the diffusion constant, defined by $\frac{k_BT}{\psi}$, $k_B$- the Boltzmann constant, $T$- the absolute temperature in Kelvin, and $\psi$-the friction coefficient.
-      
-     The harmonic potential of springs connecting neighboring monomers is given by
+      with $D$ the diffusion constant, defined by $\frac{k_BT}{\xi}$, $k_B$- the Boltzmann constant, $T$- the absolute temperature in Kelvin, $\xi$-the friction coefficient, and $w$ is a standard white Gaussian noise. 
+            
+     The spring force, derived from an harmonic potential of springs connecting neighboring monomers, is given by
      \begin{equation*}
-      F_e(t) = -\gamma_e\frac{3k_BT}{2b^2}\sum_{n-1}^{N-1}(R_n(t)-R_{n+1}(t)^2
+      F_e(t) = -\gamma_e\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{n-1}^{N-1}(R_n(t)-R_{n+1}(t)^2
      \end{equation*}
      with $\gamma_e>0$ spring constant, $b$- the standard deviation of the distance between monomers, and $R_n(t)$ is the 3D position of the $n^{th}$ monomer.
      
-     Bending force on the $n^{th}$ monomer is defined in terms of the angles $\theta_i$ between two adjacent links of the chain, and the opening angle $\theta_0$
+     Bending force on the $n^{th}$ monomer is defined in terms of the angles $\theta_i$ between three adjacent monomers of the chain, $n,n+1,n+2$, and the opening angle $\theta_0$
      \begin{equation*}
      F_b(R_n) = -\gamma_b\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{i=1}^{N-2}(\cos(\theta_i(t))-\cos(\theta_0))^2
      \end{equation*}
-     with $\theta_n(t)$ the angle between the chain links formed by monomer $n,n+1,n+2$.
-     The forces acting on the $n^{th}$ monomer at each time is calculated by $\frac{\partial U_b}{\partial R_n}$
-     
+               
      The differential equation describing of motion of the chain is thus 
      \begin{equation*}
-     \frac{dR_n}{dt}= \frac{\partial U_b}{\partial R_n} +\frac{\partial U_e}{\partial R_n} +\sqrt{2D} \dot{w}     
+     \frac{dR_n(t)}{dt}= F_e +F_b +\sqrt{2D} \frac{dw}{dt}     
      \end{equation*}
      
      \subsection{Parameters}
-     Parameters used in simulations are set proportional to of the quantity $\frac{3K_bT}{b^2}$, which we fix to be one by setting $\frac{3k_BT}{\xi}=D=1, b=\sqrt{3}$ in a medium for which the friction factor $\xi=1$. 
-
+     Parameters used in simulations are set proportional to of the quantity $\frac{3K_bT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
+    
 	\subsection{defining the region of interest}
-	Following the article by Polo et al. we define our region of interest (ROI) 15 minutes post UVC. 
+    We model the experiment in a region around the damage zone rather than in the entire cell. We define our region of interest (ROI) in terms of the expected number of monomers located at steady  around the polymer's center of mass. We wish to include 50\% of the monomers inside the region of interest, therefore, the radius of the ROI is set to be the median of the equilibrium distribution of the Rouse chain, which is a Gaussian. We therefore set it at the 0.75\% quantile of the normal distribution, $s=0.6745\sqrt{\frac{2}{3}}b$
+    
     \subsection{The UV beam}
     
 	

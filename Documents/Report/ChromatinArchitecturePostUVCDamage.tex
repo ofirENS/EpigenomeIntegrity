@@ -14,6 +14,7 @@
 		\item Cell type used: U20S, which are human osteosarcoma cells;
 		\item H3.3 histones are tagged 48 hours before experiments using the SNAP-tag method, tag color is red;
 		\item Repair factors XFP are labeled with GFP;
+		\item a region of $20 \mu m^2$ was photo-activated 8-10 hours before UVC;
 		\item UVC damage is induced in a region of the cell using a 266 nm laser (0.266 $\mu m$);
 		\item Changed to the red fluorescence signal were measured in the entire volume of the cell, post UVC;
 		\item Images were acquired using confocal microscopy, with an auto-focus module on, to acquire images from the best focal plane;
@@ -34,10 +35,36 @@
 		
 	\end{enumerate}
 	
-	\section{Simulation Setting}
+	\section{Model and Parameter Estimation}
+	For reasons of convenience we will work in units of $100 nm$. Parameter values calculated in the subsection below will be converted to this measure when simulated. 
 	
-	\subsection{The chromatin}
-     The chromatin is modeled as a Rouse chain of $N$ monomers. The dynamics of the chain is governed by 3 forces: thermal fluctuations, spring force, and bending force.
+	\subsection{Nucleus Size}
+	 Cells' cross-section are 240 $\mu m^2$ in the $x-y$ plane and $11 \mu m$ in height, giving an average radius of $r_c=7.25 \mu m$.  \ref{fig:histoneMarkBeforeDamage}), The red fluorescence represent the histones.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.2\linewidth]{../histoneMarkBeforeDamage}
+			\caption{white triangle represents the UVC damage site, Histones are marked with red}
+			\label{fig:histoneMarkBeforeDamage}
+		\end{figure}
+		
+	\subsection{The UV beam}
+	UV beam has 3 $\mu m^2$ section, yielding a radius of $r_{uv}=\sqrt{\frac{3}{\pi}}\approx 1 \mu m$. 
+	
+    \subsection{Histone Density}
+		We consider histones to be uniformly distributed in the nucleus. There are $3\times 10^6$ histones marked, which makes their density $3\times 10^6 /(4 \pi 7.25^3)\approx 630$ histones/$\mu m^3$
+		The expected number of histones in the UV beam region is $14.5\pi \times 630\approx 30,000$ histones, assuming the beam is shot through the center of the sphere. 
+    
+    \subsection{DNA density}
+	to be determined	
+	
+	\subsection{Distribution of damage sites}
+	to be determined
+	
+	\subsection{Defining the region of interest}
+	We model the experiment in a region around the damage zone rather than the entire nucleus. We define a region of interest (ROI) in terms of raiuds of the UVC beam radius. The area expanded after UVC occupies $10 \mu m^2$ which gives 3 times the UVC beam radius. We therefore set the radius of the ROI $r_{roi}=3\mu m$.
+					    
+	\subsection{The chromatin}	
+     The chromatin is modeled as a Rouse polymer of $N$ monomers connected by harmonic springs. The dynamics of the polymer is governed by 3 forces: thermal fluctuations, spring force, and bending force.
      Thermal diffusion fluctuation, resulting from the random collision of the polymer with the particles of its surrounding, and is given by 
      \begin{equation*}
      F_d(t) = \sqrt{2D}\frac{dw}{dt}
@@ -60,17 +87,27 @@
      \frac{dR_n(t)}{dt}= F_e +F_b +\sqrt{2D} \frac{dw}{dt}     
      \end{equation*}
      
-     \subsection{Parameters}
-     Parameters used in simulations are set proportional to of the quantity $\frac{3K_bT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
-    
-	\subsection{defining the region of interest}
-    We model the experiment in a region around the damage zone rather than in the entire cell. We define our region of interest (ROI) in terms of the expected number of monomers located at steady  around the polymer's center of mass. We wish to include 50\% of the monomers inside the region of interest, therefore, the radius of the ROI is set to be the median of the equilibrium distribution of the Rouse chain, which is a Gaussian. We therefore set it at the 0.75\% quantile of the normal distribution, $s=0.6745\sqrt{\frac{2}{3}}b$
-    
-    \subsection{The UV beam}
-    
+    \subsection{Model Parameters}
+      Parameters used in simulations are set proportional to of the quantity $\frac{3K_bT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
+    \subsubsection{b} 
+      we set $b=\sqrt{3} \times 100 nm$, 
+    \subsubsection{number of monomers}
+      the number of monomers, $N$, is given by setting the polymer's radius of gyration to covers the ROI. The radius of gyration is given by $\sqrt{N/6}b$, equating it to $3\mu m$ we get $N\approx 1800$ 
+                     
+     \subsubsection{the Spring constant}
+       We set the spring constant $\gamma_s =1$
+     \subsubsection{The bending constant}
+       bending constant is defined according to the opening of the chromatin up to 15 minutes post UVC. 
+     
+     
+
+
+
+             		
+	\section{Simulations}
 	
-	
-	\section{Findings}
+	\subsection{ 3D}
+	\subsection{2D}
 	
 	
 	

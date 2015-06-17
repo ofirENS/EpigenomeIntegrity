@@ -13,10 +13,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         beamRad@double
         gyrationRadius@double
         particlePosition@double 
-        loadConfiguration@logical
-        saveAfterRelaxationTime@logical
+        loadRelaxationConfiguration@logical
+        loadFullConfiguration@logical
+        saveRelaxationConfiguration@logical
         saveAfterBeamTime@logical
-        showSimulation@logical
+        showRelaxationSteps@logical
+        showRecordingSteps@logical
+        showBeamSteps@logical
 % relxation time 
 % (numParticles*b)^2 / (3*diffusionConst*pi^2)
     end

@@ -16,7 +16,7 @@ close all
 
 numRelaxationSteps = 2000;
 numRecordingSteps  = 1000;
-numBeamSteps       = 2000;
+numBeamSteps       = 3000;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
@@ -24,6 +24,7 @@ loadConfiguration  = false;
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
 for nbIdx=1:numel(nb)
+    for bdIdx = 1:5
 % Figures
 show3D                = true;
 show2D                = true;
@@ -66,7 +67,7 @@ else
     chainForces = ForceManagerParams('dt',simulatorParams.simulator.dt,...
                                      'springForce',true,...
                                      'bendingElasticityForce',false,...
-                                     'bendingConst',1*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
+                                     'bendingConst',bdIdx*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
                                      'springConst', 1*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
                                      'openningAngle',pi,...
                                      'minParticleEqDistance',1);
@@ -157,9 +158,9 @@ chainPos        = r.objectManager.curPos;
 
 [~, ~,~,baseLine] = CalculateDensitiesInROI(chainPos,h.curPos,rectX,rectY,rectWidth,rectHeight,...
                                                                       roiRes,histoneParams.numHistones,dnaLengthIn,1);
-
 % % shut down diffusion before laser shot
 r.handles.classes.domain.params.forceParams.diffusionForce = false;
+
 
 % Start recording densities with no beam effect
 for sIdx = 1:numRecordingSteps    
@@ -217,6 +218,8 @@ end
 
 r.runSimulation = true;
 
+
+
 connectivityMat = r.objectManager.GetConnectivityMapAsOne(1);
 
 % shoot beam 
@@ -256,6 +259,7 @@ while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSt
     end
     
 end
+    end
 end
 end
 

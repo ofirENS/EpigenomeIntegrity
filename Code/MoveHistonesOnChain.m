@@ -14,13 +14,16 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 500;
-numRecordingSteps  = 200;
-numBeamSteps       = 300;
+numRelaxationSteps = 2000;
+numRecordingSteps  = 1000;
+numBeamSteps       = 2000;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
 
+nb = [100, 200, 400, 800, 1600];% change the number of beads
+
+for nbIdx=1:numel(nb)
 % Figures
 show3D                = true;
 show2D                = true;
@@ -35,7 +38,7 @@ else
     % Initialize simulator framework parameters
     simulatorParams = SimulationFrameworkParams('showSimulation',show3D,...
                                                 'numSteps',numRelaxationSteps,...
-                                                'dimension',3,...
+                                                'dimension',2,...
                                                 'dt',0.1,...
                                                 'objectInteraction',false);                                                
                                                                                         
@@ -63,12 +66,12 @@ else
     chainForces = ForceManagerParams('dt',simulatorParams.simulator.dt,...
                                      'springForce',true,...
                                      'bendingElasticityForce',false,...
-                                     'bendingConst',5*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
+                                     'bendingConst',1*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
                                      'springConst', 1*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
                                      'openningAngle',pi,...
                                      'minParticleEqDistance',1);
     
-    cp          = ChainParams('numBeads',1800,...
+    cp          = ChainParams('numBeads',nb(nbIdx),...
                               'dimension',simulatorParams.simulator.dimension,...
                               'initializeInDomain',3,...
                               'forceParams',chainForces,...                              
@@ -83,7 +86,7 @@ else
                                          'reflectionType','off',...
                                          'domainCenter',[0 0 0],...
                                          'dimension',simulatorParams.simulator.dimension,...
-                                         'domainWidth',sqrt(cp.numBeads/6)*cp.b/2,...
+                                         'domainWidth',sqrt(cp.numBeads/6)*cp.b/6,...
                                          'domainHeight',70,...
                                          'forceParams',cylinderForces);
     
@@ -94,10 +97,10 @@ else
                                       'morseForce',false,...
                                       'mechanicalForce',false);
     
-    dp(3)        = DomainHandlerParams('domainWidth',sqrt(cp.numBeads/6)*cp.b,...% radius of Gyration
+    dp(3)        = DomainHandlerParams('domainWidth',0.5*sqrt(cp.numBeads/6)*cp.b,...% radius of Gyration
                                        'dimension',simulatorParams.simulator.dimension,...
                                        'domainCenter',[0 0 0],...
-                                       'reflectionType','off',...
+                                       'reflectionType','preserveEnergy',...
                                        'forceParams',gSphereForce);
     
     % register the object parameters in the simulator framework
@@ -113,8 +116,8 @@ else
 end
 
 % Define the ROI for density estimation
-rectX      = -(sqrt(cp.numBeads/6)*cp.b);
-rectY      = -(sqrt(cp.numBeads/6)*cp.b);
+rectX      = -(sqrt(cp.numBeads/6)*cp.b)/6;
+rectY      = -(sqrt(cp.numBeads/6)*cp.b)/6;
 rectWidth  = 2*abs(rectX);
 rectHeight = 2*abs(rectY);
 roiRes     = 20;% divide the ROI into pixels for density calculation , should be an even integer
@@ -156,7 +159,7 @@ chainPos        = r.objectManager.curPos;
                                                                       roiRes,histoneParams.numHistones,dnaLengthIn,1);
 
 % % shut down diffusion before laser shot
-% r.handles.classes.domain.params.forceParams.diffusionForce = false;
+r.handles.classes.domain.params.forceParams.diffusionForce = false;
 
 % Start recording densities with no beam effect
 for sIdx = 1:numRecordingSteps    
@@ -252,6 +255,7 @@ while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSt
         set(concentrationLine,'XData',1:(roiRes-1),'YData',densityInConcentric)
     end
     
+end
 end
 end
 

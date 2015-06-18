@@ -5,7 +5,7 @@
 % parameter values are set proportional to (dimension*diffusionConst/b^2)
 close all 
 %% parameters
-numParticles     = 800;
+numParticles     = 10;
 dimension        = 3;
 % relxation time 
 % (numParticles*b)^2 / (3*diffusionConst*pi^2)

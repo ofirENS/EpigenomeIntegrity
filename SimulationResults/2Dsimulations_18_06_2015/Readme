@@ -1,0 +1,48 @@
+19/06/2015
+
+This batch of simulations was performed with the function MoveHistonesOnChain.m located within this directory and in the EpigenomicIntegrity folder
+
+Simulations were performed for 5 different number of beas, for each 5 ratios between the bending constant and the spring constant were simulated
+the number of beads is [100 200 400 800 1600]
+
+forces constant were proportional to dim*D/b^2 where dim is the dimension,D is the diffusion constant
+D was set to 1, b= sqrt(3) and dim =2;
+
+Spring constant was set to dim*D/b^2
+bending constant increased as 1*dim*D/b^2, 2*dim*D/b^2,..,5*dim*D/b^2.
+Other parameters can be seen in the function MoveHistonesOnChain.m
+
+simulations were ran numRelaxationSteps, after which the diffusion force was set to 0 and recording started
+for numRecordingSteps, following, the UV beam was shot through the center of the polymers mass, all beads falling within the 
+UV beam area were assigned bending force. Simulation then ran for additional numBeamSteps with the bending force.
+
+Simulation were placeed in a sphereical environment with reflecting boundaries.
+Measurement of density were performed on a rectangular region, which was dynamically placed around the polymer's center of mass.
+Sizes of the containing sphere (circle in 2d) and the measurement region were proportional to the radius of gyration, sqrt(numBeads/6)*b
+
+
+
+Parmeter
+-------------
+numRelaxationSteps = 2000;
+numRecordingSteps  = 1000;
+numBeamSteps       = 3000;
+
+numBeads = [100 200 400 800 1600]
+dt       = 0.1
+D        = 1;
+b        = sqrt(3)
+bending constant = [1*dim*D/b^2, 2*dim*D/b^2,3*dim*D/b^2,4*dim*D/b^2,5*dim*D/b^2]
+springConstant   = dim*D/b^2
+
+beamRadius = sqrt(numBeads/6)*cp.b/6
+containingSphereRadius = 0.5*sqrt(numBeads/6)*b
+regionOfInterestWidth  = 2*(sqrt(cp.numBeads/6)*cp.b)/6
+regionOfInterestHeight = 2*(sqrt(cp.numBeads/6)*cp.b)/6
+regionOfInterestCenter = polymer center of mass
+
+
+
+
+
+

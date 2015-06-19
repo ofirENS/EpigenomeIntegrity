@@ -14,17 +14,17 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 2000;
-numRecordingSteps  = 1000;
-numBeamSteps       = 3000;
+numRelaxationSteps = 200;
+numRecordingSteps  = 100;
+numBeamSteps       = 300;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
-for nbIdx=1:numel(nb)
-    for bdIdx = 1:5
+for nbIdx=3%1:numel(nb)
+    for bdIdx = 3%1:5
 % Figures
 show3D                = true;
 show2D                = true;
@@ -76,7 +76,7 @@ else
                               'dimension',simulatorParams.simulator.dimension,...
                               'initializeInDomain',3,...
                               'forceParams',chainForces,...                              
-                              'b',sqrt(3));
+                              'b',sqrt(simulatorParams.simulator.dimension));
                           
     % create a cylindrical Beam as a domain
     cylinderForces = ForceManagerParams('diffusionForce',false,...
@@ -227,13 +227,23 @@ sprintf('%s%f%s','Beam shot at time: ',r.simulationData.step*r.params.simulator.
 
 [~, ~,~,baseLine] = CalculateDensitiesInROI(chainPos,h.curPos,rectX,rectY,rectWidth,rectHeight,...
                                                                       roiRes,histoneParams.numHistones,dnaLengthIn,1);
+beamStep =0;
+nonAffectedMSDcm = zeros(1,numBeamSteps);
+affectedMSDcm    = zeros(1,numBeamSteps);
 
 while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSteps),r.runSimulation])
-    
+    beamStep = beamStep+1;
     % Advance one simulation step
     [r,h,chainPos]          = Step(r,h);
     [chainPos]              = ApplyDamageEffect(chainPos,inBeam,connectivityMat,cp.forceParams.bendingConst,cp.forceParams.openningAngle,...
                                                 r.params.simulator.dt); 
+    cmInBeam  = mean(chainPos(inBeam,:));% center of mass for particles in beam 
+    cmOutBeam = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam 
+    % calculate the mean distance of particles in the beam from their
+    % center of mass 
+    affectedMSDcm(beamStep) = mean(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));
+    nonAffectedMSDcm(beamStep) = mean(sqrt(sum(bsxfun(@minus, chainPos(~inBeam,:), cmOutBeam).^2,2)));
+    
     r.objectManager.DealCurrentPosition(1,chainPos);
 
     if show2D
@@ -259,6 +269,8 @@ while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSt
     end
     
 end
+figure, plot(affectedMSDcm,'g','displayName','affected Beads'), hold on, plot(nonAffectedMSDcm,'r','DisplayName','nono affected')
+legend(get(gca,'Children'))
     end
 end
 end
@@ -346,12 +358,11 @@ projPlane3D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
     'r', 'Parent',mAxes, 'FaceAlpha',0.5);
 % insert the projection to the projection axes
 projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
-    'r', 'Parent',pAxes, 'FaceAlpha',0.5);
+                    'r', 'Parent',pAxes, 'FaceAlpha',0.5);
 dnaDensityHandle     = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','b','LineWidth',4,'DisplayName','DNA length in ROI');
-histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity');
+histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity','HandleVisibility','off');
 numBeadsHandle       = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','r','Linewidth',4,'DisplayName','num. Beads in ROI');
 legend(dAxes,get(dAxes,'Children'))
-
 
 end
 

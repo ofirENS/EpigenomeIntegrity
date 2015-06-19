@@ -1,5 +1,10 @@
-function MoveHistonesOnChain
-% This test function moves histones on a Rouse chain
+function MoveHistonesOnChain2DSimulationIncreasingNandBending
+% this is a copy of MoveHistoneOnChain, with parameters set to obtain the
+% results in 2D simulations forlder
+
+% function in the Framework are neccassary in order to run this functino
+% run startme in PolymerChainDynamics fodler to include all these files
+
 close all
 % % create chain and domain and register them in the ObjectManager
 
@@ -23,8 +28,8 @@ loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
-for nbIdx=3%1:numel(nb)
-    for bdIdx = 3%1:5
+for nbIdx=1:numel(nb)
+    for bdIdx = 1:5
 % Figures
 show3D                = true;
 show2D                = true;
@@ -76,7 +81,7 @@ else
                               'dimension',simulatorParams.simulator.dimension,...
                               'initializeInDomain',3,...
                               'forceParams',chainForces,...                              
-                              'b',sqrt(simulatorParams.simulator.dimension));
+                              'b',sqrt(3));
                           
     % create a cylindrical Beam as a domain
     cylinderForces = ForceManagerParams('diffusionForce',false,...
@@ -234,11 +239,6 @@ while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSt
     [r,h,chainPos]          = Step(r,h);
     [chainPos]              = ApplyDamageEffect(chainPos,inBeam,connectivityMat,cp.forceParams.bendingConst,cp.forceParams.openningAngle,...
                                                 r.params.simulator.dt); 
-    cmInBeam  = mean(chainPos(inBeam,:));% center of mass for particles in beam 
-    cmOutBeam = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam 
-    % calculate the mean distance of particles in the beam from their
-    % center of mass 
-    affectedMSDcm = mean(
     r.objectManager.DealCurrentPosition(1,chainPos);
 
     if show2D
@@ -351,11 +351,12 @@ projPlane3D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
     'r', 'Parent',mAxes, 'FaceAlpha',0.5);
 % insert the projection to the projection axes
 projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
-                    'r', 'Parent',pAxes, 'FaceAlpha',0.5);
+    'r', 'Parent',pAxes, 'FaceAlpha',0.5);
 dnaDensityHandle     = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','b','LineWidth',4,'DisplayName','DNA length in ROI');
-histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity','HandleVisibility',off);
+histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity');
 numBeadsHandle       = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','r','Linewidth',4,'DisplayName','num. Beads in ROI');
 legend(dAxes,get(dAxes,'Children'))
+
 
 end
 

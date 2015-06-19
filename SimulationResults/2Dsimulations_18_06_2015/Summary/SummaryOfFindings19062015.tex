@@ -1,0 +1,82 @@
+\documentclass[12pt]{report}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{float}
+
+\title{2D simulations Summary of Findings, 19/06/2015}
+
+\begin{document}
+	\maketitle
+\section{Simulation Setting}
+Simulations were performed for 5 different number of beads. For each, 5 ratios between the bending constant and the spring constant were simulated
+the number of beads is [100 200 400 800 1600].
+
+Forces' constants were set proportional to $dimD/b^2$, where dim is the dimension, $D$ is the diffusion constant. For all simulation $D$ was set to $1$, $b= \sqrt{3}$ and $dim =2$.
+Spring constant was set to $dimD/b^2$, bending constant increased as $dimD/b^2, 2dimD/b^2,..,5dimD/b^2$.
+
+Simulations were ran $numRelaxationSteps$ up to relaxation, after which the diffusion force was set to $0$ and recording for $numRecordingSteps$. Following, the UV beam was shot through the center of the polymers mass. All beads falling within the UV beam area were assigned bending force. Simulation then ran for additional $numBeamSteps$ with the bending force active for the affected beads.
+
+Simulation were placed in a spherical environment with reflecting boundaries.
+Measurement of density were performed on a rectangular region, which its center was dynamically placed at the polymer's center of mass.
+Sizes of the containing sphere (circle in 2d) and the measurement region were proportional to the radius of gyration, $\sqrt{numBeads/6}b$.
+
+\underline{Parmeter used in simulations}:
+
+\begin{itemize}
+\item numRelaxationSteps = 2000
+\item numRecordingSteps  = 1000
+\item numBeamSteps       = 3000
+\item numBeads = [100 200 400 800 1600]
+\item dt       = 0.1
+\item D        = 1;
+\item b        = $\sqrt{3}$
+\item opening angle $\theta_0$ = $\pi$
+\item bending constant = $[1dimD/b^2, 2dimD/b^2,3dimD/b^2,4dimD/b^2, 5dimD/b^2]$
+\item springConstant   = $dimD/b^2$
+\item beamRadius = $\sqrt{numBeads/6}b/6$
+\item containingSphereRadius = $0.5\sqrt{numBeads/6}b$
+\item regionOfInterestWidth  = $2(\sqrt{numBeads/6}b)/6$
+\item regionOfInterestHeight = $2(\sqrt{numBeads/6}b)/6$
+\item regionOfInterestCenter = polymer center of mass
+\end{itemize}
+
+\section{Results}
+\subsection{Number of beads in the UV area at UV beam time}
+here we summarize the number of beds falling within the UV beam area at the time of recording as a function of the total number of beads. Note that the radius of the UV beam is a function of the gyration radius, which in turn is a function of the number of beads, $N$. 
+numbers are given as the average of 5 trials and rounded to the nearest integer. 
+\begin{table}[H]
+\begin{tabular}{c|c c c c c}	
+	\hline
+	N     & 100 & 200 & 400 & 800 & 1600\\
+	\hline
+	in UV & 45  & 93  & 173 & 331 & 568\\
+	\hline
+\end{tabular}
+\end{table}
+which is between 35\% to 45\%  of the total number of beads in each test.
+
+\subsection{Number and \% of beads lost after UV}
+In this subsection we summarize the number and percentages of bead out of the measurement ROI at late simulation time. Due to fluctuation of the number of beads out of the ROI, we fit a line to the signal and report its values in the table below. For each experiment we report the value lost as a function of the initial number of beads and the multiplier of the bending constant. Values lost are in relation to the values of their simulation of origin and not the mean number of beads at UV initiation. It is important to note that the values reported represent the long term dynamics of a single realization for each $N$ and bending const. multiplier.
+
+\begin{table}[H]
+	\tiny{
+ \begin{tabular}{c| l c c c c}
+ 	   &           & & Lost (mean) (\%)[min max]& &  \\
+ 	 \hline
+ 	   &           & & bending const multiplier. & &  \\
+ 	   \hline 
+     N 	   &            1 & 2 & 3 & 4& 5 \\   	 
+ 	 \hline 
+ 	 100 & 31 (58\%) [28,38] & 35 (16\%)[-3 17] & 14 (37\%) [11 22] & 36 (61\%)[26 43] & 10 (26\%)[2 26]\\
+ 	 200 & 17 (21\%) [2, 30] & 58 (57\%)[49 71]& 54 (56\%)[48 62] & 86 (72\%) [82 92] &33 (45\%)[28 32]\\
+ 	 400 & 22 (16\%) [2 39]  & 100 (53\%) [82 106] & 73 (39\%)[60 89]& 92 (\%)[72 100] & 117 (66\%)[74 120] \\
+ 	 800 &       &             & & & \\
+ 	 1600&       &             & & & \\
+ \end{tabular}
+}
+\end{table}
+
+\end{document}

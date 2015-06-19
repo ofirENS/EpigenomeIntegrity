@@ -23,8 +23,8 @@ loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
-for nbIdx=3%1:numel(nb)
-    for bdIdx = 3%1:5
+for nbIdx=4%1:numel(nb)
+    for bdIdx = 2%1:5
 % Figures
 show3D                = true;
 show2D                = true;

@@ -14,17 +14,17 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 200;
-numRecordingSteps  = 100;
-numBeamSteps       = 300;
+numRelaxationSteps = 1000;
+numRecordingSteps  = 1000;
+numBeamSteps       = 3000;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
-for nbIdx=4%1:numel(nb)
-    for bdIdx = 2%1:5
+for nbIdx=1:numel(nb)
+    for bdIdx = 1:10
 % Figures
 show3D                = true;
 show2D                = true;
@@ -67,8 +67,8 @@ else
     chainForces = ForceManagerParams('dt',simulatorParams.simulator.dt,...
                                      'springForce',true,...
                                      'bendingElasticityForce',false,...
-                                     'bendingConst',bdIdx*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
-                                     'springConst', 1*simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(3))^2,...
+                                     'bendingConst',simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2 *(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
+                                     'springConst', simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2,...
                                      'openningAngle',pi,...
                                      'minParticleEqDistance',1);
     
@@ -98,10 +98,11 @@ else
                                       'morseForce',false,...
                                       'mechanicalForce',false);
     
-    dp(3)        = DomainHandlerParams('domainWidth',0.5*sqrt(cp.numBeads/6)*cp.b,...% radius of Gyration
+    dp(3)        = DomainHandlerParams('domainShape','sphere',...
+                                       'domainWidth',0.5*sqrt(cp.numBeads/6)*cp.b,...% radius of Gyration
                                        'dimension',simulatorParams.simulator.dimension,...
                                        'domainCenter',[0 0 0],...
-                                       'reflectionType','preserveEnergy',...
+                                       'reflectionType','preserveEnergy',...                                       
                                        'forceParams',gSphereForce);
     
     % register the object parameters in the simulator framework
@@ -217,8 +218,6 @@ if showConcentricDensity
 end
 
 r.runSimulation = true;
-
-
 
 connectivityMat = r.objectManager.GetConnectivityMapAsOne(1);
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  19 JUN 2015 15:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  20 JUN 2015 16:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -356,7 +356,7 @@ been already used, duplicate ignored
                    \relax 
 l.41 \item r
             egionOfInterestWidth  = $2(\sqrt{numBeads/6}b)/6$ [1]
-Overfull \hbox (5.75093pt too wide) in paragraph at lines 66--80
+Overfull \hbox (10.58426pt too wide) in paragraph at lines 66--80
 [][]
  []
 
@@ -392,7 +392,7 @@ pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texm
 f/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf/fonts/type1/public/
 amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy10.pf
 b>
-Output written on SummaryOfFindings19062015.pdf (4 pages, 98369 bytes).
+Output written on SummaryOfFindings19062015.pdf (4 pages, 98483 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  60 compressed objects within 1 object stream

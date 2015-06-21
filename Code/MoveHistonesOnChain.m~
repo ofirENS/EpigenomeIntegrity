@@ -14,17 +14,17 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 500;
-numRecordingSteps  = 500;
-numBeamSteps       = 5000;
+numRelaxationSteps = 100;
+numRecordingSteps  = 50;
+numBeamSteps       = 500;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
 
-for nbIdx=1:numel(nb)
-    for bdIdx = 1:10
+for nbIdx=1;%1:numel(nb)
+    for bdIdx = 1;%1:10
 % Figures
 show3D                = true;
 show2D                = true;
@@ -67,7 +67,7 @@ else
     chainForces = ForceManagerParams('dt',simulatorParams.simulator.dt,...
                                      'springForce',true,...
                                      'bendingElasticityForce',false,...
-                                     'bendingConst',simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2 *(0.1*bIdx),...%(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
+                                     'bendingConst',simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2 *0.01,...%(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
                                      'springConst', simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2,...
                                      'openningAngle',pi,...
                                      'minParticleEqDistance',1);
@@ -290,7 +290,7 @@ function [chainPos] = ApplyDamageEffect(chainPos,inBeam,connectivityMat,bendingE
 % %---
 % calculate the derivative of (cos(theta_0)- cos(theta_i))^2
     partDist = ForceManager.GetParticleDistance(chainPos);
-    bForce   = BendingElasticityWithAngels(chainPos,partDist,bendingElasticityConst,openningAngle,find(inBeam));
+    bForce   = BendingElasticityWithAngels(chainPos,partDist,bendingElasticityConst,openningAngle);
 % % ---
 % % calulate the force such that the beads are pushed aside.
 %     bForce = BendingElasticity(chainPos,bendingElasticityConst,[]);

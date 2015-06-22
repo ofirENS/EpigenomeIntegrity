@@ -14,17 +14,17 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 500;
-numRecordingSteps  = 500;
-numBeamSteps       = 5000;
+numRelaxationSteps = 200;
+numRecordingSteps  = 20;
+numBeamSteps       = 200;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
 
 nb = [100, 200, 400, 800, 1600];% change the number of beads
-
-for nbIdx=1:numel(nb)
-    for bdIdx = 1:10
+openingAngles  = linspace(0,pi,10);
+for nbIdx=3%:numel(nb)
+    for bdIdx = 1:3;%numel(openingAngles)
 % Figures
 show3D                = true;
 show2D                = true;
@@ -39,7 +39,7 @@ else
     % Initialize simulator framework parameters
     simulatorParams = SimulationFrameworkParams('showSimulation',show3D,...
                                                 'numSteps',numRelaxationSteps,...
-                                                'dimension',2,...
+                                                'dimension',3,...
                                                 'dt',0.1,...
                                                 'objectInteraction',false);                                                
                                                                                         
@@ -67,9 +67,10 @@ else
     chainForces = ForceManagerParams('dt',simulatorParams.simulator.dt,...
                                      'springForce',true,...
                                      'bendingElasticityForce',false,...
-                                     'bendingConst',simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2 *(0.1*bIdx),...%(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
+                                     'bendingConst',simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2 *(0.5),...%(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
                                      'springConst', simulatorParams.simulator.dimension*openSpaceForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2,...
-                                     'openningAngle',pi,...
+                                     'bendingOpeningAngle',openingAngles(bdIdx),...
+                                     'bendingAffectedParticles',[],...
                                      'minParticleEqDistance',1);
     
     cp          = ChainParams('numBeads',nb(nbIdx),...
@@ -230,25 +231,26 @@ beamStep =0;
 nonAffectedMSDcm = zeros(1,numBeamSteps);
 affectedMSDcm    = zeros(1,numBeamSteps);
 
+% turn on bending force for affected beads 
+% r.objectManager.handles.chain(1).params.forceParams.bendingElasticityForce   = true;
+% r.objectManager.handles.chain(1).params.forceParams.bendingAffectedParticles = inBeamInds;
+
 while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSteps),r.runSimulation])
     beamStep = beamStep+1;
     % Advance one simulation step
-    [r,h,chainPos]          = Step(r,h);
-    [chainPos]              = ApplyDamageEffect(chainPos,inBeam,connectivityMat,cp.forceParams.bendingConst,cp.forceParams.openningAngle,...
-                                                r.params.simulator.dt); 
-    cmInBeam  = mean(chainPos(inBeam,:));% center of mass for particles in beam 
-    cmOutBeam = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam 
-    % calculate the mean distance of particles in the beam from their
+    [r,h,chainPos] = Step(r,h);
+    [chainPos] = ApplyDamageEffect(chainPos,r.objectManager.particleDist,inBeam,connectivityMat,chainForces.bendingConst,chainForces.bendingOpeningAngle,simulatorParams.simulator.dt);
+    % Calculate the mean distance of particles in the beam from their
     % center of mass 
-    affectedMSDcm(beamStep) = mean(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));
+    cmInBeam     = mean(chainPos(inBeam,:));% center of mass for particles in beam 
+    cmOutBeam    = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam     
+    affectedMSDcm(beamStep)    = mean(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));
     nonAffectedMSDcm(beamStep) = mean(sqrt(sum(bsxfun(@minus, chainPos(~inBeam,:), cmOutBeam).^2,2)));
     
-    r.objectManager.DealCurrentPosition(1,chainPos);
-
     if show2D
-        set(affectedBeadsHandle,'XData',chainPos(inBeam,1),'YData',chainPos(inBeam,2));       
+              
     end
-    
+    r.objectManager.DealCurrentPosition(1,chainPos)
     % Update projectionPlane position according to the cm of the chain
     [rectX,rectY] = UpdateProjectionPlanePositionByCM(chainPos,rectWidth,rectHeight);
     
@@ -258,9 +260,11 @@ while all([r.simulationData.step<(numRelaxationSteps+numRecordingSteps+numBeamSt
                                                                   
     % update graphics                                                                  
     if show2D
+            set(affectedBeadsHandle,'XData',chainPos(inBeam,1),'YData',chainPos(inBeam,2)); 
             UpdateGraphics(r.simulationData.step,r.params.simulator.dt,h.curPos,chainPos,histoneDensity,dnaDensity,numBeadsIn,...
             rectX,rectY,rectWidth, rectHeight,...
-            dnaDensityHandle,histoneDensityHandle,numBeadsHandle,histHandle,projPlane2D,projPlane3D,pHistHandle,pPolyHandle)         
+            dnaDensityHandle,histoneDensityHandle,numBeadsHandle,histHandle,projPlane2D,projPlane3D,pHistHandle,pPolyHandle);
+          
     end
     
     if showConcentricDensity
@@ -279,17 +283,17 @@ function [r,h,chainPos] = Step(r,h)
     r.Step;% move the chain
     chainPos = r.objectManager.curPos;    
 
-    % Move the histones
-    h.Step(chainPos,r.params.simulator.dt);% update current position
+%     % Move the histones
+%     h.Step(chainPos,r.params.simulator.dt);% update current position
 end
 
-function [chainPos] = ApplyDamageEffect(chainPos,inBeam,connectivityMat,bendingElasticityConst,openningAngle,dt)
+function [chainPos] = ApplyDamageEffect(chainPos,partDist,inBeam,connectivityMat,bendingElasticityConst,openningAngle,dt)
     % Apply forces on the chain falling in the beam
 % %  calculate the force in teh direction of the mean vector 
 %     bForce             = ForceManager.GetBendingElasticityForce(true,chainPos,connectivityMat,bendingElasticityConst ,[]);
 % %---
 % calculate the derivative of (cos(theta_0)- cos(theta_i))^2
-    partDist = ForceManager.GetParticleDistance(chainPos);
+%     partDist = ForceManager.GetParticleDistance(chainPos);
     bForce   = BendingElasticityWithAngels(chainPos,partDist,bendingElasticityConst,openningAngle,find(inBeam));
 % % ---
 % % calulate the force such that the beads are pushed aside.

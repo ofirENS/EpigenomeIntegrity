@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  18 JUN 2015 16:52
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  24 JUN 2015 20:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -343,7 +343,7 @@ ate ignored
                    \relax 
 l.30 		\item 2
               0\% loss of DNA signal in the damage region, accompanied by an...
-[1] <../histoneMarkBeforeDamage.jpg, id=97, 138.116pt x 142.07625pt>
+[1] <../histoneMarkBeforeDamage.jpg, id=93, 138.116pt x 142.07625pt>
 File: ../histoneMarkBeforeDamage.jpg Graphic file (type jpg)
 
 <use ../histoneMarkBeforeDamage.jpg>
@@ -355,58 +355,54 @@ Package pdftex.def Info: ../histoneMarkBeforeDamage.jpg used on input line 45.
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.69      \begin{equation*}
-                            <../histoneMarkBeforeDamage.jpg>] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 114.
- [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 114.
+                            <../histoneMarkBeforeDamage.jpg>]
 
-(./ChromatinArchitecturePostUVCDamage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 114.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 114.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 94.
 
 
-Package rerunfilecheck Warning: File `ChromatinArchitecturePostUVCDamage.out' h
-as changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 94.
 
-Package rerunfilecheck Info: Checksums for `ChromatinArchitecturePostUVCDamage.
-out':
-(rerunfilecheck)             Before: FD3279E3A5739069D8D3FA247902D963;1081
-(rerunfilecheck)             After:  5779498BBD7AF243B62D5F41A5364B49;862.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 114.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 94.
+
+[4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 115.
+ [5] [6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 115.
+ (./ChromatinArchitecturePostUVCDamage.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 115.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 115.
+Package rerunfilecheck Info: File `ChromatinArchitecturePostUVCDamage.out' has 
+not changed.
+(rerunfilecheck)             Checksum: 11F27748B32C7EDF0147CD03334C7D26;1033.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 115.
  ) 
 Here is how much of TeX's memory you used:
- 6120 strings out of 493315
- 86868 string characters out of 6145893
+ 6119 strings out of 493315
+ 86838 string characters out of 6145893
  173505 words of memory out of 5000000
- 9464 multiletter control sequences out of 15000+600000
+ 9463 multiletter control sequences out of 15000+600000
  12750 words of font info for 49 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 29i,7n,28p,360b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{subsection.0.2.11} has been referenced but does n
-ot exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.0.2.10} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.0.2.9} has been referenced but does not 
-exist, replaced by a fixed one
-
-</usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf/f
-onts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf/fonts/type1/public/a
-msfonts/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi6.pf
-b></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf/
-fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf/fonts/type1/public/a
-msfonts/cm/cmr17.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr6.pfb>
-</usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/ams
-fonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on ChromatinArchitecturePostUVCDamage.pdf (6 pages, 144404 bytes
+ 29i,7n,31p,629b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf/fonts/type1/public
+/amsfonts/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi6.
+pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texm
+f/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf/fonts/type1/public
+/amsfonts/cm/cmr12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr17.p
+fb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy8.pfb
+></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on ChromatinArchitecturePostUVCDamage.pdf (7 pages, 154391 bytes
 ).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 161 compressed objects within 2 object streams
+ 190 PDF objects out of 1000 (max. 8388607)
+ 165 compressed objects within 2 object streams
  48 named destinations out of 1000 (max. 500000)
- 134 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

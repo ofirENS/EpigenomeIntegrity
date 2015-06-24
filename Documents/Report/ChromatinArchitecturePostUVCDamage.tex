@@ -73,11 +73,11 @@
             
      The spring force, derived from an harmonic potential of springs connecting neighboring monomers, is given by
      \begin{equation*}
-      F_e(t) = -\gamma_e\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{n-1}^{N-1}(R_n(t)-R_{n+1}(t)^2
+      F_e(t) = -\gamma_e\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{n-1}^{N-1}(|R_n(t)-R_{n+1}(t)| -l_0)^2
      \end{equation*}
-     with $\gamma_e>0$ spring constant, $b$- the standard deviation of the distance between monomers, and $R_n(t)$ is the 3D position of the $n^{th}$ monomer.
+     with $\gamma_e>0$ spring constant, $b$- the standard deviation of the distance between monomers, $R_n(t)$ is the 3D position of the $n^{th}$ monomer at time $t$, and $l_0$ is the minimal allowed distance between neighboring monomers.
      
-     Bending force on the $n^{th}$ monomer is defined in terms of the angles $\theta_i$ between three adjacent monomers of the chain, $n,n+1,n+2$, and the opening angle $\theta_0$
+     Bending force on the $n^{th}$ monomer is defined in terms of the angles $\theta_i$ between three adjacent monomers of the chain, $n,n+1,n+2$;
      \begin{equation*}
      F_b(R_n) = -\gamma_b\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{i=1}^{N-2}(\cos(\theta_i(t))-\cos(\theta_0))^2
      \end{equation*}
@@ -88,26 +88,20 @@
      \end{equation*}
      
     \subsection{Model Parameters}
-      Parameters used in simulations are set proportional to of the quantity $\frac{3K_bT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
-    \subsubsection{b} 
+      Parameters used in simulations are set proportional to of the quantity $\frac{3k_BT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
+    \subsubsection{The parameter b} 
       we set $b=\sqrt{3} \times 100 nm$, 
-    \subsubsection{number of monomers}
-      The number of monomers, $N$, is determined by setting the polymer's radius of gyration to covers the ROI. The radius of gyration is given by $\sqrt{N/6}b$, equating it to $3\mu m$ we get $N\approx 1800$ 
-                     
-     \subsubsection{the Spring constant}
+    \subsection{the minimal distance between monomers -$l_0$}
+     We set $l_0$ to be $\sqrt{3}$ to allow fast relaxation of the chain configuration before UVC beam shot. 
+    \subsubsection{Number of monomers}
+      The number of monomers, $N$, is determined by setting the polymer's radius of gyration to covers the ROI. The radius of gyration is given by $\sqrt{N/6}b$, equating it to $3\mu m$ we get $N\approx 1800$                      
+     \subsubsection{The Spring constant}
        We set the spring constant $\gamma_s =1$
-     \subsubsection{The bending constant}
-       bending constant is defined according to the opening of the chromatin up to 15 minutes post UVC. 
-     \subsubsection{Relationship between force constants}
-      For a prototypical polymer system of 3 beads $R_1,R_2,R_3$ we examine the force on the middle bead $R_2$.
-      The spring force
-      \begin{equation*}
-      F_s(n) = \frac{1}{2}(2R_2-R_1-R_3)
-      \end{equation*}
-     
-
-
-
+     \subsubsection{The bending constant}       
+       The bending constant was observed to affect the rate at which the polymer assumes new conformation after UVC damage.
+       We set it to be proportional to the bending constant, as $\gamma_b frac{3K_bT}{b^2}$. later we will adjust this constant according to the rate of chromatin expansion seen in experimental data. 
+     \subsection{Affected monomers after UVC}
+      Affected monomers are those located within the UVC beam at initiation of beam around the center-of-mass of the polymer at that time. Because the polymer assumes random conformation just before beam initiation, it was observed that in many cases there were affected beads for which there were no neighboring affected beads. This phenomena causes peculiarities in the behavior of the chain,and a resting position position could not be found for the affected bead. We, therefore, assign bending force to the affected beads' nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
              		
 	\section{Simulations}
 	

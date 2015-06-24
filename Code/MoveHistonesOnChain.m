@@ -15,8 +15,8 @@ close all
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
 numRelaxationSteps = 200;
-numRecordingSteps  = 500;
-numBeamSteps       = 2000;
+numRecordingSteps  = 200;
+numBeamSteps       = 1500;
 
 numRounds              = 5;
 numSimulationsPerRound = 15;
@@ -92,7 +92,7 @@ for nbIdx=1:numRounds
                                              'bendingAffectedParticles',[],...
                                              'minParticleEqDistance',sqrt(3));
             
-            cp          = ChainParams('numBeads',400,...
+            cp          = ChainParams('numBeads',500,...
                                       'dimension',simulatorParams.simulator.dimension,...
                                       'initializeInDomain',1,...
                                       'forceParams',chainForces,...
@@ -245,7 +245,8 @@ for nbIdx=1:numRounds
                 inBeamTemp(bnIdx+1) = true;
             end
         end
-        inBeam = inBeamTemp;
+%         inBeam     = inBeamTemp;
+        inBeamInds = find(inBeamTemp);
         %
         
         if r.params.simulator.showSimulation

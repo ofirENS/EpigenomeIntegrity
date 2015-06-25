@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  24 JUN 2015 20:37
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2015.6.12)  25 JUN 2015 17:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -341,9 +341,9 @@ stination with the same identifier (name{page.1}) has been already used, duplic
 ate ignored
 <to be read again> 
                    \relax 
-l.30 		\item 2
-              0\% loss of DNA signal in the damage region, accompanied by an...
-[1] <../histoneMarkBeforeDamage.jpg, id=93, 138.116pt x 142.07625pt>
+l.29 		\item T
+              he depletion of fluorescence in the center of the damage area,...
+[1] <../histoneMarkBeforeDamage.jpg, id=97, 138.116pt x 142.07625pt>
 File: ../histoneMarkBeforeDamage.jpg Graphic file (type jpg)
 
 <use ../histoneMarkBeforeDamage.jpg>
@@ -354,55 +354,74 @@ Package pdftex.def Info: ../histoneMarkBeforeDamage.jpg used on input line 45.
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.69      \begin{equation*}
-                            <../histoneMarkBeforeDamage.jpg>]
+l.67 
+      <../histoneMarkBeforeDamage.jpg>] [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 94.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 94.
+(hyperref)                removing `math shift' on input line 103.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 94.
+(hyperref)                removing `subscript' on input line 103.
 
-[4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 115.
- [5] [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 115.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 103.
+
+[5] [6]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 132.
+
+ (/usr/share/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 132.
+
+Overfull \hbox (19.16838pt too wide) in paragraph at lines 152--166
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--166
+
+ []
+
+[7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 171.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 171.
  (./ChromatinArchitecturePostUVCDamage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 115.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 115.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 171.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 171.
 Package rerunfilecheck Info: File `ChromatinArchitecturePostUVCDamage.out' has 
 not changed.
-(rerunfilecheck)             Checksum: 11F27748B32C7EDF0147CD03334C7D26;1033.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 115.
+(rerunfilecheck)             Checksum: 94C7BCEA3170C5338987052EC105BE03;1149.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 171.
  ) 
 Here is how much of TeX's memory you used:
- 6119 strings out of 493315
- 86838 string characters out of 6145893
- 173505 words of memory out of 5000000
- 9463 multiletter control sequences out of 15000+600000
- 12750 words of font info for 49 fonts, out of 8000000 for 9000
+ 6149 strings out of 493315
+ 87264 string characters out of 6145893
+ 175568 words of memory out of 5000000
+ 9483 multiletter control sequences out of 15000+600000
+ 13395 words of font info for 52 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 29i,7n,31p,629b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,31p,719b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf
 /fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf/fonts/type1/public
-/amsfonts/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi6.
-pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texm
-f/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf/fonts/type1/public
-/amsfonts/cm/cmr12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr17.p
-fb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy8.pfb
-></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on ChromatinArchitecturePostUVCDamage.pdf (7 pages, 154391 bytes
+/amsfonts/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi5.
+pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texm
+f/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf
+/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf/fonts/type1/public/a
+msfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/f
+onts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on ChromatinArchitecturePostUVCDamage.pdf (9 pages, 177977 bytes
 ).
 PDF statistics:
- 190 PDF objects out of 1000 (max. 8388607)
- 165 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
- 126 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 210 PDF objects out of 1000 (max. 8388607)
+ 182 compressed objects within 2 object streams
+ 53 named destinations out of 1000 (max. 500000)
+ 134 words of extra memory for PDF output out of 10000 (max. 10000000)
 

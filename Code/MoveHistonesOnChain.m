@@ -1,4 +1,4 @@
-function resultStruct = MoveHistonesOnChain
+function rs = MoveHistonesOnChain
 % This test function moves histones on a Rouse chain
 close all
 % % create chain and domain and register them in the ObjectManager
@@ -14,36 +14,23 @@ close all
 %        D  = 1; diffusion const.
 % (500*sqrt(3))^2 /(3*pi^2 * 1)
 
-numRelaxationSteps = 200;
-numRecordingSteps  = 200;
-numBeamSteps       = 1500;
+numRelaxationSteps = 20;
+numRecordingSteps  = 100;
+numBeamSteps       = 200;
 
-numRounds              = 5;
-numSimulationsPerRound = 15;
+numRounds              = 1;
+numSimulationsPerRound = 1;
 
 saveConfiguration  = false;
 loadConfiguration  = false;
-
+saveResults        = ''; %options [eachRound | end |none]
+saveName           = 'TestOpeningAngleTest04mat'; % save name
 % Figures
-showSimulation     = false;
+showSimulation     = true;
 
-% Result structure
-resultStruct(numRounds,numSimulationsPerRound) = struct('date',[],'round',[],'simulation',[],'dimension',[],...
-                                                        'numRelaxationSteps',numRelaxationSteps,...
-                                                        'numRecordingSteps',numRecordingSteps,...
-                                                        'numBeamSteps',numBeamSteps,...
-                                                        'numBeads',[],...
-                                                        'bendingConst',[],'springConst',[],'openingAngle',[],...
-                                                        'ROI',struct('rectX',[],'rectY',[],'rectWidth',[],'rectHeight',[]),...
-                                                        'params',[],'numBeadsIn',[],'beadsInIndex',[],...
-                                                        'concentricDensity',[],...                                                        
-                                                        'percentDNALoss',[],'percentHistoneLoss',[],...
-                                                        'affectedBeadsRadOfExpension',[],...
-                                                        'nonAffectedBeadsRadOfExpension',[],...
-                                                        'classes',[]);
+% Result structure class
+rs = MoveHistonesOnChainResultStruct(numRounds,numSimulationsPerRound);
 
-
-% nb = [400, 800, 1600];% change the number of beads
 openingAngles  = linspace(pi/2,pi,numRounds);
 for nbIdx=1:numRounds
     for bdIdx = 1:numSimulationsPerRound
@@ -63,8 +50,8 @@ for nbIdx=1:numRounds
                                                         'objectInteraction',false);
             
             % create an open domain
-            sphereForces    = ForceManagerParams('lennardJonesForce',false,...
-                                                'LJPotentialWidth',0.1,...
+            sphereForces   = ForceManagerParams('lennardJonesForce',false,...
+                                                'LJPotentialWidth',0.2,...
                                                 'LJPotentialDepth',0.1,...
                                                 'diffusionForce',true,...
                                                 'diffusionConst',1,...
@@ -78,7 +65,9 @@ for nbIdx=1:numRounds
                                                 'reflectionType','preserveEnergy',...
                                                 'dimension',simulatorParams.simulator.dimension,...
                                                 'domainCenter',[0 0 0],...
-                                                'domainWidth',0.5*sqrt(400/6)*sqrt(3),...% radius of Gyration
+                                                'domainWidth',6,...0.6*sqrt(400/6)*sqrt(3),...% radius of Gyration
+                                                'domainHeight',0.6*sqrt(400/6)*sqrt(3),...
+                                                'domainLength',1,...
                                                 'forceParams',sphereForces,...
                                                 'dimension',simulatorParams.simulator.dimension);
             
@@ -88,7 +77,7 @@ for nbIdx=1:numRounds
                                              'bendingElasticityForce',false,...
                                              'bendingConst',0.5*simulatorParams.simulator.dimension*sphereForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2,...%(sqrt(nb(nbIdx)/6)*sqrt(simulatorParams.simulator.dimension)/12 +1),...
                                              'springConst', 1*simulatorParams.simulator.dimension*sphereForces.diffusionConst/(sqrt(simulatorParams.simulator.dimension))^2,...
-                                             'bendingOpeningAngle',openingAngles(bdIdx),... 
+                                             'bendingOpeningAngle',openingAngles(nbIdx),... 
                                              'bendingAffectedParticles',[],...
                                              'minParticleEqDistance',sqrt(3));
             
@@ -138,8 +127,8 @@ for nbIdx=1:numRounds
         end
         
         % Define the ROI for density estimation
-        rectX      = -(sqrt(cp.numBeads/6)*cp.b)/6;
-        rectY      = -(sqrt(cp.numBeads/6)*cp.b)/6;
+        rectX      = -(sqrt(cp.numBeads/6)*cp.b)/6;%(2*sqrt(2));
+        rectY      = -(sqrt(cp.numBeads/6)*cp.b)/6;% (2*sqrt(2));
         rectWidth  = 2*abs(rectX);
         rectHeight = 2*abs(rectY);
         roiRes     = 15;% divide the ROI into pixels for density calculation , should be an even integer
@@ -157,8 +146,8 @@ for nbIdx=1:numRounds
                                             'mechanicalForceMagnitude',0,...
                                             'mechanicalForceCenter',[0 0 0],...
                                             'lennardJonesForce',false,...
-                                            'LJPotentialWidth',0,...
-                                            'LJPotentialDepth',0);
+                                            'LJPotentialWidth',0.01,...
+                                            'LJPotentialDepth',0.01);
         
         histoneParams = HistoneParams('numHistones',1,'forceParams',histoneForce);
         h             = Histone(histoneParams);
@@ -184,7 +173,7 @@ for nbIdx=1:numRounds
         baseLine = cp.numBeads;
         
         %  shut-down/lower diffusion before laser shot
-        r.handles.classes.domain.params.forceParams.diffusionConst = 0.0005;
+        r.handles.classes.domain.params.forceParams.diffusionConst = 0;
         
         % preallocation
         numBeadsIn           = zeros(1,numRecordingSteps+numBeamSteps);
@@ -312,31 +301,41 @@ for nbIdx=1:numRounds
         
         % set results structure
         cl = clock;
-        resultStruct(nbIdx,bdIdx).date               = sprintf('%s',[num2str(cl(3)),'/',num2str(cl(2)),'/',num2str(cl(1))]);
-        resultStruct(nbIdx,bdIdx).round              = nbIdx;
-        resultStruct(nbIdx,bdIdx).simulation         = bdIdx;
-        resultStruct(nbIdx,bdIdx).dimension          = r.params.simulator.dimension;
-        resultStruct(nbIdx,bdIdx).numRelaxationSteps = numRelaxationSteps;
-        resultStruct(nbIdx,bdIdx).numRecordingSteps  = numRecordingSteps;
-        resultStruct(nbIdx,bdIdx).numBeamSteps       = numBeamSteps;
-        resultStruct(nbIdx,bdIdx).numBeads           = cp.numBeads;
-        resultStruct(nbIdx,bdIdx).numBeadsIn         = numBeadsIn;
-        resultStruct(nbIdx,bdIdx).beadsInIndex       = inBeamInds;
-        resultStruct(nbIdx,bdIdx).params             = simulatorParams;
-        resultStruct(nbIdx,bdIdx).concentricDensity  = dnaDensityConcentric;
-        resultStruct(nbIdx,bdIdx).ROI.rectX          = rectX;
-        resultStruct(nbIdx,bdIdx).ROI.rectY          = rectY;
-        resultStruct(nbIdx,bdIdx).ROI.rectWidth      = rectWidth;
-        resultStruct(nbIdx,bdIdx).ROI.rectHeight     = rectHeight;
-        resultStruct(nbIdx,bdIdx).affectedBeadsRadOfExpension    = affectedMSDcm;
-        resultStruct(nbIdx,bdIdx).nonAffectedBeadsRadOfExpension = nonAffectedMSDcm;        
-        resultStruct(nbIdx,bdIdx).classes            = r;        
-        resultStruct(nbIdx,bdIdx).bendingConst       = cp.forceParams.bendingConst;
-        resultStruct(nbIdx,bdIdx).springConst        = cp.forceParams.springConst; 
-        resultStruct(nbIdx,bdIdx).openingAngle       = cp.forceParams.bendingOpeningAngle; 
+        rs.resultStruct(nbIdx,bdIdx).date               = sprintf('%s',[num2str(cl(3)),'/',num2str(cl(2)),'/',num2str(cl(1))]);
+        rs.resultStruct(nbIdx,bdIdx).round              = nbIdx;
+        rs.resultStruct(nbIdx,bdIdx).simulation         = bdIdx;
+        rs.resultStruct(nbIdx,bdIdx).dimension          = r.params.simulator.dimension;
+        rs.resultStruct(nbIdx,bdIdx).numRelaxationSteps = numRelaxationSteps;
+        rs.resultStruct(nbIdx,bdIdx).numRecordingSteps  = numRecordingSteps;
+        rs.resultStruct(nbIdx,bdIdx).numBeamSteps       = numBeamSteps;
+        rs.resultStruct(nbIdx,bdIdx).numBeads           = cp.numBeads;
+        rs.resultStruct(nbIdx,bdIdx).numBeadsIn         = numBeadsIn;
+        rs.resultStruct(nbIdx,bdIdx).beadsInIndex       = inBeamInds;
+        rs.resultStruct(nbIdx,bdIdx).dt                 = r.params.simulator.dt;
+        rs.resultStruct(nbIdx,bdIdx).params             = simulatorParams;
+        rs.resultStruct(nbIdx,bdIdx).concentricDensity  = dnaDensityConcentric;
+        rs.resultStruct(nbIdx,bdIdx).ROI.rectX          = rectX;
+        rs.resultStruct(nbIdx,bdIdx).ROI.rectY          = rectY;
+        rs.resultStruct(nbIdx,bdIdx).ROI.rectWidth      = rectWidth;
+        rs.resultStruct(nbIdx,bdIdx).ROI.rectHeight     = rectHeight;
+        rs.resultStruct(nbIdx,bdIdx).affectedBeadsRadOfExpension    = affectedMSDcm;
+        rs.resultStruct(nbIdx,bdIdx).nonAffectedBeadsRadOfExpension = nonAffectedMSDcm;        
+        rs.resultStruct(nbIdx,bdIdx).chainPos           = r.objectManager.curPos;        
+        rs.resultStruct(nbIdx,bdIdx).bendingConst       = cp.forceParams.bendingConst;
+        rs.resultStruct(nbIdx,bdIdx).springConst        = cp.forceParams.springConst; 
+        rs.resultStruct(nbIdx,bdIdx).openingAngle       = cp.forceParams.bendingOpeningAngle; 
+        if strcmpi(saveResults,'eachSimulation')
+            save(saveName,'resultStruct')
+        end
+        
     end
+       if strcmpi(saveResults,'eachRound')
+            save(saveName,'rs')
+        end
 end
-
+         if strcmpi(saveResults,'end')
+            save(saveName,'resultStruct')
+        end
 end
 
 function [r,h,chainPos] = Step(r,h)

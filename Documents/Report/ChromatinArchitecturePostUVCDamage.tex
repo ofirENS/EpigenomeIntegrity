@@ -9,7 +9,7 @@
 	
 	\title{Chromatin Architecture Post UVC damage}
 	\maketitle
-	\section{Experimental Settings and Findings}
+	\section{Experimental Settings and Main Findings}
 	\begin{enumerate}
 		\item Cell type used: U20S, which are human osteosarcoma cells;
 		\item H3.3 histones are tagged 48 hours before experiments using the SNAP-tag method, tag color is red;
@@ -47,9 +47,20 @@
 			\label{fig:histoneMarkBeforeDamage}
 		\end{figure}
 		
+	\subsection{The Simulation Domain}
+	We set our simulation in a spherical domain with reflecting boundaries. This $d$-dimensional spherical domain, $\Omega_d(\rho)$ of radius $\rho$, will represent a region around the damage site, rather than the entire nucleus. 
+	To keep the polymer dense inside this region, we set $\rho=(b\sqrt{N/6})/2$. The actual value of this parameter is yet to be justified. The reflecting boundaries mimic the condensation barrier of the DNa with surrounding chromosomes, unaffected by the UV damage. 
+	
+	In the simulation domain we will place a rectangular region of interest (ROI), in which both DNA and histone densities will be measured, either at the whole region or in concentric bands around the UVC beam's focal point. 
+	
 	\subsection{The UV beam}
 	UV beam has 3 $\mu m^2$ section, yielding a radius of $r_{uv}=\sqrt{\frac{3}{\pi}}\approx 1 \mu m$. 
+	In simulations we set the beam radius to be proportional to the radius of gyration, such that the simulation domain is 3 times the radius of the UVC beam. We therefore set the UVC beam radius, $\rho_B$, to be  
+    $\rho_B=\rho/3=(b\sqrt{N/6})/6$.
 	
+	\subsection{The region of interest (ROI)}
+     The area of chromatin expanded after UVC occupies $10 \mu m^2$ which gives 3 times the UVC beam radius, i.e. $3\mu m$. In practice, we define the ROI as a rectangular region with diagonal $\rho_R$, proportional to the UCV beam's radius. The ROI's vertexes lay on the boundary of $\Omega(\rho)$, allowing room for monomers outside the ROI after expansion. 
+		
     \subsection{Histone Density}
 		We consider histones to be uniformly distributed in the nucleus and in the damage zone. There are $3\times 10^6$ histones marked, which makes their density $3\times 10^6 /(4 \pi 7.25^3)\approx 630$ histones/$\mu m^3$
 		The expected number of histones in the UV beam region is $14.5\pi \times 630\approx 30,000$ histones, assuming the beam is shot through the center of the sphere. 
@@ -60,12 +71,10 @@
 	\subsection{Distribution of damage sites}
 	to be determined
 	
-	\subsection{Defining the region of interest}
-	We model the experiment in a region around the damage zone rather than the entire nucleus. We define a region of interest (ROI) in terms of raiuds of the UVC beam radius. The area expanded after UVC occupies $10 \mu m^2$ which gives 3 times the UVC beam radius. We therefore set the radius of the ROI $r_{roi}=3\mu m$.
-					    
+				    
 	\subsection{The chromatin}	
-     The chromatin is modeled as a Rouse polymer of $N$ monomers connected by harmonic springs. The dynamics of the polymer is governed by 3 forces: thermal fluctuations, spring force, and bending force.
-     Thermal diffusion fluctuation, resulting from the random collision of the polymer with the particles of its surrounding, and is given by 
+     The chromatin is modeled as a Rouse polymer of $N$ monomers connected by harmonic springs. The dynamics of the polymer is governed by 3 forces: thermal fluctuations, spring force, and bending force, which we vary during simulations to approximate the observed experimental behavior.
+     Thermal diffusion fluctuation, results from the random collision of the polymer with the particles of its surrounding, and is given by 
      \begin{equation*}
      F_d(t) = \sqrt{2D}\frac{dw}{dt}
      \end{equation*}
@@ -73,13 +82,13 @@
             
      The spring force, derived from an harmonic potential of springs connecting neighboring monomers, is given by
      \begin{equation*}
-      F_e(t) = -\gamma_e\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{n-1}^{N-1}(|R_n(t)-R_{n+1}(t)| -l_0)^2
+      F_e(t) = -\gamma_e\frac{dk_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{n-1}^{N-1}(|R_n(t)-R_{n+1}(t)| -l_0)^2
      \end{equation*}
-     with $\gamma_e>0$ spring constant, $b$- the standard deviation of the distance between monomers, $R_n(t)$ is the 3D position of the $n^{th}$ monomer at time $t$, and $l_0$ is the minimal allowed distance between neighboring monomers.
+     with $\gamma_e>0$ spring constant,$d$ is the dimension, $b$- the standard deviation of the distance between monomers, $R_n(t)$ is the 3D position of the $n^{th}$ monomer at time $t$, and $l_0$ is the minimal allowed distance between neighboring monomers.
      
      Bending force on the $n^{th}$ monomer is defined in terms of the angles $\theta_i$ between three adjacent monomers of the chain, $n,n+1,n+2$;
      \begin{equation*}
-     F_b(R_n) = -\gamma_b\frac{3k_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{i=1}^{N-2}(\cos(\theta_i(t))-\cos(\theta_0))^2
+     F_b(R_n) = -\gamma_b\frac{dk_BT}{2b^2}\frac{\partial}{\partial R_n}\sum_{i=1}^{N-2}(\cos(\theta_i(t))-\cos(\theta_0))^2
      \end{equation*}
                
      The differential equation describing of motion of the chain is thus 
@@ -88,11 +97,11 @@
      \end{equation*}
      
     \subsection{Model Parameters}
-      Parameters used in simulations are set proportional to of the quantity $\frac{3k_BT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
+      Parameters used in simulations are set proportional to of the quantity $\frac{dk_BT}{b^2}$, which we fix to be 1 by setting the friction factor $\xi=1$. 
     \subsubsection{The parameter b} 
-      we set $b=\sqrt{3} \times 100 nm$, 
-    \subsection{the minimal distance between monomers -$l_0$}
-     We set $l_0$ to be $\sqrt{3}$ to allow fast relaxation of the chain configuration before UVC beam shot. 
+      we set $b=\sqrt{dimension} \times 100 nm$, 
+    \subsection{The minimal distance between monomers -$l_0$}
+     We set $l_0$ to be $\sqrt{d}$ to match $b$ and allow fast relaxation of the chain configuration before UVC beam shot, after diffusion is turned off. 
     \subsubsection{Number of monomers}
       The number of monomers, $N$, is determined by setting the polymer's radius of gyration to covers the ROI. The radius of gyration is given by $\sqrt{N/6}b$, equating it to $3\mu m$ we get $N\approx 1800$                      
      \subsubsection{The Spring constant}
@@ -100,13 +109,62 @@
      \subsubsection{The bending constant}       
        The bending constant was observed to affect the rate at which the polymer assumes new conformation after UVC damage.
        We set it to be proportional to the bending constant, as $\gamma_b frac{3K_bT}{b^2}$. later we will adjust this constant according to the rate of chromatin expansion seen in experimental data. 
-     \subsection{Affected monomers after UVC}
+       
+     \subsection{Affected monomers after UVC}\label{subsection_affectedMonomersAfterUVC}
       Affected monomers are those located within the UVC beam at initiation of beam around the center-of-mass of the polymer at that time. Because the polymer assumes random conformation just before beam initiation, it was observed that in many cases there were affected beads for which there were no neighboring affected beads. This phenomena causes peculiarities in the behavior of the chain,and a resting position position could not be found for the affected bead. We, therefore, assign bending force to the affected beads' nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
              		
-	\section{Simulations}
+	\section{Simulations}	
 	
-	\subsection{ 3D}
-	\subsection{2D}
+	\subsection{Simulations' settings}
+	Simulations were ran $numRelaxationSteps$ up to relaxation, after which the diffusion force was set to $0$ and recording for $numRecordingSteps$. Following, the UV beam was shot through the center of the polymers mass. All beads falling within the UV beam area were assigned bending force. To prevent out-of-the-ordinary monomer behavior, we assign bending force to the affected monomers' nearest neighbor along the chain (see subsection \ref{subsection_affectedMonomersAfterUVC}). Nearest neighbors were not counted as affected beads. Simulation then ran for additional $numBeamSteps$ with the bending force active for the affected beads.
+	
+	Simulation were placed in a spherical environment with reflecting boundaries.
+	Measurement of density were performed on a rectangular region, which its center was dynamically placed at the polymer's center of mass.
+	Sizes of the containing sphere (circle in 2d) and the measurement region were proportional to the radius of gyration, $\sqrt{N/6}b$.
+	
+	\subsection{3D Simulations}
+	 \subsubsection{The number of monomers in the ROI as a function of the bending constant}
+	  In this experiment we examine the affect of the value of bending/spring constants on the number of monomers left at the ROI post UVC. 
+	  For this end we examine 5 different type of chains, with number of monomers,$N$ varying as $N=100, 200, 400, 800,1600$. For each $N$ we keep the spring constant,$\gamma_s=1$, and increase the bending constant $\gamma_b= 1,2,3,4,5$. For this simple experiment we perform only one realization per chain per bending constant, hence the results presented in the following table should be interpreted  with care. 
+	  \underline{Parmeter used in simulations}:
+	  
+	  \begin{itemize}
+	  	\item \textit{numRelaxationSteps} = 2000
+	  	\item numRecordingSteps  = 1000
+	  	\item numBeamSteps       = 3000
+	  	\item numBeads = [100 200 400 800 1600]
+	  	\item dt       = 0.1
+	  	\item D        = 1;
+	  	\item b        = $\sqrt{3}$
+	  	\item opening angle $\theta_0$ = $\pi$
+	  	\item bending constant = $[dD/b^2, 2dD/b^2,3dD/b^2,4dD/b^2, 5dD/b^2]$
+	  	\item springConstant   = $dD/b^2$
+	  	\item beamRadius = $\sqrt{numBeads/6}b/6$
+	  	\item containingSphereRadius = $0.5\sqrt{numBeads/6}b$
+	  	\item regionOfInterestWidth  = $2(\sqrt{numBeads/6}b)/6$
+	  	\item regionOfInterestHeight = $2(\sqrt{numBeads/6}b)/6$
+	  	\item regionOfInterestCenter = polymer center of mass
+	  \end{itemize}
+	  
+	 
+	  \begin{table}[H]
+	  	\tiny{
+	  		\begin{tabular}{c| l l l l l}
+	  			&           & & Lost (mean) (\%)[min max]& &  \\
+	  			\hline
+	  			&           & & bending const. multiplier. $\gamma_b$ & &  \\
+	  			\hline 
+	  			$N$ 	   &            1 & 2 & 3 & 4& 5 \\   	 
+	  			\hline 
+	  			100 & 31 (58\%) [28,38] & 35 (16\%)[-3 17]    & 14 (37\%) [11 22] & 36 (61\%)[26 43]   & 10 (26\%)[2 26]\\
+	  			200 & 17 (21\%) [2, 30] & 58 (57\%)[49 71]    & 54 (56\%)[48 62]  & 86 (72\%) [82 92]  & 33 (45\%)[28 32]\\
+	  			400 & 22 (16\%) [2 39]  & 100 (53\%) [82 106] & 73 (39\%)[60 89]  & 92 (\%)[72 100]    & 117 (66\%)[74 120] \\
+	  			800 &  0 (0\%) [-20 18] & 0 (0\%) [-39 29]    & 72 (20\%)[4 133]  & 122 (33\%)[29 196] & 120 (31\%)[0 180]\\
+	  			1600&  0 (0\%)[-23 21]  & 0 (0 \%) [-47 25]   & 54 (9\%)[0 104]   & 43 (3\%)[-17 110]  & 67 (12\%)[0 132]\\
+	  		\end{tabular}
+	  	}
+	  \end{table}
+	\subsubsection{2D simulations}
 	
 	
 	

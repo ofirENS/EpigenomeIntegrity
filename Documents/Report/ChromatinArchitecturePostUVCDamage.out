@@ -1,15 +1,16 @@
-\BOOKMARK [1][-]{section.0.1}{Experimental Settings and Findings}{}% 1
+\BOOKMARK [1][-]{section.0.1}{Experimental Settings and Main Findings}{}% 1
 \BOOKMARK [1][-]{section.0.2}{Model and Parameter Estimation}{}% 2
 \BOOKMARK [2][-]{subsection.0.2.1}{Nucleus Size}{section.0.2}% 3
-\BOOKMARK [2][-]{subsection.0.2.2}{The UV beam}{section.0.2}% 4
-\BOOKMARK [2][-]{subsection.0.2.3}{Histone Density}{section.0.2}% 5
-\BOOKMARK [2][-]{subsection.0.2.4}{DNA density}{section.0.2}% 6
-\BOOKMARK [2][-]{subsection.0.2.5}{Distribution of damage sites}{section.0.2}% 7
-\BOOKMARK [2][-]{subsection.0.2.6}{Defining the region of interest}{section.0.2}% 8
-\BOOKMARK [2][-]{subsection.0.2.7}{The chromatin}{section.0.2}% 9
-\BOOKMARK [2][-]{subsection.0.2.8}{Model Parameters}{section.0.2}% 10
-\BOOKMARK [2][-]{subsection.0.2.9}{the minimal distance between monomers -l0}{section.0.2}% 11
-\BOOKMARK [2][-]{subsection.0.2.10}{UVC Affected monomers}{section.0.2}% 12
-\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 13
-\BOOKMARK [2][-]{subsection.0.3.1}{ 3D}{section.0.3}% 14
-\BOOKMARK [2][-]{subsection.0.3.2}{2D}{section.0.3}% 15
+\BOOKMARK [2][-]{subsection.0.2.2}{The Simulation Domain}{section.0.2}% 4
+\BOOKMARK [2][-]{subsection.0.2.3}{The UV beam}{section.0.2}% 5
+\BOOKMARK [2][-]{subsection.0.2.4}{The region of interest \(ROI\)}{section.0.2}% 6
+\BOOKMARK [2][-]{subsection.0.2.5}{Histone Density}{section.0.2}% 7
+\BOOKMARK [2][-]{subsection.0.2.6}{DNA density}{section.0.2}% 8
+\BOOKMARK [2][-]{subsection.0.2.7}{Distribution of damage sites}{section.0.2}% 9
+\BOOKMARK [2][-]{subsection.0.2.8}{The chromatin}{section.0.2}% 10
+\BOOKMARK [2][-]{subsection.0.2.9}{Model Parameters}{section.0.2}% 11
+\BOOKMARK [2][-]{subsection.0.2.10}{The minimal distance between monomers -l0}{section.0.2}% 12
+\BOOKMARK [2][-]{subsection.0.2.11}{Affected monomers after UVC}{section.0.2}% 13
+\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 14
+\BOOKMARK [2][-]{subsection.0.3.1}{Simulations' settings}{section.0.3}% 15
+\BOOKMARK [2][-]{subsection.0.3.2}{3D Simulations}{section.0.3}% 16

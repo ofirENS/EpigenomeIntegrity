@@ -70,7 +70,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 for sIdx =1:obj.params.numSimulationsPerRound
                     obj.simulation        = obj.simulation+1;% increase counter
                     % initialize framework
+                    obj.PreSimulationActions
                     obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
+                    
                     obj.PrepareResultStruct
                     obj.RunRelaxationSteps;
                     obj.InitializeGraphics;
@@ -112,7 +114,27 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
          
         function ShutDownDiffusion(obj)
              % shut sown diffusion be
-            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionConst = 0;
+            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
+        end
+        
+        function PreSimulationActions(obj)
+            % add connected beads 
+            numBeads = obj.params.numMonomers;
+            perc     = linspace(0,0.9,obj.params.numRounds);
+            perc     = perc(obj.simulationRound);
+            % connect perc of the monomers
+            r        = randperm(numBeads);
+            numPairs = round(0.5*numBeads*perc);
+            if mod(numPairs,2)~=0
+                numPairs = numPairs-1;
+            end
+            cBeads = [];
+            for nIdx = 1:numPairs
+               cBeads(nIdx,1) = r(2*nIdx-1);
+               cBeads(nIdx,2) = r(2*nIdx);
+            end
+                
+            obj.params.simulatorParams.chain.connectedBeads = cBeads;
         end
         
         function RunBeamSteps(obj)
@@ -252,7 +274,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % calculate the probability of each monomer to be affected
             damageProb = exp(-obj.params.beamDamageSlope.*(r-obj.params.beamDamagePeak).^2);
             % use theresholding to define the actual monomers affected 
-%             inBeam     = (damageProb>rand(size(r,1),1) & inBeam);%obj.params.beamDamageProbThresh);
+            inBeam     = (damageProb>rand(size(r,1),1) & inBeam);%obj.params.beamDamageProbThresh);
             inBeamInds = find(inBeam);
             
             % Assign bending to neighbors of affected beads

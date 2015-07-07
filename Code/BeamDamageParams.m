@@ -88,29 +88,29 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.trySpringConst   = [];
             
             % Simulation parameters
-            obj.numRounds              = max([numel(obj.tryOpeningAngles),1]); 
-            obj.numSimulationsPerRound = max([numel(obj.tryConnectivity),1]);
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numRounds              = 20; 
+            obj.numSimulationsPerRound = 50;
+            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
             obj.numRecordingSteps      = 500; % start recording before UVC beam
-            obj.numBeamSteps           = 300;% the steps until repair
-            obj.numRepairSteps         = 200;% repair and relaxation of the fiber
-            obj.dt                     = 1/10;
+            obj.numBeamSteps           = 1000;% the steps until repair
+            obj.numRepairSteps         = 1000;% repair and relaxation of the fiber
+            obj.dt                     = 0.01;
             obj.dimension              = 3;
                                     
             % Polymer parameters and forces
-            obj.numMonomers           = 400;
+            obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = true;
-            obj.diffusionConst        = 1;
+            obj.diffusionConst        = 0.1;
             obj.springForce           = true;
-            obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.springConst           = 2*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.minParticleEqDistance = obj.b; % for spring force
+            obj.minParticleEqDistance = 1; % for spring force
             obj.bendingForce          = false; % (only at initialization)
             obj.bendingConst          = obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
-            obj.morseForce            = true;
+            obj.morseForce            = false;
             obj.morsePotentialDepth   = 0.01;
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
@@ -123,7 +123,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.domainCenter          = [0 0 0];
             
             % Beam parameters
-            obj.beamRadius           = obj.gyrationRadius/6;
+            obj.beamRadius           = obj.gyrationRadius/12;
             obj.beamDamagePeak       = 0;%obj.beamRadius/5 ; % in mu/m
             obj.beamDamageSlope      = 0.01; % unitless
             obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
@@ -141,11 +141,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadFullConfiguration        = false;
             
             % Display on-line parameters
-            obj.show3D                = true;
-            obj.show2D                = true;
+            obj.show3D                = false;
+            obj.show2D                = false;
             obj.showDensity           = false;
             obj.showConcentricDensity = false;
-            obj.showExpensionMSD      = true;
+            obj.showExpensionMSD      = false;
             
             % initializ the classes
             obj.InitializeParamClasses
@@ -195,6 +195,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             cp          = ChainParams('numBeads',obj.numMonomers,...
                                       'dimension',obj.dimension,...
+                                      'connectedBeads',obj.connectedMonomers,...
                                       'initializeInDomain',1,...
                                       'forceParams',polymerForces,...
                                       'b',obj.b);

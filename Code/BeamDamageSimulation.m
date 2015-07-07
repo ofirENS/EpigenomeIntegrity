@@ -50,13 +50,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).dt                 = obj.params.dt;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI                = obj.roiPosition;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = zeros(1,obj.params.numRecordingSteps+obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,obj.params.numRecordingSteps+obj.params.numBeamSteps);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex       = [];
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = zeros(obj.params.numRecordingSteps+obj.params.numBeamSteps,obj.params.numConcentricBandsInROI-1);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = zeros(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = zeros(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = zeros(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = zeros(1,obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(obj.params.numRecordingSteps+obj.params.numBeamSteps,obj.params.numConcentricBandsInROI-1);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = nan(1,obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = nan(1,obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,obj.params.numBeamSteps);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPos = [];
                                     
         end
@@ -66,69 +66,119 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             for rIdx = 1:obj.params.numRounds
                 obj.simulation = 0;
                 obj.simulationRound = obj.simulationRound+1;% increase counter
+               
                 for sIdx =1:obj.params.numSimulationsPerRound
                     obj.simulation        = obj.simulation+1;% increase counter
                     % initialize framework
                     obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
                     obj.PrepareResultStruct
                     obj.RunRelaxationSteps;
+                    obj.InitializeGraphics;
+                    obj.ShutDownDiffusion;
                     obj.RunRecordingSteps;
-                    obj.RunBeamSteps;                    
+                    obj.RunBeamSteps;
+                    obj.RunRepairSteps;
                 end
             end            
         end
         
         function RunRelaxationSteps(obj)
             
-            if obj.params.showSimulation
+            if obj.params.show3D
             % Turn the visibility of the beam off
-             set(obj.handles.framework.simulationGraphics.handles.graphical.domain(2).mesh,'Visible','off');
-            end
-            
-            obj.handles.framework.Run;% run the framework
-            obj.step = obj.params.numRelaxationSteps;
+             set(obj.handles.framework.simulationGraphics.handles.graphical.domain(obj.params.domainNumbers.beam).mesh,'Visible','off');
+            end            
+            obj.handles.framework.Run;% run the framework            
+            obj.UpdateROIPosition;
+            obj.UpdateBeamPosition;
+            obj.step = obj.handles.framework.simulationData.step;
         end
         
         function RunRecordingSteps(obj)
             % Start Recording 
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps;
-             stepIdx = 1;
-            for sIdx =obj.handles.framework.simulationData.step:obj.handles.framework.params.simulator.numSteps
+                        
+            for sIdx =1:obj.params.numRecordingSteps
                 obj.handles.framework.Step;
-                [inROI,inRoiInds,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
+                stepIdx = obj.handles.framework.simulationData.step;
+                [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;
-                stepIdx = stepIdx+1;
                 
+                obj.UpdateGraphics;                                
+                obj.step = stepIdx;
             end
         end
-                
+         
+        function ShutDownDiffusion(obj)
+             % shut sown diffusion be
+            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionConst = 0;
+        end
+        
         function RunBeamSteps(obj)
             
             % increase the step count 
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps+...
                                                               obj.params.numBeamSteps;  
-            if obj.params.showSimulation                                              
-            % Turn on beam visibility 
-              set(obj.handles.framework.simulationGraphics.handles.graphical.domain(2).mesh,'Visible','on');
-            end
-            % acivate the UVC beam
+            obj.UpdateBeamPosition;
+            obj.UpdateBeamGraphics;
+
+            
+            % activate the UVC beam
             obj.ApplyDamageEffect; 
-            stepIdx = obj.params.numRecordingSteps+1;
-            for sIdx =obj.handles.framework.simulationData.step:obj.handles.framework.params.simulator.numSteps
+            obj.HeighlightAffectedBeads
+            
+            
+            for sIdx =1:obj.params.numBeamSteps
                 obj.handles.framework.Step
+                stepIdx  = obj.handles.framework.simulationData.step;
+                chainPos = obj.GetChainPosition;
                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;                
-                [affectedMSDcm,nonAffectedMSDcm] = CalculateBeadsRadiusOfExpension(obj,obj.handles.framework.objectManager.curPos,...
-                                                                                   obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                
+                [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(chainPos,...
+                                                   obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
-                stepIdx = stepIdx+1;
+                obj.UpdateGraphics
+                obj.step = stepIdx;
+                
             end
         end 
         
-        function [inBeam,inBeamInds,inBeamNN] = FindMonomersInBeam(obj)
+        function RunRepairSteps(obj)
+                        % increase the step count 
+            obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps+...
+                                                              obj.params.numBeamSteps+obj.params.numRepairSteps;  
+%             obj.UpdateBeamPosition;
+%             obj.UpdateBeamGraphics;
+
+            
+            % activate the UVC beam
+            obj.RepairDamageEffect; 
+            obj.TurnOffAffectedBeadsGraphics
+            
+            
+            for sIdx =1:obj.params.numRepairSteps
+                obj.handles.framework.Step
+                stepIdx  = obj.handles.framework.simulationData.step;
+                chainPos = obj.GetChainPosition;
+                [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                
+                [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(chainPos,...
+                                                   obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
+                obj.UpdateGraphics
+                obj.step = stepIdx;
+                
+            end
+        end
+        
+        function [inBeam,inBeamInds] = FindMonomersInBeam(obj)
             % find the monomers in the beam 
             % Create DNA damages in the ray
             % monomers affected are those inside the 2D section of the beam
@@ -137,54 +187,38 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % Affected beads' nearest-neighbors are 
             % assigned bending force, therefore the collective index list
             % is given in inBeamNN
+            chainPos    = obj.GetChainPosition; 
+            inBeam      = obj.handles.framework.handles.classes.domain.InDomain(chainPos,obj.params.domainNumbers.beam);
+            inBeamInds  = find(inBeam);            
             
-            chainPos    = obj.handles.framework.objectManager.curPos;
-            obj.UpdateBeamPosition(chainPos) 
-            inBeam      = obj.handles.framework.handles.classes.domain.InDomain(chainPos,2);
-            inBeamInds  = find(inBeam);
-%             numInBeam0  = sum(inBeam);% number of beads at time 0
-
-            % Choose a fraction of inBeam to exclude
-            frInBeam      = randperm(sum(inBeam));       
-            inBeam(inBeamInds(frInBeam(1:round(numel(frInBeam)*(1-obj.params.fracOfMonomersAffected)))))= false;
-
-            % Assign bending to neighbors of affected beads
-            inBeamNN = inBeam;
-            for bnIdx=1:size(inBeam,1)-1
-                if inBeam(bnIdx)
-                    inBeamNN(bnIdx+1) = true;
-                end
-            end
-
-            inBeamNN = find(inBeamNN);
     
         end
         
         function [inROI,inRoiInds,numMonomersIn,monomersInConcentric] = GetMonomerDensityInROI(obj)
-                % Find the number of monomers in the rectangular ROI
-                chainPosition = obj.handles.framework.objectManager.curPos;
-                centerOfMass  = obj.GetPolymerCenterOfMass(chainPosition);
-                obj.UpdateROIPosition(centerOfMass);
-                [inROI, inRoiInds,numMonomersIn] = obj.FindMonomersInROI(chainPosition);
-                [monomersInConcentric] = obj.GetMonomersInRoiConcentric(chainPosition);
-                              
+                % Find the number of monomers in the rectangular ROI                
+                obj.UpdateROIPosition;
+                [inROI, inRoiInds,numMonomersIn] = obj.FindMonomersInROI;
+                [monomersInConcentric]           = obj.GetMonomersInRoiConcentric;                              
         end
         
-        function cm = GetPolymerCenterOfMass(obj,chainPos)
+        function cm = GetPolymerCenterOfMass(obj)
             % polymer center of mass in any dimension 
-            cm = mean(chainPos);
+            chainPos = obj.handles.framework.objectManager.curPos;
+            cm       = mean(chainPos);
         end
         
-        function UpdateROIPosition(obj,polymerCenterOfMass)
-            % Update the square roi position around the polymer center off mass
-            obj.roiPosition = [polymerCenterOfMass(1)-obj.params.roiRadius,...
-                               polymerCenterOfMass(2)-obj.params.roiRadius,...
-                               2*obj.params.roiRadius,...
-                               2*obj.params.roiRadius];
+        function UpdateROIPosition(obj)
+            % Update the square roi position such that it geometrical center is at the polymer center of mass
+            polymerCenterOfMass = obj.GetPolymerCenterOfMass;
+            obj.roiPosition = [polymerCenterOfMass(1)-obj.params.roiWidth/2,...
+                               polymerCenterOfMass(2)-obj.params.roiHeight/2,...
+                               obj.params.roiWidth,...
+                               obj.params.roiHeight];
         end                        
         
-        function [inROI, inRoiInds,numMonomersIn]= FindMonomersInROI(obj,chainPosition)
+        function [inROI, inRoiInds,numMonomersIn]= FindMonomersInROI(obj)
             % get the number and indices of the monomers inside the ROI
+            chainPosition = obj.GetChainPosition;
             inROI = chainPosition(:,1)<(obj.roiPosition(1)+obj.roiPosition(3)) &...
                     chainPosition(:,1)>(obj.roiPosition(1)) &...
                     chainPosition(:,2)<(obj.roiPosition(2)+obj.roiPosition(4)) &...
@@ -194,216 +228,284 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 numMonomersIn = sum(inROI);
         end
         
-        function [monomersInConcentric] = GetMonomersInRoiConcentric(obj,chainPosition)
+        function chainPosition = GetChainPosition(obj)
+            % Get chain position in the last step 
+            chainPosition= obj.handles.framework.objectManager.curPos;
+        end
+        
+        function [monomersInConcentric] = GetMonomersInRoiConcentric(obj)
              % Calculate the density as a function of the distance from the roi center
+             chainPosition = obj.GetChainPosition;
               monomersInConcentric = ConcentricDensityInRoi(chainPosition,obj.roiPosition,obj.params.numConcentricBandsInROI);
 %               densityInConcentric = densityInConcentric./baseLineDensity;
         end
         
         function ApplyDamageEffect(obj)
-            % Apply damage effect to monomers and their nearest neighbors            
-            [inBeam, inBeamInds,inBeamAffected] = obj.FindMonomersInBeam;% get indices and indicators for affected monomers and their nearest-neighbors
+            % Apply damage effect to monomers and their nearest neighbors    
+            chainPos    = obj.GetChainPosition;
+            obj.UpdateBeamPosition 
+            [inBeam, ~] = obj.FindMonomersInBeam;% get indices and indicators for affected monomers and their nearest-neighbors
+            
+            % calculate the distance of each monomer in the beam to the
+            % beam's center 
+            r          = pdist2(chainPos,obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter);
+            % calculate the probability of each monomer to be affected
+            damageProb = exp(-obj.params.beamDamageSlope.*(r-obj.params.beamDamagePeak).^2);
+            % use theresholding to define the actual monomers affected 
+%             inBeam     = (damageProb>rand(size(r,1),1) & inBeam);%obj.params.beamDamageProbThresh);
+            inBeamInds = find(inBeam);
+            
+            % Assign bending to neighbors of affected beads
+            inBeamNN = inBeam;
+            for bnIdx=1:size(inBeam,1)-1
+                if inBeam(bnIdx)
+                    inBeamNN(bnIdx+1) = true;
+                end
+            end
+
+            inBeamAffected = find(inBeamNN);
+            % save 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex = inBeamInds;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = inBeam;
-            obj.handles.framework.objectManager.handles.chain(1).params.forceParams.bendingElasticityForce   = true;
-            obj.handles.framework.objectManager.handles.chain(1).params.forceParams.bendingAffectedParticles = inBeamAffected;
-            obj.results
+            
+            % Activate bending for affected monomers
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = inBeamAffected;            
             
         end
         
-        function UpdateBeamPosition(obj,chainPos)
-            cm = mean(chainPos);
-            obj.handles.framework.handles.classes.domain.params(2).domainCenter = cm;
-        end                                
-        
-        function [affectedMSDcm,nonAffectedMSDcm]= CalculateBeadsRadiusOfExpension(obj,chainPos,inBeam)
-            % calculate the mean radius of expension for affected beads and non
-            % affected beads. chainPos is an numBedsXdimension vector of position
-            % inBeam is a numBeadsX1 binary vector indicating the beads affected
-            % (true) and non affected (false)
-            cmInBeam         = mean(chainPos(inBeam,:));% center of mass for particles in beam
-            cmOutBeam        = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam
-            affectedMSDcm    = mean(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));
-            nonAffectedMSDcm = mean(sqrt(sum(bsxfun(@minus, chainPos(~inBeam,:), cmOutBeam).^2,2)));
+        function RepairDamageEffect(obj)
+            % Turn-off bending for affected monomers         
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
         end
         
-        function RecordResults(obj,numMonomersIn,monomersInConcentric)
-            obj.results(obj.simulationRound,obj.simulation).resultStruct
-        end
-                                        
+        function UpdateBeamPosition(obj)
+            cm = obj.GetPolymerCenterOfMass;
+            obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter = cm;
+        end                                                                 
         
-        %================                        
-
-                                
-                
-        function [histHandle,pAxes,pHistHandle,pPolyHandle,dAxes,projPlane2D,projPlane3D,dnaDensityHandle,numBeadsHandle,histoneDensityHandle]= ...
-                InitializeGraphics(obj,rectX,rectY,rectWidth,rectHeight,mAxes,histonePosition,initialChainPosition)
+        function InitializeGraphics(obj)
             %     mAxes = r.simulationGraphics.handles.graphical.mainAxes;
             
-            % initialize histone graphics %TODO: incorporate histone graphics in the simulationGraphics class
-            
-            obj.handles.histHandle = line('XData',histonePosition(:,1),...
-                'YData',histonePosition(:,2),...
-                'ZData',histonePosition(:,3),...
-                'marker','o',...
-                'MarkerFaceColor','y',...
-                'MarkerSize',10,...
-                'Parent',obj.handles.mAxes,...
-                'LineStyle','none');
             
             % create figure for the projection in the x-y plane
-            pFigure = figure;
-            pAxes   = subplot(1,2,1);
-            set(axes,'Parent',pFigure,...
-                'XLim',get(mAxes,'XLim'), ...
-                'YLim',get(mAxes,'YLim'),...
-                'FontSize',30);
-            daspect(pAxes,[1 1 1])
             
-            % projected histone
-            pHistHandle  = line('XData',histonePosition(:,1),...
-                'YData',histonePosition(:,2),...
-                'Marker','o',...
-                'MarkerFaceColor','y',...
-                'MarkerSize',10,...
-                'Parent',pAxes,...
-                'LineStyle','none');
-            % projected Polymer
-            pPolyHandle  = line('XData',initialChainPosition(:,1),...
-                'YDAta',initialChainPosition(:,2),...
-                'Marker','o',...
-                'MarkerFaceColor','none',...
-                'MarkerEdgeColor','b',...
-                'markerSize',7,...
-                'Parent',pAxes,...
-                'LineStyle','-');
+            [rectX,rectY,rectWidth, rectHeight] = obj.GetROI;
             
-            % create density axes
-            % dFig   = figure;
-            dAxes = subplot(1,2,2);
-            set(dAxes,'Parent',pFigure,'NextPlot','add','Color','none','FontSize',30,'YLim',[0 size(initialChainPosition,1)]);
-            xlabel(dAxes,'Time [sec]','FontSize',40);
-            ylabel(dAxes,'Density','FontSize',40)
-            
-            
+            if obj.params.show3D
             % insert the projection to the 3d axes
-            projPlane3D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
+            mainAxes = obj.handles.framework.simulationGraphics.handles.graphical.mainAxes;
+            obj.handles.projPlane3D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
                 [rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
-                'r', 'Parent',mAxes, 'FaceAlpha',0.5);
-            % insert the projection to the projection axes
-            projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
-                'r', 'Parent',pAxes, 'FaceAlpha',0.5);
-            dnaDensityHandle     = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','b','LineWidth',4,'DisplayName','DNA length in ROI');
-            histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity');
-            numBeadsHandle       = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','r','Linewidth',4,'DisplayName','num. Beads in ROI');
-            legend(dAxes,get(dAxes,'Children'))
+                'r', 'Parent',mainAxes, 'FaceAlpha',0.5);
+            obj.handles.affectedBeads3D = line('XDAta',NaN,'YData',NaN,'ZData',NaN,...
+                    'Marker','o',...
+                    'MarkerFaceColor','r',...
+                    'MarkerEdgeColor','r',...
+                    'MarkerSize',7,...
+                    'Parent',mainAxes,...
+                    'LineStyle','none');
+            end
+                        
+            if obj.params.show2D
+                obj.handles.projectionFigure = figure;
+                obj.handles.projectionAxes   = axes('Parent',obj.handles.projectionFigure,...
+                    'FontSize',30);
+                daspect(obj.handles.projectionAxes ,[1 1 1])
+                                
+                % projected Polymer
+                initialChainPosition = obj.GetChainPosition;
+                obj.handles.projectedPolyHandle  = line('XData',initialChainPosition(:,1),...
+                    'YDAta',initialChainPosition(:,2),...
+                    'Marker','o',...
+                    'MarkerFaceColor','none',...
+                    'MarkerEdgeColor','b',...
+                    'markerSize',7,...
+                    'Parent',obj.handles.projectionAxes,...
+                    'LineStyle','-');
+                
+                obj.handles.affectedBeads2D = line('XDAta',NaN,'YData',NaN,'Marker','o',...
+                    'MarkerFaceColor','r',...
+                    'MarkerEdgeColor','r',...
+                    'MarkerSize',7,...
+                    'Parent',obj.handles.projectionAxes,...
+                    'LineStyle','none');
+                
+                % insert the projection to the projection axes
+                obj.handles.projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
+                    'r', 'Parent',obj.handles.projectionAxes, 'FaceAlpha',0.5);
+            end
+                        
+            % create density in ROI axes
+            if obj.params.showDensity
+                obj.handles.densityFigure = figure;
+                
+                obj.handles.densityAxes = axes('Parent',obj.handles.densityFigure,'NextPlot','add',...
+                    'Color','none',...
+                    'FontSize',30,...
+                    'YLim',[0 size(initialChainPosition,1)]);
+                title(obj.handles.densityAxes ,'Number of monomers in the ROI');
+                xlabel(obj.handles.densityAxes,'Time [sec]','FontSize',40);
+                ylabel(obj.handles.densityAxes,'Density','FontSize',40)
+                obj.handles.numMonomersIn = line('XData',0,'YData',NaN,'Parent',obj.handles.densityAxes ,'Color','r',...
+                    'Linewidth',4,'DisplayName','num. Beads in ROI');
+                legend(obj.handles.densityAxes,get(obj.handles.densityAxes ,'Children'))
+            end
             
+            % show concentric density in ROI
+            if obj.params.showConcentricDensity
+                obj.handles.concentricDensityFigure = figure;
+                obj.handles.concentricDensityAxes = axes('Parent',obj.handles.concentricDensityFigure,'NextPlot','add',...
+                    'Color','none',...
+                    'FontSize',30);
+                title(obj.handles.concentricDensityAxes,' Concentric density around UVC center')    
+                xlabel(obj.handles.concentricDensityAxes,'Dist. from CM','FontSize',40);
+                ylabel(obj.handles.concentricDensityAxes,'radius','FontSize',40);
+                obj.handles.concentricDensity  = line('XData',0,'YData',NaN,'Parent',obj.handles.concentricDensityAxes ,'Color','b',...
+                    'LineWidth',4,'DisplayName','Density ');
+                legend(obj.handles.concentricDensityAxes,get(obj.handles.concentricDensityAxes ,'Children'))
+            end
             
+            % show MSD of expansion after UVC
+            if obj.params.showExpensionMSD
+                obj.handles.expensionFigure = figure;
+                obj.handles.expensionAxes = axes('Parent',obj.handles.expensionFigure,'NextPlot','add',...
+                    'Color','none',...
+                    'FontSize',30);
+                 title(obj.handles.expensionAxes,'affected monomers expension MSD')    
+                xlabel(obj.handles.expensionAxes,'Time [sec]','FontSize',40);
+                ylabel(obj.handles.expensionAxes,'MSD from CM','FontSize',40)
+                obj.handles.msdAffected  = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','b',...
+                    'LineWidth',4,'DisplayName','MSD Affected');
+                obj.handles.msdNonAffected = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','r',...
+                    'Linewidth',4,'DisplayName','MSD Non Affected');
+                legend(obj.handles.expensionAxes,get(obj.handles.expensionAxes,'Children'))
+            end
+                        
+        end
+
+        function [rectX,rectY,rectWidth, rectHeight] = GetROI(obj)
+            % get roi x, y, width and height
+            rectX      = obj.roiPosition(1);
+            rectY      = obj.roiPosition(2);
+            rectWidth  = obj.roiPosition(3);
+            rectHeight = obj.roiPosition(4);
         end
         
-        function [rectX,rectY]= UpdateProjectionPlanePositionByCM(chainPos,rectWidth, rectHeight)
-            % set x and y to be at the cm
-            
-            rectX  = mean(chainPos(:,1));
-            rectY  = mean(chainPos(:,2));
-            rectX  = rectX- rectWidth/2;
-            rectY  = rectY- rectHeight/2;
-        end
-        
-        function UpdateGraphics(step,dt,histPosition,chainPos,histoneDensity,dnaDensity,numBeadsIn,rectX,rectY,rectWidth, rectHeight,...
-                dnaDensityHandle,histoneDensityHandle,numBeadsHandle,histHandle,projPlane2D,projPlane3D,pHistHandle,pPolyHandle)
-            
-            UpdateDensityGraphics(step,dt,histoneDensity,dnaDensity,numBeadsIn,dnaDensityHandle,histoneDensityHandle,numBeadsHandle)
-            UpdateHistoneGraphics(histHandle,histPosition)
-            UpdateProjectionPlaneGraphics(rectX,rectY, rectWidth, rectHeight,projPlane2D, projPlane3D)
-            UpdateProjectedHistoneGraphics(pHistHandle,histPosition);
-            UpdateProjectedPolymerGraphics(pPolyHandle,chainPos)
+        function UpdateGraphics(obj)
+            % update graphics
+            obj.UpdateROIGraphics            
+            obj.UpdateDensityGraphics;            
+            obj.UpdateProjectedPolymerGraphics
+            obj.UpdateConcentricDensityGraphics
+            obj.UpdateExpensionGraphics
+            obj.HeighlightAffectedBeads
             drawnow
         end
         
-        function UpdateHistoneGraphics(histHandle,curPos)
-            set(histHandle,'XData',curPos(:,1),'YData',curPos(:,2),'ZData',curPos(:,3));
+        function UpdateProjectedPolymerGraphics(obj)
+            % Update the position of the projected polymer in 2D 
+            if obj.params.show2D
+                chainPos = obj.GetChainPosition;
+                set(obj.handles.projectedPolyHandle,'XData',chainPos(:,1),'YData', chainPos(:,2))
+                bIn = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+                set(obj.handles.affectedBeads2D,'XData',chainPos(bIn,1), 'YDAta',chainPos(bIn,2));
+            end
         end
         
-        function UpdateProjectedHistoneGraphics(pHistHandle,curPos)
-            set(pHistHandle,'XData',curPos(:,1),'YData',curPos(:,2));
+        function UpdateDensityGraphics(obj)
+            % Show monomer density in the ROI
+            if obj.params.showDensity                
+                dnaDensityDataY     = obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn;%get(obj.handles.dnaDensity,'YData');            
+                dnaDensityDataX     = 1:numel(dnaDensityDataY);
+                set(obj.handles.numMonomersIn,'XData',dnaDensityDataX, 'YData',dnaDensityDataY);
+            end
         end
-        
-        function UpdateProjectedPolymerGraphics(pPolyHandle,chainPos)
-            set(pPolyHandle,'XData',chainPos(:,1),'YData', chainPos(:,2))
-        end
-        
-        function UpdateDensityGraphics(step,dt,histoneDensity,dnaDensity,numBeadsIn,dnaDensityHandle,histoneDensityHandle,numBeadsHandle)
-            dnaDensityDataX     = get(dnaDensityHandle,'XData');
-            dnaDensityDataY     = get(dnaDensityHandle,'YData');
-            histoneDensityDataX = get(histoneDensityHandle,'XData');
-            histoneDensityDataY = get(histoneDensityHandle,'YData');
-            numBeads            = get(numBeadsHandle,'YData');
-            set(dnaDensityHandle,'XData',[dnaDensityDataX, step*dt], 'YData',[dnaDensityDataY,dnaDensity]);
-            set(numBeadsHandle,'XData',[dnaDensityDataX, step*dt], 'YData',[numBeads,numBeadsIn]);
-            % set(histoneDensityHandle,'XData',[histoneDensityDataX, step*dt], 'YData',[histoneDensityDataY,histoneDensity]);
-            %        line('XData',step*dt,'YData',histoneDensity,'Marker','o','markerFaceColor','y','Parent',dAxes)
-            %        line('XData',step*dt,'YData',dnaDensity,'Marker','o','Parent',dAxes,'markerFaceColor','b')
-        end
-        
-        function UpdateProjectionPlaneGraphics(rectX,rectY, rectWidth, rectHeight,projPlane2D, projPlane3D)
+                                   
+        function UpdateROIGraphics(obj)
             % projPlane3d,projPlane2D are graphical handles
-            set(projPlane3D,'XData',[rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
-                'YData',[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)]);
-            set(projPlane2D,'XData',[rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
-                'YData',[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)]);
+            if obj.params.show2D
+               [rectX,rectY,rectWidth, rectHeight] = obj.GetROI;
+
+                if obj.params.show3D
+                set(obj.handles.projPlane3D,'XData',[rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
+                    'YData',[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)]);
+                end
+                if obj.params.show2D
+                set(obj.handles.projPlane2D,'XData',[rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
+                    'YData',[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)]);
+                end
+            end
         end
         
-        function UpdateGyrationSphere(simulationFrameworkHandle,domainNumber, gyrationSphereData,chainPos)
-            % update the sphere graphics
-            ccm  = mean(chainPos,1);% chain center of mass
-            xPos = gyrationSphereData.points.x;
-            yPos = gyrationSphereData.points.y;
-            zPos = gyrationSphereData.points.z;
+        function HeighlightAffectedBeads(obj)
+            % get affected beads numbers 
+            bIn      = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+            chainPos = obj.GetChainPosition;
+            if obj.params.show2D                
+                set(obj.handles.affectedBeads2D,'XData',chainPos(bIn,1), 'YDAta',chainPos(bIn,2));
             
-            xPos = xPos -xPos(1,1)+ccm(1);
-            yPos = yPos -yPos(1,1)+ccm(2);
-            zPos = zPos -zPos((size(zPos,1)-1)/2,1)+ccm(3);
+            end
             
-            set(gyrationSphereData.mesh,'XData',xPos,...
-                'YData',yPos,...
-                'ZData',zPos);
-            simulationFrameworkHandle.handles.classes.domain.params(3).domainCenter = ccm;
-            simulationFrameworkHandle.simulationGraphics.handles.graphical.domain(domainNumber).points.x = xPos;
-            simulationFrameworkHandle.simulationGraphics.handles.graphical.domain(domainNumber).points.y = yPos;
-            simulationFrameworkHandle.simulationGraphics.handles.graphical.domain(domainNumber).points.z = zPos;
-        end
-        
-        function UpdateBeamGraphics(simulationFrameworkHandle,domainNumber)
-            domainCenter = simulationFrameworkHandle.handles.classes.domain.params(domainNumber).domainCenter;
-            %     domainRad    = simulationFrameworkHandle.handles.classes.domain.params(domainNumber).domainWidth;
-            beamHandle   = simulationFrameworkHandle.simulationGraphics.handles.graphical.domain(domainNumber).mesh;
-            xPos         = get(beamHandle,'XData');
-            yPos         = get(beamHandle,'YData');
-            set(beamHandle,'XData',xPos+domainCenter(1),...
-                'YData',yPos+domainCenter(2));
+            if obj.params.show3D
+              set(obj.handles.affectedBeads3D,'XData',chainPos(bIn,1),'YData',chainPos(bIn,2),...
+                  'ZData',chainPos(bIn,3))
+            end
             
         end
         
-        function [histoneDensity, dnaDensity,numBeads,densityInConcentric] = CalculateDensitiesInROI(chainPos,histonePos,rectX,rectY, rectWidth, rectHeight,roiRes,numHistones,initialDnaInLength,baseLineDensity)
-            % calculate histone density
-            histoneDensity =  sum((histonePos(:,1)<=(rectX+rectWidth) & histonePos(:,1)>=rectX &...
-                histonePos(:,2)<=(rectY+rectHeight) & histonePos(:,2)>=rectY))/numHistones;
+        function TurnOffAffectedBeadsGraphics(obj)
+             % Turn-off affected beasd highlighting
+
+            if obj.params.show2D                
+                set(obj.handles.affectedBeads2D,'XData',NaN, 'YDAta',NaN);
             
-            numBeads =  sum((chainPos(:,1)<=(rectX+rectWidth) & chainPos(:,1)>=rectX &...
-                chainPos(:,2)<=(rectY+rectHeight) & chainPos(:,2)>=rectY));
+            end
             
-            % Calculate DNA density
-            % [dnaLengthIn,totalDNALength] = PolygonLengthInRoi(chainPos(:,1:2),rectX,rectY,rectWidth, rectHeight);
-            dnaLengthIn = 1;
-            dnaDensity = dnaLengthIn;%./initialDnaInLength;%totalDNALength;
+            if obj.params.show3D
+              set(obj.handles.affectedBeads3D,'XData',NaN,'YData',NaN,...
+                  'ZData',NaN)
+            end
+        end
+        
+        function UpdateBeamGraphics(obj)%TODO: show beam in 2D
+            % update the position of the 3D beam 
+            if obj.params.show3D
+                set(obj.handles.framework.simulationGraphics.handles.graphical.domain(obj.params.domainNumbers.beam).mesh,'Visible','on');
+                domainCenter = obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter;            
+                beamHandle   = obj.handles.framework.simulationGraphics.handles.graphical.domain(obj.params.domainNumbers.beam).mesh;
+                xPos         = get(beamHandle,'XData');
+                yPos         = get(beamHandle,'YData');
+                set(beamHandle,'XData',xPos+domainCenter(1),...
+                    'YData',yPos+domainCenter(2));
+            end
             
+            if obj.params.show2D
+                
+            end
             
-            % Calculate the density as a function of the distance from the roi center
-            densityInConcentric = ConcentricDensityInRoi(chainPos,[rectX,rectY,rectWidth,rectHeight],roiRes);
-            densityInConcentric = densityInConcentric./baseLineDensity;
+        end        
+        
+        function UpdateConcentricDensityGraphics(obj)
+            % show concentric monomer density in the ROI
+            if obj.params.showConcentricDensity
+                concentric = obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(obj.step-obj.params.numRelaxationSteps+1,:);
+                set(obj.handles.concentricDensity,'XData',1:obj.params.numConcentricBandsInROI-1,'YData',concentric);
+            end
+        end
+        
+        function UpdateExpensionGraphics(obj)
+            % Show expension of affected and non-affected monomers
+            if obj.params.showExpensionMSD
+                msdAffected    = obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension;
+                msdNonAffected = obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension;
+                set(obj.handles.msdAffected,'XData',1:numel(msdAffected) ,'YDAta',msdAffected);
+                set(obj.handles.msdNonAffected,'XData',1:numel(msdNonAffected),'YData',msdNonAffected);
+            end
             
         end
+        %====================
         
         function LoadFullConfiguration(obj)% finish loading 
         end
@@ -425,7 +527,20 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % save RouseSimulatorFramework class            
               uisave('r')            
         end% remove dependancy on variable r
-        
+                
+    end
+    
+    methods (Static)
+        function [affectedMSDcm,nonAffectedMSDcm]= CalculateBeadsRadiusOfExpension(chainPos,inBeam)
+            % calculate the mean radius of expension for affected beads and non
+            % affected beads. chainPos is an numBedsXdimension vector of position
+            % inBeam is a numBeadsX1 binary vector indicating the beads affected
+            % (true) and non affected (false)
+            cmInBeam         = mean(chainPos(inBeam,:));% center of mass for particles in beam
+            cmOutBeam        = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam
+            affectedMSDcm    = mean(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));
+            nonAffectedMSDcm = mean(sqrt(sum(bsxfun(@minus, chainPos(~inBeam,:), cmOutBeam).^2,2)));
+        end
         
     end
 end

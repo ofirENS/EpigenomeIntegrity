@@ -60,6 +60,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         loadFullConfiguration@logical
         saveRelaxationConfiguration@logical
         saveEndConfiguration@logical
+        resultsFolder@char
+        resultsPath@char
+        resultFileName@char
+        saveAfterEachSimulation@logical
+        saveAfterEachRound@logical
         
         % Display
         show3D@logical
@@ -67,7 +72,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         showDensity@logical
         showConcentricDensity@logical
         showExpensionMSD@logical
-        
+        showAdditionalPolymerConnectors@logical % show non nearest neighbors connections (if exist) slows down display
         % Misc. 
         domainNumbers % indices for the sphere and beam 
         
@@ -81,33 +86,33 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             % Simulation trials 
             % variables to simulate 
-            obj.tryOpeningAngles = 1;
-            obj.tryConnectivity  = 1;
+            obj.tryOpeningAngles = [];
+            obj.tryConnectivity  = [];
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             
             % Simulation parameters
-            obj.numRounds              = 20; 
-            obj.numSimulationsPerRound = 50;
-            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 500; % start recording before UVC beam
-            obj.numBeamSteps           = 1000;% the steps until repair
-            obj.numRepairSteps         = 1000;% repair and relaxation of the fiber
-            obj.dt                     = 0.01;
+            obj.numRounds              = 3; 
+            obj.numSimulationsPerRound = 1;
+            obj.numRelaxationSteps     = 1000; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 0; % start recording before UVC beam
+            obj.numBeamSteps           = 00;% the steps until repair
+            obj.numRepairSteps         = 00;% repair and relaxation of the fiber
+            obj.dt                     = 0.1;
             obj.dimension              = 3;
                                     
             % Polymer parameters and forces
-            obj.numMonomers           = 500;
+            obj.numMonomers           = 100;
             obj.b                     = sqrt(obj.dimension);                            
-            obj.diffusionForce        = true;
+            obj.diffusionForce        = false;
             obj.diffusionConst        = 0.1;
             obj.springForce           = true;
-            obj.springConst           = 2*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.connectedMonomers     = [];
-            obj.minParticleEqDistance = 1; % for spring force
+            obj.springConst           = 5*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.connectedMonomers     = [1 100; 30 70];
+            obj.minParticleEqDistance = 0; % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 3*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
@@ -128,7 +133,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope      = 0.01; % unitless
             obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight           = 70; % for 3d graphics purposes
-            
+                
             % ROI parameters                        
             obj.roiWidth                = obj.gyrationRadius/4;
             obj.roiHeight               = obj.roiWidth;
@@ -139,14 +144,21 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.saveEndConfiguration         = false;            
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
+            obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/ENS_Simulation_Results/EpigenomicIntegrity/SimulationResults/');
+            obj.resultsFolder                = 'ConnectivityTest';
+            [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
+            cl                               = clock;            
+            obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); 
+            obj.saveAfterEachSimulation      = false;
+            obj.saveAfterEachRound           = true;
             
             % Display on-line parameters
-            obj.show3D                = false;
-            obj.show2D                = false;
-            obj.showDensity           = false;
+            obj.show3D                = true;
+            obj.show2D                = true;
+            obj.showDensity           = true;
             obj.showConcentricDensity = false;
-            obj.showExpensionMSD      = false;
-            
+            obj.showExpensionMSD      = true;
+            obj.showAdditionalPolymerConnectors = false; % false speeds up display
             % initializ the classes
             obj.InitializeParamClasses
         end
@@ -197,6 +209,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                       'dimension',obj.dimension,...
                                       'connectedBeads',obj.connectedMonomers,...
                                       'initializeInDomain',1,...
+                                      'minBeadDistance',obj.minParticleEqDistance,...
                                       'forceParams',polymerForces,...
                                       'b',obj.b);
             

@@ -28,7 +28,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         function obj = BeamDamageSimulation(params)% define loadFullconfiguration
             obj.params = params;
             % set result structure             
-            obj.results           = MoveHistonesOnChainResultStruct(obj.params.numRounds,obj.params.numSimulationsPerRound);
+            obj.results = MoveHistonesOnChainResultStruct(obj.params.numRounds,obj.params.numSimulationsPerRound);
             
         end
                                 
@@ -36,6 +36,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % Preallocate the arrays in result struct for the current
             % simulation 
             cl = clock;
+            numStepsToRecord = obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).date               = sprintf('%s',[num2str(cl(3)),'/',num2str(cl(2)),'/',num2str(cl(1))]);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).round              = obj.simulationRound;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).simulation         = obj.simulation;
@@ -50,13 +51,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).dt                 = obj.params.dt;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI                = obj.roiPosition;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,obj.params.numRecordingSteps+obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex       = [];
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(obj.params.numRecordingSteps+obj.params.numBeamSteps,obj.params.numConcentricBandsInROI-1);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = nan(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = nan(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,obj.params.numBeamSteps);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,obj.params.numBeamSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(numStepsToRecord,obj.params.numConcentricBandsInROI-1);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = nan(1,numStepsToRecord);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = nan(1,numStepsToRecord);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,numStepsToRecord);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPos = [];
                                     
         end
@@ -66,11 +67,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             for rIdx = 1:obj.params.numRounds
                 obj.simulation = 0;
                 obj.simulationRound = obj.simulationRound+1;% increase counter
-               
+                obj.PreRoundActions
                 for sIdx =1:obj.params.numSimulationsPerRound
                     obj.simulation        = obj.simulation+1;% increase counter
                     % initialize framework
-                    obj.PreSimulationActions
+%                     obj.params           = BeamDamageParams;
+                    obj.PreSimulationActions                    
                     obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
                     
                     obj.PrepareResultStruct
@@ -80,7 +82,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                     obj.RunRecordingSteps;
                     obj.RunBeamSteps;
                     obj.RunRepairSteps;
+                    obj.PostSimulationActions
                 end
+                obj.PostRoundActions
             end            
         end
         
@@ -102,41 +106,20 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         
             for sIdx =1:obj.params.numRecordingSteps
                 obj.handles.framework.Step;
-                stepIdx = obj.handles.framework.simulationData.step;
+                stepIdx  = obj.handles.framework.simulationData.step -obj.params.numRelaxationSteps;
+                chainPos = obj.GetChainPosition;
                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;
-                
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(chainPos,...
+                                                   obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
                 obj.UpdateGraphics;                                
-                obj.step = stepIdx;
+                obj.step = obj.handles.framework.simulationData.step;
             end
         end
          
-        function ShutDownDiffusion(obj)
-             % shut sown diffusion be
-            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
-        end
-        
-        function PreSimulationActions(obj)
-            % add connected beads 
-            numBeads = obj.params.numMonomers;
-            perc     = linspace(0,0.9,obj.params.numRounds);
-            perc     = perc(obj.simulationRound);
-            % connect perc of the monomers
-            r        = randperm(numBeads);
-            numPairs = round(0.5*numBeads*perc);
-            if mod(numPairs,2)~=0
-                numPairs = numPairs-1;
-            end
-            cBeads = [];
-            for nIdx = 1:numPairs
-               cBeads(nIdx,1) = r(2*nIdx-1);
-               cBeads(nIdx,2) = r(2*nIdx);
-            end
-                
-            obj.params.simulatorParams.chain.connectedBeads = cBeads;
-        end
-        
         function RunBeamSteps(obj)
             
             % increase the step count 
@@ -153,7 +136,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             for sIdx =1:obj.params.numBeamSteps
                 obj.handles.framework.Step
-                stepIdx  = obj.handles.framework.simulationData.step;
+                stepIdx  = obj.handles.framework.simulationData.step-obj.params.numRelaxationSteps;
                 chainPos = obj.GetChainPosition;
                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
@@ -164,7 +147,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
                 obj.UpdateGraphics
-                obj.step = stepIdx;
+               obj.step = obj.handles.framework.simulationData.step;
                 
             end
         end 
@@ -173,18 +156,14 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         % increase the step count 
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps+...
                                                               obj.params.numBeamSteps+obj.params.numRepairSteps;  
-%             obj.UpdateBeamPosition;
-%             obj.UpdateBeamGraphics;
-
-            
-            % activate the UVC beam
+                        
             obj.RepairDamageEffect; 
             obj.TurnOffAffectedBeadsGraphics
             
             
             for sIdx =1:obj.params.numRepairSteps
                 obj.handles.framework.Step
-                stepIdx  = obj.handles.framework.simulationData.step;
+                stepIdx  = obj.handles.framework.simulationData.step-obj.params.numRelaxationSteps;
                 chainPos = obj.GetChainPosition;
                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
@@ -195,10 +174,60 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
                 obj.UpdateGraphics
-                obj.step = stepIdx;
-                
+                obj.step = obj.handles.framework.simulationData.step;                
             end
         end
+                
+        function ShutDownDiffusion(obj)
+             % shut sown diffusion be
+            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
+        end
+        
+        function PreRoundActions(obj)
+        end
+        
+        function PostRoundActions(obj)
+            if obj.params.saveAfterEachRound
+                % save results to result folder                 
+                res = obj.results;
+                save(fullfile(obj.params.resultsPath,obj.params.resultsFolder,obj.params.resultFileName),'res');
+            end
+        end
+        
+        function PreSimulationActions(obj)
+            % add connected beads 
+%             numBeads = obj.params.numMonomers;
+%             perc     = linspace(0.1,0.4,obj.params.numRounds);
+%             perc     = perc(obj.simulationRound);
+%             % connect perc of the monomers
+%             r        = randperm(numBeads);
+%             numPairs = round(0.5*numBeads*perc);
+%             if mod(numPairs,2)~=0
+%                 numPairs = numPairs-1;
+%             end
+%             cBeads = zeros(numPairs,2);
+%             for nIdx = 1:numPairs
+%                cBeads(nIdx,1) = r(2*nIdx-1);
+%                cBeads(nIdx,2) = r(2*nIdx);
+%             end
+%                 
+%             obj.params.connectedMonomers = cBeads;
+%             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads = cBeads;
+            sprintf('%s%s%s%s','Started Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation))  
+        end
+        
+        function PostSimulationActions(obj)
+%             % delete graphical handles
+%             f = fieldnames(obj.handles);
+%             for hIdx = 1:numel(f)
+%                 if isgraphics(obj.handles.(f{hIdx}))
+%                     delete(obj.handles.(f{hIdx}));
+%                     % place an empty place-holder for graphics
+%                     obj.handles.(f{hIdx})= gobjects(0);
+%                 end
+%             end
+            sprintf('%s%s%s%s','Ended Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation))  
+        end        
         
         function [inBeam,inBeamInds] = FindMonomersInBeam(obj)
             % find the monomers in the beam 
@@ -284,8 +313,10 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                     inBeamNN(bnIdx+1) = true;
                 end
             end
-
+            
+            obj.BreakConnections
             inBeamAffected = find(inBeamNN);
+            
             % save 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex = inBeamInds;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = inBeam;
@@ -300,12 +331,40 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % Turn-off bending for affected monomers         
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
+%             obj.ReFormConnections;
+        end
+        
+        function ReFormConnections(obj)
+            % At repair time, re-form the broken connections due to UVC damage
+            for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)
+            obj.handles.framework.objectManager.ConnectParticles(...
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,1),...
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));
+            end
+        end
+        
+        function BreakConnections(obj)
+            % Break all non-nearest neighbor connections
+            if ~isempty(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads)
+            obj.handles.framework.objectManager.DisconnectParticles(...
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(:,1),...
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(:,2));  
+            end
         end
         
         function UpdateBeamPosition(obj)
+            % Update the center of the UVC beam to the polymer's center of mass
             cm = obj.GetPolymerCenterOfMass;
             obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter = cm;
         end                                                                 
+
+        function [rectX,rectY,rectWidth, rectHeight] = GetROI(obj)
+            % get roi x, y, width and height
+            rectX      = obj.roiPosition(1);
+            rectY      = obj.roiPosition(2);
+            rectWidth  = obj.roiPosition(3);
+            rectHeight = obj.roiPosition(4);
+        end
         
         function InitializeGraphics(obj)
             %     mAxes = r.simulationGraphics.handles.graphical.mainAxes;
@@ -346,7 +405,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                     'markerSize',7,...
                     'Parent',obj.handles.projectionAxes,...
                     'LineStyle','-');
-                
+               if obj.params.showAdditionalPolymerConnectors
+                    cb = obj.params.simulatorParams.chain.connectedBeads;
+                    for cIdx =1:size(cb,1)
+                    obj.handles.projectedPolymerAdditionalConnectors(cIdx) = line('XData',[initialChainPosition(cb(cIdx,1),1),initialChainPosition(cb(cIdx,2),1)],...
+                        'YData',[initialChainPosition(cb(cIdx,1),2),initialChainPosition(cb(cIdx,2),2)],'Color','g','Parent',obj.handles.projectionAxes);
+                    end
+               end
                 obj.handles.affectedBeads2D = line('XDAta',NaN,'YData',NaN,'Marker','o',...
                     'MarkerFaceColor','r',...
                     'MarkerEdgeColor','r',...
@@ -398,21 +463,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                  title(obj.handles.expensionAxes,'affected monomers expension MSD')    
                 xlabel(obj.handles.expensionAxes,'Time [sec]','FontSize',40);
                 ylabel(obj.handles.expensionAxes,'MSD from CM','FontSize',40)
-                obj.handles.msdAffected  = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','b',...
+                obj.handles.msdAffected  = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','r',...
                     'LineWidth',4,'DisplayName','MSD Affected');
-                obj.handles.msdNonAffected = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','r',...
+                obj.handles.msdNonAffected = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','b',...
                     'Linewidth',4,'DisplayName','MSD Non Affected');
                 legend(obj.handles.expensionAxes,get(obj.handles.expensionAxes,'Children'))
             end
                         
-        end
-
-        function [rectX,rectY,rectWidth, rectHeight] = GetROI(obj)
-            % get roi x, y, width and height
-            rectX      = obj.roiPosition(1);
-            rectY      = obj.roiPosition(2);
-            rectWidth  = obj.roiPosition(3);
-            rectHeight = obj.roiPosition(4);
         end
         
         function UpdateGraphics(obj)
@@ -433,6 +490,14 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 set(obj.handles.projectedPolyHandle,'XData',chainPos(:,1),'YData', chainPos(:,2))
                 bIn = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
                 set(obj.handles.affectedBeads2D,'XData',chainPos(bIn,1), 'YDAta',chainPos(bIn,2));
+                % update additional connectors
+                if obj.params.showAdditionalPolymerConnectors
+                    cb = obj.params.simulatorParams.chain.connectedBeads;
+                    for cIdx =1:size(cb,1)
+                    obj.handles.projectedPolymerAdditionalConnectors(cIdx) = line('XData',[chainPos(cb(cIdx,1),1),chainPos(cb(cIdx,2),1)],...
+                        'YData',[chainPos(cb(cIdx,1),2),chainPos(cb(cIdx,2),2)],'Color','g');
+                    end
+                end
             end
         end
         
@@ -527,6 +592,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end
             
         end
+        
         %====================
         
         function LoadFullConfiguration(obj)% finish loading 

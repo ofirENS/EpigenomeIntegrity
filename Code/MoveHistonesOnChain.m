@@ -139,17 +139,17 @@ for nbIdx=1:numRounds
         
         % Initialize histones with the chain position
         histoneForce   = ForceManagerParams('dt',r.params.simulator.dt,...
-                                            'diffusionForce',false,...
-                                            'diffusionConst',0,...
+                                            'diffusionForce',true,...
+                                            'diffusionConst',.1,...
                                             'mechanicalForce',false,...
                                             'mechanicalForceDirection','out',...
                                             'mechanicalForceMagnitude',0,...
                                             'mechanicalForceCenter',[0 0 0],...
-                                            'lennardJonesForce',false,...
+                                            'lennardJonesForce',true,...
                                             'LJPotentialWidth',0.01,...
                                             'LJPotentialDepth',0.01);
         
-        histoneParams = HistoneParams('numHistones',1,'forceParams',histoneForce);
+        histoneParams = HistoneParams('numHistones',100,'forceParams',histoneForce);
         h             = Histone(histoneParams);
         
         h.Initialize(initialChainPosition);
@@ -446,8 +446,8 @@ projPlane3D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],...
 % insert the projection to the projection axes
 projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
     'r', 'Parent',pAxes, 'FaceAlpha',0.5);
-dnaDensityHandle     = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','b','LineWidth',4,'DisplayName','DNA length in ROI');
-histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity','HandleVisibility','off');
+dnaDensityHandle     = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','b','LineWidth',4,'DisplayName','DNA length in ROI','Parent',dAxes);
+histoneDensityHandle = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','y','Linewidth',4,'DisplayName','HistoneDensity','HandleVisibility','off','Parent',dAxes);
 numBeadsHandle       = line('XData',0,'YData',NaN,'Parent',dAxes,'Color','r','Linewidth',4,'DisplayName','num. Beads in ROI');
 legend(dAxes,get(dAxes,'Children'))
 
@@ -490,9 +490,9 @@ histoneDensityDataY = get(histoneDensityHandle,'YData');
 numBeads            = get(numBeadsHandle,'YData');
 set(dnaDensityHandle,'XData',[dnaDensityDataX, step*dt], 'YData',[dnaDensityDataY,dnaDensity]);
 set(numBeadsHandle,'XData',[dnaDensityDataX, step*dt], 'YData',[numBeads,numBeadsIn]);
-% set(histoneDensityHandle,'XData',[histoneDensityDataX, step*dt], 'YData',[histoneDensityDataY,histoneDensity]);
-%        line('XData',step*dt,'YData',histoneDensity,'Marker','o','markerFaceColor','y','Parent',dAxes)
-%        line('XData',step*dt,'YData',dnaDensity,'Marker','o','Parent',dAxes,'markerFaceColor','b')
+set(histoneDensityHandle,'XData',[histoneDensityDataX, step*dt], 'YData',[histoneDensityDataY,histoneDensity]);
+       line('XData',step*dt,'YData',histoneDensity,'Marker','o','markerFaceColor','y')
+       line('XData',step*dt,'YData',dnaDensity,'Marker','o','markerFaceColor','b')
 end
 
 function UpdateProjectionPlaneGraphics(rectX,rectY, rectWidth, rectHeight,projPlane2D, projPlane3D)
@@ -542,8 +542,9 @@ end
 
 function [histoneDensity, dnaDensity,numBeads,densityInConcentric] = CalculateDensitiesInROI(chainPos,histonePos,rectX,rectY, rectWidth, rectHeight,roiRes,numHistones,initialDnaInLength,baseLineDensity)
 % calculate histone density
-histoneDensity =  sum((histonePos(:,1)<=(rectX+rectWidth) & histonePos(:,1)>=rectX &...
-    histonePos(:,2)<=(rectY+rectHeight) & histonePos(:,2)>=rectY))/numHistones;
+histoneDensity = [];
+% histoneDensity =  sum((histonePos(:,1)<=(rectX+rectWidth) & histonePos(:,1)>=rectX &...
+%     histonePos(:,2)<=(rectY+rectHeight) & histonePos(:,2)>=rectY))/numHistones;
 
 numBeads =  sum((chainPos(:,1)<=(rectX+rectWidth) & chainPos(:,1)>=rectX &...
     chainPos(:,2)<=(rectY+rectHeight) & chainPos(:,2)>=rectY));

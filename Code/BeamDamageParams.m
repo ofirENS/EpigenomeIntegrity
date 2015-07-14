@@ -22,6 +22,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         numMonomers@double % num monomers in chain
         b@double % bead distance std
         connectedMonomers@double
+        percentOfConnectedMonomers@double % the % of connected monomers (pairs)
         diffusionForce@logical
         diffusionConst@double
         springForce@logical
@@ -42,6 +43,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         % Domain 
         domainRadius@double
         domainCenter@double
+        shutDownDiffusionAfterRelaxationSteps@logical
         
         % ROI 
         roiWidth@double
@@ -54,7 +56,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         beamDamagePeak@double       % the distance from center the highest pro. for damage
         beamDamageSlope@double      % the alpha term in exp(-alpha(r-beamDamagePeak)^2)
         beamDamageProbThresh@double % threshold below the monomer is damaged
-        
+        breakAllConnectorsInBeam@logical 
+        breakAllConnectors@logical 
         % Save and load        
         loadRelaxationConfiguration@logical
         loadFullConfiguration@logical
@@ -93,30 +96,31 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.trySpringConst   = [];
             
             % Simulation parameters
-            obj.numRounds              = 3; 
+            obj.numRounds              = 1; 
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 1000; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 0; % start recording before UVC beam
-            obj.numBeamSteps           = 00;% the steps until repair
+            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 100; % start recording before UVC beam
+            obj.numBeamSteps           = 500;% the steps until repair
             obj.numRepairSteps         = 00;% repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 3;
+            obj.dimension              = 2;
                                     
             % Polymer parameters and forces
-            obj.numMonomers           = 100;
+            obj.numMonomers           = 700;
             obj.b                     = sqrt(obj.dimension);                            
-            obj.diffusionForce        = false;
-            obj.diffusionConst        = 0.1;
+            obj.diffusionForce        = true;
+            obj.diffusionConst        = 0.01;
             obj.springForce           = true;
-            obj.springConst           = 5*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.connectedMonomers     = [1 100; 30 70];
+            obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.connectedMonomers     = [];
+            obj.percentOfConnectedMonomers = 0.3;
             obj.minParticleEqDistance = 0; % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 3*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 2*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
-            obj.morsePotentialDepth   = 0.01;
+            obj.morsePotentialDepth   = 0.5;
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
             obj.lennardJonesForce     = false;
@@ -124,16 +128,19 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.LJPotentialDepth      = 0.05; 
             
             % Domain parameters
-            obj.domainRadius          = obj.gyrationRadius/2;
+            obj.domainRadius          = obj.gyrationRadius/5;
             obj.domainCenter          = [0 0 0];
+            obj.shutDownDiffusionAfterRelaxationSteps = false;
             
-            % Beam parameters
+            % Beam parameters/damage effect
             obj.beamRadius           = obj.gyrationRadius/12;
             obj.beamDamagePeak       = 0;%obj.beamRadius/5 ; % in mu/m
             obj.beamDamageSlope      = 0.01; % unitless
             obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight           = 70; % for 3d graphics purposes
-                
+            obj.breakAllConnectorsInBeam = true; % break all connections between affected monomers in beam  
+            obj.breakAllConnectors       = false; % break all connections in the polymer after beam
+            
             % ROI parameters                        
             obj.roiWidth                = obj.gyrationRadius/4;
             obj.roiHeight               = obj.roiWidth;
@@ -154,11 +161,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             % Display on-line parameters
             obj.show3D                = true;
-            obj.show2D                = true;
-            obj.showDensity           = true;
+            obj.show2D                = false;
+            obj.showDensity           = false;
             obj.showConcentricDensity = false;
             obj.showExpensionMSD      = true;
             obj.showAdditionalPolymerConnectors = false; % false speeds up display
+            
             % initializ the classes
             obj.InitializeParamClasses
         end
@@ -204,7 +212,19 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'springConst', obj.springConst,...
                                                 'bendingOpeningAngle',obj.bendingOpeningAngle,...
                                                 'minParticleEqDistance',obj.minParticleEqDistance);
+            if ~isempty(obj.percentOfConnectedMonomers)
+            n = obj.numMonomers;
+            rp = randperm(n);
+            perc = floor(n*obj.percentOfConnectedMonomers);
+            % make sure it is divisible by 2
+            if mod(perc,2)~=0
+                perc = max([perc1,0]);
+            end
+            for pIdx = 1:(perc)/2
+                obj.connectedMonomers(pIdx,:) = [rp(2*pIdx-1), rp(2*pIdx)];
+            end
             
+            end
             cp          = ChainParams('numBeads',obj.numMonomers,...
                                       'dimension',obj.dimension,...
                                       'connectedBeads',obj.connectedMonomers,...

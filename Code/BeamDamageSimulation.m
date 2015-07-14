@@ -59,7 +59,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPos = [];
-                                    
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads   = obj.params.connectedMonomers;                       
         end
         
         function Run(obj)
@@ -180,7 +180,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 
         function ShutDownDiffusion(obj)
              % shut sown diffusion be
-            obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
+             if obj.params.shutDownDiffusionAfterRelaxationSteps
+               obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
+             end
         end
         
         function PreRoundActions(obj)
@@ -314,9 +316,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 end
             end
             
-            obj.BreakConnections
-            inBeamAffected = find(inBeamNN);
-            
+
+               inBeamAffected = find(inBeamNN);
             % save 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex = inBeamInds;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = inBeam;
@@ -325,6 +326,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = inBeamAffected;            
             
+            obj.BreakConnections
+         
         end
         
         function RepairDamageEffect(obj)
@@ -345,11 +348,32 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function BreakConnections(obj)
             % Break all non-nearest neighbor connections
-            if ~isempty(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads)
-            obj.handles.framework.objectManager.DisconnectParticles(...
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(:,1),...
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(:,2));  
+            if obj.params.breakAllConnectors
+                cm = obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads;
+            if ~isempty(cm)
+                for bIdx = 1:size(cm,1)
+                 obj.handles.framework.objectManager.DisconnectParticles(...
+                cm(bIdx,1),cm(bIdx,2));
+                end
             end
+            
+            end
+            % break all connectors between beads in the beam 
+            if obj.params.breakAllConnectorsInBeam
+                 cm = obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads;
+                  if ~isempty(cm)
+                      inBeam = obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam;
+                      inBeam = find(inBeam);
+                      for bIdx = 1:size(cm,1)
+                         if ismember(cm(bIdx,1),inBeam) || ismember(cm(bIdx,2),inBeam)
+                         obj.handles.framework.objectManager.DisconnectParticles(...
+                        cm(bIdx,1),cm(bIdx,2));
+                         end
+                      end
+                  end
+            end
+            cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads = cm;
         end
         
         function UpdateBeamPosition(obj)

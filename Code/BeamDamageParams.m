@@ -90,59 +90,59 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % Simulation trials 
             % variables to simulate 
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = [];
+            obj.tryConnectivity  = linspace(.5,.9, 10);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             
             % Simulation parameters
-            obj.numRounds              = 1; 
-            obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 100; % start recording before UVC beam
+            obj.numRounds              = numel(obj.tryConnectivity); 
+            obj.numSimulationsPerRound = 10;
+            obj.numRelaxationSteps     = 500; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 500; % start recording before UVC beam
             obj.numBeamSteps           = 500;% the steps until repair
-            obj.numRepairSteps         = 00;% repair and relaxation of the fiber
+            obj.numRepairSteps         = 500;% repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 2;
+            obj.dimension              = 3;
                                     
             % Polymer parameters and forces
-            obj.numMonomers           = 700;
+            obj.numMonomers           = 400;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = true;
-            obj.diffusionConst        = 0.01;
+            obj.diffusionConst        = 1;
+            obj.shutDownDiffusionAfterRelaxationSteps = true;
             obj.springForce           = true;
-            obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 0.3;
-            obj.minParticleEqDistance = 0; % for spring force
+            obj.percentOfConnectedMonomers = 0;
+            obj.minParticleEqDistance = 1;%sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 2*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
-            obj.morsePotentialDepth   = 0.5;
+            obj.morsePotentialDepth   = 0.01;
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
-            obj.lennardJonesForce     = false;
-            obj.LJPotentialWidth      = 0.05;
-            obj.LJPotentialDepth      = 0.05; 
+            obj.lennardJonesForce     = true;
+            obj.LJPotentialWidth      = 0.1;
+            obj.LJPotentialDepth      = 0.1; 
             
             % Domain parameters
-            obj.domainRadius          = obj.gyrationRadius/5;
+            obj.domainRadius          = obj.gyrationRadius/3;
             obj.domainCenter          = [0 0 0];
-            obj.shutDownDiffusionAfterRelaxationSteps = false;
             
             % Beam parameters/damage effect
-            obj.beamRadius           = obj.gyrationRadius/12;
+            obj.beamRadius           = obj.gyrationRadius/15;
             obj.beamDamagePeak       = 0;%obj.beamRadius/5 ; % in mu/m
-            obj.beamDamageSlope      = 0.01; % unitless
+            obj.beamDamageSlope      = 1.5; % unitless
             obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight           = 70; % for 3d graphics purposes
             obj.breakAllConnectorsInBeam = true; % break all connections between affected monomers in beam  
             obj.breakAllConnectors       = false; % break all connections in the polymer after beam
             
             % ROI parameters                        
-            obj.roiWidth                = obj.gyrationRadius/4;
+            obj.roiWidth                = obj.gyrationRadius/6;
             obj.roiHeight               = obj.roiWidth;
             obj.numConcentricBandsInROI = 15;
             
@@ -151,7 +151,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.saveEndConfiguration         = false;            
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
-            obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/ENS_Simulation_Results/EpigenomicIntegrity/SimulationResults/');
+            obj.resultsPath                  = fullfile('D:\Ofir\Copy\ENS\EpigenomicIntegrity\SimulationResults');
             obj.resultsFolder                = 'ConnectivityTest';
             [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
             cl                               = clock;            
@@ -160,12 +160,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.saveAfterEachRound           = true;
             
             % Display on-line parameters
-            obj.show3D                = true;
+            obj.show3D                = false;
             obj.show2D                = false;
             obj.showDensity           = false;
             obj.showConcentricDensity = false;
-            obj.showExpensionMSD      = true;
-            obj.showAdditionalPolymerConnectors = false; % false speeds up display
+            obj.showExpensionMSD      = false;
+            obj.showAdditionalPolymerConnectors = false; % false speeds up display (for 2D projection image only)
             
             % initializ the classes
             obj.InitializeParamClasses
@@ -213,12 +213,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'bendingOpeningAngle',obj.bendingOpeningAngle,...
                                                 'minParticleEqDistance',obj.minParticleEqDistance);
             if ~isempty(obj.percentOfConnectedMonomers)
-            n = obj.numMonomers;
-            rp = randperm(n);
-            perc = floor(n*obj.percentOfConnectedMonomers);
+                n = obj.numMonomers;
+                rp = randperm(n);
+                perc = floor(n*obj.percentOfConnectedMonomers);
             % make sure it is divisible by 2
             if mod(perc,2)~=0
-                perc = max([perc1,0]);
+                perc = max([perc-1,0]);
             end
             for pIdx = 1:(perc)/2
                 obj.connectedMonomers(pIdx,:) = [rp(2*pIdx-1), rp(2*pIdx)];

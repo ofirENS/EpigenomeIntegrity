@@ -2,6 +2,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     
     properties
         simulatorParams = SimulationFrameworkParams
+        description@char
         numRelaxationSteps@double
         numRecordingSteps@double
         numBeamSteps@double
@@ -90,23 +91,23 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % Simulation trials 
             % variables to simulate 
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = linspace(.5,.9, 10);
+            obj.tryConnectivity  = linspace(.1,.7,1);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             
             % Simulation parameters
             obj.numRounds              = numel(obj.tryConnectivity); 
-            obj.numSimulationsPerRound = 10;
-            obj.numRelaxationSteps     = 500; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 500; % start recording before UVC beam
+            obj.numSimulationsPerRound = 1;
+            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 100; % start recording before UVC beam
             obj.numBeamSteps           = 500;% the steps until repair
             obj.numRepairSteps         = 500;% repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 3;
                                     
             % Polymer parameters and forces
-            obj.numMonomers           = 400;
+            obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = true;
             obj.diffusionConst        = 1;
@@ -114,10 +115,10 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.springForce           = true;
             obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 0;
+            obj.percentOfConnectedMonomers = 0.5;
             obj.minParticleEqDistance = 1;%sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 0.1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
@@ -138,7 +139,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope      = 1.5; % unitless
             obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight           = 70; % for 3d graphics purposes
-            obj.breakAllConnectorsInBeam = true; % break all connections between affected monomers in beam  
+            obj.breakAllConnectorsInBeam = false; % break all connections between affected monomers in beam  
             obj.breakAllConnectors       = false; % break all connections in the polymer after beam
             
             % ROI parameters                        
@@ -151,16 +152,16 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.saveEndConfiguration         = false;            
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
-            obj.resultsPath                  = fullfile('D:\Ofir\Copy\ENS\EpigenomicIntegrity\SimulationResults');
-            obj.resultsFolder                = 'ConnectivityTest';
+            obj.resultsPath                  = fullfile('/home/ofir/Copy/ENS/EpigenomicIntegrity/SimulationResults/');
+            obj.resultsFolder                = 'ConnectivityTest03';
             [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); 
             obj.saveAfterEachSimulation      = false;
             obj.saveAfterEachRound           = true;
-            
+            obj.description                  = 'Test tdifferent degrees of connectivity varying between 0.5 to 0.7 of the monomers pairs connected, do not remove connection  ';
             % Display on-line parameters
-            obj.show3D                = false;
+            obj.show3D                = true;
             obj.show2D                = false;
             obj.showDensity           = false;
             obj.showConcentricDensity = false;

@@ -164,7 +164,39 @@
 	  	}
 	  \end{table}
 	\subsubsection{2D simulations}
+		
+	\subsection{Adding Lennard-Jones force}
+      After UVC, several monomers are hit and together with their nearest-neighbors are assigned bending elasticity with an opening angle of a certain value. Usually, a region of consecutive affected monomers is enclosed by non-affected monomers. Therefore, the result of activating the bending elasticity force for the affected monomers is the formation of horse-show type of loops structures. 
+      Affected monomers are located at the center of the polymer and expand usually outwards (although the direction of expansion cannot be controlled). The problem is that the expanded region of the chain exit the ROI and keep expanding passed the layer of non-affected monomers, that are usually located outside the ROI. 
+      
+      The Rouse polymer permits bonds to cross each other, and therefore the affected monomers do not stop at the non affected monomer layer. 
+      to try to confine the affected monomers to the region of the damage, we assign volume exclusion, Lennard-Jones potential, to the chain. The non-affected monomers will hopefully counter-balance the expansion of the affected monomers, keeping them from passing the non-affected layer outside the damage zone.
+      
+      In the experiments explained below we ran the simulation to see if the radius of expansion of the affected monomers can be limited by the Lennard-Jones fores. Simulations are performed in two-dimensional spherical environment, the polymer includes 500 monomers.
+      
+      
+     \begin{figure}
+     \includegraphics[width=0.5\linewidth, height=0.3\textheight]{RadiusOfExpansion500BeadsLennardJones}
+    	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedLennardJones}
+        \caption{Radius of expansion relative to the monomers' center-of-mass, for the affected (left) and non-affected (right) monomers of the chain.(Mean of 5 experiments of 9000 steps each, polymers contain 500 monomers)}
+        \label{fig:RadiusOfExpansion500BeadsLennardJones}
+      \end{figure}
+      
+      From figure \ref{fig:RadiusOfExpansion500BeadsLennardJones} we can see that the Lennard Jones is not sufficient to stop the monomers from expanding. The affected monomers MSD keeps increasing until about time 300 sec, where it reaches a plateau. at this point many beads are at the same line as the non affected ones and probably the expansion comes into a halt. Once the bending force overcomes the resistance by the Lennard Jones force, the expansion continues. The affected beads' radius of expansion doesn't reach the value of the non affected. However, we suspect that it will given enough time. Moreover, the expansion is measured relative to the center of mass of either one of the two groups, affected and non-affected, and so it is not clear where are those two groups relative to each other.
+      
+      To look into the relative position of the two groups, we now measure expansion relative to the center of the beam. 
+      
+      
+      
+      
+	\subsection{Cross-linking the polymer}
+	Instead of the linear chain we add random connectors between different parts of the chain. The measure for connectivity is a percentage of connected monomers, nearest neighbors added connectors being excluded. 
+	At simulation initiation, we let the polymer relax to a new state in which the cross-linked monomers are brought close to one another. 
+      
 	
+	 \subsection{The radius of expansion}
+	  
+	 
 	
 	
 \end{document}

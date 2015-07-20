@@ -36,10 +36,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         lennardJonesForce@logical
         LJPotentialDepth@double
         LJPotentialWidth@double
+        LJPotentialType@char
         morseForce@logical
         morsePotentialDepth@double
         morsePotentialWidth@double
         morseForceType@char
+        mechanicalForce@logical
+        mechanicalForceCenter@double
+        mechanicalForceDirection@char
+        mechanicalForceMagnitude@double
         
         % Domain 
         domainRadius@double
@@ -51,14 +56,18 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         roiHeight@double
         numConcentricBandsInROI@double% the number of concentric bands in which densities are calculated
         
-        % Beam  
+        % Beam  and beam damage params
         beamRadius@double           % radius of the UVC beam 
         beamHeight@double           % for display purposes 
         beamDamagePeak@double       % the distance from center the highest pro. for damage
         beamDamageSlope@double      % the alpha term in exp(-alpha(r-beamDamagePeak)^2)
         beamDamageProbThresh@double % threshold below the monomer is damaged
-        breakAllConnectorsInBeam@logical 
-        breakAllConnectors@logical 
+        breakAllConnectorsInBeam@logical % break all connectors in Beam after UVC
+        breakAllConnectors@logical       % break all connectors after UVC
+        fixDamageMonomersToPlaceAfterBeam@logical % keep damaged monomers in place after UVC
+        calculateMSDFromCenterOfMass@logical % calculate expansion relative to the affected/nonaffected monomers c.m
+        calculateMSDFromBeamCenter@logical   % calculate expansion relative to the beam's center
+        
         % Save and load        
         loadRelaxationConfiguration@logical
         loadFullConfiguration@logical
@@ -90,21 +99,23 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             % Simulation trials 
             % variables to simulate 
+            obj.description      = 'Test the expansion of the affcted and non-affected monomers with Lennard Jones force and crosslinking. Expansion is relative to the center of mass. No repair steps. Simulation in 2D';
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = linspace(.1,.7,1);
+            obj.tryConnectivity  = linspace(.1,1,10);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
+                        
             
             % Simulation parameters
             obj.numRounds              = numel(obj.tryConnectivity); 
-            obj.numSimulationsPerRound = 1;
+            obj.numSimulationsPerRound = 5;
             obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 100; % start recording before UVC beam
-            obj.numBeamSteps           = 500;% the steps until repair
-            obj.numRepairSteps         = 500;% repair and relaxation of the fiber
+            obj.numRecordingSteps      = 1; % start recording before UVC beam
+            obj.numBeamSteps           = 10000;% the steps until repair
+            obj.numRepairSteps         = 1;% repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 3;
+            obj.dimension              = 2;
                                     
             % Polymer parameters and forces
             obj.numMonomers           = 500;
@@ -115,10 +126,10 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.springForce           = true;
             obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 0.5;
+            obj.percentOfConnectedMonomers = 0;
             obj.minParticleEqDistance = 1;%sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 0.1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 0.05*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
@@ -126,21 +137,30 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
             obj.lennardJonesForce     = true;
-            obj.LJPotentialWidth      = 0.1;
-            obj.LJPotentialDepth      = 0.1; 
-            
+            obj.LJPotentialWidth      = 0.05;
+            obj.LJPotentialDepth      = 0.5;
+            obj.LJPotentialType       = 'repulsive';
+            obj.mechanicalForce       = false;
+            obj.mechanicalForceCenter = [0 0 0];
+            obj.mechanicalForceDirection = 'out';
+            obj.mechanicalForceMagnitude = 1;
+                        
             % Domain parameters
             obj.domainRadius          = obj.gyrationRadius/3;
             obj.domainCenter          = [0 0 0];
             
             % Beam parameters/damage effect
-            obj.beamRadius           = obj.gyrationRadius/15;
-            obj.beamDamagePeak       = 0;%obj.beamRadius/5 ; % in mu/m
-            obj.beamDamageSlope      = 1.5; % unitless
-            obj.beamDamageProbThresh = 1/100;% threshold to determine affected monomers in the UVC beam (obsolete)
-            obj.beamHeight           = 70; % for 3d graphics purposes
+            obj.beamRadius               = obj.gyrationRadius/20;
+            obj.beamDamagePeak           = 0;     % obj.beamRadius/5 ; % in mu/m/  0 coresponds to the focus of the beam 
+            obj.beamDamageSlope          = 1.5;   % unitless
+            obj.beamDamageProbThresh     = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
+            obj.beamHeight               = 70;    % for 3d graphics purposes
             obj.breakAllConnectorsInBeam = false; % break all connections between affected monomers in beam  
             obj.breakAllConnectors       = false; % break all connections in the polymer after beam
+            obj.fixDamageMonomersToPlaceAfterBeam = false; % keep the damaged beads in place 
+            obj.calculateMSDFromCenterOfMass = true;
+            obj.calculateMSDFromBeamCenter   = false;
+            
             
             % ROI parameters                        
             obj.roiWidth                = obj.gyrationRadius/6;
@@ -153,15 +173,16 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
             obj.resultsPath                  = fullfile('/home/ofir/Copy/ENS/EpigenomicIntegrity/SimulationResults/');
-            obj.resultsFolder                = 'ConnectivityTest03';
+            obj.resultsFolder                = 'ExpansionTestLennardJonesWithCrosslinksMSDRelativeToCM';
             [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); 
-            obj.saveAfterEachSimulation      = false;
-            obj.saveAfterEachRound           = true;
-            obj.description                  = 'Test tdifferent degrees of connectivity varying between 0.5 to 0.7 of the monomers pairs connected, do not remove connection  ';
+            obj.saveAfterEachSimulation      = true;
+            obj.saveAfterEachRound           = false;
+            
+            
             % Display on-line parameters
-            obj.show3D                = true;
+            obj.show3D                = false;
             obj.show2D                = false;
             obj.showDensity           = false;
             obj.showConcentricDensity = false;
@@ -188,12 +209,17 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             domainForces = ForceManagerParams('lennardJonesForce',obj.lennardJonesForce,...
                                              'LJPotentialWidth',obj.LJPotentialWidth,...
                                              'LJPotentialDepth',obj.LJPotentialDepth,...
+                                             'LJPotentialType',obj.LJPotentialType,...
                                              'morseForce',obj.morseForce,...
                                              'morsePotentialDepth',obj.morsePotentialDepth,...
                                              'morsePotentialWidth',obj.morsePotentialWidth,...
                                              'morseForceType',obj.morseForceType,...
                                              'diffusionForce',obj.diffusionForce,...
                                              'diffusionConst',obj.diffusionConst,...
+                                             'mechanicalForce',obj.mechanicalForce,...
+                                             'mechanicalForceCenter',[0 0 0],...
+                                             'mechanicalForceDirection','out',...
+                                             'mechanicalForceMagnitude',0.1,...
                                              'dt',obj.dt,...
                                              'minParticleEqDistance',obj.minParticleEqDistance);
             
@@ -213,16 +239,24 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'springConst', obj.springConst,...
                                                 'bendingOpeningAngle',obj.bendingOpeningAngle,...
                                                 'minParticleEqDistance',obj.minParticleEqDistance);
+                                            
             if ~isempty(obj.percentOfConnectedMonomers)
-                n = obj.numMonomers;
-                rp = randperm(n);
+                n    = obj.numMonomers;
+                rp   = randperm(n);
                 perc = floor(n*obj.percentOfConnectedMonomers);
             % make sure it is divisible by 2
             if mod(perc,2)~=0
                 perc = max([perc-1,0]);
             end
             for pIdx = 1:(perc)/2
-                obj.connectedMonomers(pIdx,:) = [rp(2*pIdx-1), rp(2*pIdx)];
+                nnFlag = false; % exit flag
+                while ~nnFlag 
+                     rp   = randperm(n);   
+                     if abs(rp(1)-rp(2))~=1
+                         nnFlag = true;
+                     end
+                end
+                obj.connectedMonomers(pIdx,:) = [rp(1), rp(2)];
             end
             
             end

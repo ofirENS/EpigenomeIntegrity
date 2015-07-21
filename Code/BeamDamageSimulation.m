@@ -29,12 +29,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
     methods
                         
         function obj = BeamDamageSimulation(params)% define loadFullconfiguration
-            obj.params = params;
-            % set result structure             
-%             obj.results = MoveHistonesOnChainResultStruct(obj.params.numRounds,obj.params.numSimulationsPerRound);
-            
-            cl       = clock;
-            obj.date = sprintf('%s',[num2str(cl(3)),'/',num2str(cl(2)),'/',num2str(cl(1))]);            
+            obj.params      = params;            
+            cl              = clock;
+            obj.date        = sprintf('%s',[num2str(cl(3)),'/',num2str(cl(2)),'/',num2str(cl(1))]);            
             obj.results     = obj.NewResultStruct;
             obj.description = params.description;
             

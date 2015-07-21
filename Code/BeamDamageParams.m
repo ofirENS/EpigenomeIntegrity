@@ -2,22 +2,22 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     
     properties
         simulatorParams = SimulationFrameworkParams
-        description@char
-        numRelaxationSteps@double
-        numRecordingSteps@double
-        numBeamSteps@double
-        numRepairSteps@double
-        numRounds@double
-        numSimulationsPerRound@double
-        dimension@double
-        dt@double
+        description@char          % description of the simulation performed
+        numRelaxationSteps@double % number of relaxation steps before recording starts
+        numRecordingSteps@double  % number of recording steps before UVC beam shot
+        numBeamSteps@double       % number of steps after UVC beam shot
+        numRepairSteps@double     % number of steps after repair mechanism finished
+        numRounds@double             % number of simulation rounds
+        numSimulationsPerRound@double % number of simulations in each round
+        dimension@double              % dimension 
+        dt@double                     % time step
                         
         % simulation trials 
-        tryOpeningAngles@double 
-        tryConnectivity@double  
-        tryNumMonomers@double   
-        tryBendingConst@double  
-        trySpringConst@double   
+        tryOpeningAngles@double  % opening angle values to simulate
+        tryConnectivity@double   % percent of connected monomers to simulate 
+        tryNumMonomers@double    % number of monomers to simulate
+        tryBendingConst@double   % bending constant to simulate
+        trySpringConst@double    % spring constant to simulate 
         
         % Chain parameters and forces
         numMonomers@double % num monomers in chain
@@ -79,6 +79,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         saveAfterEachSimulation@logical
         saveAfterEachRound@logical
         
+        % Snapshots
+        numSnapshotsDuringRelaxation@double
+        numSnapshotsDuringRecording@double
+        numSnapshotsDuringBeam@double
+        numSnapshotsDuringRepair@double
+        
         % Display
         show3D@logical
         show2D@logical
@@ -86,6 +92,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         showConcentricDensity@logical
         showExpensionMSD@logical
         showAdditionalPolymerConnectors@logical % show non nearest neighbors connections (if exist) slows down display
+        
         % Misc. 
         domainNumbers % indices for the sphere and beam 
         
@@ -99,7 +106,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion of the affcted and non-affected monomers with Lennard Jones force and crosslinking. Expansion is relative to the center of mass. No repair steps. Simulation in 2D';
+            obj.description      = 'Test the expansion of the affcted and non-affected monomers with Lennard Jones force and crosslinking. Expansion is relative to beam center. No repair steps. Simulation in 2D';
             obj.tryOpeningAngles = [];
             obj.tryConnectivity  = linspace(.1,1,10);
             obj.tryNumMonomers   = [];
@@ -110,10 +117,10 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % Simulation parameters
             obj.numRounds              = numel(obj.tryConnectivity); 
             obj.numSimulationsPerRound = 5;
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 1; % start recording before UVC beam
-            obj.numBeamSteps           = 10000;% the steps until repair
-            obj.numRepairSteps         = 1;% repair and relaxation of the fiber
+            obj.numRelaxationSteps     = 500;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 500; % start recording before UVC beam
+            obj.numBeamSteps           = 6000; % the steps until repair
+            obj.numRepairSteps         = 1;   % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
@@ -129,7 +136,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.percentOfConnectedMonomers = 0;
             obj.minParticleEqDistance = 1;%sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 0.05*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
@@ -137,8 +144,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
             obj.lennardJonesForce     = true;
-            obj.LJPotentialWidth      = 0.05;
-            obj.LJPotentialDepth      = 0.5;
+            obj.LJPotentialWidth      = 0.1;
+            obj.LJPotentialDepth      = 0.1;
             obj.LJPotentialType       = 'repulsive';
             obj.mechanicalForce       = false;
             obj.mechanicalForceCenter = [0 0 0];
@@ -158,8 +165,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.breakAllConnectorsInBeam = false; % break all connections between affected monomers in beam  
             obj.breakAllConnectors       = false; % break all connections in the polymer after beam
             obj.fixDamageMonomersToPlaceAfterBeam = false; % keep the damaged beads in place 
-            obj.calculateMSDFromCenterOfMass = true;
-            obj.calculateMSDFromBeamCenter   = false;
+            obj.calculateMSDFromCenterOfMass      = false;
+            obj.calculateMSDFromBeamCenter        = true;
             
             
             % ROI parameters                        
@@ -173,13 +180,18 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
             obj.resultsPath                  = fullfile('/home/ofir/Copy/ENS/EpigenomicIntegrity/SimulationResults/');
-            obj.resultsFolder                = 'ExpansionTestLennardJonesWithCrosslinksMSDRelativeToCM';
+            obj.resultsFolder                = 'ExpansionTest/CrossLinked/LennardJones/MSDRelativeToBeamCenter/01';
             [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); 
             obj.saveAfterEachSimulation      = true;
             obj.saveAfterEachRound           = false;
             
+            % snapshots [unfinieshed]
+            obj.numSnapshotsDuringRelaxation = 0;
+            obj.numSnapshotsDuringRecording  = 0;
+            obj.numSnapshotsDuringBeam       = 0;
+            obj.numSnapshotsDuringRepair     = 0;
             
             % Display on-line parameters
             obj.show3D                = false;

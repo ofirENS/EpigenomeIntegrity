@@ -184,20 +184,37 @@
       
       From figure \ref{fig:RadiusOfExpansion500BeadsLennardJones} we can see that the Lennard Jones is not sufficient to stop the monomers from expanding. The affected monomers MSD keeps increasing until about time 300 sec, where it reaches a plateau. at this point many beads are at the same line as the non affected ones and probably the expansion comes into a halt. Once the bending force overcomes the resistance by the Lennard Jones force, the expansion continues. The affected beads' radius of expansion doesn't reach the value of the non affected. However, we suspect that it will given enough time. Moreover, the expansion is measured relative to the center of mass of either one of the two groups, affected and non-affected, and so it is not clear where are those two groups relative to each other. 
       
-      Changing the radius of expansion to be calculated relatively to the beam center does not change the size of expansion. the affected monomers keep on expanding.
-      
-      
-      
+      Changing the radius of expansion to be calculated relatively to the beam center does not change the size of expansion. the affected monomers keep on expanding.                  
       
       
 	\subsection{Cross-linking the polymer}
-	Instead of the linear chain we add random connectors between different parts of the chain. The measure for connectivity is a percentage of connected monomers, nearest neighbors added connectors being excluded. 
+	Instead of the linear chain we add random connectors between different parts of the chain. The measure for connectivity is a percentage of connected monomers, nearest neighbors additional connectors being excluded. 
 	At simulation initiation, we let the polymer relax to a new state in which the cross-linked monomers are brought close to one another. 
-      
+	      		
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
+	\includegraphics[width=0.5\linewidth]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
+	\caption{Radius of expansion for the affected (left) and non affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers)}
+	\label{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
+	\end{figure}
 	
-	 \subsection{The radius of expansion}
-	  
+	As can be seen from Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked} even with cross-links, and the given parameter set, expansion of the affected monomers is not stopped. 
+	Because the region of interest to measure density in is determined post-prior to the expansion, this will pose a problem, since the ROI will include also the non-affected monomers, which do not seem to expand much in low percentages of cross-linking.
+	
+	This brings us to believe that high level of connectivity is needed, where both the affected and non-affected radius of expansion increases (see, for example, the curves for 80-100\% connectivity in Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}). In that scenario, the ROI, which is determined at the end of the beam steps will more likely represent the expanded area seen in experiments, in which we see 20\% loss of material. 
+	
+	Two monomers of a cross-linked polymer are more likely to be found in the center. In a cross-linked polymer, after we shut-down diffusion, there is a convergence toward the center because all cross-links are pulling toward one another. This creates the situation that the affected beads do not have to expand much to pass the cross-linked layer of the non-affected monomers. 
+				
+	\subsection{Bending elasticity for the non-affected monomers}  
+	
+	The result of the previous subsection brought us to think that the expansion should not occur in the affected monomers but rather in the non-affected ones. In this manner, the simulation captures the process as follows: 
+	\begin{enumerate}
+    \item cross-linked polymer is being shot by UVC;
+    \item cross-links to and from the damaged monomers are released;
+    \item repair mechanism pushes the non damaged monomers out of the way, this causes   bending elasticity for the non-damaged monomers.
+    \end{enumerate}
 	 
+	We now examine the radius of expansion for the process described above.
 	
 	
 \end{document}

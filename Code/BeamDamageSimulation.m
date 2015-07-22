@@ -70,8 +70,11 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPos = [];
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads   = obj.params.connectedMonomers;  
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads          = [];  
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeads = obj.params.percentOfConnectedMonomers;
+            
             obj.results.resultStruct(obj.simulationRound,obj.simulation).description      = obj.params.description;
+            
         end
         
         function Run(obj)
@@ -118,7 +121,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         function RunRecordingSteps(obj)
             % Start Recording 
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps;
-                        
+             
             for sIdx =1:obj.params.numRecordingSteps
                 obj.handles.framework.Step;
                 stepIdx  = obj.step -obj.params.numRelaxationSteps;
@@ -126,10 +129,6 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
-%                 [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(chainPos,...
-%                                                    obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
-%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
-%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
                 obj.UpdateGraphics;                                
                 obj.step = obj.step+1;%obj.handles.framework.simulationData.step;
             end
@@ -165,7 +164,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 obj.step = obj.step+1;
                 
             end
-        end 
+        end
         
         function RunRepairSteps(obj)
                         % increase the step count 
@@ -197,15 +196,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
              % shut down diffusion be
              if obj.params.shutDownDiffusionAfterRelaxationSteps
                obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionForce = false;
+%                obj.handles.framework.handles.classes.domain(obj.params.domainNumbers.sphere).params.forceParams.diffusionConst = 0.001;
              end
         end
         
         function PreRoundActions(obj)
-            % actions performed before the begining of each round
-            if ~isempty(obj.params.tryConnectivity)
-              obj.params.percentOfConnectedMonomers= obj.params.tryConnectivity(obj.simulationRound);            
-              obj.params.InitializeParamClasses;
-            end
+            % actions performed before the begining of each round           
         end
         
         function PostRoundActions(obj)
@@ -218,24 +214,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         end
         
         function PreSimulationActions(obj)
-            % add connected beads 
-%             numBeads = obj.params.numMonomers;
-%             perc     = linspace(0.1,0.4,obj.params.numRounds);
-%             perc     = perc(obj.simulationRound);
-%             % connect perc of the monomers
-%             r        = randperm(numBeads);
-%             numPairs = round(0.5*numBeads*perc);
-%             if mod(numPairs,2)~=0
-%                 numPairs = numPairs-1;
-%             end
-%             cBeads = zeros(numPairs,2);
-%             for nIdx = 1:numPairs
-%                cBeads(nIdx,1) = r(2*nIdx-1);
-%                cBeads(nIdx,2) = r(2*nIdx);
-%             end
-%                 
-%             obj.params.connectedMonomers = cBeads;
-%             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads = cBeads;
+            % Add connected beads 
+            if ~isempty(obj.params.tryConnectivity)
+              obj.params.percentOfConnectedMonomers = obj.params.tryConnectivity(obj.simulationRound);
+              obj.params.InitializeParamClasses;              
+            end
+            
             cl = clock;
             cl = [num2str(cl(4)),':' num2str(cl(5)), ':', num2str(cl(6))];
             sprintf('%s%s%s%s%s%s','Started Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation),' at time: ', cl)
@@ -250,7 +234,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             cl = clock;
             cl = [num2str(cl(4)),':' num2str(cl(5)), ':', num2str(cl(6))];
             sprintf('%s%s%s%s%s%s','Ended Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation),' at time: ', cl)  
-        end        
+        end
         
         function [inBeam,inBeamInds] = FindMonomersInBeam(obj)
             % find the monomers in the beam 
@@ -268,7 +252,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
     
         end
         
-        function [affectedMSDcm,nonAffectedMSDcm]= CalculateBeadsRadiusOfExpension(obj,chainPos,inBeam)
+        function [affectedMSDcm,nonAffectedMSDcm] = CalculateBeadsRadiusOfExpension(obj,chainPos,inBeam)
             % calculate the mean radius of expension for affected beads and non
             % affected beads. chainPos is an numBedsXdimension vector of position
             % inBeam is a numBeadsX1 binary vector indicating the beads affected
@@ -341,30 +325,43 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.UpdateBeamPosition 
             [inBeam, ~] = obj.FindMonomersInBeam;% get indices and indicators for affected monomers and their nearest-neighbors
             
-            % calculate the distance of each monomer in the beam to the
+            % Calculate the distance of each monomer in the beam to the
             % beam's center 
-            r          = pdist2(chainPos,obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter);
-%             r = pdist2mex(chainPos',chainPos','euc',[],[],[]);
-            % calculate the probability of each monomer to be affected
-            damageProb = exp(-obj.params.beamDamageSlope.*(r-obj.params.beamDamagePeak).^2);
-            % use theresholding to define the actual monomers affected 
-            inBeam     = (damageProb>rand(size(r,1),1) & inBeam);%obj.params.beamDamageProbThresh);
-            inBeamInds = find(inBeam);
+            r = pdist2mex(chainPos',obj.handles.framework.handles.classes.domain.params(obj.params.domainNumbers.beam).domainCenter','euc',[],[],[]);
             
-            % Assign bending to neighbors of affected beads
-            inBeamNN = inBeam;
-            for bnIdx=1:size(inBeam,1)-1
-                if inBeam(bnIdx)
+            % Calculate the probability of each monomer to be affected
+            damageProb = exp(-obj.params.beamDamageSlope.*(r-obj.params.beamDamagePeak).^2);
+            
+            % use theresholding to define the actual monomers affected 
+            affectedInBeam     = (damageProb>rand(size(r,1),1) & inBeam);
+            inBeamInds = find(affectedInBeam);
+                        
+            inBeamNN = affectedInBeam;
+            
+            if obj.params.assignBendingToAffectedMonomers
+             % Assign bending also to neighbors of damaged monomers, to
+             % create continuity
+            for bnIdx=1:size(affectedInBeam,1)-1
+                if affectedInBeam(bnIdx)
                     inBeamNN(bnIdx+1) = true;
                 end
             end
             
-
-               inBeamAffected = find(inBeamNN);
-            % save 
+            elseif obj.params.assignBendingToNonAffectedMonomers
+                % assign bending to non damaged monomers 
+                inBeamNN = ~affectedInBeam;
+            elseif obj.params.assignBendingToNonAffectedMonomersInBeam
+                % take only monomer in the beam which are not damaged                
+                inBeamNN = inBeam&(~affectedInBeam);                
+            end
+            
+            inBeamAffected = find(inBeamNN); % monomers for which we apply bending elasticity
+               
+            % Save 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex = inBeamInds;
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = inBeam;
-
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = affectedInBeam;
+            
+            
             % Activate bending for affected monomers
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = inBeamAffected;            
@@ -403,7 +400,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             end
             % break all connectors between beads in the beam 
-            if obj.params.breakAllConnectorsInBeam
+            if obj.params.breakAllDamagedConnectorsInBeam
                   if ~isempty(cm)
                       inBeam = obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam;
                       inBeam = find(inBeam);
@@ -420,6 +417,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterBeam = cm;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numConnectionsLost =...
                 size( obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)-size(cm,1);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeadsAfterBeam = size(cm,1)/(obj.params.numMonomers/2);
         end
         
         function FixDamageBeadsToPlace(obj)
@@ -718,7 +716,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         'springConst',[],...
                         'openingAngle',[],...
                         'connectedBeads',[],...
+                        'percentOfConnectedBeads',[],...                        
                         'connectedBeadsAfterBeam',[],...
+                        'percentOfConnectedBeadsAfterBeam',[],...
                         'numConnectionsLost',[],...
                         'dt',[],...
                         'ROI',struct('rectX',[],'rectY',[],'rectWidth',[],'rectHeight',[]),...

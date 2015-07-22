@@ -1,34 +1,39 @@
 classdef BeamDamageParams<handle %{UNFINISHED}
     
-    properties
+    properties% Do not edit this section manually
+        % These properties are place-holders for parameter values. Do not edit this section
+        % manually. To set parameter values see BeamDamageParams function
+        % in the method section of this class
+        
+        % ___ General ___
         simulatorParams = SimulationFrameworkParams
-        description@char          % description of the simulation performed
-        numRelaxationSteps@double % number of relaxation steps before recording starts
-        numRecordingSteps@double  % number of recording steps before UVC beam shot
-        numBeamSteps@double       % number of steps after UVC beam shot
-        numRepairSteps@double     % number of steps after repair mechanism finished
-        numRounds@double             % number of simulation rounds
+        description@char              % description of the simulation performed
+        numRelaxationSteps@double     % number of relaxation steps before recording starts
+        numRecordingSteps@double      % number of recording steps before UVC beam shot
+        numBeamSteps@double           % number of steps after UVC beam shot
+        numRepairSteps@double         % number of steps after repair mechanism finished
+        numRounds@double              % number of simulation rounds
         numSimulationsPerRound@double % number of simulations in each round
         dimension@double              % dimension 
         dt@double                     % time step
                         
-        % simulation trials 
+        %___Simulation trials ___
         tryOpeningAngles@double  % opening angle values to simulate
         tryConnectivity@double   % percent of connected monomers to simulate 
         tryNumMonomers@double    % number of monomers to simulate
         tryBendingConst@double   % bending constant to simulate
         trySpringConst@double    % spring constant to simulate 
         
-        % Chain parameters and forces
+        %__Chain and chain forces parameters ___
         numMonomers@double % num monomers in chain
-        b@double % bead distance std
+        b@double           % bead distance STD
         connectedMonomers@double
-        percentOfConnectedMonomers@double % the % of connected monomers (pairs)
-        diffusionForce@logical
+        percentOfConnectedMonomers@double % the percentage of connected monomers (pairs)
+        diffusionForce@logical % on/off [true/false]
         diffusionConst@double
-        springForce@logical
+        springForce@logical    % on/off [true/false]
         springConst@double
-        bendingForce@logical
+        bendingForce@logical   % on/off [true/false]
         bendingConst@double
         bendingOpeningAngle@double     
         minParticleEqDistance@double % particle eq distance (springs)
@@ -46,29 +51,32 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         mechanicalForceDirection@char
         mechanicalForceMagnitude@double
         
-        % Domain 
+        %__Domain params ___
         domainRadius@double
         domainCenter@double
         shutDownDiffusionAfterRelaxationSteps@logical
         
-        % ROI 
+        %__ ROI params ___
         roiWidth@double
         roiHeight@double
         numConcentricBandsInROI@double% the number of concentric bands in which densities are calculated
         
-        % Beam  and beam damage params
-        beamRadius@double           % radius of the UVC beam 
-        beamHeight@double           % for display purposes 
-        beamDamagePeak@double       % the distance from center the highest pro. for damage
-        beamDamageSlope@double      % the alpha term in exp(-alpha(r-beamDamagePeak)^2)
-        beamDamageProbThresh@double % threshold below the monomer is damaged
-        breakAllConnectorsInBeam@logical % break all connectors in Beam after UVC
-        breakAllConnectors@logical       % break all connectors after UVC
+        %___ Beam  and beam damage params____
+        beamRadius@double                     % radius of the UVC beam 
+        beamHeight@double                     % for display purposes 
+        beamDamagePeak@double                 % the distance from center the highest pro. for damage
+        beamDamageSlope@double                % the alpha term in exp(-alpha(r-beamDamagePeak)^2)
+        beamDamageProbThresh@double           % threshold below the monomer is damaged [unused]
+        assignBendingToAffectedMonomers@logical          % assign bending to the affectd monomers after beam
+        assignBendingToNonAffectedMonomers@logical       % assign bending to the non-affected monomers after beam
+        assignBendingToNonAffectedMonomersInBeam@logical % assign bending to the non-affected monomers after beam
+        breakAllDamagedConnectorsInBeam@logical      % break all connectors in Beam after UVC
+        breakAllConnectors@logical            % break all connectors after UVC
         fixDamageMonomersToPlaceAfterBeam@logical % keep damaged monomers in place after UVC
-        calculateMSDFromCenterOfMass@logical % calculate expansion relative to the affected/nonaffected monomers c.m
-        calculateMSDFromBeamCenter@logical   % calculate expansion relative to the beam's center
+        calculateMSDFromCenterOfMass@logical  % calculate expansion relative to the affected/nonaffected monomers c.m
+        calculateMSDFromBeamCenter@logical    % calculate expansion relative to the beam's center
         
-        % Save and load        
+        %__Save and load___
         loadRelaxationConfiguration@logical
         loadFullConfiguration@logical
         saveRelaxationConfiguration@logical
@@ -79,13 +87,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         saveAfterEachSimulation@logical
         saveAfterEachRound@logical
         
-        % Snapshots
+        %__ Snapshots__
         numSnapshotsDuringRelaxation@double
         numSnapshotsDuringRecording@double
         numSnapshotsDuringBeam@double
         numSnapshotsDuringRepair@double
         
-        % Display
+        %__Display params ___
         show3D@logical
         show2D@logical
         showDensity@logical
@@ -93,7 +101,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         showExpensionMSD@logical
         showAdditionalPolymerConnectors@logical % show non nearest neighbors connections (if exist) slows down display
         
-        % Misc. 
+        %__Misc. ___
         domainNumbers % indices for the sphere and beam 
         
         % relxation time
@@ -102,13 +110,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     
     methods
         
-        function obj = BeamDamageParams()
+        function obj = BeamDamageParams()% Edit parametes here
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion of the affcted and non-affected monomers with Lennard Jones force and crosslinking. Expansion is relative to beam center. No repair steps. Simulation in 2D';
+            obj.description      = 'Test the expansion of the damaged and non-damaged monomers, with crosslinking. Non-damaged monomers are assigned bending. Expansion is relative to beam center. No repair steps. Simulation in 2D';
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = linspace(.1,1,10);
+            obj.tryConnectivity  = linspace(0,1,11);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
@@ -119,8 +127,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.numSimulationsPerRound = 5;
             obj.numRelaxationSteps     = 500;  % initialization step (burn-in time)
             obj.numRecordingSteps      = 500; % start recording before UVC beam
-            obj.numBeamSteps           = 6000; % the steps until repair
-            obj.numRepairSteps         = 1;   % repair and relaxation of the fiber
+            obj.numBeamSteps           = 7000; % the steps until repair
+            obj.numRepairSteps         = 0;   % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
@@ -131,21 +139,21 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.diffusionConst        = 1;
             obj.shutDownDiffusionAfterRelaxationSteps = true;
             obj.springForce           = true;
-            obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 0;
+            obj.percentOfConnectedMonomers = [];
             obj.minParticleEqDistance = 1;%sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false; % (only at initialization)
-            obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.bendingConst          = 0.1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;            
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
             obj.morsePotentialDepth   = 0.01;
             obj.morsePotentialWidth   = 0.01;
             obj.morseForceType        = 'repulsive';
-            obj.lennardJonesForce     = true;
+            obj.lennardJonesForce     = false;
             obj.LJPotentialWidth      = 0.1;
-            obj.LJPotentialDepth      = 0.1;
+            obj.LJPotentialDepth      = 1;
             obj.LJPotentialType       = 'repulsive';
             obj.mechanicalForce       = false;
             obj.mechanicalForceCenter = [0 0 0];
@@ -156,17 +164,20 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.domainRadius          = obj.gyrationRadius/3;
             obj.domainCenter          = [0 0 0];
             
-            % Beam parameters/damage effect
-            obj.beamRadius               = obj.gyrationRadius/20;
-            obj.beamDamagePeak           = 0;     % obj.beamRadius/5 ; % in mu/m/  0 coresponds to the focus of the beam 
-            obj.beamDamageSlope          = 1.5;   % unitless
-            obj.beamDamageProbThresh     = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
-            obj.beamHeight               = 70;    % for 3d graphics purposes
-            obj.breakAllConnectorsInBeam = false; % break all connections between affected monomers in beam  
-            obj.breakAllConnectors       = false; % break all connections in the polymer after beam
-            obj.fixDamageMonomersToPlaceAfterBeam = false; % keep the damaged beads in place 
-            obj.calculateMSDFromCenterOfMass      = false;
-            obj.calculateMSDFromBeamCenter        = true;
+            %__Beam parameters/damage effect___
+            obj.beamRadius                         = obj.gyrationRadius/20;
+            obj.beamDamagePeak                     = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
+            obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
+            obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
+            obj.beamHeight                         = 70;    % for 3d graphics purposes
+            obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
+            obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
+            obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
+            obj.assignBendingToNonAffectedMonomers = true;  % assign bending elasticity for non affected monomers after UVC
+            obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
+            obj.fixDamageMonomersToPlaceAfterBeam  = false; % keep the damaged beads in place after UVC
+            obj.calculateMSDFromCenterOfMass       = false; % calculate expansion dynamically from the center of mass
+            obj.calculateMSDFromBeamCenter         = true;  % calculate expansion from a fixed point (beam center)
             
             
             % ROI parameters                        
@@ -180,20 +191,20 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false;
             obj.loadFullConfiguration        = false;
             obj.resultsPath                  = fullfile('/home/ofir/Copy/ENS/EpigenomicIntegrity/SimulationResults/');
-            obj.resultsFolder                = 'ExpansionTest/CrossLinked/LennardJones/MSDRelativeToBeamCenter/01';
+            obj.resultsFolder                = 'ExpansionTest/CrossLinked/BendingNonDamaged/00';
             [~]                              = mkdir(fullfile(obj.resultsPath,obj.resultsFolder));% create the result diretory
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); 
             obj.saveAfterEachSimulation      = true;
             obj.saveAfterEachRound           = false;
             
-            % snapshots [unfinieshed]
+            % snapshots [unfinished]
             obj.numSnapshotsDuringRelaxation = 0;
             obj.numSnapshotsDuringRecording  = 0;
             obj.numSnapshotsDuringBeam       = 0;
             obj.numSnapshotsDuringRepair     = 0;
             
-            % Display on-line parameters
+            % Display real-time parameters
             obj.show3D                = false;
             obj.show2D                = false;
             obj.showDensity           = false;
@@ -205,7 +216,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.InitializeParamClasses
         end
         
-        function InitializeParamClasses(obj)
+        function InitializeParamClasses(obj)%Do not edit this section manually
             
             % Initialize parameter classes 
             

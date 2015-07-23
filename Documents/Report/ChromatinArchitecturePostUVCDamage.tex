@@ -192,8 +192,8 @@
 	At simulation initiation, we let the polymer relax to a new state in which the cross-linked monomers are brought close to one another. 
 	      		
 	\begin{figure}[H]
-	\includegraphics[width=0.5\linewidth]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
-	\includegraphics[width=0.5\linewidth]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
 	\caption{Radius of expansion for the affected (left) and non affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers)}
 	\label{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
 	\end{figure}
@@ -211,10 +211,18 @@
 	\begin{enumerate}
     \item cross-linked polymer is being shot by UVC;
     \item cross-links to and from the damaged monomers are released;
-    \item repair mechanism pushes the non damaged monomers out of the way, this causes   bending elasticity for the non-damaged monomers.
+    \item repair mechanism pushes the non damaged monomers out of the way, this causes bending elasticity for the non-damaged monomers.
     \end{enumerate}
 	 
-	We now examine the radius of expansion for the process described above.
+	an alternative to step 3 is to assign bending elasticity potential to monomers in the UVC beam but those that are undamaged. The two alternative will be examined. 		
+	We start with the first option. No lennard-Jones force. 
+		
+	\begin{figure}
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedBendingLennardJonesCrosslinked}
+	\caption{expansion of the damaged (left) and non-damaged (right) monomers, after the links were broken for damaged monomers and bending elasticity was assigned to non damaged monomers. (polymer with 500 monomers)}
+	\label{fig:RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
+	\end{figure}
 	
 	
 \end{document}

@@ -151,15 +151,17 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             for sIdx =1:obj.params.numBeamSteps
                 obj.handles.framework.Step
                 stepIdx  = obj.step-obj.params.numRelaxationSteps;
-                chainPos = obj.GetChainPosition;
-                [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                chainPos = obj.GetChainPosition;                
                 
                 [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(chainPos,...
                                                    obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
+                
+                [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                
                 obj.UpdateGraphics
                 obj.step = obj.step+1;
                 
@@ -296,10 +298,15 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         function [inROI, inRoiInds,numMonomersIn]= FindMonomersInROI(obj)
             % get the number and indices of the monomers inside the ROI
             chainPosition = obj.GetChainPosition;
-            inROI = chainPosition(:,1)<(obj.roiPosition(1)+obj.roiPosition(3)) &...
-                    chainPosition(:,1)>(obj.roiPosition(1)) &...
-                    chainPosition(:,2)<(obj.roiPosition(2)+obj.roiPosition(4)) &...
-                    chainPosition(:,2)>(obj.roiPosition(2));
+%             inROI = chainPosition(:,1)<(obj.roiPosition(1)+obj.roiPosition(3)) &...
+%                     chainPosition(:,1)>(obj.roiPosition(1)) &...
+%                     chainPosition(:,2)<(obj.roiPosition(2)+obj.roiPosition(4)) &...
+%                     chainPosition(:,2)>(obj.roiPosition(2));
+
+            cm = obj.GetPolymerCenterOfMass;
+            r = pdist2mex(chainPosition',cm','euc',[],[],[]);
+
+             inROI = r<obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(obj.step-obj.params.numRelaxationSteps);
                 
                 inRoiInds     = find(inROI);
                 numMonomersIn = sum(inROI);
@@ -333,10 +340,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             damageProb = exp(-obj.params.beamDamageSlope.*(r-obj.params.beamDamagePeak).^2);
             
             % use theresholding to define the actual monomers affected 
-            affectedInBeam     = (damageProb>rand(size(r,1),1) & inBeam);
-            inBeamInds = find(affectedInBeam);
-                        
-            inBeamNN = affectedInBeam;
+            affectedInBeam = (damageProb>rand(size(r,1),1) & inBeam);
+            inBeamInds     = find(affectedInBeam);                        
+            inBeamNN       = affectedInBeam;
             
             if obj.params.assignBendingToAffectedMonomers
              % Assign bending also to neighbors of damaged monomers, to
@@ -352,7 +358,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 inBeamNN = ~affectedInBeam;
             elseif obj.params.assignBendingToNonAffectedMonomersInBeam
                 % take only monomer in the beam which are not damaged                
-                inBeamNN = inBeam&(~affectedInBeam);                
+                inBeamNN = inBeam&(~affectedInBeam);       
+                for bnIdx=1:size(affectedInBeam,1)-1
+                  if affectedInBeam(bnIdx)&& ~inBeam(bnIdx+1)
+                    inBeamNN(bnIdx+1) = true;
+                  end
+                end
             end
             
             inBeamAffected = find(inBeamNN); % monomers for which we apply bending elasticity
@@ -558,6 +569,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.UpdateConcentricDensityGraphics
             obj.UpdateExpensionGraphics
             obj.HeighlightAffectedBeads
+            obj.ShowRadiusOfExpansion;
             drawnow
         end
         
@@ -620,6 +632,47 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
         end
         
+        function ShowRadiusOfExpansion(obj)
+            if obj.params.showExpansionCircle && (obj.params.dimension==2) && obj.params.show3D
+                    stepIdx          = obj.step-obj.params.numRelaxationSteps;
+                    t                = 0:(2*pi/30):2*pi;                    
+                    if obj.params.calculateMSDFromCenterOfMass                        
+                        circleCenter = obj.GetPolymerCenterOfMass;
+                    elseif obj.params.calculateMSDFromBeamCenter
+                        circleCenter = obj.beamCenterPosition;
+                    end
+                        
+                    damagedExpRad    = obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx);
+                    xDamaged         = damagedExpRad*cos(t)+circleCenter(1);
+                    yDamaged         = damagedExpRad*sin(t)+circleCenter(2); 
+                    nonDamagedExpRad = obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx);
+                    xNonDamaged      = nonDamagedExpRad*cos(t)+circleCenter(1);
+                    yNonDamaged      = nonDamagedExpRad*sin(t)+circleCenter(2); 
+                    
+                if ~isfield(obj.handles,'expansionCircleDamaged')% if circles do not exist yet
+                
+                    % create expansion circles
+                    
+                    % damaged monomers
+                    obj.handles.expansionCircleDamaged = line('XData',xDamaged,'YData',yDamaged,'Color','m',...
+                        'Parent',obj.handles.framework.simulationGraphics.handles.graphical.mainAxes,'LineWidth',2);
+                    % non-damaged monomers           
+                    obj.handles.expansionCircleNonDamaged = line('XData',xNonDamaged,'YData',yNonDamaged,'Color','b',...
+                        'Parent',obj.handles.framework.simulationGraphics.handles.graphical.mainAxes,'LineWidth',2);
+                else % if they exists 
+                    % update their position 
+                    set(obj.handles.expansionCircleDamaged,'XData',xDamaged,'YData',yDamaged,...
+                        'Parent',obj.handles.framework.simulationGraphics.handles.graphical.mainAxes);
+                    set(obj.handles.expansionCircleNonDamaged,'XData',xNonDamaged,'YData',yNonDamaged,...
+                        'Parent',obj.handles.framework.simulationGraphics.handles.graphical.mainAxes);
+                    
+                end
+                
+                
+                
+            end
+        end
+        
         function TurnOffAffectedBeadsGraphics(obj)
              % Turn-off affected beasd highlighting
 
@@ -647,7 +700,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end
             
             if obj.params.show2D
-                
+
+
             end
             
         end        
@@ -690,6 +744,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         fprintf(fid,'%s%s%s\n',fnames{fIdx} ,': ',num2str(obj.params.(fnames{fIdx})));
                 elseif strcmpi(c,'char')
                         fprintf(fid,'%s%s%s\n',fnames{fIdx}, ': ',(obj.params.(fnames{fIdx})));
+                elseif strcmpi(c,'logical')        
+                       fprintf(fid,'%s%s%s\n',fnames{fIdx}, ': ',(obj.params.(fnames{fIdx})));
                 end
             end
                                                 

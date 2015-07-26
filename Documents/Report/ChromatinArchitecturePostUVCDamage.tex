@@ -110,8 +110,14 @@
        We set it to be proportional to the bending constant, as $\gamma_b frac{3K_bT}{b^2}$. later we will adjust this constant according to the rate of chromatin expansion seen in experimental data. 
        
      \subsection{Affected monomers after UVC}\label{subsection_affectedMonomersAfterUVC}
-      Affected monomers are those located within the UVC beam at initiation of beam around the center-of-mass of the polymer at that time. Because the polymer assumes random conformation just before beam initiation, it was observed that in many cases there were affected beads for which there were no neighboring affected beads. This phenomena causes peculiarities in the behavior of the chain,and a resting position position could not be found for the affected bead. We, therefore, assign bending force to the affected beads' nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
-             		
+      Affected monomers are those located within the UVC beam at initiation of beam around the center-of-mass of the polymer at that time. Because the polymer assumes random conformation just before beam initiation, it was observed that in many cases there were affected monomers for which there were no neighboring affected monomers. This phenomena causes peculiarities in the behavior of the chain, and a resting position could not be found for those monomers. We, therefore, assign bending force to the affected monomers' nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
+      
+    \subsection{The ROI}
+    The circular region of interest (ROI), in which we calculate monomer density gain and loss, is determined according to the expansion of the damaged monomers.
+    We set the percentage of included damaged monomers to 95\%. The ROI is calculated from the polymer's center of mass, such that 95\% of the damaged monomers are included within it. 
+    The ROI is calculated at the end of the beam phase, after expansion has thought to reach saturation [How is saturation determined?]. The radius of the ROI is then used to back-calculate the densities within it relative to the center of mass of the polymer at any time step starting from the beam shot time. 
+
+    		             		
 	\section{Simulations}	
 	
 	\subsection{Simulations' settings}

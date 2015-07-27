@@ -108,27 +108,32 @@
      \subsubsection{The bending constant}       
        The bending constant was observed to affect the rate at which the polymer assumes new conformation after UVC damage.
        We set it to be proportional to the bending constant, as $\gamma_b frac{3K_bT}{b^2}$. later we will adjust this constant according to the rate of chromatin expansion seen in experimental data. 
+             
+      \subsection{UVC damage effect on monomers}
+       We assign bending elasticity to affected monomers, with an opening angle $\theta$ (see Parameters section). Through experiments we have observed that in many cases there were affected monomers with no neighboring affected monomers. This isolated affected monomers' dynamics was observed to be not ordinary after assigning them bending elasticity. We, therefore, assign bending elasticity force also to their nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
        
      \subsection{Affected monomers after UVC}\label{subsection_affectedMonomersAfterUVC}
-      Affected monomers are those located within the UVC beam at initiation of beam around the center-of-mass of the polymer at that time. Because the polymer assumes random conformation just before beam initiation, it was observed that in many cases there were affected monomers for which there were no neighboring affected monomers. This phenomena causes peculiarities in the behavior of the chain, and a resting position could not be found for those monomers. We, therefore, assign bending force to the affected monomers' nearest neighbors to prevent these phenomenas and to form a more continuous segments affected by bending. 
+     Affected monomers are those found within the UVC beam at its initiation. The probability of a monomer to be damaged follows a Gaussian distribution with its center at the UVC beam's center-of- mass, which is placed at the polymer's center-of-mass at the moment of UVC beam shot.       
       
     \subsection{The ROI}
-    The circular region of interest (ROI), in which we calculate monomer density gain and loss, is determined according to the expansion of the damaged monomers.
-    We set the percentage of included damaged monomers to 95\%. The ROI is calculated from the polymer's center of mass, such that 95\% of the damaged monomers are included within it. 
-    The ROI is calculated at the end of the beam phase, after expansion has thought to reach saturation [How is saturation determined?]. The radius of the ROI is then used to back-calculate the densities within it relative to the center of mass of the polymer at any time step starting from the beam shot time. 
+    The circular region of interest (ROI), in which we calculate monomer densities gain and loss, is determined according to the expansion of the damaged monomers.
+    We set the percentage of included damaged monomers to 95\%. The ROI is calculated from the polymer's center-of-mass, such that 95\% of the damaged monomers are included within it. 
+    The ROI is calculated at the end of the repair phase, after expansion has thought to reach saturation [How is saturation determined?]. The radius of the ROI is then used to back-calculate the densities within it relative to the center of mass of the polymer at any time step starting from the beam shot time. 
+    \subsubsection{determining expansion saturation}
+     In the current version of the simulation framework, we assume the expansion of the affected monomers has reached saturation at the end of repair phase. To determine the radius of the ROI, we take the average of the affected monomers' radius of expansion in the last 10\% of the steps in the repair phase. 
 
     		             		
 	\section{Simulations}	
 	
 	\subsection{Simulations' settings}
-	Simulations were ran $numRelaxationSteps$ up to relaxation, after which the diffusion force was set to $0$ and recording for $numRecordingSteps$. Following, the UV beam was shot through the center of the polymers mass. All beads falling within the UV beam area were assigned bending force. To prevent out-of-the-ordinary monomer behavior, we assign bending force to the affected monomers' nearest neighbor along the chain (see subsection \ref{subsection_affectedMonomersAfterUVC}). Nearest neighbors were not counted as affected beads. Simulation then ran for additional $numBeamSteps$ with the bending force active for the affected beads.
+	Simulations were ran $numRelaxationSteps$ up to relaxation, after which the diffusion force was set to $0$ and recording for $numRecordingSteps$. Following, the UV beam was shot through the center of the polymers mass. Monomers found within the UV beam area were assigned bending force with a probability following a Gaussian distribution. To prevent out-of-the-ordinary monomer behavior, we assign bending force to the affected monomers' nearest neighbor along the chain (see subsection \ref{subsection_affectedMonomersAfterUVC}). Nearest neighbors were not counted as affected monomers. Simulation then ran for additional $numBeamSteps$ with the bending force active for the affected monomers.
 	
-	Simulation were placed in a spherical environment with reflecting boundaries.
-	Measurement of density were performed on a rectangular region, which its center was dynamically placed at the polymer's center of mass.
+	Simulation were placed in a spherical domain with reflecting boundaries.
+	Measurement of density were performed on a circular region, with its center dynamically placed at the polymer's center-of-mass, and it's radius determined at the end of the repair phase.
 	Sizes of the containing sphere (circle in 2d) and the measurement region were proportional to the radius of gyration, $\sqrt{N/6}b$.
 	
-	\subsection{3D Simulations}
-	 \subsubsection{The number of monomers in the ROI as a function of the bending constant}
+	\section{3D Simulations}
+	 \subsection{The number of monomers in the ROI as a function of the bending constant}
 	  In this experiment we examine the affect of the value of bending/spring constants on the number of monomers left at the ROI post UVC. 
 	  For this end we examine 5 different type of chains, with number of monomers,$N$ varying as $N=100, 200, 400, 800,1600$. For each $N$ we keep the spring constant,$\gamma_s=1$, and increase the bending constant $\gamma_b= 1,2,3,4,5$. For this simple experiment we perform only one realization per chain per bending constant, hence the results presented in the following table should be interpreted  with care. 
 	  \underline{Parmeter used in simulations}:
@@ -169,9 +174,11 @@
 	  		\end{tabular}
 	  	}
 	  \end{table}
-	\subsubsection{2D simulations}
+	  
+	\section{2D simulations}
 		
-	\subsection{Adding Lennard-Jones force}
+		
+	\subsection{Adding Lennard-Jones force to stop expansion}
       After UVC, several monomers are hit and together with their nearest-neighbors are assigned bending elasticity with an opening angle of a certain value. Usually, a region of consecutive affected monomers is enclosed by non-affected monomers. Therefore, the result of activating the bending elasticity force for the affected monomers is the formation of horse-show type of loops structures. 
       Affected monomers are located at the center of the polymer and expand usually outwards (although the direction of expansion cannot be controlled). The problem is that the expanded region of the chain exit the ROI and keep expanding passed the layer of non-affected monomers, that are usually located outside the ROI. 
       
@@ -190,45 +197,105 @@
       
       From figure \ref{fig:RadiusOfExpansion500BeadsLennardJones} we can see that the Lennard Jones is not sufficient to stop the monomers from expanding. The affected monomers MSD keeps increasing until about time 300 sec, where it reaches a plateau. at this point many beads are at the same line as the non affected ones and probably the expansion comes into a halt. Once the bending force overcomes the resistance by the Lennard Jones force, the expansion continues. The affected beads' radius of expansion doesn't reach the value of the non affected. However, we suspect that it will given enough time. Moreover, the expansion is measured relative to the center of mass of either one of the two groups, affected and non-affected, and so it is not clear where are those two groups relative to each other. 
       
-      Changing the radius of expansion to be calculated relatively to the beam center does not change the size of expansion. the affected monomers keep on expanding.                  
+      Changing the radius of expansion to be calculated relatively to the beam center does not change the size of expansion. The affected monomers keep on expanding. 
       
-      
-	\subsection{Cross-linking the polymer}
-	Instead of the linear chain we add random connectors between different parts of the chain. The measure for connectivity is a percentage of connected monomers, nearest neighbors additional connectors being excluded. 
-	At simulation initiation, we let the polymer relax to a new state in which the cross-linked monomers are brought close to one another. 
-	      		
-	\begin{figure}[H]
-	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
-	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
-	\caption{Radius of expansion for the affected (left) and non affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers)}
-	\label{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
-	\end{figure}
+      We therefore, omit the Lennard-Jones potential from further consideration.
+
+
+   \subsection{Cross-linking the polymer}
+	In addition to the linear backbone of the polymer, we randomly add connectors between pairs of non nearest neighbor monomers. The measure for connectivity we use is the percentage of connected pairs out of the number of monomers, e.g. 50\% connectivity in a 100 monomer chain  corresponds to 25 additional connector (connecting 50 monomers). 
+	At simulation initiation, we let the polymer relax to a state in which the cross-linked monomers are brought into proximity. After UVC beam shot, we divide our results into two parts. In the first, we assign bending potential to the damaged monomers, in the second we assign bending potential to the non-damaged monomers. We further divide each case into two scenarios according to the effect of UVC. In the first, we break all cross-links connected to any affected monomers in the beam. In the second, we keep all cross-links throughout the simulation. 
+	In all simulation in the subsection the ROI was determined according to the damaged monomers.
 	
-	As can be seen from Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked} even with cross-links, and the given parameter set, expansion of the affected monomers is not stopped. 
-	Because the region of interest to measure density in is determined post-prior to the expansion, this will pose a problem, since the ROI will include also the non-affected monomers, which do not seem to expand much in low percentages of cross-linking.
+	\subsection{Assigning bending to damaged monomers}
+	In this simulation we assign bending elasticity to damaged monomers and their nearest-neighbor. The ROI is determined by the expansion of the damaged monomers. 
 	
-	This brings us to believe that high level of connectivity is needed, where both the affected and non-affected radius of expansion increases (see, for example, the curves for 80-100\% connectivity in Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}). In that scenario, the ROI, which is determined at the end of the beam steps will more likely represent the expanded area seen in experiments, in which we see 20\% loss of material. 
-	
-	Two monomers of a cross-linked polymer are more likely to be found in the center. In a cross-linked polymer, after we shut-down diffusion, there is a convergence toward the center because all cross-links are pulling toward one another. This creates the situation that the affected beads do not have to expand much to pass the cross-linked layer of the non-affected monomers. 
-				
-	\subsection{Bending elasticity for the non-affected monomers}  
-	
-	The result of the previous subsection brought us to think that the expansion should not occur in the affected monomers but rather in the non-affected ones. In this manner, the simulation captures the process as follows: 
-	\begin{enumerate}
-    \item cross-linked polymer is being shot by UVC;
-    \item cross-links to and from the damaged monomers are released;
-    \item repair mechanism pushes the non damaged monomers out of the way, this causes bending elasticity for the non-damaged monomers.
-    \end{enumerate}
-	 
-	an alternative to step 3 is to assign bending elasticity potential to monomers in the UVC beam but those that are undamaged. The two alternative will be examined. 		
-	We start with the first option. No lennard-Jones force. 
+	\subsubsection{Break damaged monomers' cross-links}
+	After UVC we break all cross-links to and from any damaged monomers. 
 		
-	\begin{figure}
-	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
-	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedBendingLennardJonesCrosslinked}
-	\caption{expansion of the damaged (left) and non-damaged (right) monomers, after the links were broken for damaged monomers and bending elasticity was assigned to non damaged monomers. (polymer with 500 monomers)}
-	\label{fig:RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionAffected}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionNonAffected}
+	\caption{\tiny{\textbf{The radius of expansion for the affected (left) and non-affected (right) for a varying degree of connectivity. The cross-links to and from the damaged monomers are broken after UVC. As can be seen the affected monomer radius of expansion is increasing throughout the simulation, whereas the non- affected monomers remain static.  The polymer includes 500 monomers.The ROi is determined according to the damaged monomers.}}}
+	\label{fig:meanRadiusOfExpansionAffectedBrokenCrosslinks}
 	\end{figure}
 	
+	Examining the number and percentage of monomers in the ROI we have:
+	
+	\begin{figure}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/BreakAffectedCrosslinks/meanNumMonomersInROI}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/BreakAffectedCrosslinks/percentMonomersInROI}
+	\caption{\tiny{\textbf{Number of monomers in ROI (left) and percentag (right) before and after UVC beam. No steps simulated past the repair phase. As can be seen, although the radius of the damaged monomers is increasing steadily, the number if monomers in the ROI remain roughly constant post UVC. In term of percentages, there seems to be no change.The polymer includes 500 monomers.The ROI is determined according to the damaged monomers.}}}
+	\label{fig:meanNumMonomersInROI}
+	\end{figure}
+		
+	
+	\subsubsection{Keep all cross-links}
+      \textbf{Experiment 1}
+	   The radius of expansion of the damaged and non-damaged monomers is now examined when no cross-links are released after UVC damage. The ROI is determine according to the damaged monomers. The polymers contains 500 monomers. 
+		     		     
+		\begin{figure}[H]
+		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionAffected}
+		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionNonAffected}
+		\caption{\tiny{\textbf{The radius of expansion for the damaged (left) and nono-damaged (right) monomers. Crosslinks are not removed after UVC. The polymer contains 500 monomers.}}}
+		\label{fig:meanRadiusOfExpansionAffectedNoCrosslinksBroken}
+		\end{figure}
+			      
+		 Examining the number and percentage of monomers in the ROI before and after UVC, we have:
+		 		      
+		\begin{figure}[H]
+		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/NoCrosslinksBroken/meanNumMonomersInROI}
+		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandAffected/NoCrosslinksBroken/percentOfMonomersInROI}
+		\caption{\tiny{\textbf{The number of monomers (left) and their percentages (right) in the ROI, when all crosslinks are kept after UVC. Although the radius of expansion for the affected monomers is increasing, the number of monomers in the ROI remains relatively constant. In terms of the percentages of monomers in the ROi, there seems to be no major changes. Values presented are the mean of 5 simulation with a polymer of 500 monomers for each connectivity percentage.}}}
+		\label{fig:meanNumMonomersInROINoCrosslinkBroken}
+		\end{figure}
+		
+				
+	     \textbf{Experiment 2}
+		     
+	     We examine the radius of expansion for a more refined percentage of connectivity. when this experiment was conducted we did not yet program the ROI to be defined by the affected or non affected monomers after repair time. Therefore, the graphs of the number of monomers in the ROi and their percentages is missing. 
+		     	     
+	 	\begin{figure}[H]
+	     \includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
+	     \includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
+	      \caption{\tiny{\textbf{Radius of expansion for the affected (left) and non-affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers)}}}
+		     \label{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
+    	\end{figure}
+		      		
+     	As can be seen from Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked} even with cross-links, and the given parameter set, expansion of the affected monomers is not stopped. 
+	  	Because the region of interest to measure density in is determined post-prior to the expansion, this will pose a problem, since the ROI will include also the non-affected monomers, which do not seem to expand much in low percentages of cross-linking.
+		      		
+	  	This brings us to believe that high level of connectivity is needed, where both the affected and non-affected radius of expansion increases (see, for example, the curves for 80-100\% connectivity in Figure \ref{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}). In that scenario, the ROI, which is determined at the end of the beam steps will more likely represent the expanded area seen in experiments, in which we see 20\% loss of material. 
+		      		
+	  	Two monomers of a cross-linked polymer are more likely to be found in the center. In a cross-linked polymer, after we shut-down diffusion, there is a convergence toward the center because all cross-links are pulling toward one another. This creates the situation that the affected beads do not have to expand much to pass the cross-linked layer of the non-affected monomers. 
+	
+	\subsection{Assign bending to non-damaged monomers}
+		
+		The result of the previous subsection brought us to believe that the expansion should not occur in the affected monomers but rather in the non-affected ones. The 20\% loos in DNA density should be attributed to the non damaged monomers. The damaged DNA repains within the repair zone, whereas non damaged DNA is pushed aside by the repair mechanism. Following this scenario, the simulation now captures the following process:
+		\begin{enumerate}
+			\item cross-linked polymer is being shot by UVC;
+			\item cross-links to and from the damaged monomers are released;
+			\item repair mechanism pushes the non-damaged monomers out of the way, this causes bending elasticity for the non-damaged monomers.
+		\end{enumerate}
+		
+		An alternative to step 3 is to assign bending elasticity to monomers in the UVC beam but those that are undamaged. The two alternative will be examined.
+		
+	\subsubsection{Break damaged monomers' cross-links}
+     	Breaking all damaged cross-links we arrive at: 
+			\begin{figure}				
+				\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
+				\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedBendingLennardJonesCrosslinked}
+				\caption{expansion of the damaged (left) and non-damaged (right) monomers, after the links were broken for damaged monomers and bending elasticity was assigned to non damaged monomers. (polymer with 500 monomers)}
+				\label{fig:RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
+			\end{figure}
+			
+	\subsubsection{Keep all cross-links}
+			
+	\subsection{Assign bending to non-damaged monomers in the UVC beam}	
+	 To simulate the process in which the repair mechanism proteins are recruited to the damage site, push away all non-damaged DNA and work on damage part, we assign bending elasticity force to monomers located within the damage region (beam) but those that were unaffected by the beam.
+	 \subsubsection{Break damaged monomers' cross-links}
+	 
+	 \subsubsection{Kepp all cross-links}
+	 
 	
 \end{document}

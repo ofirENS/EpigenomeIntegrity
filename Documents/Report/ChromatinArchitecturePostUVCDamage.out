@@ -10,11 +10,15 @@
 \BOOKMARK [2][-]{subsection.0.2.8}{The chromatin}{section.0.2}% 10
 \BOOKMARK [2][-]{subsection.0.2.9}{Model Parameters}{section.0.2}% 11
 \BOOKMARK [2][-]{subsection.0.2.10}{The minimal distance between monomers -l0}{section.0.2}% 12
-\BOOKMARK [2][-]{subsection.0.2.11}{Affected monomers after UVC}{section.0.2}% 13
-\BOOKMARK [2][-]{subsection.0.2.12}{The ROI}{section.0.2}% 14
-\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 15
-\BOOKMARK [2][-]{subsection.0.3.1}{Simulations' settings}{section.0.3}% 16
-\BOOKMARK [2][-]{subsection.0.3.2}{3D Simulations}{section.0.3}% 17
-\BOOKMARK [2][-]{subsection.0.3.3}{Adding Lennard-Jones force}{section.0.3}% 18
-\BOOKMARK [2][-]{subsection.0.3.4}{Cross-linking the polymer}{section.0.3}% 19
-\BOOKMARK [2][-]{subsection.0.3.5}{Bending elasticity for the non-affected monomers}{section.0.3}% 20
+\BOOKMARK [2][-]{subsection.0.2.11}{UVC damage effect on monomers}{section.0.2}% 13
+\BOOKMARK [2][-]{subsection.0.2.12}{Affected monomers after UVC}{section.0.2}% 14
+\BOOKMARK [2][-]{subsection.0.2.13}{The ROI}{section.0.2}% 15
+\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 16
+\BOOKMARK [2][-]{subsection.0.3.1}{Simulations' settings}{section.0.3}% 17
+\BOOKMARK [1][-]{section.0.4}{3D Simulations}{}% 18
+\BOOKMARK [2][-]{subsection.0.4.1}{The number of monomers in the ROI as a function of the bending constant}{section.0.4}% 19
+\BOOKMARK [1][-]{section.0.5}{2D simulations}{}% 20
+\BOOKMARK [2][-]{subsection.0.5.1}{Adding Lennard-Jones force to stop expansion}{section.0.5}% 21
+\BOOKMARK [2][-]{subsection.0.5.2}{Cross-linking the polymer}{section.0.5}% 22
+\BOOKMARK [2][-]{subsection.0.5.3}{Assigning bending to damaged monomers}{section.0.5}% 23
+\BOOKMARK [2][-]{subsection.0.5.4}{Assign bending to non-damaged monomers}{section.0.5}% 24

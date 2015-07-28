@@ -80,7 +80,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension = nan(1,numStepsToRecord);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPos                = [];
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition           = [];
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads          = [];  
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeads = obj.params.percentOfConnectedMonomers;            
             obj.results.resultStruct(obj.simulationRound,obj.simulation).description             = obj.params.description;
@@ -232,7 +232,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 obj.UpdateGraphics
                   % calculate the radius of expansion for damaged and
                 % non-damaged monomers
-                [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(obj.chainPosition(:,:,stepIdx),...
+                [affectedMSDcm,nonAffectedMSDcm] = obj.CalculateBeadsRadiusOfExpension(obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx),...
                                                    obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);  
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
@@ -254,11 +254,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
            % Set the ROI according to the expansion of the monomers after beam phase      
            % take the last 10% of the beam phase and calculate the
                 % mean                 
-           sIdx = round(0.9*(obj.params.numRecordingSteps+obj.params.numBeamSteps)):obj.params.numRecordingSteps+obj.params.numBeamSteps;
+            sIdx = round(0.9*(obj.params.numRecordingSteps+obj.params.numBeamSteps)):obj.params.numRecordingSteps+obj.params.numBeamSteps;
             if strcmpi(obj.params.calculateExpansionAccordingTo,'damaged')                
                 obj.roi.radius = mean(obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(sIdx));
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI = obj.roi.radius;
             elseif strcmpi(obj.params.calculateExpansionAccordingTo,'nondamaged')
                 obj.roi.radius = mean(obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(sIdx));
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI = obj.roi.radius;
             else
                 error('Unsupported option. The options for calculateExpansionAccordingTo are "damaged" or "nondamaged" only')
             end

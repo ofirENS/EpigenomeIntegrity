@@ -75,7 +75,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex       = [];
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(numStepsToRecord,obj.params.numConcentricBandsInROI-1);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(numStepsToRecord,obj.params.numConcentricBandsInROI);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentHistoneLoss = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension    = nan(1,numStepsToRecord);
@@ -283,9 +283,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         function PostRoundActions(obj)
             % Actions performed at the end of each round   
             
-            % calculate the number and density of monomers in the ROI
-            
-            
+            % calculate the number and density of monomers in the ROI                        
             if obj.params.saveAfterEachRound
                 % Save results to result folder                
                 obj.SaveResults
@@ -294,21 +292,23 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function PreSimulationActions(obj)
             
-            obj.simulation        = obj.simulation+1;% increase counter    
-            % crete/remove previous framework
-            if isfield(obj.handles,'framework')
-                delete(obj.handles.framework)
-            end
-            obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
-            
-            % prepare the result structure
-            obj.PrepareResultStruct
+            obj.simulation        = obj.simulation+1;% increase counter                
             
             % Add connected beads 
             if ~isempty(obj.params.tryConnectivity)
               obj.params.percentOfConnectedMonomers = obj.params.tryConnectivity(obj.simulationRound);
               obj.params.InitializeParamClasses;              
             end
+            
+            % crete/remove previous framework
+            if isfield(obj.handles,'framework')
+                delete(obj.handles.framework)
+            end
+            
+            obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
+            
+            % prepare the result structure
+            obj.PrepareResultStruct
             
             cl = clock;
             cl = [num2str(cl(4)),':' num2str(cl(5)), ':', num2str(cl(6))];
@@ -322,7 +322,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
              
             % Calculate the number of monomers in the ROI before UVC
             for stepIdx = 1:obj.params.numRecordingSteps
-                 [inROI,inRoiInds,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
+                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;               
             end
@@ -330,7 +330,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % Calculate the densities in the ROI after UVC beam stated
             for stepIdx = obj.params.numRecordingSteps:obj.params.numBeamSteps+obj.params.numRecordingSteps+obj.params.numRepairSteps
                 % get the polymer's center of mass at that point                 
-               [inROI,inRoiInds,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
+               [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;                                 
             end
@@ -411,10 +411,22 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
 %                 obj.UpdateROIPosition;
                 [inROI, inRoiInds,numMonomersIn] = obj.FindMonomersInROI(stepIdx);
 %                 [monomersInConcentric]           = obj.GetMonomersInRoiConcentric(stepIdx);  
-                monomersInConcentric = 0;
+                % calculate the radius from the center of mass
+                chainPos = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
+                cm = mean(chainPos,1);
+                r  = pdist2mex(chainPos',cm','euc',[],[],[]);
+                % divide the ragion into concentric circles 
+                monomersInConcentric = zeros(1,obj.params.numConcentricBandsInROI);
+                R = linspace(0,obj.roi.radius,obj.params.numConcentricBandsInROI+1);
+                
+                for rIdx = 1:numel(R)-1
+                    bandArea = pi*(R(rIdx+1)^2 - R(rIdx)^2);
+                    monomersInConcentric(rIdx) = sum(r>=R(rIdx) & r<R(rIdx+1))./bandArea;
+                end
+                                
                 %----
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
         end
         
         function cm = GetPolymerCenterOfMass(obj)
@@ -907,7 +919,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function SaveResults(obj)
             res = obj.results;            
-            save(fullfile(obj.params.resultsPath,obj.params.resultsFolder,obj.params.resultFileName),'res');
+            save(fullfile(obj.params.resultsPath,obj.params.resultsFolder,obj.params.resultFileName),'res','-v7.3');
             % update the readme files             
             obj.CreateReadMeFile
         end

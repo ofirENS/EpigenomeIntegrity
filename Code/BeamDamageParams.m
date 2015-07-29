@@ -129,10 +129,10 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = numel(obj.tryConnectivity); 
-            obj.numSimulationsPerRound = 5;
-            obj.numRelaxationSteps     = 500;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 500;  % start recording before UVC beam
-            obj.numBeamSteps           = 6000; % the steps until repair
+            obj.numSimulationsPerRound = 3;
+            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300;  % start recording before UVC beam
+            obj.numBeamSteps           = 5000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
@@ -140,13 +140,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %__Polymer parameters and forces___
             obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
-            obj.diffusionForce        = true;
+            obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
             obj.shutDownDiffusionAfterRelaxationSteps = true;
             obj.springForce           = true;
             obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 80; % range: 0 to 100
+            obj.percentOfConnectedMonomers = []; % range: 0 to 100
             obj.minParticleEqDistance = 1;       % sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false;   % (only at initialization)
             obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
@@ -185,7 +185,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
             obj.roiHeight                          = obj.roiWidth;         % obsolete used for graphics
-            obj.numConcentricBandsInROI            = 15;
+            obj.numConcentricBandsInROI            = 10;
             obj.calculateExpansionAccordingTo      = 'damaged'; % either 'damaged' or 'nondamaged'
             obj.calculateExpansionFromCenterOfMass = true;      % calculate expansion dynamically from the center of mass
             obj.calculateExpansionFromBeamCenter   = false;     % calculate expansion from a fixed point (beam center)
@@ -198,11 +198,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/BendingNonDamaged/NoLennardJones/BreakDamagedCrosslinks/03';       % result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/BendingNonDamaged/NoLennardJones/BreakDamagedCrosslinks/04';       % result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
-            obj.saveAfterEachSimulation      = true;  % save results and create a Readme file after each simulation
-            obj.saveAfterEachRound           = false; % save results and create a Readme file after each simulation round
+            obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
+            obj.saveAfterEachRound           = true;  % save results and create a Readme file after each simulation round
             obj.saveClassInstance            = true;  % save an instance of the class with the results at the end of operation (usually big files ~50-100Mb).
             
             %___Snapshots____ (for 2D display only)

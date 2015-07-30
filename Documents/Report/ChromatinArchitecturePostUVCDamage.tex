@@ -258,7 +258,7 @@
 	 	\begin{figure}[H]
 	     \includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
 	     \includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked}
-	      \caption{\tiny{\textbf{Radius of expansion for the affected (left) and non-affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers)}}}
+	      \caption{\tiny{\textbf{Radius of expansion for the affected (left) and non-affected (right) monomers, when the polymer is cross-linked by varying percentages. Expansion of the affected monomers is not stopped and goes beyond the non-affected expansion radius. (500 monomers with Lennard-Jones force)}}}
 		     \label{fig:RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked}
     	\end{figure}
 		      		
@@ -281,13 +281,29 @@
 		An alternative to step 3 is to assign bending elasticity to monomers in the UVC beam but those that are undamaged. The two alternative will be examined.
 		
 	\subsubsection{Break damaged monomers' cross-links}
-     	Breaking all damaged cross-links we arrive at: 
-			\begin{figure}				
-				\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
-				\includegraphics[width=0.5\linewidth,height=0.3\textheight]{RadiusOfExpansion500BeadsNonAffectedBendingLennardJonesCrosslinked}
-				\caption{expansion of the damaged (left) and non-damaged (right) monomers, after the links were broken for damaged monomers and bending elasticity was assigned to non damaged monomers. (polymer with 500 monomers)}
-				\label{fig:RadiusOfExpansion500BeadsAffectedBendingLennardJonesCrosslinked}
-			\end{figure}
+     After UVC we remove all cross-links to and from any monomer damaged. No Lennard-Jones potential is used. The ROI is determined according to the expansion of the damaged monomers, whereas we assign bending elasticity to the non-damaged monomers. 
+     
+     
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionAffected}
+    \includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionNonAffected}
+	\caption{\tiny{\textbf{Mean Radius of expansion of the damaged (left) and non-damaged (right) monomers. As can be seen,  the radius of expansion for the affected monomers remains relatively small in comparison to the non-damaged in all experiments. (500 monomers, bending non-affected, no Lennard-Jones)}}}
+	\label{fig:MeanRadiusOfExpansionAffected}
+	\end{figure}
+	     
+	In terms of the number and percentage of monomers lose from ROI, we have:
+	\begin{figure}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanNumMonomersInROI}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/expandNonDamaged/BreakAffectedCrosslinks/04/percentOfMonomersInROI}
+	\caption{\tiny{\textbf{The number of monomers in the ROI (left) with time and the overall percentage in comparison to the Recordign phase. As can be seen a loos of 20\% monomers from the ROI can be obtained with 80-100\% connectivity  (500 monomers, expanding non-affected, non Lennard-Jones)}}}
+	\label{fig:MeanNumMonomersInROI}
+	\end{figure}
+	     For 80-100\% connectivity we can gain loss of 20\% monomers from the ROI. We now turn to explore more in-depth the parameters around 80\% connectivity. 
+	     
+	     
+			
+			
+			
 			
 	\subsubsection{Keep all cross-links}
 			

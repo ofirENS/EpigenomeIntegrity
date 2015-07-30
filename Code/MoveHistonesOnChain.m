@@ -16,7 +16,7 @@ close all
 
 numRelaxationSteps = 20;
 numRecordingSteps  = 100;
-numBeamSteps       = 500;
+numBeamSteps       = 1;
 
 numRounds              = 1;
 numSimulationsPerRound = 1;

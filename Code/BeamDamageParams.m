@@ -121,18 +121,18 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % variables to simulate 
             obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Crosslinks for damaged monomers are removed after UVC. Expansion assigned to non-damaged monomers. No Lennard-Jones. Expansion is relative center of mass. No repair steps. Simulation in 2D';
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = linspace(0,100,6);
+            obj.tryConnectivity  = [];%linspace(70,90,3);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
                         
             
             %___Simulation parameters___
-            obj.numRounds              = numel(obj.tryConnectivity); 
-            obj.numSimulationsPerRound = 3;
+            obj.numRounds              = 1;%numel(obj.tryConnectivity); 
+            obj.numSimulationsPerRound = 1;
             obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 5000; % the steps until repair
+            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numBeamSteps           = 1000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
@@ -146,7 +146,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.springForce           = true;
             obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = []; % range: 0 to 100
+            obj.percentOfConnectedMonomers = 80; % range: 0 to 100
             obj.minParticleEqDistance = 1;       % sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false;   % (only at initialization)
             obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
@@ -175,9 +175,9 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight                         = 70;    % for 3d graphics purposes
-            obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
+            obj.breakAllDamagedConnectorsInBeam    = false;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
-            obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
+            obj.assignBendingToAffectedMonomers    = true; % assign bending elasticity for affected monomers after UVC
             obj.assignBendingToNonAffectedMonomers = true;  % assign bending elasticity for non affected monomers after UVC
             obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
@@ -198,17 +198,17 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/BendingNonDamaged/NoLennardJones/BreakDamagedCrosslinks/04';       % result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/BendingNonDamaged/NoLennardJones/BreakDamagedCrosslinks/05';       % result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
-            obj.saveAfterEachRound           = true;  % save results and create a Readme file after each simulation round
-            obj.saveClassInstance            = true;  % save an instance of the class with the results at the end of operation (usually big files ~50-100Mb).
+            obj.saveAfterEachRound           = false;  % save results and create a Readme file after each simulation round
+            obj.saveClassInstance            = false;  % save an instance of the class with the results at the end of operation (usually big files ~50-100Mb).
             
             %___Snapshots____ (for 2D display only)
             obj.numSnapshotsDuringRelaxation = 0;  % unused 
-            obj.numSnapshotsDuringRecording  = 5; % how many snapshots during recording phase 
-            obj.numSnapshotsDuringBeam       = 15; % how many snapshots during beam phase 
+            obj.numSnapshotsDuringRecording  = 0; % how many snapshots during recording phase 
+            obj.numSnapshotsDuringBeam       = 0; % how many snapshots during beam phase 
             obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
             
             %__Display real-time parameters___

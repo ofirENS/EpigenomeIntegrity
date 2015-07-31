@@ -52,17 +52,17 @@ classdef BeamDamageSimulationViewer<handle
             box(obj.handles.mainAxes,'on');
             obj.handles.infoPanel     = uipanel('Parent',obj.handles.mainFigure,'Units','norm','Position',[0.5,0.1,0.5,0.9]);
             
-            obj.handles.expansionAxes = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.75 0.85 0.27],'FontSize',8); 
+            obj.handles.expansionAxes = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.72 0.85 0.25],'FontSize',8); 
             ylabel(obj.handles.expansionAxes,'Radius'), xlabel(obj.handles.expansionAxes,'Step');  
             title(obj.handles.expansionAxes,'Radius of expansion','FontSize',13)
             set(obj.handles.expansionAxes,'FontSize',13);
             
-            obj.handles.densityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.4 0.85 0.27],'FontSize',8);
+            obj.handles.densityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.38 0.85 0.25],'FontSize',8);
             title(obj.handles.densityAxes,'Number of monomers in ROI','FontSize',13)
             ylabel(obj.handles.densityAxes,'Num. monomers in ROI'); xlabel(obj.handles.densityAxes,'Step')
             set(obj.handles.densityAxes,'FontSize',13);
             
-            obj.handles.concentricDensityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.05 0.85 0.27],'FontSize',8);
+            obj.handles.concentricDensityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.05 0.85 0.25],'FontSize',8);
             title(obj.handles.concentricDensityAxes,'Number of monomers in band','FontSize',13)
             ylabel(obj.handles.concentricDensityAxes,'concentric num. monomers in ROI'); xlabel(obj.handles.concentricDensityAxes,'dist')
             set(obj.handles.concentricDensityAxes,'FontSize',13);

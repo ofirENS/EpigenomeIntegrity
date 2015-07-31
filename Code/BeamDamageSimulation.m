@@ -197,6 +197,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             for sIdx =1:obj.params.numBeamSteps
                 obj.handles.framework.Step
+%                 chainPos = obj.ApplyExclusionByVolume;
+                
                 stepIdx  = obj.step-obj.params.numRelaxationSteps;              
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx) = obj.GetChainPosition;% record position of the chain   
                 obj.UpdateGraphics
@@ -213,6 +215,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
 %                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;                                  
             end
             obj.SetROI
+        end
+        
+        function ApplyExclusionByVolume(obj)
         end
         
         function RunRepairSteps(obj)
@@ -264,6 +269,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             else
                 error('Unsupported option. The options for calculateExpansionAccordingTo are "damaged" or "nondamaged" only')
             end
+            % set the concentric ROi, the circle in which we calculate
+            % concentric densities.
+            % the concentric ROi is always determined by the non affected
+            % monomers' radius of expansion 
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricROI = ...
+                mean(obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(sIdx));
         end
         
         function ShutDownDiffusion(obj)
@@ -410,25 +421,12 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 % Find the number of monomers in the rectangular ROI                
 %                 obj.UpdateROIPosition;
                 [inROI, inRoiInds,numMonomersIn] = obj.FindMonomersInROI(stepIdx);
-%                 [monomersInConcentric]           = obj.GetMonomersInRoiConcentric(stepIdx);  
-                % calculate the radius from the center of mass
-                chainPos = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
-                cm = mean(chainPos,1);
-                r  = pdist2mex(chainPos',cm','euc',[],[],[]);
-                % divide the ragion into concentric circles 
-                monomersInConcentric = zeros(1,obj.params.numConcentricBandsInROI);
-                R = linspace(0,obj.roi.radius,obj.params.numConcentricBandsInROI+1);
-                
-                for rIdx = 1:numel(R)-1
-                    bandArea = pi*(R(rIdx+1)^2 - R(rIdx)^2);
-                    monomersInConcentric(rIdx) = sum(r>=R(rIdx) & r<R(rIdx+1))./bandArea;
-                end
-                                
+                [monomersInConcentric]           = obj.GetMonomersInRoiConcentric(stepIdx);  
+                % calculate the radius from the center of mass                                
                 %----
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;            
         end
-        
+                
         function cm = GetPolymerCenterOfMass(obj)
             % polymer center of mass in any dimension 
             chainPos = obj.handles.framework.objectManager.curPos;
@@ -465,9 +463,20 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function [monomersInConcentric] = GetMonomersInRoiConcentric(obj,stepIdx)
              % Calculate the density as a function of the distance from the roi center
-              chainPos             = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
-              monomersInConcentric = ConcentricDensityInRoi(chainPos,obj.roiPosition,obj.params.numConcentricBandsInROI);
-%               densityInConcentric = densityInConcentric./baseLineDensity;
+                chainPos = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
+                cm = mean(chainPos,1);
+                r  = pdist2mex(chainPos',cm','euc',[],[],[]);
+                % divide the ragion into concentric circles 
+                monomersInConcentric = zeros(1,obj.params.numConcentricBandsInROI);
+                R = linspace(0,obj.roi.radius,obj.params.numConcentricBandsInROI+1);
+                
+                for rIdx = 1:numel(R)-1
+                    bandArea = pi*(R(rIdx+1)^2 - R(rIdx)^2);
+                    monomersInConcentric(rIdx) = sum(r>=R(rIdx) & r<R(rIdx+1))./bandArea;
+                end
+            
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+            
         end
         
         function ApplyDamageEffect(obj)
@@ -966,6 +975,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         'round',[],...
                         'simulation',[],...
                         'dimension',[],...
+                        'dt',[],...
                         'numRelaxationSteps',[],...
                         'numRecordingSteps',[],...
                         'numBeamSteps',[],...
@@ -978,14 +988,14 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         'percentOfConnectedBeads',[],...                        
                         'connectedBeadsAfterBeam',[],...
                         'percentOfConnectedBeadsAfterBeam',[],...
-                        'numConnectionsLost',[],...
-                        'dt',[],...
+                        'numConnectionsLost',[],...                        
                         'ROI',struct('center',[],'radius',[]),...
+                        'concentricROI',[],...
                         'params',[],...
                         'numBeadsIn',[],...
                         'inBeam',[],...
                         'beadsInIndex',[],...
-                        'concentricDensity',[],...                                                        
+                        'concentricDensity',[],...
                         'percentDNALoss',[],...
                         'percentHistoneLoss',[],...
                         'affectedBeadsRadOfExpension',[],...

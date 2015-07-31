@@ -51,6 +51,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         mechanicalForceDirection@char
         mechanicalForceMagnitude@double
         
+        %___Nucleosomes and forces___
+        
         %__Domain params ___
         domainRadius@double
         domainCenter@double
@@ -65,7 +67,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         calculateExpansionAccordingTo@char          % either 'damaged' or 'nondamaged'
         percentOfMonomersIncludedInROI@double
         
-        %___ Beam  and beam damage params____
+        %___ Beam and beam damage params____
         beamRadius@double                                % radius of the UVC beam 
         beamHeight@double                                % for display purposes 
         beamDamagePeak@double                            % the distance from center the highest pro. for damage
@@ -78,6 +80,9 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         breakAllConnectors@logical                       % break all connectors after UVC
         fixDamagedMonomersToPlaceAfterBeam@logical        % keep damaged monomers in place after UVC
 
+        
+        
+        
         
         %__Save and load___
         loadRelaxationConfiguration@logical % unused in this version
@@ -138,7 +143,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 250;
+            obj.numMonomers           = 400;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -185,7 +190,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
             obj.roiHeight                          = obj.roiWidth;         % obsolete used for graphics
-            obj.numConcentricBandsInROI            = 10;
+            obj.numConcentricBandsInROI            = 15;
             obj.calculateExpansionAccordingTo      = 'damaged'; % either 'damaged' or 'nondamaged'
             obj.calculateExpansionFromCenterOfMass = true;      % calculate expansion dynamically from the center of mass
             obj.calculateExpansionFromBeamCenter   = false;     % calculate expansion from a fixed point (beam center)

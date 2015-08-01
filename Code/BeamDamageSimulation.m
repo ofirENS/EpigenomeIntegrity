@@ -196,6 +196,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.ApplyDamageEffect; 
             
             for sIdx =1:obj.params.numBeamSteps
+                obj.ApplyExclusionByVolume
                 obj.handles.framework.Step
 %                 chainPos = obj.ApplyExclusionByVolume;
                 
@@ -218,6 +219,13 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         end
         
         function ApplyExclusionByVolume(obj)
+            if obj.params.excludeMonomersAroundAffected
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = true;
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForceCenter = ...
+                obj.handles.framework.objectManager.handles.chain.position.cur(...
+                 obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam,:);
+            end
+            
         end
         
         function RunRepairSteps(obj)
@@ -539,6 +547,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = affectedMonomersInds;            
             
+            obj.ApplyExclusionByVolume;
             obj.BreakConnections
             obj.FixDamagedMonomersToPlace; 
         end

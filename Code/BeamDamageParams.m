@@ -50,6 +50,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         mechanicalForceCenter@double
         mechanicalForceDirection@char
         mechanicalForceMagnitude@double
+        mechanicalForceCutoff@double
         
         %___Nucleosomes and forces___
         
@@ -78,12 +79,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         assignBendingToNonAffectedMonomersInBeam@logical % assign bending to the non-affected monomers after beam
         breakAllDamagedConnectorsInBeam@logical          % break all connectors in Beam after UVC
         breakAllConnectors@logical                       % break all connectors after UVC
-        fixDamagedMonomersToPlaceAfterBeam@logical        % keep damaged monomers in place after UVC
-
+        fixDamagedMonomersToPlaceAfterBeam@logical       % keep damaged monomers in place after UVC
+        excludeMonomersAroundAffected@logical             % create a ball around damaged monomers and exclude other monomers from it after UVC
         
         
-        
-        
+                
         %__Save and load___
         loadRelaxationConfiguration@logical % unused in this version
         loadFullConfiguration@logical       % unused in this version
@@ -135,15 +135,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;% numel(obj.tryConnectivity); 
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numRelaxationSteps     = 20;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 20;  % start recording before UVC beam
             obj.numBeamSteps           = 1000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 400;
+            obj.numMonomers           = 200;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -165,10 +165,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.LJPotentialWidth      = 0.1;
             obj.LJPotentialDepth      = 1;
             obj.LJPotentialType       = 'repulsive';
-            obj.mechanicalForce       = false;
+            obj.mechanicalForce       = true;
             obj.mechanicalForceCenter = [0 0 0];
             obj.mechanicalForceDirection = 'out';
-            obj.mechanicalForceMagnitude = 0.3;
+            obj.mechanicalForceMagnitude = 10;
+            obj.mechanicalForceCutoff    = 5;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -180,12 +181,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight                         = 70;    % for 3d graphics purposes
-            obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
+            obj.breakAllDamagedConnectorsInBeam    = false;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
             obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
-            obj.assignBendingToNonAffectedMonomers = true;  % assign bending elasticity for non affected monomers after UVC
+            obj.assignBendingToNonAffectedMonomers = false;  % assign bending elasticity for non affected monomers after UVC
             obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
+            obj.excludeMonomersAroundAffected             = true;
             
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
@@ -217,7 +219,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
             
             %__Display real-time parameters___
-            obj.show3D                          = false;
+            obj.show3D                          = true;
             obj.show2D                          = false;
             obj.showDensity                     = false;
             obj.showConcentricDensity           = false;
@@ -252,10 +254,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                              'morseForceType',obj.morseForceType,...
                                              'diffusionForce',obj.diffusionForce,...
                                              'diffusionConst',obj.diffusionConst,...
-                                             'mechanicalForce',obj.mechanicalForce,...
-                                             'mechanicalForceCenter',[0 0 0],...
-                                             'mechanicalForceDirection','out',...
-                                             'mechanicalForceMagnitude',0.1,...
+                                             'mechanicalForce',false,...
                                              'dt',obj.dt,...
                                              'minParticleEqDistance',obj.minParticleEqDistance);
             
@@ -274,7 +273,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'bendingConst',obj.bendingConst,...
                                                 'springConst', obj.springConst,...
                                                 'bendingOpeningAngle',obj.bendingOpeningAngle,...
-                                                'minParticleEqDistance',obj.minParticleEqDistance);
+                                                'minParticleEqDistance',obj.minParticleEqDistance,...
+                                                'mechanicalForce',obj.mechanicalForce,...
+                                                'mechanicalForceCenter',[0 0 0],...
+                                                'mechanicalForceDirection','out',...
+                                                'mechanicalForceMagnitude',0.1,...
+                                                'mechanicalForceCutoff',obj.mechanicalForceCutoff);
                                             
             if ~isempty(obj.percentOfConnectedMonomers)
                 if (obj.percentOfConnectedMonomers>100 ||obj.percentOfConnectedMonomers<0)

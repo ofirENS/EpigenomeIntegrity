@@ -210,10 +210,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                                                    obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam);  
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;
-                obj.step = obj.step+1;  
-%                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI;
-%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;                                  
+                obj.step = obj.step+1;                                
             end
             obj.SetROI
         end
@@ -544,7 +541,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             
             % Activate bending for affected monomers
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = affectedMonomersInds;            
             
             obj.ApplyExclusionByVolume;

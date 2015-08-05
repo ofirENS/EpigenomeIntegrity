@@ -124,26 +124,26 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Damaged crosslinks are removed after UVC. Expansion is assigned to both damaged and non-damaged monomers. No Lennard-Jones. Expansion is relative center of mass. No repair steps. Simulation in 2D';
+            obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Damaged crosslinks are kept after UVC. A volume of exclusion is placed around each damaged monomer. No Lennard-Jones. No repair steps. Simulation in 2D';
             obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = [];%linspace(0,100,6);
+            obj.tryConnectivity  = linspace(0,100,6);
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
                         
             
             %___Simulation parameters___
-            obj.numRounds              = 1;% numel(obj.tryConnectivity); 
-            obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 20;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 20;  % start recording before UVC beam
-            obj.numBeamSteps           = 1000; % the steps until repair
+            obj.numRounds              = numel(obj.tryConnectivity);
+            obj.numSimulationsPerRound = 5;
+            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numBeamSteps           = 2000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 200;
+            obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -168,8 +168,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForce       = true;
             obj.mechanicalForceCenter = [0 0 0];
             obj.mechanicalForceDirection = 'out';
-            obj.mechanicalForceMagnitude = 10;
-            obj.mechanicalForceCutoff    = 5;
+            obj.mechanicalForceMagnitude = 1/obj.dt;
+            obj.mechanicalForceCutoff    = sqrt(obj.dimension)/2;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -181,13 +181,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight                         = 70;    % for 3d graphics purposes
-            obj.breakAllDamagedConnectorsInBeam    = false;  % break all connections between damaged monomers in UVC beam  
+            obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
             obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
             obj.assignBendingToNonAffectedMonomers = false;  % assign bending elasticity for non affected monomers after UVC
             obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
-            obj.excludeMonomersAroundAffected             = true;
+            obj.excludeMonomersAroundAffected            = true;
             
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
@@ -205,21 +205,21 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/BendingDamagedAndNonDamaged/NoLennardJones/BreakDamagedCrosslinks/00';% result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/00';% result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
-            obj.saveAfterEachRound           = false;  % save results and create a Readme file after each simulation round
+            obj.saveAfterEachRound           = true;  % save results and create a Readme file after each simulation round
             obj.saveClassInstance            = false;  % save an instance of the class with the results at the end of operation (usually big files ~50-100Mb).
             
             %___Snapshots____ (for 2D display only)
             obj.numSnapshotsDuringRelaxation = 0;  % unused 
-            obj.numSnapshotsDuringRecording  = 0; % how many snapshots during recording phase 
-            obj.numSnapshotsDuringBeam       = 0; % how many snapshots during beam phase 
+            obj.numSnapshotsDuringRecording  = 5; % how many snapshots during recording phase 
+            obj.numSnapshotsDuringBeam       = 15; % how many snapshots during beam phase 
             obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
             
             %__Display real-time parameters___
-            obj.show3D                          = true;
+            obj.show3D                          = false;
             obj.show2D                          = false;
             obj.showDensity                     = false;
             obj.showConcentricDensity           = false;

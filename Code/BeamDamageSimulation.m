@@ -298,7 +298,6 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function PostRoundActions(obj)
             % Actions performed at the end of each round   
-            
             % calculate the number and density of monomers in the ROI                        
             if obj.params.saveAfterEachRound
                 % Save results to result folder                
@@ -313,7 +312,17 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % Add connected beads 
             if ~isempty(obj.params.tryConnectivity)
               obj.params.percentOfConnectedMonomers = obj.params.tryConnectivity(obj.simulationRound);
-              obj.params.InitializeParamClasses;              
+              obj.params.InitializeParamClasses;            
+            end
+            
+            if ~isempty(obj.params.tryMechanicalForceMagnitude)
+              obj.params.mechanicalForceMagnitude = obj.params.tryMechanicalForceMagnitude(obj.simulationRound);
+              obj.params.InitializeParamClasses;            
+            end
+            
+            if ~isempty(obj.params.tryMechanicalForceCutoff)
+              obj.params.mechanicalForceCutoff = obj.params.tryMechanicalForceCutoff(obj.simulationRound);
+              obj.params.InitializeParamClasses;                
             end
             
             % crete/remove previous framework
@@ -367,7 +376,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             cl = clock;
             cl = [num2str(cl(4)),':' num2str(cl(5)), ':', num2str(cl(6))];
             sprintf('%s%s%s%s%s%s','Ended Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation),' at time: ', cl)  
-        end
+        end                
         
         function [inBeam,inBeamInds] = FindMonomersInBeam(obj)
             % find the monomers in the beam 

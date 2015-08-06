@@ -17,13 +17,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         dimension@double              % dimension 
         dt@double                     % time step
                         
-        %___Simulation trials ___
+        %___Simulation trials ___       
         tryOpeningAngles@double  % opening angle values to simulate
         tryConnectivity@double   % percent of connected monomers to simulate 
         tryNumMonomers@double    % number of monomers to simulate
         tryBendingConst@double   % bending constant to simulate
         trySpringConst@double    % spring constant to simulate 
-        
+        tryMechanicalForceMagnitude@double % mechanical force magnitude to simulate
+        tryMechanicalForceCutoff@double   % mechanical spring point force curoff to simulate 
+    
         %__Chain and chain forces parameters ___
         numMonomers@double % num monomers in polymer
         b@double           % neighboring monomers' distance STD
@@ -53,6 +55,9 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         mechanicalForceCutoff@double
         
         %___Nucleosomes and forces___
+        incorporateNucleusomes@logical   % simulate nucleusome dynamics  [false true]
+        maxNumNucleusomesPerBond@ double 
+        
         
         %__Domain params ___
         domainRadius@double
@@ -121,23 +126,25 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
+            simulationState        = 'simulation'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Damaged crosslinks are kept after UVC. A volume of exclusion is placed around each damaged monomer. No Lennard-Jones. No repair steps. Simulation in 2D';
-            obj.tryOpeningAngles = [];
-            obj.tryConnectivity  = linspace(0,100,6);
+            obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer. No Lennard-Jones. No repair steps. Simulation in 2D';            
+            obj.tryOpeningAngles = []; % obsolete
+            obj.tryConnectivity  = [];
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
-                        
+            obj.tryMechanicalForceMagnitude = [];
+            obj.tryMechanicalForceCutoff    = linspace(0.6, sqrt(2)/2,3);           
             
             %___Simulation parameters___
-            obj.numRounds              = numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 5;
-            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200;  % start recording before UVC beam
-            obj.numBeamSteps           = 2000; % the steps until repair
+            obj.numRounds              = numel(obj.tryMechanicalForceCutoff);
+            obj.numSimulationsPerRound = 2;
+            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300;  % start recording before UVC beam
+            obj.numBeamSteps           = 9000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
@@ -165,11 +172,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.LJPotentialWidth      = 0.1;
             obj.LJPotentialDepth      = 1;
             obj.LJPotentialType       = 'repulsive';
-            obj.mechanicalForce       = true;
-            obj.mechanicalForceCenter = [0 0 0];
+            obj.mechanicalForce       = false;
+            obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
-            obj.mechanicalForceMagnitude = 1/obj.dt;
-            obj.mechanicalForceCutoff    = sqrt(obj.dimension)/2;
+            obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.mechanicalForceCutoff    = 0.6;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -205,7 +212,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/00';% result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/06';% result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
@@ -226,6 +233,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.showExpensionMSD                = false;
             obj.showExpansionCircle             = false; % show expansion circles (works for 2D only) 
             obj.showAdditionalPolymerConnectors = false; % false speeds up display (for 2D projection image only)
+            
+            obj.SetSimulationState(simulationState)
             
             %___Initializ the classes___
             obj.InitializeParamClasses
@@ -275,9 +284,9 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'bendingOpeningAngle',obj.bendingOpeningAngle,...
                                                 'minParticleEqDistance',obj.minParticleEqDistance,...
                                                 'mechanicalForce',obj.mechanicalForce,...
-                                                'mechanicalForceCenter',[0 0 0],...
+                                                'mechanicalForceCenter',obj.mechanicalForceCenter,...
                                                 'mechanicalForceDirection','out',...
-                                                'mechanicalForceMagnitude',0.1,...
+                                                'mechanicalForceMagnitude',obj.mechanicalForceMagnitude,...
                                                 'mechanicalForceCutoff',obj.mechanicalForceCutoff);
                                             
             if ~isempty(obj.percentOfConnectedMonomers)
@@ -332,5 +341,26 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
         end
         
+        function SetSimulationState(obj,simulationState)
+            % preset fot the debug state
+            % set values for debug or simulation 
+            if strcmpi(simulationState,'debug')                           
+                obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
+                obj.saveAfterEachRound           = false;  % save results and create a Readme file after each simulation round
+                obj.saveClassInstance            = false;
+                obj.numSnapshotsDuringRelaxation = 0;  % unused 
+                obj.numSnapshotsDuringRecording  = 0; % how many snapshots during recording phase 
+                obj.numSnapshotsDuringBeam       = 0; % how many snapshots during beam phase 
+                obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
+                obj.saveRelaxationConfiguration  = false; % unused
+                obj.saveEndConfiguration         = false; % unused           
+                obj.loadRelaxationConfiguration  = false; % unused
+                obj.loadFullConfiguration        = false; % unused
+            elseif strcmpi(simulationState,'simulation')
+                % keep input parameters
+            else
+                error('unsupported simulationState option')                
+            end
+        end
     end
 end

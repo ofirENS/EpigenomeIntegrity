@@ -44,27 +44,32 @@ classdef BeamDamageSimulationViewer<handle
         end
         
         function InitializeGraphics(obj)
+            % main figure
             obj.handles.mainFigure    = figure('Units','norm','ToolBar','none');
             cameratoolbar(obj.handles.mainFigure);
+            % panels
             obj.handles.mainPanel     = uipanel('Parent',obj.handles.mainFigure,'Units','norm','Position', [0 0.1 0.5 0.9]);
             obj.handles.controlPanel  = uipanel('Parent',obj.handles.mainFigure,'Units','norm','Position', [0 0 1 0.1]);
             obj.handles.mainAxes      = axes('Parent',obj.handles.mainPanel,'Units','norm','Position',[0 0 1 1],'XTick',[],'YTick',[],'ZTick',[],'Color',[0.5  0.72 0.53]);
             box(obj.handles.mainAxes,'on');
             obj.handles.infoPanel     = uipanel('Parent',obj.handles.mainFigure,'Units','norm','Position',[0.5,0.1,0.5,0.9]);
             
+            % expansion axes
             obj.handles.expansionAxes = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.72 0.85 0.25],'FontSize',8); 
             ylabel(obj.handles.expansionAxes,'Radius'), xlabel(obj.handles.expansionAxes,'Step');  
             title(obj.handles.expansionAxes,'Radius of expansion','FontSize',13)
-            set(obj.handles.expansionAxes,'FontSize',13);
+            set(obj.handles.expansionAxes,'FontSize',13);            
             
+            % monomer density (num monomers in ROI)
             obj.handles.densityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.38 0.85 0.25],'FontSize',8);
             title(obj.handles.densityAxes,'Number of monomers in ROI','FontSize',13)
             ylabel(obj.handles.densityAxes,'Num. monomers in ROI'); xlabel(obj.handles.densityAxes,'Step')
             set(obj.handles.densityAxes,'FontSize',13);
             
+            % concentric density 
             obj.handles.concentricDensityAxes   = axes('Parent',obj.handles.infoPanel,'Units','norm','Position',[0.1 0.05 0.85 0.25],'FontSize',8);
             title(obj.handles.concentricDensityAxes,'Number of monomers in band','FontSize',13)
-            ylabel(obj.handles.concentricDensityAxes,'concentric num. monomers in ROI'); xlabel(obj.handles.concentricDensityAxes,'dist')
+            ylabel(obj.handles.concentricDensityAxes,'concentric num. monomers in ROI','FontSize',11); xlabel(obj.handles.concentricDensityAxes,'dist')
             set(obj.handles.concentricDensityAxes,'FontSize',13);
             
             daspect(obj.handles.mainAxes,[1 1 1]);
@@ -112,8 +117,11 @@ classdef BeamDamageSimulationViewer<handle
             obj.handles.expansion.indicator.nonAffected = line('XData',1,'YData',obj.radiusOfExpansion.nonAffected(1),'marker','o','markerFacecolor','b','Parent',obj.handles.expansionAxes,'HandleVisibility','off');
             obj.handles.numMonomersInROI                = line('XData',1:numel(obj.numMonomersInROI),'YData',obj.numMonomersInROI,'Parent',obj.handles.densityAxes);
             obj.handles.numMonomersIndicator            = line('XData',1,'YData',obj.numMonomersInROI(1),'Parent',obj.handles.densityAxes,'marker','o','markerFaceColor','k');
-            obj.handles.concentricNumMonomersInROI      = line('XData',1:numel(obj.concentricDensity(1,:)),'YData',obj.concentricDensity(1,:),'Parent',obj.handles.concentricDensityAxes);
+            obj.handles.concentricNumMonomersInROI      = line('XData',1:numel(obj.concentricDensity(1,:)),'YData',obj.concentricDensity(1,:),'Parent',obj.handles.concentricDensityAxes);            
             legend(obj.handles.expansionAxes,'show')
+            obj.AddTimeLineToAxes(obj.handles.expansionAxes);
+            obj.AddTimeLineToAxes(obj.handles.densityAxes);
+            axes(obj.handles.mainAxes)% give focus to main axes
         end
         
         function SliderMotion(obj, sliderHandle,varargin)
@@ -190,6 +198,18 @@ classdef BeamDamageSimulationViewer<handle
                     'Visible','on');
             end
             end
+        end
+        
+        function AddTimeLineToAxes(obj,axesHandle)
+            % plot timeline 
+            ylim      = get(axesHandle,'YLim');
+            fontSize  = 12;
+            textYpos  = ylim(1)+(ylim(2)-ylim(1))*0.05;
+            text(obj.params.numRecordingSteps,textYpos,'Beam shot','Color','r','LineStyle','-.','FontSize',fontSize,'HandleVisibility','off','Parent',axesHandle)
+            line('XData',obj.params.numRecordingSteps*[1 1], 'YData',ylim,'Color','r','Parent',axesHandle,'HandleVisibility','off');% beam start
+            line('XData',(obj.params.numRecordingSteps+obj.params.numBeamSteps)*[1 1],'YData',ylim,'Color','g','Parent',axesHandle,'HandleVisibility','off')
+            text(obj.params.numRecordingSteps+obj.params.numBeamSteps,textYpos,'Repair','Color','g','LineStyle','-.','FontSize',fontSize,'HandleVisibility','off','Parent',axesHandle)
+            
         end
     end
     

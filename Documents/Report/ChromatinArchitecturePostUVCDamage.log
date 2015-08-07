@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  6 AUG 2015 18:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  7 AUG 2015 21:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -255,7 +255,14 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks21
 \@floatcapt=\box29
 )
-(./ChromatinArchitecturePostUVCDamage.aux)
+(./ChromatinArchitecturePostUVCDamage.aux
+
+LaTeX Warning: Label `fig:meanRadiusOfExpansionAffected' multiply defined.
+
+
+LaTeX Warning: Label `fig:meanNumMonomersInROI' multiply defined.
+
+)
 \openout1 = `ChromatinArchitecturePostUVCDamage.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -272,8 +279,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
-
-(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count112
 \scratchdimen=\dimen118
@@ -392,7 +398,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--176
  []
 
 
-Overfull \hbox (6.80699pt too wide) in paragraph at lines 182--184
+Overfull \hbox (6.80699pt too wide) in paragraph at lines 181--183
 \OT1/cmr/m/n/12 After UVC, sev-eral monomers are hit and to-gether with their n
 earest-neighbors
  []
@@ -402,7 +408,7 @@ File: RadiusOfExpansion500BeadsLennardJones.jpg Graphic file (type jpg)
 
 <use RadiusOfExpansion500BeadsLennardJones.jpg>
 Package pdftex.def Info: RadiusOfExpansion500BeadsLennardJones.jpg used on inpu
-t line 192.
+t line 191.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <RadiusOfExpansion500BeadsNonAffectedLennardJones.jpg, id=195, 1686.3pt x 881.2
@@ -411,10 +417,10 @@ File: RadiusOfExpansion500BeadsNonAffectedLennardJones.jpg Graphic file (type j
 pg)
  <use RadiusOfExpansion500BeadsNonAffectedLennardJones.jpg>
 Package pdftex.def Info: RadiusOfExpansion500BeadsNonAffectedLennardJones.jpg u
-sed on input line 193.
+sed on input line 192.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 192--194
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 191--193
 [][] []
  []
 
@@ -423,7 +429,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 192--194
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.207 
+l.206 
        <./RadiusOfExpansion500BeadsLennardJones.jpg> <./RadiusOfExpansion500Bea
 dsNonAffectedLennardJones.jpg>]
 <Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionAffected.jp
@@ -434,7 +440,7 @@ ed.jpg Graphic file (type jpg)
 <use Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionAffecte
 d.jpg>
 Package pdftex.def Info: Images/expandAffected/BreakAffectedCrosslinks/meanRadi
-usOfExpansionAffected.jpg used on input line 218.
+usOfExpansionAffected.jpg used on input line 217.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionNonAffected
@@ -445,10 +451,10 @@ ected.jpg Graphic file (type jpg)
 <use Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionNonAffe
 cted.jpg>
 Package pdftex.def Info: Images/expandAffected/BreakAffectedCrosslinks/meanRadi
-usOfExpansionNonAffected.jpg used on input line 219.
+usOfExpansionNonAffected.jpg used on input line 218.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 218--220
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 217--219
 [][] []
  []
 
@@ -460,7 +466,7 @@ aphic file (type jpg)
 
 <use Images/expandAffected/BreakAffectedCrosslinks/meanNumMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandAffected/BreakAffectedCrosslinks/meanNumM
-onomersInROI.jpg used on input line 227.
+onomersInROI.jpg used on input line 226.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandAffected/BreakAffectedCrosslinks/percentMonomersInROI.jpg, id=214
@@ -470,10 +476,10 @@ aphic file (type jpg)
 
 <use Images/expandAffected/BreakAffectedCrosslinks/percentMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandAffected/BreakAffectedCrosslinks/percentM
-onomersInROI.jpg used on input line 228.
+onomersInROI.jpg used on input line 227.
 (pdftex.def)             Requested size: 194.98825pt x 164.5466pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 227--229
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 226--228
 [][] []
  []
 
@@ -482,13 +488,13 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 227--229
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.237 
+l.236 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
 0.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.237 
+l.236 
        <./Images/expandAffected/BreakAffectedCrosslinks/meanNumMonomersInROI.jp
 g> <./Images/expandAffected/BreakAffectedCrosslinks/percentMonomersInROI.jpg> <
 ./Images/expandAffected/BreakAffectedCrosslinks/meanRadiusOfExpansionAffected.j
@@ -502,7 +508,7 @@ g Graphic file (type jpg)
 <use Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionAffected.jpg
 >
 Package pdftex.def Info: Images/expandAffected/NoCrosslinksBroken/meanRadiusOfE
-xpansionAffected.jpg used on input line 239.
+xpansionAffected.jpg used on input line 238.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionNonAffected.jpg,
@@ -513,10 +519,10 @@ File: Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionNonAffected
 <use Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionNonAffected.
 jpg>
 Package pdftex.def Info: Images/expandAffected/NoCrosslinksBroken/meanRadiusOfE
-xpansionNonAffected.jpg used on input line 240.
+xpansionNonAffected.jpg used on input line 239.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 239--241
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 238--240
 [][] []
  []
 
@@ -528,7 +534,7 @@ File: Images/expandAffected/NoCrosslinksBroken/meanNumMonomersInROI.jpg Graphic
 
 <use Images/expandAffected/NoCrosslinksBroken/meanNumMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandAffected/NoCrosslinksBroken/meanNumMonome
-rsInROI.jpg used on input line 248.
+rsInROI.jpg used on input line 247.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandAffected/NoCrosslinksBroken/percentOfMonomersInROI.jpg, id=226, 1
@@ -538,10 +544,10 @@ ic file (type jpg)
 
 <use Images/expandAffected/NoCrosslinksBroken/percentOfMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandAffected/NoCrosslinksBroken/percentOfMono
-mersInROI.jpg used on input line 249.
+mersInROI.jpg used on input line 248.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 248--250
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 247--249
 [][] []
  []
 
@@ -550,7 +556,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 248--250
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.253 
+l.252 
        <./Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionAffecte
 d.jpg> <./Images/expandAffected/NoCrosslinksBroken/meanRadiusOfExpansionNonAffe
 cted.jpg>]
@@ -561,7 +567,7 @@ File: RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked.jpg Graphic file
 
 <use RadiusOfExpansion500BeadsAffectedLennardJonesCrosslinked.jpg>
 Package pdftex.def Info: RadiusOfExpansion500BeadsAffectedLennardJonesCrosslink
-ed.jpg used on input line 260.
+ed.jpg used on input line 259.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked.jpg, id=234, 1686.
@@ -571,10 +577,10 @@ ile (type jpg)
 
 <use RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked.jpg>
 Package pdftex.def Info: RadiusOfExpansion500BeadsNonAffectedLennardJonesCrossl
-inked.jpg used on input line 261.
+inked.jpg used on input line 260.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 260--262
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 259--261
 [][] []
  []
 
@@ -583,7 +589,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 260--262
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.265 
+l.264 
        <./Images/expandAffected/NoCrosslinksBroken/meanNumMonomersInROI.jpg> <.
 /Images/expandAffected/NoCrosslinksBroken/percentOfMonomersInROI.jpg>] [15pdfTe
 X warning (ext4): destination with the same identifier (name{figure.0.7}) has b
@@ -591,7 +597,7 @@ een already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.276 		\begin{enumerate}
+l.275 		\begin{enumerate}
                           <./RadiusOfExpansion500BeadsAffectedLennardJonesCross
 linked.jpg> <./RadiusOfExpansion500BeadsNonAffectedLennardJonesCrosslinked.jpg>
 ]
@@ -603,7 +609,7 @@ ffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionAf
 fected.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/04/Mea
-nRadiusOfExpansionAffected.jpg used on input line 288.
+nRadiusOfExpansionAffected.jpg used on input line 287.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionNonAff
@@ -614,10 +620,10 @@ onAffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionNo
 nAffected.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/04/Mea
-nRadiusOfExpansionNonAffected.jpg used on input line 289.
+nRadiusOfExpansionNonAffected.jpg used on input line 288.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 288--290
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 287--289
 [][] []
  []
 
@@ -630,7 +636,7 @@ pg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanNumMonomersInROI.jp
 g>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/04/Mea
-nNumMonomersInROI.jpg used on input line 296.
+nNumMonomersInROI.jpg used on input line 295.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamaged/BreakAffectedCrosslinks/04/percentOfMonomersInROI.jpg,
@@ -641,10 +647,10 @@ File: Images/expandNonDamaged/BreakAffectedCrosslinks/04/percentOfMonomersInROI
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/04/percentOfMonomersInROI.
 jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/04/per
-centOfMonomersInROI.jpg used on input line 297.
+centOfMonomersInROI.jpg used on input line 296.
 (pdftex.def)             Requested size: 194.98825pt x 164.5466pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 296--298
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 295--297
 [][] []
  []
 
@@ -653,7 +659,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 296--298
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.301 	     F
+l.300 	     F
              or 80-100\% connectivity we can gain loss of 20\% monomers from...
  <./Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfExpansionAff
 ected.jpg> <./Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanRadiusOfEx
@@ -666,7 +672,7 @@ ffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanRadiusOfExpansionAf
 fected.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/05/mea
-nRadiusOfExpansionAffected.jpg used on input line 304.
+nRadiusOfExpansionAffected.jpg used on input line 303.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanRadiusOfExpansionNonAff
@@ -677,10 +683,10 @@ onAffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanRadiusOfExpansionNo
 nAffected.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/05/mea
-nRadiusOfExpansionNonAffected.jpg used on input line 306.
+nRadiusOfExpansionNonAffected.jpg used on input line 305.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 304--307
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 303--306
 [][] []
  []
 
@@ -693,7 +699,7 @@ pg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanNumMonomersInROI.jp
 g>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/05/mea
-nNumMonomersInROI.jpg used on input line 313.
+nNumMonomersInROI.jpg used on input line 312.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamaged/BreakAffectedCrosslinks/05/percentageOfMonomersInROI.j
@@ -704,10 +710,10 @@ ROI.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/BreakAffectedCrosslinks/05/percentageOfMonomersInR
 OI.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/BreakAffectedCrosslinks/05/per
-centageOfMonomersInROI.jpg used on input line 314.
+centageOfMonomersInROI.jpg used on input line 313.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 313--315
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 312--314
 [][] []
  []
 
@@ -716,13 +722,13 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 313--315
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.318 
+l.317 
       pdfTeX warning (ext4): destination with the same identifier (name{figure.
 0.10}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.318 
+l.317 
        <./Images/expandNonDamaged/BreakAffectedCrosslinks/04/MeanNumMonomersInR
 OI.jpg> <./Images/expandNonDamaged/BreakAffectedCrosslinks/04/percentOfMonomers
 InROI.jpg> <./Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanRadiusOfEx
@@ -736,7 +742,7 @@ jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/NoCrosslinksBroken/meanRadiusOfExpansionAffected.j
 pg>
 Package pdftex.def Info: Images/expandNonDamaged/NoCrosslinksBroken/meanRadiusO
-fExpansionAffected.jpg used on input line 325.
+fExpansionAffected.jpg used on input line 324.
 (pdftex.def)             Requested size: 195.0pt x 101.90457pt.
 
 <Images/expandNonDamaged/NoCrosslinksBroken/meanRadiusOfExpansionNonAffected.jp
@@ -747,10 +753,10 @@ ed.jpg Graphic file (type jpg)
 <use Images/expandNonDamaged/NoCrosslinksBroken/meanRadiusOfExpansionNonAffecte
 d.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/NoCrosslinksBroken/meanRadiusO
-fExpansionNonAffected.jpg used on input line 326.
+fExpansionNonAffected.jpg used on input line 325.
 (pdftex.def)             Requested size: 195.0pt x 101.90457pt.
 
-Overfull \hbox (2.61108pt too wide) in paragraph at lines 325--327
+Overfull \hbox (2.61108pt too wide) in paragraph at lines 324--326
 [][] []
  []
 
@@ -762,7 +768,7 @@ ic file (type jpg)
 
 <use Images/expandNonDamaged/NoCrosslinksBroken/meanNumMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/NoCrosslinksBroken/meanNumMono
-mersInROI.jpg used on input line 333.
+mersInROI.jpg used on input line 332.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamaged/NoCrosslinksBroken/percentageOfMonomersInROI.jpg, id=2
@@ -772,10 +778,10 @@ Graphic file (type jpg)
 
 <use Images/expandNonDamaged/NoCrosslinksBroken/percentageOfMonomersInROI.jpg>
 Package pdftex.def Info: Images/expandNonDamaged/NoCrosslinksBroken/percentageO
-fMonomersInROI.jpg used on input line 334.
+fMonomersInROI.jpg used on input line 333.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 333--335
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 332--334
 [][] []
  []
 
@@ -784,14 +790,14 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 333--335
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.338     A
+l.337     A
            s can be seen in Figure \ref{fig:meanRadiusOfExpansionBendingNonA...
 pdfTeX warning (ext4): destination with the same identifier (name{figure.0.12})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.338     A
+l.337     A
            s can be seen in Figure \ref{fig:meanRadiusOfExpansionBendingNonA...
  <./Images/expandNonDamaged/BreakAffectedCrosslinks/05/meanNumMonomersInROI.jpg
 > <./Images/expandNonDamaged/BreakAffectedCrosslinks/05/percentageOfMonomersInR
@@ -806,7 +812,7 @@ nAffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamagedInBeam/breakDamagedCrosslinks/meanRadiusOfExpansion
 Affected.jpg>
 Package pdftex.def Info: Images/expandNonDamagedInBeam/breakDamagedCrosslinks/m
-eanRadiusOfExpansionAffected.jpg used on input line 346.
+eanRadiusOfExpansionAffected.jpg used on input line 345.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/expandNonDamagedInBeam/breakDamagedCrosslinks/meanRadiusOfExpansionNonA
@@ -817,10 +823,10 @@ nNonAffected.jpg Graphic file (type jpg)
 <use Images/expandNonDamagedInBeam/breakDamagedCrosslinks/meanRadiusOfExpansion
 NonAffected.jpg>
 Package pdftex.def Info: Images/expandNonDamagedInBeam/breakDamagedCrosslinks/m
-eanRadiusOfExpansionNonAffected.jpg used on input line 347.
+eanRadiusOfExpansionNonAffected.jpg used on input line 346.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 346--348
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 345--347
 [][] []
  []
 
@@ -829,7 +835,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 346--348
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.351 
+l.350 
        <./Images/expandNonDamaged/NoCrosslinksBroken/meanNumMonomersInROI.jpg> 
 <./Images/expandNonDamaged/NoCrosslinksBroken/percentageOfMonomersInROI.jpg>]
 [20pdfTeX warning (ext4): destination with the same identifier (name{figure.0.1
@@ -837,7 +843,7 @@ l.351
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.362      \end{equation*}
+l.361      \end{equation*}
                            <./Images/expandNonDamagedInBeam/breakDamagedCrossli
 nks/meanRadiusOfExpansionAffected.jpg> <./Images/expandNonDamagedInBeam/breakDa
 magedCrosslinks/meanRadiusOfExpansionNonAffected.jpg>]
@@ -849,7 +855,7 @@ ExpansionAffected.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanRadiusOfE
 xpansionAffected.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
-nks/00/meanRadiusOfExpansionAffected.jpg used on input line 374.
+nks/00/meanRadiusOfExpansionAffected.jpg used on input line 373.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanRadiusOfExpan
@@ -860,10 +866,10 @@ ExpansionNonAffected.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanRadiusOfE
 xpansionNonAffected.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
-nks/00/meanRadiusOfExpansionNonAffected.jpg used on input line 375.
+nks/00/meanRadiusOfExpansionNonAffected.jpg used on input line 374.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 374--376
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 373--375
 [][] []
  []
 
@@ -876,7 +882,7 @@ MonomersInROI.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanNumberOfM
 onomersInROI.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
-nks/00/meanNumberOfMonomersInROI.jpg used on input line 382.
+nks/00/meanNumberOfMonomersInROI.jpg used on input line 381.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/percentOfMonomers
@@ -887,10 +893,10 @@ omersInROI.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/percentOfMono
 mersInROI.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
-nks/00/percentOfMonomersInROI.jpg used on input line 383.
+nks/00/percentOfMonomersInROI.jpg used on input line 382.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 382--384
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 381--383
 [][] []
  []
 
@@ -899,7 +905,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 382--384
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.387 
+l.386 
        <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanRadi
 usOfExpansionAffected.jpg> <./Images/ExludeAroundDamagedMonomers/BreakDamagedCr
 osslinks/00/meanRadiusOfExpansionNonAffected.jpg>]
@@ -911,7 +917,7 @@ nssionAffected.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanRadiusOfExpan
 ssionAffected.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/
-00/meanRadiusOfExpanssionAffected.jpg used on input line 393.
+00/meanRadiusOfExpanssionAffected.jpg used on input line 392.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanRadiusOfExpanssio
@@ -922,10 +928,10 @@ nssionNonAffected.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanRadiusOfExpan
 ssionNonAffected.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/
-00/meanRadiusOfExpanssionNonAffected.jpg used on input line 394.
+00/meanRadiusOfExpanssionNonAffected.jpg used on input line 393.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 393--395
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 392--394
 [][] []
  []
 
@@ -934,7 +940,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 393--395
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.398 
+l.397 
        <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanNumb
 erOfMonomersInROI.jpg> <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrossl
 inks/00/percentOfMonomersInROI.jpg>]
@@ -946,7 +952,7 @@ nROI.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanNumMonomersIn
 ROI.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/
-00/meanNumMonomersInROI.jpg used on input line 402.
+00/meanNumMonomersInROI.jpg used on input line 400.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
 <Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/percentOfMonomersInRO
@@ -957,11 +963,16 @@ sInROI.jpg Graphic file (type jpg)
 <use Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/percentOfMonomers
 InROI.jpg>
 Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/
-00/percentOfMonomersInROI.jpg used on input line 403.
+00/percentOfMonomersInROI.jpg used on input line 401.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 402--404
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 400--402
 [][] []
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 409--410
+
  []
 
 [23pdfTeX warning (ext4): destination with the same identifier (name{figure.0.1
@@ -969,25 +980,107 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 402--404
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.409 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-0.18}) has been already used, duplicate ignored
+l.411    F
+          rom the result of simulating the process with cross-links broken f...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.0.18})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.409 
-       <./Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanRadiusOf
-ExpanssionAffected.jpg> <./Images/ExludeAroundDamagedMonomers/NoCrosslinksBroke
-n/00/meanRadiusOfExpanssionNonAffected.jpg> <./Images/ExludeAroundDamagedMonome
-rs/NoCrosslinksBroken/00/meanNumMonomersInROI.jpg> <./Images/ExludeAroundDamage
-dMonomers/NoCrosslinksBroken/00/percentOfMonomersInROI.jpg>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 419.
- [24]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 419.
+l.411    F
+          rom the result of simulating the process with cross-links broken f...
+ <./Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanRadiusOfExpans
+sionAffected.jpg> <./Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/m
+eanRadiusOfExpanssionNonAffected.jpg> <./Images/ExludeAroundDamagedMonomers/NoC
+rosslinksBroken/00/meanNumMonomersInROI.jpg> <./Images/ExludeAroundDamagedMonom
+ers/NoCrosslinksBroken/00/percentOfMonomersInROI.jpg>]
+<Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfExpan
+sionAffected.jpg, id=324, 1686.3pt x 881.2925pt>
+File: Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOf
+ExpansionAffected.jpg Graphic file (type jpg)
+
+<use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfE
+xpansionAffected.jpg>
+Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
+nks/06/meanRadiusOfExpansionAffected.jpg used on input line 417.
+(pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
+
+<Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfExpan
+sionNonAffected.jpg, id=325, 1686.3pt x 881.2925pt>
+File: Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOf
+ExpansionNonAffected.jpg Graphic file (type jpg)
+
+<use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfE
+xpansionNonAffected.jpg>
+Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
+nks/06/meanRadiusOfExpansionNonAffected.jpg used on input line 418.
+(pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
+
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 417--419
+[][] []
+ []
+
+
+<Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanNumMonomersIn
+ROI.jpg, id=326, 1686.3pt x 881.2925pt>
+File: Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanNumMonom
+ersInROI.jpg Graphic file (type jpg)
+
+<use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanNumMonome
+rsInROI.jpg>
+Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
+nks/06/meanNumMonomersInROI.jpg used on input line 426.
+(pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
+
+<Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/percentOfMonomers
+InROI.jpg, id=327, 1686.3pt x 881.2925pt>
+File: Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/percentOfMon
+omersInROI.jpg Graphic file (type jpg)
+
+<use Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/percentOfMono
+mersInROI.jpg>
+Package pdftex.def Info: Images/ExludeAroundDamagedMonomers/BreakDamagedCrossli
+nks/06/percentOfMonomersInROI.jpg used on input line 427.
+(pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
+
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 426--428
+[][] []
+ []
+
+[24pdfTeX warning (ext4): destination with the same identifier (name{figure.0.1
+9}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.431 
+       <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadi
+usOfExpansionAffected.jpg> <./Images/ExludeAroundDamagedMonomers/BreakDamagedCr
+osslinks/06/meanRadiusOfExpansionNonAffected.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 432--434
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--437
+
+ []
+
+[25pdfTeX warning (ext4): destination with the same identifier (name{figure.0.2
+0}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.444 
+       <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanNumM
+onomersInROI.jpg> <./Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/
+06/percentOfMonomersInROI.jpg>] [26]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 458.
+ [27]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 458.
 
 (./ChromatinArchitecturePostUVCDamage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 419.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 419.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 458.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 458.
 
 
 Package rerunfilecheck Warning: File `ChromatinArchitecturePostUVCDamage.out' h
@@ -997,18 +1090,21 @@ as changed.
 
 Package rerunfilecheck Info: Checksums for `ChromatinArchitecturePostUVCDamage.
 out':
-(rerunfilecheck)             Before: 9B65ACD9C371DED06A1572F8909AA5EF;2086
-(rerunfilecheck)             After:  6AB4580916904563B1AD387E404F819B;2157.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 419.
+(rerunfilecheck)             Before: E17C910625269CE33DF938AC0CB3400F;2098
+(rerunfilecheck)             After:  A2391E2232FAE588B847BB4C119607E4;2110.
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 458.
  ) 
 Here is how much of TeX's memory you used:
- 6392 strings out of 493109
- 101474 string characters out of 6140856
- 181517 words of memory out of 5000000
- 9659 multiletter control sequences out of 15000+600000
+ 6414 strings out of 493109
+ 103117 string characters out of 6140856
+ 181782 words of memory out of 5000000
+ 9675 multiletter control sequences out of 15000+600000
  13707 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,9n,31p,999b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,31p,986b,412s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/texmf-dist/font
 s/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public
@@ -1022,11 +1118,11 @@ sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmti12.pfb>
-Output written on ChromatinArchitecturePostUVCDamage.pdf (25 pages, 3855902 byt
+Output written on ChromatinArchitecturePostUVCDamage.pdf (28 pages, 4242041 byt
 es).
 PDF statistics:
- 403 PDF objects out of 1000 (max. 8388607)
- 322 compressed objects within 4 object streams
- 108 named destinations out of 1000 (max. 500000)
- 392 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 423 PDF objects out of 1000 (max. 8388607)
+ 335 compressed objects within 4 object streams
+ 113 named destinations out of 1000 (max. 500000)
+ 412 words of extra memory for PDF output out of 10000 (max. 10000000)
 

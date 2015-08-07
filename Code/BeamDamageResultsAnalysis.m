@@ -21,9 +21,18 @@ classdef BeamDamageResultsAnalysis<handle
         meanNumBeadsAfterBeam
         meanNumBeadsAfterRepair
         
+        meanLengthIn
+        meanLengthInBeforeBeam
+        meanLengthInAfterBeam
+        meanLengthInAfterRepair
+        
         meanPercentBeadsBeforeBeam
         meanPercentBeadsAfterBeam
         meanPercentBeadsAfterRepair
+        
+        meanPercentLengthBeforeBeam
+        meanPercentLengthAfterBeam
+        meanPercentLengthAfterRepair
         
         meanRadiusOfExpansionAffected
         meanRadiusOfExpansionNonAffected
@@ -84,11 +93,57 @@ classdef BeamDamageResultsAnalysis<handle
             end
         end
         
+        function MeanLengthIn(obj,plotFig)
+                    % Display the mean number of beads in the ROI
+            % plotFig is a flag for plotting, leave empty or set to true
+            % for plotting 
+            obj.meanLengthIn = zeros(obj.numRounds,numel(obj.results(1,1).lengthIn));
+            
+            for rIdx = 1:obj.numRounds
+                nbIn = zeros(obj.numSimulations,numel(obj.results(1,1).lengthIn));
+                for sIdx = 1:obj.numSimulations
+                    nbIn(sIdx,:) = obj.results(rIdx,sIdx).lengthIn;
+                end
+                 obj.meanLengthIn(rIdx,:) = mean(nbIn,1);                
+            end
+            
+            if ~exist('plotFig','var')
+                plotFig = true;
+            end
+                        
+            if plotFig
+            stepsToPlot = 1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps);
+            
+            f= figure;             
+            a = axes('Parent',f);
+            title(a,'length DNA in the ROI','FontSize',20);
+            ylabel(a,'Mean length in ROI')
+            lineWidth =  4;                                    
+           
+            [cr,cg,cb] = obj.GetColors(obj.numRounds);
+                        
+            for rIdx = 1:obj.numRounds
+              line('XData',stepsToPlot*obj.dt,'YData',  obj.meanLengthIn(rIdx,:),'displayName',sprintf('%s',['experiment ',num2str(rIdx)]),...
+                  'Color',[cr(rIdx),cg(rIdx),cb(rIdx)],'LineWidth',lineWidth,'Parent',a) 
+            end
+            
+            %  lines indicating recording time, beam time  and recoverty
+            % time 
+            obj.PlotTimeline(a)
+            
+            end
+        end
+        
         function MeanLostAndRecovery(obj,plotFig)
            % Calculate the mean bead in if not already calculated
             if  isempty(obj.meanNumBeadsIn)
                obj.MeanNumBeadsIn(false)
             end
+            
+            if isempty(obj.meanLengthIn)
+                obj.MeanLengthIn(false)
+            end
+            
             if ~exist('plotFig','var')
                 plotFig = true;
             end
@@ -100,7 +155,10 @@ classdef BeamDamageResultsAnalysis<handle
             for rIdx = 1:obj.numRounds
                 obj.meanNumBeadsBeforeBeam (rIdx)  = mean(obj.meanNumBeadsIn(rIdx,obj.numRecordingSteps));
                 obj.meanNumBeadsAfterBeam   (rIdx) = mean(obj.meanNumBeadsIn(rIdx,obj.numRecordingSteps+1:(obj.numRecordingSteps+obj.numBeamSteps)));
-                obj.meanNumBeadsAfterRepair (rIdx) = mean(obj.meanNumBeadsIn(rIdx,(obj.numRecordingSteps+obj.numBeamSteps)+1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)));                
+                obj.meanNumBeadsAfterRepair (rIdx) = mean(obj.meanNumBeadsIn(rIdx,(obj.numRecordingSteps+obj.numBeamSteps)+1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)));
+                obj.meanLengthInBeforeBeam(rIdx)   = mean(obj.meanLengthIn(rIdx,obj.numRecordingSteps));
+                obj.meanLengthInAfterBeam   (rIdx) = mean(obj.meanLengthIn(rIdx,obj.numRecordingSteps+1:(obj.numRecordingSteps+obj.numBeamSteps)));
+                obj.meanLengthInAfterRepair (rIdx) = mean(obj.meanLengthIn(rIdx,(obj.numRecordingSteps+obj.numBeamSteps)+1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)));
             end
            
             if plotFig
@@ -115,18 +173,40 @@ classdef BeamDamageResultsAnalysis<handle
                 set(b(1),'DisplayName','num. monomers in ROI before Beam')
                 set(b(2),'DisplayName','num. monomers in ROI during repair')
                 set(b(3),'DisplayName','num. monomers in ROI after repair')
+                legend('show')
+                title('Mean number of monomers in ROI at 3 stages')
+                xlabel('Experiment number')
+                ylabel('Mean number of Monomers in ROI')
+                set(gca,'FontSize',20);
+                
+                figure, 
+                if obj.numRounds==1
+                   barVals =  [obj.meanLengthInBeforeBeam nan;obj.meanLengthInAfterBeam nan;obj.meanLengthInAfterRepair nan]';
+                else 
+                   barVals = [obj.meanLengthInBeforeBeam;obj.meanLengthInAfterBeam;obj.meanLengthInAfterRepair]';
+                end
+                b = bar(barVals);
+                
+                set(b(1),'DisplayName','dna length in ROI before Beam')
+                set(b(2),'DisplayName','dna length in ROI during repair')
+                set(b(3),'DisplayName','dna length in ROI after repair')
+                legend('show')
+                title('dna length in ROI at 3 stages')
+                xlabel('Experiment number')
+                ylabel('dna length in ROI')
+                set(gca,'FontSize',20);
+                
             end
-            legend('show')
-           title('Mean number of monomers in ROI at 3 stages')
-           xlabel('Experiment number')
-           ylabel('Mean number of Monomers in ROI')
-           set(gca,'FontSize',20);
         end
         
         function MeanLostAndRecoveryPrecentage(obj,plotFig)
            % Calculate the mean bead in if not already calculated
             if  isempty(obj.meanNumBeadsBeforeBeam)
                obj.MeanLostAndRecovery(false)
+            end
+            
+            if isempty(obj.meanLengthInBeforeBeam)
+                obj.meanLengthIn(false);
             end
             
             if ~exist('plotFig','var')
@@ -138,7 +218,12 @@ classdef BeamDamageResultsAnalysis<handle
             for rIdx = 1:obj.numRounds
                 obj.meanPercentBeadsBeforeBeam(rIdx)  = 100;
                 obj.meanPercentBeadsAfterBeam(rIdx)   = 100*obj.meanNumBeadsAfterBeam(rIdx)/obj.meanNumBeadsBeforeBeam(rIdx);
-                obj.meanPercentBeadsAfterRepair(rIdx) = 100*obj.meanNumBeadsAfterRepair(rIdx)/obj.meanNumBeadsBeforeBeam(rIdx);                
+                obj.meanPercentBeadsAfterRepair(rIdx) = 100*obj.meanNumBeadsAfterRepair(rIdx)/obj.meanNumBeadsBeforeBeam(rIdx);  
+                
+                obj.meanPercentLengthBeforeBeam(rIdx) = 100;
+                obj.meanPercentLengthAfterBeam(rIdx)   = 100*obj.meanLengthInAfterBeam(rIdx)/obj.meanLengthInBeforeBeam(rIdx);
+                obj.meanPercentLengthAfterRepair(rIdx) = 100*obj.meanLengthInAfterRepair(rIdx)/obj.meanLengthInBeforeBeam(rIdx);  
+                
             end
            
             if plotFig
@@ -148,17 +233,35 @@ classdef BeamDamageResultsAnalysis<handle
                 else 
                    barVals = [obj.meanPercentBeadsBeforeBeam;obj.meanPercentBeadsAfterBeam;obj.meanPercentBeadsAfterRepair]';
                 end
-                b=bar(barVals);
+                b = bar(barVals);
                 
                 set(b(1),'DisplayName','percent monomers in ROI before Beam')
                 set(b(2),'DisplayName','percent monomers in ROI during repair')
                 set(b(3),'DisplayName','percent monomers in ROI after repair')
+                legend('show')
+                title('Percent of monomers in ROI at 3 stages')
+                xlabel('Experiment number')
+                ylabel('Percent of Monomers in ROI')
+                set(gca,'FontSize',20);
+               
+                 figure, 
+                if obj.numRounds==1
+                   barVals =  [obj.meanPercentLengthBeforeBeam nan;obj.meanPercentLengthAfterBeam nan;obj.meanPercentLengthAfterRepair nan]';
+                else 
+                   barVals = [obj.meanPercentLengthBeforeBeam;obj.meanPercentLengthAfterBeam;obj.meanPercentLengthAfterRepair]';
+                end
+                b = bar(barVals);
+                
+                set(b(1),'DisplayName','percent DNA length in ROI before Beam')
+                set(b(2),'DisplayName','percent DNA length in ROI during repair')
+                set(b(3),'DisplayName','percent DNa length in ROI after repair')
+                legend('show')
+                title('Percent DNA length in ROI at 3 stages')
+                xlabel('Experiment number')
+                ylabel('Percent DNA length in ROI')
+                set(gca,'FontSize',20);
+                
             end
-            legend('show')
-           title('Percent of monomers in ROI at 3 stages')
-           xlabel('Experiment number')
-           ylabel('Percent of Monomers in ROI')
-           set(gca,'FontSize',20);
         end
         
         function ConcentricDensity(obj,plotFlag)% unfinished

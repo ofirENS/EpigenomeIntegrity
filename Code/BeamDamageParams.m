@@ -126,7 +126,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
-            simulationState        = 'simulation'; % options: [debug | simulation]
+            simulationState        = 'debug'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
@@ -140,11 +140,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.tryMechanicalForceCutoff    = linspace(0.6, sqrt(2)/2,3);           
             
             %___Simulation parameters___
-            obj.numRounds              = numel(obj.tryMechanicalForceCutoff);
-            obj.numSimulationsPerRound = 2;
+            obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
+            obj.numSimulationsPerRound = 5;
             obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 9000; % the steps until repair
+            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numBeamSteps           = 2000; % the steps until repair
             obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
@@ -191,7 +191,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
             obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
-            obj.assignBendingToNonAffectedMonomers = false;  % assign bending elasticity for non affected monomers after UVC
+            obj.assignBendingToNonAffectedMonomers = false; % assign bending elasticity for non affected monomers after UVC
             obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
             obj.excludeMonomersAroundAffected            = true;

@@ -175,9 +175,8 @@
 	  	}
 	  \end{table}
 	  
-	\section{2D simulations}
-		
-		
+	\section{2D simulations of DNA loss}
+				
 	\subsection{Adding Lennard-Jones force to stop expansion}
       After UVC, several monomers are hit and together with their nearest-neighbors are assigned bending elasticity with an opening angle of a certain value. Usually, a region of consecutive affected monomers is enclosed by non-affected monomers. Therefore, the result of activating the bending elasticity force for the affected monomers is the formation of horse-show type of loops structures. 
       Affected monomers are located at the center of the polymer and expand usually outwards (although the direction of expansion cannot be controlled). The problem is that the expanded region of the chain exit the ROI and keep expanding passed the layer of non-affected monomers, that are usually located outside the ROI. 
@@ -380,7 +379,7 @@
 	 
 	\begin{figure}[H]
 	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/meanNumberOfMonomersInROI}
-		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/percentOfMonomersInROI}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/00/percentOfMonomersInROI}
 	\caption{The number of monomers in the ROI (left) and the overall percentage of monomer loss (right) at the end of repair stage for various percentage of cross-linking.}
 	\label{fig:meanNumberOfMonomersInROIVolumeOfExclusion}
 	\end{figure}
@@ -396,24 +395,63 @@
 	\label{fig:meanRadiusOfExpanssionAfectedVolumeOfExclusion}
 	\end{figure}
 	
-	In terms of the DNA loss, we get 
-	
+	In terms of the DNA loss, we get 	
 	\begin{figure}[H]
 	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/meanNumMonomersInROI}
 	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/NoCrosslinksBroken/00/percentOfMonomersInROI}
 	\caption{\tiny{\textbf{The absolute number of monomers in the ROI (left) and the percentage of loss at the end of simulation (right). For low degree of connectivty we have little to no change in the number of monomers in the ROI. Low level of conectivity turns out to be less reliable due to the fact that initialy less monomes are located near the center of mass of the polymer, where the beam is shot through. For high degree of connectivity (60-100\%, we see decrease roughly around 20\%. (400 monomers. No Lennard-Jones, exclusion around damaged monomers. no bending potential. All cross-links are kept post UVC)) }}}
 	\label{fig:meanNumMonomersInROIVolumeOfExclusion}
 	\end{figure}
-  \subsection{Parameter fitting}
+	
+	
+	
+  \subsubsection{Parameter fitting}
+   \textbf{The radius of Exclusion} \\
+  
    From the result of simulating the process with cross-links broken for the damaged monomers, we see that ~20\% loss of DNA can be achieved for 60-80\% connectivity. However, the radius of expansion tends to be roughly 3 times the initial radius, which do not agree with experimental observations. In experiments the damaged area (repair zone) expands three-folds in area, which is $\sqrt{3}$ in radius. We now take 80\% connectivity and explore the values of the exclusion volume around each damaged monomer and the expansion constant and fit them to experimental observations. 
    
+   We vary the value of the radius of exclusion around damaged monomers from 0.6 to $\sqrt{2}/2$ while keeping 80\% cross-linking. 
+   
+   
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfExpansionAffected}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanRadiusOfExpansionNonAffected}
+	\caption{\tiny{\textbf{Mean radius of expansion for the damaged (left) and non-damaged (right) monomers for 3 values of radius of exclusion around damaged monomers (legend). The cross links to and from each damaged monomers were removed post UVC. An expansion of ~1.7 is observed for radius of 0.65 (blue curve). The polymer included 500 monomers. 3 replicas of the experiment were made for each value of exclusion radius. simulation were performed for 9000 steps with a time step of 0.1, which results in 15 minuts.}}}
+	\label{fig:meanRadiusOfExpansionAffected}
+	\end{figure}
+   
+   The number of monomers in the ROI remained stable for all 3 values of the radius of exclusion.
+   
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/meanNumMonomersInROI}
+	\includegraphics[width=0.5\linewidth,height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/06/percentOfMonomersInROI}
+	\caption{\tiny{\textbf{The mean number of monomers in the ROI (left) and their percentage out of the total (right) for 3 values of the exclusion volume shows stability in the loss percentages (mean of 3 replicas). However, the value 0.65, which showed a radius of expansion 1.7 times the initial radius of the damaged monomerrs (see previous figure) has shown a slightly lower loss percentages than the others. This could be a result of the few experiments performed. more replicas might be needed. the polymer includede 500 monomers and ran for 900 step with time step of 0.1 second}}}
+	\label{fig:meanNumMonomersInROI}
+	\end{figure}
+   
+   \textbf{exclusion constant $k_m$}\\
+   In all experiments we keep the exclusion constant equal $k_m=\frac{2k_bT}{b^2}$\\
+   
+   
+   \textbf{Concentric Density}\\
+   
+   
 
-	 \subsection{Conclusions}
-	 We have examined several scenarios in which a UVC beam is shot towards the center-of-mass of a polymer. As a result, an expansion of the polymer is seen experimentally. To mimic the expansion of the polymer around the damage zone, we have assigned bending elasticity to either of the four groups: the affected monomers (and their nearest neighbors) the non-affected monomers, the non-affected monomers in the UVC beam, and both the affected and non-affected alike. 
-     To keep the polymer from expanding, we add random cross-links between different parts of the polymer. After UVC beam was shot, we either release the cross-links or keep them all.
+  \subsection{Summary and Conclusions}
+	 We have examined several scenarios in which a UVC beam was shot through the center-of-mass of a polymer. As a result, an expansion of the polymer is seen in the damage region. To simulate this expansion, we have assigned bending elasticity to either one of the four groups of monomers: the damaged monomers (and their nearest neighbors) the non-damaged monomers, the non-damaged monomers found in the UVC beam, and both the damaged and non-damaged alike. 
+	 
+	 It was observed that when the damaged monomers were assigned bending elasticity post UVC, an uncontrolled expansion has occurred (measured by the mean radius around the damaged monomers' center of mass). To keep the polymer from expanding, we have randomly added cross-links between pairs of monomers. The degree of cross-linking was determined by percentages of added connectivity in relation to the total number of monomers. These cross-links were either broken or kept post UVC, both scenarios have been examined. 
+	 
+	 Keeping all cross-links post UVC indeed stopped the expansion of the damaged monomers. However, instead of loss in the repair region, the polymer collapsed onto itself and an increase in the number of monomers was observed at the end of simulation. Similarly, breaking cross-links for damaged monomers showed and increase in radius of expansion and no significant lose of monomers was seen at the end of simulation. However, we favor the scenario by which damaged cross-links were broken post UVC, which is much more plausible in biological setting. 
+	 
+	 Breaking cross-links from damaged monomers agrees with observations by which repair mechanism loosens the connection between molecules such as CTCF and cohesin and makes the damage region more flexible. This flexibility in the damaged can be thought of the result of crowding of repair mechanism, recruted to the damaged zone. Indeed, by breaking the cross-links of damaged monomers the mean distance between monomers increases, which can be seen as the result of the presence of repair mechanism related proteins in the vicinity of each damaged monomer. 
      
-     It was shown that when bending is assigned to the damaged monomers, the expansion in the damaged monomers is larger than that of the non-damaged one. Because we determine the region of interest according to the damaged monomers' radius of expansion, it then shows immediately that there could be no loss of monomers in the region, since it include most of them (bot damaged and non-damaged). In contrast, assigning bending to the non-damaged monomers (while keeping non-damaged cross-links) proved to supply exactly the result we have anticipated: the damaged monomers redistribute, since the cross-links are broke), the non-damaged monomers leave the ROi determined by the damaged monomers, and so allow a reduction of 20\% (if the cross-linking percentage exceeds 70\%). Assigning bending elasticity to the non-damaged can be justified by the fact that repair protein, whi enter the region after UVC damage, push aside all irrelevant (non-damage) DNA.
+     It was shown that when bending is assigned to the damaged monomers, the radius of expansion is larger than that of the non-damaged one. Because we determine the region of interest according to the damaged monomers' radius of expansion, it then shows immediately that there could be no loss of monomers in the region, since it include most of them (both damaged and non-damaged). In contrast, assigning bending to the non-damaged monomers (while keeping non-damaged cross-links) proved to supply exactly the result we have anticipated: the damaged monomers redistribute, since the cross-links are broke), the non-damaged monomers leave the ROI determined by the damaged monomers, and so allow a reduction of 20\% (if the cross-linking percentage exceeds 70\%). Assigning bending elasticity to the non-damaged can be justified by the fact that repair protein, who enter the region after UVC damage, push aside all irrelevant (non-damage) DNA.
      
+     In addition, a second feasible model has proven to predict experimental observations. The model, as its former, includes random cross-linking of  monomers and breaking the cross-links after UVC to and from any damaged monomer. However, instead of assigning bending elasticity force, a circle around each damaged monomer is drawn, in which an harmonic push force was assigned that exclude all monomers from it. This was made to mimic the recruitment, binding and crowding around damaged site, by repair mechanism related proteins.
+     
+          
+     Which ever one of the two model represents real experiments is left for biological validation. however, the principle remains similar in both, the non damaged monomers are the mobile one and by their dynamics post UVC are responsible for the 20\% loss seen n experiments. The damaged monomers (regions) remain within the repair zone and are less mobile due to the attachment of repair proteins. 
      
      
 \end{document}

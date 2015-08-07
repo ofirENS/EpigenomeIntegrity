@@ -74,6 +74,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI                = obj.roi;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,numStepsToRecord);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn           = nan(1,numStepsToRecord);% polyymer length in ROI
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex       = [];
             obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity  = nan(numStepsToRecord,obj.params.numConcentricBandsInROI);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentDNALoss     = nan(1,numStepsToRecord);
@@ -201,7 +202,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
 %                 chainPos = obj.ApplyExclusionByVolume;
                 
                 stepIdx  = obj.step-obj.params.numRelaxationSteps;              
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx) = obj.GetChainPosition;% record position of the chain   
+                % record position of the chain
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx) = obj.GetChainPosition;
                 obj.UpdateGraphics
                 obj.Snapshot               
                 % calculate the radius of expansion for damaged and
@@ -347,9 +349,11 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
              
             % Calculate the number of monomers in the ROI before UVC
             for stepIdx = 1:obj.params.numRecordingSteps
-                 [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
+                 [inROI,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;               
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;
+                [dnaLengthIn] = obj.GetDnaLengthInROI(inROI,stepIdx);
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn(stepIdx) = dnaLengthIn;
             end
             
             % Calculate the densities in the ROI after UVC beam stated
@@ -357,7 +361,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 % get the polymer's center of mass at that point                 
                [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;                                 
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
+                 [dnaLengthIn] = obj.GetDnaLengthInROI(inROI,stepIdx);
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn(stepIdx) = dnaLengthIn;
             end
             
             % calculate the radius of expansion for the damaged monomers
@@ -440,7 +446,48 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 %----
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;            
         end
-                
+        
+        function dnaLength = GetDnaLengthInROI(obj,inROI, stepIdx)
+            % find the length of the bonds in the ROI
+            chainPos = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
+            cm       = mean(chainPos,1);
+            chainPos(:,1) = chainPos(:,1)-cm(1);
+            chainPos(:,2) = chainPos(:,2)-cm(2);
+            chainPos(:,3) = chainPos(:,3)-cm(3);
+            
+            % get all monomers in ROI 
+            dnaLength = 0;
+            for rIdx =2:numel(inROI)
+                if inROI(rIdx-1)&& inROI(rIdx)
+                    dnaLength = dnaLength+norm(chainPos(rIdx,:)-chainPos(rIdx-1,:));
+                elseif ~inROI(rIdx-1)&& inROI(rIdx)
+                    % find intersection with circle
+                   a    = sum((chainPos(rIdx,:)-chainPos(rIdx-1,:)).^2);
+                   b    = 2*dot(chainPos(rIdx-1,:),chainPos(rIdx,:)-chainPos(rIdx-1,:));
+                   c    = sum(chainPos(rIdx-1,:).^2 -obj.roi.radius^2);
+                   t(1) = (-b +sqrt(b^2 -4*a*c))/(2*a);
+                   t(2) = (-b -sqrt(b^2 -4*a*c))/(2*a);
+                   % take the positive t
+                   t= min(t(t>0));
+                   % calculate the distance from the intersection point to
+                   % the monomer
+                   dnaLength = dnaLength + norm((chainPos(rIdx,:)-chainPos(rIdx-1,:))*(1-t));
+                elseif inROI(rIdx-1,:) && ~inROI(rIdx,:)
+                    a = sum((chainPos(rIdx,:)-chainPos(rIdx-1,:)).^2);
+                   b = 2*dot(chainPos(rIdx-1,:),chainPos(rIdx,:)-chainPos(rIdx-1,:));
+                   c = sum(chainPos(rIdx-1,:).^2 -obj.roi.radius^2);
+                   t(1) = (-b +sqrt(b^2 -4*a*c))/(2*a);
+                   t(2) = (-b -sqrt(b^2 -4*a*c))/(2*a);
+                   % take the positive t
+                   t= min(t(t>0));
+                   % calculate the distance from the intersection point to
+                   % the monomer
+                   dnaLength = dnaLength + norm((chainPos(rIdx,:)-chainPos(rIdx-1,:))*t);
+                end
+            end                                  
+            
+        end
+        
         function cm = GetPolymerCenterOfMass(obj)
             % polymer center of mass in any dimension 
             chainPos = obj.handles.framework.objectManager.curPos;
@@ -1008,6 +1055,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         'concentricROI',[],...
                         'params',[],...
                         'numBeadsIn',[],...
+                        'lengthIn',[],...
                         'inBeam',[],...
                         'beadsInIndex',[],...
                         'concentricDensity',[],...

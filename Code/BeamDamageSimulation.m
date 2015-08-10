@@ -216,17 +216,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end
             obj.SetROI
         end
-        
-        function ApplyExclusionByVolume(obj)
-            if obj.params.excludeMonomersAroundAffected
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = true;
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForceCenter = ...
-                obj.handles.framework.objectManager.handles.chain.position.cur(...
-                 obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam,:);
-            end
-            
-        end
-        
+              
         function RunRepairSteps(obj)
             obj.state = 'Repair';
             % increase the step count 
@@ -595,21 +585,39 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex = inBeamInds;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam       = affectedInBeam;
             
-            
-            % Activate bending for affected monomers
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = affectedMonomersInds;            
-            
+            obj.ApplyBending(affectedMonomersInds)
             obj.ApplyExclusionByVolume;
-            obj.BreakConnections
+            obj.BreakCrosslinks
             obj.FixDamagedMonomersToPlace; 
         end
         
+        function ApplyBending(obj,affectedMonomersInds)
+            % Activate bending for affected monomers
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
+            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = affectedMonomersInds; 
+        end
+        
+        function ApplyExclusionByVolume(obj)
+            % create an exclusion region around affected monomer with
+            % harmonic pushing force (half spring)
+            if obj.params.excludeMonomersAroundAffected
+             obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = true;
+             obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForceCenter = ...
+                obj.handles.framework.objectManager.handles.chain.position.cur(...
+                 obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam,:);
+            end
+        end
+        
         function RepairDamageEffect(obj)
+            if obj.params.assignBendingToAffectedMonomers || obj.params.assignBendingToNonAffectedMonomers ||...
+                    obj.params.assignBendingToNonAffectedMonomersInBeam
             % Turn-off bending for affected monomers         
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
 %             obj.ReFormConnections;
+            elseif obj.params.excludeMonomersAroundAffected
+                obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = false;
+            end
         end
         
         function ReFormConnections(obj)
@@ -621,7 +629,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end
         end
         
-        function BreakConnections(obj)
+        function BreakCrosslinks(obj)
             % Break all non-nearest neighbor connections after UVC beam-shot
             cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads = cm;

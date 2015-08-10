@@ -86,7 +86,7 @@ classdef BeamDamageSimulationViewer<handle
             obj.handles.frameSlider  = uicontrol('style','slider','Units','norm',...
                                                  'Parent',obj.handles.controlPanel,'Position',[0.3 0, 0.5 0.9],...
                                                  'Callback',@obj.SliderMotion,'Max',size(obj.chainPosition,3),'Min',1,'Value',1,...
-                                                 'SliderStep',[10 10].*(1/(size(obj.chainPosition,3)-1)));
+                                                 'SliderStep',[5 5].*(1/(size(obj.chainPosition,3)-1)));
            % initialize the chain graphics
            obj.handles.chain           = line('XData',obj.chainPosition(:,1,1),'YData',obj.chainPosition(:,2,1),...
                'ZData', obj.chainPosition(:,3,1),'Marker','o','Parent',obj.handles.mainAxes,...
@@ -211,6 +211,24 @@ classdef BeamDamageSimulationViewer<handle
             text(obj.params.numRecordingSteps+obj.params.numBeamSteps,textYpos,'Repair','Color','g','LineStyle','-.','FontSize',fontSize,'HandleVisibility','off','Parent',axesHandle)
             
         end
-    end
+        
+        function ExportGIF(obj)
+            % set the slider at step(1)
+            res = 15;
+            set(obj.handles.frameSlider,'Value',1);
+            obj.SliderMotion(obj.handles.frameSlider)
+            f = getframe;
+            [im,map] = rgb2ind(f.cdata,256,'nodither');                        
+            im(1,1,1,numel(1:res:get(obj.handles.frameSlider,'Max'))) = 0;
+            for k = 1:res:get(obj.handles.frameSlider,'Max')
+                set(obj.handles.frameSlider,'Value',k);
+                obj.SliderMotion(obj.handles.frameSlider)
+                 f = getframe;
+                 im(:,:,1,k) = rgb2ind(f.cdata,map,'nodither');
+            end
+           imwrite(im,map,'simulation.gif','DelayTime',0,'LoopCount',inf) %g443800     
+        end
+            
+        end
+ end
     
-end

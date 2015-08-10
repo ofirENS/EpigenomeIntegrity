@@ -126,26 +126,26 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
-            simulationState        = 'debug'; % options: [debug | simulation]
+            simulationState        = 'simulation'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion of the damaged and non-damaged monomers with crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer. No Lennard-Jones. No repair steps. Simulation in 2D';            
+            obj.description      = 'Test the expansion and repair of the damaged monomers with 80% crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer ranging from 0.5 to sqrt(2). No Lennard-Jones. Simulation in 2D';
             obj.tryOpeningAngles = []; % obsolete
             obj.tryConnectivity  = [];
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             obj.tryMechanicalForceMagnitude = [];
-            obj.tryMechanicalForceCutoff    = linspace(0.6, sqrt(2)/2,3);           
+            obj.tryMechanicalForceCutoff    = linspace(0.5, sqrt(2),8);
             
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
-            obj.numSimulationsPerRound = 5;
-            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200;  % start recording before UVC beam
-            obj.numBeamSteps           = 2000; % the steps until repair
-            obj.numRepairSteps         = 0;  % repair and relaxation of the fiber
+            obj.numSimulationsPerRound = 3;
+            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300;  % start recording before UVC beam
+            obj.numBeamSteps           = 3000; % the steps until repair
+            obj.numRepairSteps         = 500;    % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
@@ -165,18 +165,18 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.bendingOpeningAngle   = pi;
             obj.gyrationRadius        = sqrt(obj.numMonomers/6)*obj.b;
             obj.morseForce            = false;
-            obj.morsePotentialDepth   = 0.01;
-            obj.morsePotentialWidth   = 0.01;
+            obj.morsePotentialDepth   = 0;
+            obj.morsePotentialWidth   = 0;
             obj.morseForceType        = 'repulsive';
             obj.lennardJonesForce     = false;
-            obj.LJPotentialWidth      = 0.1;
-            obj.LJPotentialDepth      = 1;
+            obj.LJPotentialWidth      = 0;
+            obj.LJPotentialDepth      = 0;
             obj.LJPotentialType       = 'repulsive';
             obj.mechanicalForce       = false;
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.6;
+            obj.mechanicalForceCutoff    = 0.8;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -212,7 +212,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/06';% result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/08';% result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
@@ -221,7 +221,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Snapshots____ (for 2D display only)
             obj.numSnapshotsDuringRelaxation = 0;  % unused 
-            obj.numSnapshotsDuringRecording  = 5; % how many snapshots during recording phase 
+            obj.numSnapshotsDuringRecording  = 5;  % how many snapshots during recording phase 
             obj.numSnapshotsDuringBeam       = 15; % how many snapshots during beam phase 
             obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
             
@@ -324,7 +324,9 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             % create a cylindrical Beam as a domain
             beamForces = ForceManagerParams('diffusionForce',false,...
                                             'lennardJonesForce',false,...
-                                            'morseForce',false);
+                                            'morseForce',false,...
+                                            'mechanicalForce',false,...
+                                            'springForce',false);
             
             dp(2)     = DomainHandlerParams('domainShape','cylinder',...
                                             'reflectionType','off',...

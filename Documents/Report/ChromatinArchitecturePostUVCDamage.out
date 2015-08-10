@@ -1,27 +1,24 @@
 \BOOKMARK [1][-]{section.0.1}{Experimental Settings and Main Findings}{}% 1
 \BOOKMARK [1][-]{section.0.2}{Model and Parameter Estimation}{}% 2
-\BOOKMARK [2][-]{subsection.0.2.1}{Nucleus Size}{section.0.2}% 3
-\BOOKMARK [2][-]{subsection.0.2.2}{The Simulation Domain}{section.0.2}% 4
-\BOOKMARK [2][-]{subsection.0.2.3}{The UV beam}{section.0.2}% 5
-\BOOKMARK [2][-]{subsection.0.2.4}{The region of interest \(ROI\)}{section.0.2}% 6
-\BOOKMARK [2][-]{subsection.0.2.5}{Histone Density}{section.0.2}% 7
-\BOOKMARK [2][-]{subsection.0.2.6}{DNA density}{section.0.2}% 8
-\BOOKMARK [2][-]{subsection.0.2.7}{Distribution of damage sites}{section.0.2}% 9
-\BOOKMARK [2][-]{subsection.0.2.8}{The chromatin}{section.0.2}% 10
-\BOOKMARK [2][-]{subsection.0.2.9}{Model Parameters}{section.0.2}% 11
-\BOOKMARK [2][-]{subsection.0.2.10}{The minimal distance between monomers -l0}{section.0.2}% 12
-\BOOKMARK [2][-]{subsection.0.2.11}{UVC damage effect on monomers}{section.0.2}% 13
-\BOOKMARK [2][-]{subsection.0.2.12}{Affected monomers after UVC}{section.0.2}% 14
-\BOOKMARK [2][-]{subsection.0.2.13}{The ROI}{section.0.2}% 15
-\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 16
-\BOOKMARK [2][-]{subsection.0.3.1}{Simulations' settings}{section.0.3}% 17
-\BOOKMARK [1][-]{section.0.4}{3D Simulations}{}% 18
-\BOOKMARK [2][-]{subsection.0.4.1}{The number of monomers in the ROI as a function of the bending constant}{section.0.4}% 19
-\BOOKMARK [1][-]{section.0.5}{2D simulations of DNA loss}{}% 20
-\BOOKMARK [2][-]{subsection.0.5.1}{Adding Lennard-Jones force to stop expansion}{section.0.5}% 21
-\BOOKMARK [2][-]{subsection.0.5.2}{Cross-linking the polymer}{section.0.5}% 22
-\BOOKMARK [2][-]{subsection.0.5.3}{Assigning bending to damaged monomers}{section.0.5}% 23
-\BOOKMARK [2][-]{subsection.0.5.4}{Assign bending to non-damaged monomers}{section.0.5}% 24
-\BOOKMARK [2][-]{subsection.0.5.5}{Assign bending to non-damaged monomers in the UVC beam}{section.0.5}% 25
-\BOOKMARK [2][-]{subsection.0.5.6}{Region of exclusion around damaged monomers}{section.0.5}% 26
-\BOOKMARK [2][-]{subsection.0.5.7}{Summary and Conclusions}{section.0.5}% 27
+\BOOKMARK [2][-]{subsection.0.2.1}{Simulation outline and definitions}{section.0.2}% 3
+\BOOKMARK [2][-]{subsection.0.2.2}{Nucleus Size}{section.0.2}% 4
+\BOOKMARK [2][-]{subsection.0.2.3}{The Simulation Domain}{section.0.2}% 5
+\BOOKMARK [2][-]{subsection.0.2.4}{The chromatin [to be corrected]}{section.0.2}% 6
+\BOOKMARK [2][-]{subsection.0.2.5}{The UV beam}{section.0.2}% 7
+\BOOKMARK [2][-]{subsection.0.2.6}{UVC effect on monomers}{section.0.2}% 8
+\BOOKMARK [2][-]{subsection.0.2.7}{The region of interest \(ROI\)}{section.0.2}% 9
+\BOOKMARK [2][-]{subsection.0.2.8}{DNA density}{section.0.2}% 10
+\BOOKMARK [2][-]{subsection.0.2.9}{Histone Density}{section.0.2}% 11
+\BOOKMARK [2][-]{subsection.0.2.10}{Model Parameters}{section.0.2}% 12
+\BOOKMARK [2][-]{subsection.0.2.11}{The minimal distance between monomers -l0}{section.0.2}% 13
+\BOOKMARK [2][-]{subsection.0.2.12}{The ROI}{section.0.2}% 14
+\BOOKMARK [1][-]{section.0.3}{Simulations}{}% 15
+\BOOKMARK [2][-]{subsection.0.3.1}{Simulation procedure}{section.0.3}% 16
+\BOOKMARK [1][-]{section.0.4}{2D simulations of DNA loss and recovery}{}% 17
+\BOOKMARK [2][-]{subsection.0.4.1}{Adding Lennard-Jones force}{section.0.4}% 18
+\BOOKMARK [2][-]{subsection.0.4.2}{Cross-linking the polymer}{section.0.4}% 19
+\BOOKMARK [2][-]{subsection.0.4.3}{Assigning bending to damaged monomers}{section.0.4}% 20
+\BOOKMARK [2][-]{subsection.0.4.4}{Assign bending to non-damaged monomers}{section.0.4}% 21
+\BOOKMARK [2][-]{subsection.0.4.5}{Assign bending to non-damaged monomers in the UVC beam}{section.0.4}% 22
+\BOOKMARK [2][-]{subsection.0.4.6}{Region of exclusion around damaged monomers}{section.0.4}% 23
+\BOOKMARK [2][-]{subsection.0.4.7}{Summary and Conclusions}{section.0.4}% 24

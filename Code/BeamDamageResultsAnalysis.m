@@ -151,14 +151,20 @@ classdef BeamDamageResultsAnalysis<handle
            % before beam, mean number after beam, and mean number at repair
            obj.meanNumBeadsBeforeBeam  = zeros(1,obj.numRounds);
            obj.meanNumBeadsAfterBeam   = zeros(1,obj.numRounds);
-           obj.meanNumBeadsAfterRepair = zeros(1,obj.numRounds);           
-            for rIdx = 1:obj.numRounds
-                obj.meanNumBeadsBeforeBeam (rIdx)  = mean(obj.meanNumBeadsIn(rIdx,obj.numRecordingSteps));
-                obj.meanNumBeadsAfterBeam   (rIdx) = mean(obj.meanNumBeadsIn(rIdx,obj.numRecordingSteps+1:(obj.numRecordingSteps+obj.numBeamSteps)));
-                obj.meanNumBeadsAfterRepair (rIdx) = mean(obj.meanNumBeadsIn(rIdx,(obj.numRecordingSteps+obj.numBeamSteps)+1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)));
-                obj.meanLengthInBeforeBeam(rIdx)   = mean(obj.meanLengthIn(rIdx,obj.numRecordingSteps));
-                obj.meanLengthInAfterBeam   (rIdx) = mean(obj.meanLengthIn(rIdx,obj.numRecordingSteps+1:(obj.numRecordingSteps+obj.numBeamSteps)));
-                obj.meanLengthInAfterRepair (rIdx) = mean(obj.meanLengthIn(rIdx,(obj.numRecordingSteps+obj.numBeamSteps)+1:(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)));
+           obj.meanNumBeadsAfterRepair = zeros(1,obj.numRounds);
+           % take the last 10% of steps in each stage for the measure of
+           % the mean number of monomer and length of DNA
+           indsBefore = round(0.9*obj.numRecordingSteps):obj.numRecordingSteps;
+           indsAfter  = round(0.9*(obj.numRecordingSteps+obj.numBeamSteps)):(obj.numRecordingSteps+obj.numBeamSteps);
+           indsRepair = round(0.9*(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps)):(obj.numRecordingSteps+obj.numBeamSteps+obj.numRepairSteps);
+            for rIdx = 1:obj.numRounds                
+                obj.meanNumBeadsBeforeBeam(rIdx)  = mean(obj.meanNumBeadsIn(rIdx,indsBefore));                
+                obj.meanNumBeadsAfterBeam(rIdx)   = mean(obj.meanNumBeadsIn(rIdx,indsAfter));                
+                obj.meanNumBeadsAfterRepair(rIdx) = mean(obj.meanNumBeadsIn(rIdx,indsRepair));
+                
+                obj.meanLengthInBeforeBeam(rIdx)  = mean(obj.meanLengthIn(rIdx,indsBefore));
+                obj.meanLengthInAfterBeam(rIdx)   = mean(obj.meanLengthIn(rIdx,indsAfter));
+                obj.meanLengthInAfterRepair(rIdx) = mean(obj.meanLengthIn(rIdx,indsRepair));
             end
            
             if plotFig
@@ -218,11 +224,11 @@ classdef BeamDamageResultsAnalysis<handle
             for rIdx = 1:obj.numRounds
                 obj.meanPercentBeadsBeforeBeam(rIdx)  = 100;
                 obj.meanPercentBeadsAfterBeam(rIdx)   = 100*obj.meanNumBeadsAfterBeam(rIdx)/obj.meanNumBeadsBeforeBeam(rIdx);
-                obj.meanPercentBeadsAfterRepair(rIdx) = 100*obj.meanNumBeadsAfterRepair(rIdx)/obj.meanNumBeadsBeforeBeam(rIdx);  
+                obj.meanPercentBeadsAfterRepair(rIdx) = 100*(obj.meanNumBeadsAfterRepair(rIdx)-obj.meanNumBeadsAfterBeam(rIdx))/(obj.meanNumBeadsBeforeBeam(rIdx)-obj.meanNumBeadsAfterBeam(rIdx));  
                 
-                obj.meanPercentLengthBeforeBeam(rIdx) = 100;
+                obj.meanPercentLengthBeforeBeam(rIdx)  = 100;
                 obj.meanPercentLengthAfterBeam(rIdx)   = 100*obj.meanLengthInAfterBeam(rIdx)/obj.meanLengthInBeforeBeam(rIdx);
-                obj.meanPercentLengthAfterRepair(rIdx) = 100*obj.meanLengthInAfterRepair(rIdx)/obj.meanLengthInBeforeBeam(rIdx);  
+                obj.meanPercentLengthAfterRepair(rIdx) = 100*(obj.meanLengthInAfterRepair(rIdx)-obj.meanLengthInAfterBeam(rIdx))/(obj.meanLengthInBeforeBeam(rIdx)-obj.meanLengthInAfterBeam(rIdx));  
                 
             end
            
@@ -254,7 +260,7 @@ classdef BeamDamageResultsAnalysis<handle
                 
                 set(b(1),'DisplayName','percent DNA length in ROI before Beam')
                 set(b(2),'DisplayName','percent DNA length in ROI during repair')
-                set(b(3),'DisplayName','percent DNa length in ROI after repair')
+                set(b(3),'DisplayName','percent DNA length in ROI after repair')
                 legend('show')
                 title('Percent DNA length in ROI at 3 stages')
                 xlabel('Experiment number')

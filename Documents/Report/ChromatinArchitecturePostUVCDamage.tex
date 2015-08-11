@@ -149,7 +149,7 @@
 	
 
 	  
-	\section{2D simulations of DNA loss and recovery}
+	\section{2D simulations of DNA loss}
 	 
 	\subsection{Adding Lennard-Jones force}
       After UVC, several monomers are hit and together with their nearest-neighbors are assigned bending elasticity with an opening angle of a certain value. Usually, a region of consecutive affected monomers is enclosed by non-affected monomers. Therefore, the result of activating the bending elasticity force for the affected monomers is the formation of horse-show type of loops structures. 
@@ -402,42 +402,69 @@
 	\caption{\tiny{\textbf{The mean number of monomers in the ROI (left) and their percentage out of the total (right) for 3 values of the exclusion volume shows stability in the loss percentages (mean of 3 replicas). However, the value 0.65, which showed a radius of expansion 1.7 times the initial radius of the damaged monomerrs (see previous figure) has shown a slightly lower loss percentages than the others. This could be a result of the few experiments performed. more replicas might be needed. the polymer includede 500 monomers and ran for 900 step with time step of 0.1 second}}}
 	\label{fig:meanNumMonomersInROIVolumeOfExclusionParameterFitting}
 	\end{figure}
-   
-   \textbf{constant of exclusion $k_m$}\\
-   In all experiments we keep the exclusion constant equal $k_m=\frac{2k_bT}{b^2}$\\
-   
-   \textbf{Analytical expression for the radius of expansion}
-   
-   In essence, we should be able to predict the magnitude of the radius of expansion if we know the number of monomers damaged due to UVC. 
-   Depending on the size of the UVC beam and the probability to be damaged (time of exposure).    
-   A volume of exclusion around each damaged monomers creates a geometrical arrangement such that over time damaged monomers are roughly equidistant from one another. Assuming equidistant (mean) model we assume the expansion of damaged monomers to be in a square region rather than a circular, and we approximate the radius of expansion to be half the diagonal of this square region. Therefore, the relationship between the radius of expansion, the number of monomers, the UVC beam radius and the radius of exclusion should roughly follow
+	   
+   We see from the figures above that a radius of exclusion $R_e=0.6$ provides us with an expansion of roughly $\sqrt{3}$, and allow 20\% loss of monomers from the ROI. \\
+         
+   \textbf{\large{Relationship between radius of exclusion and expansion}}   
+   In essence, we should be able to predict the magnitude of the radius of expansion if we know the number of monomers damaged due to UVC in the volume exclusion model. 
+   The redius of expansion of the damaged monomers should depend on the radius of the UVC beam, the total number of monomers and the probability of a monomer to be damaged (time of UVC exposure).
+   An exclusion around each damaged monomers converges over time to a geometrical arrangement with damaged monomers roughly equidistant from one another. Assuming equidistant (mean) model, we assume the expansion of damaged monomers to be in a square region rather than a circular (see figure), and we approximate the radius of expansion to be half the diagonal of this square region. Therefore, the relationship between the radius of expansion, the number of monomers, the UVC beam radius and the radius of exclusion should roughly follow
    \begin{equation*}
-   \left[\frac{[NF_{cm}^c(R_b)]^{0.5}}{2}-1 \right]R_e = R_b\alpha
+   \left[\frac{[pNF_{cm}^c(R_b)]^{0.5}}{2}-1 \right]R_e = R_b\alpha
    \end{equation*}
-   [Missing: the probability to be damaged] 
    
-   with $N$ the number of monomers,$R_b$ the radius of the UVC beam, $F_{cm}^c(R_b)$ the probability function for a monomer to be at a distance less than $R_b$ from the center of mass with cross-linking percentage $c$, $R_e$ the radius of exclusion around each damaged monomer, and $\alpha$ is the ratio between the radius of expansion at the end of repair stage and that at initiation of UVC beam, and is based on experimental observations. Note that $NF_{cm}^c(R_b)$ si the expected number of monomers in the region around the center of mass. 
+   with $N$ the number of monomers,$R_b$ the radius of the UVC beam, $F_{cm}^c(R_b)$ the probability function for a monomer to be at a distance less than $R_b$ from the center of mass with cross-linking percentage $c$, $R_e$ the radius of exclusion around each damaged monomer,$p$ the probability of a monomer to be damaged given its distance from center-of-mass, and $\alpha$ is the ratio between the radius of expansion at the end of repair stage and that at initiation of UVC beam, and is based on experimental observations. Note that $NF_{cm}^c(R_b)$ is the expected number of monomers in the region around the center of mass. 
    
-   In fact, the radius of the damaged monomers at initiation of UVC beam is roughly the UVC beam. However, this depends on the probability of damaging monomer in the Beam. Because this probability follows a Gaussian model, then to be more accurate, we replace $R_b$ with the standard deviation of the Gaussian $\sigma_{b}$. This brings us to 
+	\begin{figure}][H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/testExpansion/snapshotForExampleOfExpansionEstimation}
+	\caption{\tiny{\textbf{A snapshot from one of the siulaton depicting the square approximatino to the distribution of the damaged monomers (red circles). The damaged monomers (red) expand to a circle (magenta) at the end of simulation. The Orange lines are hand drawn to depict the approximation of the radius of expansion with half the diagonal of this rectangle. A model with 500 monomers and 80\% crosslinking}}}
+	\label{fig:snapshotForExampleOfExpansionEstimation}
+	\end{figure}
+   We do not have direct access to the probability density of monomers in a cross-linked polymer and so $F_{cm}^c$ is at the moment unknown. However, we noe empirically that with the parameters we chose, the expected number of monomers hit by UVC is 10\% of the total number of monomer, $N$ (given the UVC radius is 1). 
+   
+   The radius of the damaged monomers at initiation of UVC is roughly equivalent to that of the beam, because the probability of a monomer to be damaged is high.  But in general, damage probability follows a Gaussian distribution. Therefore, to be more accurate, we replace $R_b$ with the standard deviation of the Gaussian $\sigma_{b}$. This brings us to 
     
     \begin{equation*}
-    \left[\frac{[NF_{cm}^c(\sigma_b)]^{0.5}}{2}-1 \right]R_e = \sigma_b\alpha
+    \left[\frac{[pNF_{cm}^c(\sigma_b)]^{0.5}}{2}-1 \right]R_e = \sigma_b\alpha
     \end{equation*}
     
    To complete the calculation, it remains to evaluate $F_{cm}^c(\sigma_b)$, which will be dealt with later.
    
-    
-   \textbf{Concentric Density}\\
+   \textbf{Example}:\\
+   To estimate the value of the radius of exclusion for damaged monomers in a 500 monomer chain, such that the radius of expansion for the damaged monomers will increase $\alpha =\sqrt{3}$ its initial size (as observed in experiments), We assume that the UVC beam radius is $R_b=1$. Following the first approximation, with  $pNF_{cm}^c(R_b)=50$ we get 
+   \begin{equation*}
+   R_e =2\sqrt{3}/(\sqrt{50} -2) = 0.68
+   \end{equation*}
+   plugging $R_e=0.68$ in our simulations we get
+   
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/testExpansion/meanRadiusOfExpansionDamagedMonomers}
+	\caption{\tiny{\textbf{validating prediction of radius of expansion. Plugging $R_e=0.68$ in a model with 500 monomers and beam radius of 1 $\mu$m, we see that the simple approximation made in this section fits excellently to the observations. Over time the radius has expanded to $\sqrt{3}$ time its initial value of 1}}}
+	\label{fig:meanRadiusOfExpansionDamagedMonomers}
+	\end{figure}
+	 Although we see good agreement with simulations, the percent of monomers lost the ROI in this model with $R_e=0.68$ in about 30\% at the end of repair stage.
+	 
+	\begin{figure}[H]
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/testExpansion/meannumberOfMonomersInROI}
+	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/ExludeAroundDamagedMonomers/BreakDamagedCrosslinks/testExpansion/percentOfMonomersInROI}
+	\caption{\tiny{\textbf{The number of monomers in ROI (left) and the percent of monomers (right) in the ROI. As can be seen, a 30\% loss is achieved with $R_e=0.68$.}}}
+	\label{fig:meannumberOfMonomersInROI}
+	\end{figure}
+	 Although the loss reached 30\%, we should not worry about this too much because we can adjust the rate of the loss using the exclusion parameters, to fit experimental observations 15 minutes post UVC.
+	 
+   \textbf{\large{constant of exclusion $k_e$}}\\
+   In all experiments we keep the exclusion constant equal $k_e=\frac{2k_bT}{b^2}$\\ 
    
    \subsubsection{Length of DNA in ROI}
-   The polymer model we use describes the chromatin as beads connected by springs. Because during repair stage, after UVC, we stop diffusion and let the chain relax, all bonds (springs) reach a roughly constant minimal allowed length, making the chain effectively a bead-spring model. In later stages, when nucleusomes will be placed on bonds and will have dynamics, we will expect the loss after UVC to be 40\%. That means nucleusomes should slide or be displaced by some mechanism along the contour of the polymer away from damage sites (not including on cross-links). In the approximation we make for the chromatin, several nucleusomes will be grouped together and moved after UVC. Since we group several nucleosomes to a point, we should prevent unrealistic crowding of nucleosomes on a single bond. Therefore, the expected number of nucleosomes loss post UVC will be a function of the resting length of the bonds, the number of monomers damaged, and the nucleosome crowding limit we set. Although we expect a correlation between monomer loss and bond length in the ROI, we set out to examine what is the total length of bonds in the ROI after UVC. 
-   This should give us an indication of how many nucleosomes are displaced post UVC based on the allowed density in a bond. 
+   The polymer model we use describes the chromatin as beads connected by springs. Because during repair stage, after UVC, we stop diffusion and let the chain relax, all bonds (springs) reach roughly a constant minimal allowed length, making the chain effectively a bead-spring model. In later stages, when nucleusomes will be placed on bonds and will have dynamics, we will expect the loss after UVC to be 40\%. That means nucleusomes should slide or be displaced by some mechanism along the contour of the polymer away from damage sites (not including on cross-links). In the model we make for the chromatin, several nucleusomes will be grouped together and moved after UVC. due to this grouping, we should prevent unrealistic crowding of nucleosomes on a single bond. Therefore, the expected number of nucleosomes loss post UVC will be a function of the resting length of the bonds, the number of monomers damaged, and the nucleosome crowding limit we set. Although we expect a correlation between monomer loss and bond length in the ROI, we set out to examine what is the total length of bonds in the ROI after UVC. 
+   This should give us an indication of how many nucleosomes are displaced post UVC based on the allowed density of nucleosomes in a bond. 
    
    Interestingly, although the bond length in ROI and the number monomers are correlated, the percentages of loss are different. We set experiments in which 80\% connectivity is chosen and we vary the radius of exclusion from 0.2 to $\sqrt{2}/2$.  While monomer loss reaches 20\%, the total bond length losses up to 5\%. This phenomena is caused by the fact that the boundaries of the ROI are being densely populated with non damaged monomers after UVC and the exclusion area is effective in a finite range. That is, monomers are being pushed away from damaged monomers but stop when they are out of reach of the pushing force. In contrast, bonds are not completely affected
    
    
 
-  \subsection{Summary and Conclusions}
+  \subsection{Summary of Damage Stage}
 	 We have examined several scenarios in which a UVC beam was shot through the center-of-mass of a polymer. As a result, an expansion of the polymer is seen in the damage region. To simulate this expansion, we have assigned bending elasticity to either one of the four groups of monomers: the damaged monomers (and their nearest neighbors) the non-damaged monomers, the non-damaged monomers found in the UVC beam, and both the damaged and non-damaged alike. 
 	 
 	 It was observed that when the damaged monomers were assigned bending elasticity post UVC, an uncontrolled expansion has occurred (measured by the mean radius around the damaged monomers' center of mass). To keep the polymer from expanding, we have randomly added cross-links between pairs of monomers. The degree of cross-linking was determined by percentages of added connectivity in relation to the total number of monomers. These cross-links were either broken or kept post UVC, both scenarios have been examined. 
@@ -452,6 +479,8 @@
      
           
      Which ever one of the two model represents real experiments is left for biological validation. however, the principle remains similar in both, the non damaged monomers are the mobile one and by their dynamics post UVC are responsible for the 20\% loss seen n experiments. The damaged monomers (regions) remain within the repair zone and are less mobile due to the attachment of repair proteins. 
+     
+\section{DNA repair}
      
      
 \end{document}

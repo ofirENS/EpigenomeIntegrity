@@ -7,6 +7,7 @@ classdef BeamDamageSimulationViewer<handle
         numMonomersInROI
         connectedMonomers
         connectedMonomersAfterBeam
+        connectedMonomersAfterRepair
         concentricDensity
         roi
         params
@@ -27,6 +28,9 @@ classdef BeamDamageSimulationViewer<handle
             obj.numMonomersInROI              = resultStruct.numBeadsIn;
             obj.connectedMonomers             = resultStruct.connectedBeads;
             obj.connectedMonomersAfterBeam    = resultStruct.connectedBeadsAfterBeam;%true(size(resultStruct.connectedBeads,1),1);
+            if isfield('connectedBeadsAfterRepair',resultStruct) % backward compatibility 
+            obj.connectedMonomersAfterRepair  = resultStruct.connectedBeadsAfterRepair;
+            end
             % make a list of indices for the difference between the
             % connected before and after beam
             cmInd = false(size(obj.connectedMonomers,1),1);
@@ -86,7 +90,7 @@ classdef BeamDamageSimulationViewer<handle
             obj.handles.frameSlider  = uicontrol('style','slider','Units','norm',...
                                                  'Parent',obj.handles.controlPanel,'Position',[0.3 0, 0.5 0.9],...
                                                  'Callback',@obj.SliderMotion,'Max',size(obj.chainPosition,3),'Min',1,'Value',1,...
-                                                 'SliderStep',[5 5].*(1/(size(obj.chainPosition,3)-1)));
+                                                 'SliderStep',[10 10].*(1/(size(obj.chainPosition,3)-1)));
            % initialize the chain graphics
            obj.handles.chain           = line('XData',obj.chainPosition(:,1,1),'YData',obj.chainPosition(:,2,1),...
                'ZData', obj.chainPosition(:,3,1),'Marker','o','Parent',obj.handles.mainAxes,...
@@ -168,13 +172,13 @@ classdef BeamDamageSimulationViewer<handle
                     'Visible',vState);
             end
                 
-                
+                % Repair
             elseif frameNum>(obj.params.numRecordingSteps+obj.params.numBeamSteps)&& frameNum<=(obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps)% repair
                 set(obj.handles.frameSlider,'BackgroundColor','g')
                 set(obj.handles.damagedMonomers,'MarkerFacecolor','g')
                              % plot extra connectors
             for cIdx = 1:size(obj.connectedMonomers,1)
-                if obj.connectedMonomersAfterBeam(cIdx);
+                if obj.connectedMonomersAfterRepair(cIdx);
                     vState = 'on';
                 else
                     vState = 'off';

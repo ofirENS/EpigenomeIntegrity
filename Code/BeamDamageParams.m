@@ -87,7 +87,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         fixDamagedMonomersToPlaceAfterBeam@logical       % keep damaged monomers in place after UVC
         excludeMonomersAroundAffected@logical             % create a ball around damaged monomers and exclude other monomers from it after UVC
         
-        
+        %__ Repair 
+        repairBrokenCrosslinks           % reatach damaged monomers crosslinks after repair stage
+        distanceTheresholdToCrosslink    % at what distance should the monomers re-connect
+        turnOffBendingAfterRepair        % turn bending elastivity force off for affected monomers
+        removeExclusionVolumeAfterRepair % revmove the volume of exclusion around damaged monomers
                 
         %__Save and load___
         loadRelaxationConfiguration@logical % unused in this version
@@ -137,20 +141,20 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             obj.tryMechanicalForceMagnitude = [];
-            obj.tryMechanicalForceCutoff    = linspace(0.5, sqrt(2),8);
+            obj.tryMechanicalForceCutoff    = [];%linspace(0.5, sqrt(2),6);
             
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
-            obj.numSimulationsPerRound = 3;
+            obj.numSimulationsPerRound = 1;
             obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 3000; % the steps until repair
-            obj.numRepairSteps         = 500;    % repair and relaxation of the fiber
+            obj.numRecordingSteps      = 400;  % start recording before UVC beam
+            obj.numBeamSteps           = 2000; % the steps until repair
+            obj.numRepairSteps         = 0;    % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 500;
+            obj.numMonomers           = 400;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -176,7 +180,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.8;
+            obj.mechanicalForceCutoff    = 0.68;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -195,6 +199,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.assignBendingToNonAffectedMonomersInBeam = false; % assign bending elasticity for non affected monomers located in the beam after UVC
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
             obj.excludeMonomersAroundAffected            = true;
+            
+            %_ Repair__
+            obj.repairBrokenCrosslinks            = false;
+            obj.distanceTheresholdToCrosslink     = 1;    
+            obj.turnOffBendingAfterRepair         = false;
+            obj.removeExclusionVolumeAfterRepair  = false;
             
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics

@@ -342,14 +342,14 @@ classdef BeamDamageResultsAnalysis<handle
             fontSize  = 20;           
             line('XData',[obj.recordingTime, obj.recordingTime], 'YData',ylim,'Color','b','HandleVisibility','off','Parent',axisHandle,'DisplayName','Recording')
             % add text 
-            text(obj.recordingTime+obj.dt,textYpos,'Recording','Color','b','LineStyle','-.','FontSize',fontSize,'HandleVisibility','off','Parent',axisHandle)
+%             text(obj.recordingTime+obj.dt,textYpos,'Recording','Color','b','LineStyle','-.','FontSize',fontSize,'HandleVisibility','off','Parent',axisHandle)
             % beam time 
             line('XData',[obj.beamTime, obj.beamTime], 'YData',ylim,'Color','r','HandleVisibility','off','Parent',axisHandle,'DisplayName','Beam Shot')
             text(obj.beamTime+obj.dt,textYpos,'Beam Shot','Color','r','LineStyle','--','FontSize',fontSize,'HandleVisibility','off','Parent',axisHandle)
 
             line('XData',[obj.repairTime, obj.repairTime], 'YData',ylim,'Color','g','HandleVisibility','off','Parent',axisHandle,'DisplayName','Repair')
             text(obj.repairTime+obj.dt,textYpos,'Repair','Color','g','LineStyle','--','FontSize',fontSize,'HandleVisibility','off','Parent',axisHandle)            
-            xlabel(axisHandle,'Time [sec]');            
+            xlabel(axisHandle,'Time [sec]');
             set(axisHandle,'FontSize',20)
         end
     end

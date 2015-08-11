@@ -107,16 +107,11 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         simulationFolderName = sprintf('%s%s','Simulation',num2str(sIdx));  
                         % create the snapshot folder with Recording, Beam,
                         % and Repair 
-                        [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName));% create recording snapshots
-                                                
-                        
+                        [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName));% create recording snapshots                                                                        
                         [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName,'Snapshots','Recording'));% create recording snapshots
-                        [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName,'Snapshots','Beam'));% create recording snapshots                        [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,'Snapshots','Beam',roundFolderName));% create beam damage snapshots
+                        [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName,'Snapshots','Beam'));% create recording snapshots 
                         [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,roundFolderName,simulationFolderName,'Snapshots','Repair'));% create recording snapshots
-                        
-%                         [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,'Snapshots','Recording',roundFolderName,simulationFolderName));% create recording snapshots
-%                         [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,'Snapshots','Beam',roundFolderName,simulationFolderName));% create beam damage snapshots
-%                         [~] = mkdir(fullfile(obj.params.resultsPath,obj.params.resultsFolder,'Snapshots','Repair',roundFolderName,simulationFolderName));% create repair period snapshots
+
                     end
                 end                
             end
@@ -474,8 +469,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                    % the monomer
                    dnaLength = dnaLength + norm((chainPos(rIdx,:)-chainPos(rIdx-1,:))*t);
                 end
-            end                                  
-            
+            end
         end
         
         function cm = GetPolymerCenterOfMass(obj)
@@ -593,8 +587,11 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function ApplyBending(obj,affectedMonomersInds)
             % Activate bending for affected monomers
+            if obj.params.assignBendingToNonAffectedMonomers || obj.params.assignBendingToNonAffectedMonomersInBeam ||...
+                    obj.params.assignBendingToAffectedMonomers
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = true;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = affectedMonomersInds; 
+            end
         end
         
         function ApplyExclusionByVolume(obj)
@@ -609,24 +606,31 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         end
         
         function RepairDamageEffect(obj)
-            if obj.params.assignBendingToAffectedMonomers || obj.params.assignBendingToNonAffectedMonomers ||...
-                    obj.params.assignBendingToNonAffectedMonomersInBeam
+            % the effect after repair stage is over (15 min post UVC)
+            if obj.params.turnOffBendingAfterRepair
             % Turn-off bending for affected monomers         
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
-%             obj.ReFormConnections;
-            elseif obj.params.excludeMonomersAroundAffected
+            end
+            if obj.params.removeExclusionVolumeAfterRepair
+                % remove the exclusion volume around affected monomers
                 obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = false;
+            end
+            
+            if obj.params.repairBrokenCrosslinks
+                obj.ReformConnections
             end
         end
         
-        function ReFormConnections(obj)
+        function ReformConnections(obj)
             % At repair time, re-form the broken connections due to UVC damage
             for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)
             obj.handles.framework.objectManager.ConnectParticles(...
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,1),...
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));            
             end
+            cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = cm;
         end
         
         function BreakCrosslinks(obj)
@@ -637,7 +641,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             if ~isempty(cm)
                 for bIdx = 1:size(cm,1)
                  obj.handles.framework.objectManager.DisconnectParticles(...
-                cm(bIdx,1),cm(bIdx,2));
+                 cm(bIdx,1),cm(bIdx,2));
                 end
             end
             
@@ -650,7 +654,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                       for bIdx = 1:size(cm,1)
                          if ismember(cm(bIdx,1),inBeam) || ismember(cm(bIdx,2),inBeam)
                          obj.handles.framework.objectManager.DisconnectParticles(...
-                        cm(bIdx,1),cm(bIdx,2));
+                         cm(bIdx,1),cm(bIdx,2));
                          end
                       end
                   end
@@ -1057,6 +1061,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                         'connectedBeads',[],...
                         'percentOfConnectedBeads',[],...                        
                         'connectedBeadsAfterBeam',[],...
+                        'connectedBeadsAfterRepair',[],...
                         'percentOfConnectedBeadsAfterBeam',[],...
                         'numConnectionsLost',[],...                        
                         'ROI',struct('center',[],'radius',[]),...

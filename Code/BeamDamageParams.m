@@ -89,6 +89,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         
         %__ Repair 
         repairBrokenCrosslinks           % reatach damaged monomers crosslinks after repair stage
+        addCrosslinksByDistance          % reattach monomers only if they are located at a distance less than distanceTheresholdToCrosslink
         distanceTheresholdToCrosslink    % at what distance should the monomers re-connect
         turnOffBendingAfterRepair        % turn bending elastivity force off for affected monomers
         removeExclusionVolumeAfterRepair % revmove the volume of exclusion around damaged monomers
@@ -130,31 +131,31 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
-            simulationState        = 'simulation'; % options: [debug | simulation]
+            simulationState        = 'debug'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
-            obj.description      = 'Test the expansion and repair of the damaged monomers with 80% crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer ranging from 0.5 to sqrt(2). No Lennard-Jones. Simulation in 2D';
+            obj.description      = 'Test the expansion and repair of the damaged monomers with 90% crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer with radius 0.68. We test values of exclusion rangin 0.1 to 1. with repair and crosslinks repaires. No Lennard-Jones. Simulation in 2D';
             obj.tryOpeningAngles = []; % obsolete
             obj.tryConnectivity  = [];
             obj.tryNumMonomers   = [];
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
-            obj.tryMechanicalForceMagnitude = [];
-            obj.tryMechanicalForceCutoff    = [];%linspace(0.5, sqrt(2),6);
+            obj.tryMechanicalForceMagnitude = [];%linspace(0.1, 0.5,3);
+            obj.tryMechanicalForceCutoff    = [];%linspace(0.5, sqrt(2),3);
             
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 400;  % start recording before UVC beam
-            obj.numBeamSteps           = 2000; % the steps until repair
-            obj.numRepairSteps         = 0;    % repair and relaxation of the fiber
+            obj.numRelaxationSteps     = 10;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300;  % start recording before UVC beam
+            obj.numBeamSteps           = 3000; % the steps until repair
+            obj.numRepairSteps         = 300;    % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 400;
+            obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -180,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.68;
+            obj.mechanicalForceCutoff    = 2.5;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -201,10 +202,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.excludeMonomersAroundAffected            = true;
             
             %_ Repair__
-            obj.repairBrokenCrosslinks            = false;
+            obj.repairBrokenCrosslinks            = true;
+            obj.addCrosslinksByDistance           = true;
             obj.distanceTheresholdToCrosslink     = 1;    
             obj.turnOffBendingAfterRepair         = false;
-            obj.removeExclusionVolumeAfterRepair  = false;
+            obj.removeExclusionVolumeAfterRepair  = true;
             
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
@@ -222,7 +224,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/08';% result sub-folder name
+            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/10';% result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation
@@ -296,7 +298,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'mechanicalForce',obj.mechanicalForce,...
                                                 'mechanicalForceCenter',obj.mechanicalForceCenter,...
                                                 'mechanicalForceDirection','out',...
-                                                'mechanicalForceMagnitude',obj.mechanicalForceMagnitude,...
+                                                'mechanicalForceMagnitude',0.68,...obj.mechanicalForceMagnitude,...
                                                 'mechanicalForceCutoff',obj.mechanicalForceCutoff);
                                             
             if ~isempty(obj.percentOfConnectedMonomers)

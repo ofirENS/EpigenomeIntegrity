@@ -9,8 +9,26 @@
 	
 	\title{Chromatin Architecture Post UVC damage}
 	\maketitle
+	\section{Glossary of symbols}
+	\begin{itemize}
+		\itemsep0em
+		\item $N$- the number of monomers in the chain
+		\item $d$ - dimension 
+		\item $t$ - time
+		\item $\Omega_(\rho)$- a sphere is $d$ -dimension with radius $\rho$ centered at the origin
+		\item $D$ - diffusion constant
+		\item $w$ - standard white Gaussian noise
+		\item $R_i$ - position of the $i^{th}$ monomer
+		\item $k_B$- the Boltzmann constant
+		\item $T$- absolute temperature
+		\item $\xi$- friction parameter
+		\item $b$- the standard deviation of the distance betwen neighboring monomers
+		\item $l_0$- the minimal allowed spring length
+		
+	\end{itemize}
 	\section{Experimental Settings and Main Findings}
 	\begin{enumerate}
+		\itemsep0em
 		\item Cell type used: U20S, which are human osteosarcoma cells;
 		\item H3.3 histones are tagged 48 hours before experiments using the SNAP-tag method, tag color is red;
 		\item Repair factors XFP are labeled with GFP;
@@ -41,8 +59,9 @@
 	\subsection{Simulation outline and definitions}
 	We perform 3 stage simulation: 
 	\begin{itemize}
-		\item recording stage
-		\item repair stage - in which a UVC beam is shot at initiation
+		\itemsep0em
+		\item recording stage;
+		\item repair stage - in which a UVC beam is shot at initiation;
 		\item post repair stage
     \end{itemize}
     
@@ -94,6 +113,7 @@
     \subsection{UVC effect on monomers}
       Several scenarios will be examined in this report:
       \begin{enumerate}
+      	\itemsep0em
       	\item We assign bending elasticity to damaged monomers, with an opening angle $\theta$;
       	\item We assign bending elasticity to the non-damaged monomers with an opening angle $\theta$;
       	\item We assign bending elasticity to the non-damaged monomers found only in the UVC beam and unaffected by it, with opening angle $\theta$;
@@ -247,6 +267,7 @@
 		
 		The result of the previous subsection brought us to believe that the expansion should not occur in the damaged monomers but rather in the non-damaged ones i.e. The 20\% lose in DNA density should be attributed to the non-damaged monomers. The damaged DNA remains within the repair zone, whereas non-damaged DNA is pushed aside by the repair mechanism. According to this scenario, the simulation now captures the following process:
 		\begin{enumerate}
+			\itemsep0em
 			\item cross-linked polymer is being shot by UVC;
 			\item cross-links to and from the damaged monomers are released;
 			\item repair mechanism pushes the non-damaged monomers out of the way, this causes bending elasticity for the non-damaged monomers.
@@ -327,11 +348,11 @@
 	 
 	 
 	 \subsection{Region of exclusion around damaged monomers}
-	 To simulate the arrival and crowding of repair mechanism in the damage site, we apply a mechanical pushing force around each damaged monomer after UVC beam shot. This force will operate in a finite range around each damaged monomers, with a magnitude proportional to the distance to the damaged monomer. Multiple force foci are updated simultaneously at each simulation step, where Each force locus is placed on the damaged monomer. We test the expansion and DNA loss in the ROI similarly to the previous subsection. The ROI is determined according to the expansion of the damaged monomers, and we test two scenarios: one with cross-linked removed from and to the damaged monomer post UVC, and the second with all cross-links kept after UVC damage. 
+	 To simulate the arrival and crowding of repair mechanism in the damage site, we apply a mechanical pushing force around each damaged monomer after UVC beam shot. This force will operate in a finite range around each damaged monomers. Multiple force foci are updated simultaneously at each simulation step, where each force locus is placed on a damaged monomer. The force is derived from a truncated harmonic potential, and it acts as a spring at distances bellow its resting point at the exclusion radius. We test the expansion and DNA loss in the ROI similarly to the previous subsection. The ROI is determined according to the expansion of the damaged monomers, and we test two scenarios: one with cross-linked removed from and to the damaged monomer post UVC, and the second with all cross-links kept after UVC damage. 
      
      Description of the mechanical exclusion potential:
      \begin{equation*}
-     U_m(r_i)= \frac{k_m}{2}\sum_{i,j}(R_m^2-\|r_i-c_j\|^2)^2 (H_0(\|r_i-c_j\|^2)-H_{R_m}(\|r_i-c_j\|^2)
+     U_m(r_i)= \frac{k_m}{2}\sum_{i,j}(R_e^2-\|r_i-c_j\|^2)^2 (H_0(\|r_i-c_j\|^2)-H_{R_m}(\|r_i-c_j\|^2)
      \end{equation*}
      where $R_m$ is the radius of force operation- above which the force zeros-out, $c_j$ is the $j^{th}$ force center, and $r_i$ is the position of the $i^{th}$ monomer. The function $H(x)$ is the Heaviside function.
      

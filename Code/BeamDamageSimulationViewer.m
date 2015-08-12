@@ -178,10 +178,13 @@ classdef BeamDamageSimulationViewer<handle
                 set(obj.handles.damagedMonomers,'MarkerFacecolor','g')
                              % plot extra connectors
             for cIdx = 1:size(obj.connectedMonomers,1)
+                vState = 'on';
+                if ~isempty(obj.connectedMonomersAfterRepair)
                 if obj.connectedMonomersAfterRepair(cIdx);
                     vState = 'on';
                 else
                     vState = 'off';
+                end
                 end
                 set(obj.handles.connectors(cIdx),...
                     'XData',[obj.chainPosition(obj.connectedMonomers(cIdx,1),1,frameNum),obj.chainPosition(obj.connectedMonomers(cIdx,2),1,frameNum)],...

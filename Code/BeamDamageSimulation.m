@@ -72,7 +72,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.results.resultStruct(obj.simulationRound,obj.simulation).openingAngle       = obj.params.bendingOpeningAngle;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).dt                 = obj.params.dt;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI                = obj.roi;
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
+%             obj.results.resultStruct(obj.simulationRound,obj.simulation).params             = obj.params;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn         = nan(1,numStepsToRecord);
             obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn           = nan(1,numStepsToRecord);% polyymer length in ROI
             obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex       = [];
@@ -294,7 +294,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
         
         function PreSimulationActions(obj)
             
-            obj.simulation        = obj.simulation+1;% increase counter                
+            obj.simulation = obj.simulation+1;% increase counter                
+%             obj.params     = BeamDamageParams;% initialize a new param class
             
             % Add connected beads 
             if ~isempty(obj.params.tryConnectivity)
@@ -316,7 +317,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             if isfield(obj.handles,'framework')
                 delete(obj.handles.framework)
             end
-            
+             obj.results.resultStruct(obj.simulationRound,obj.simulation).params        = obj.params;
             obj.handles.framework = RouseSimulatorFramework(obj.params.simulatorParams);
             
             % prepare the result structure
@@ -326,7 +327,8 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             cl = [num2str(cl(4)),':' num2str(cl(5)), ':', num2str(cl(6))];
             sprintf('%s%s%s%s%s%s','Started Round ', num2str(obj.simulationRound), ' Simulation ', num2str(obj.simulation),' at time: ', cl)
             obj.PrepareSnapshotMagazine;
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition    = zeros(obj.params.numMonomers,3,obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition = zeros(obj.params.numMonomers,3,obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps);
+             
         end
         
         function PostSimulationActions(obj)
@@ -467,7 +469,9 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                    t= min(t(t>0));
                    % calculate the distance from the intersection point to
                    % the monomer
-                   dnaLength = dnaLength + norm((chainPos(rIdx,:)-chainPos(rIdx-1,:))*t);
+                   if ~isempty(t)% needs checkup 
+                    dnaLength = dnaLength + norm((chainPos(rIdx,:)-chainPos(rIdx-1,:))*t);
+                   end
                 end
             end
         end

@@ -503,5 +503,50 @@
      
 \section{DNA repair}
      
+\section{Microscopic Description of DNA and Nucleusome Loss}
+  We now turn to provide a microscopic description of nucleosome loss in the ROI. For this explanation we need make the following observations and assumptions:
+  \begin{enumerate}
+  	\item histone-wrapped DNA is 3 times more probable to have damage on it than linker DNA;
+  	\item repair mechanism presence indicate damage site;
+  	\item the repair zone is roughly circular;
+  	\item the repair zone grows 3 times in area, $\sqrt{3}$ times the radius;
+  	\item repair must occur on a naked DNA, with no histones on it. 
+  	\item histones can be pushed any distance;
+  	\item histones can slide over damage sites (since they have damages on the DNA that is wrapped around them).
+  \end{enumerate}
+     With these assumptions and observations, we present a simplified 1D model which accounts for 20\% loss of histones, with no loss of DNA, in a region expanding 1.7 times its initial size. Results of simulations show that we can obtain 20\% loss of both DNA and nucleosomes due to repair protein crowding in the damage site, the extra 20\% will be attributed to nucleusome sliding, cause by exposing the damaged DNA by repair proteins.
      
-\end{document}
+     The first principle to take into account is that sliding histones over any point in the DNA displaces this point 100bp left or right, depending on histone sliding direction. 
+     This is because one full turn of the histone is  about 100bp long. 
+     We know that the radius of the repair zone increases in radius $\sqrt{3}$ folds. This means that the right most damage point should be translated $\sqrt{3}$ times to the right. 
+
+     If the packed region of the DNA contains $N$ wrapped histones is $L$, then to translate a point $s$, initially at $L$ to $\sqrt{3}L$, we need to displace it a distance equivalent to the total length of linker DNA in $(\sqrt{3}-1)L=0.732L$, which means $0.732(N-1)50bp=36.6(N-1)bp$ long. The number of times we have to slide a histone over the point $s$ is thus $36.6(N-1)/100$.
+     The number $36.6(N-1)/100$ is also the number of histones transfered from the left to the right side of the point $s$ as it is being pushed towards $\sqrt{3}L$.      
+     In the region $\sqrt{3}L$ we initially have $\sqrt{3}N$ histones. After the point $s$ has reached $\sqrt{3}L$ the region contains $N-36.6(N-1)/100$ histones. 
+     
+     Since the point $s$ reached $\sqrt{3}L$, and it is a damage site, we expect to find tagged repair proteins there, and there is where we set the boundary of the ROI. Thus, the percentage of histone loss from the ROI of length $\sqrt{3}$ is
+     \begin{equation*}
+     \frac{36.6(N-1)}{100\sqrt{3}N}
+     \end{equation*}
+     For $N$ very large, say 10,000, we can estimate the percentage of loss 
+	\begin{equation*}
+     \frac{36.6(10,000-1)}{150\sqrt{3}10,000}= 0.21
+	\end{equation*}
+     
+     
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{histoneSlidingSingle}
+	\caption{Displacement of nucleusome (green) causes a displacement of damage site by DNA length equivalent to one turn od DNA wrapped on a histone. (A) the damage point (red star) initially located to the right of the nucleusoms is being displaced 100 bp right due to sliding nucleusome sliding (B)}
+	\label{fig:histoneSlidingSingle}
+	\end{figure}
+	
+	
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{histoneSlidingMulti}
+	\caption{expansion of the ROI due to nucleusome sliding. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. repair proteins recruited to the damage site start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleusomes to the right to expose damages, translates the point $S$ (and any other damage site in $L$) to the right until $S$ reached $sqrt{3}L$, repair proteins are present at the new location. the presence of proteins in $\sqrt{3}L$ indicates the ROI's boundary (dashed green)}
+	\label{fig:histoneSlidingMulti}
+	\end{figure}
+	
+	\end{document}

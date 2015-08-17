@@ -8,6 +8,7 @@
 \begin{document}
 \title{Microscopic Description of DNA and Nucleusome Loss}
 \maketitle
+\section{1D model}
   To provide a microscopic description of nucleosome loss in the ROI, we need to state some observations and assumptions:
   \begin{enumerate}
   	\itemsep0em
@@ -31,7 +32,7 @@
      
      For the point $S$ to reach $\beta L$ we need to displace $S$ a distance equivalent to of $(\beta-1)L$. Assume that a single nucleosome units (linker + histone) occupies a length of $\alpha_1$, and with each sliding of the histone over a point, we displace this point a length fo $\alpha_2$. The ratio $\alpha_1/\alpha_2 =\alpha$ will be used in the calculation. Then, The number of times we have to slide a histone over the point $S$ is thus $(\beta-1)N\alpha$.
      The number also indicates the number of histones transfered from the left to the right side of the point $S$ as it is being translated towards $\beta L$.
-     In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes. 
+     In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes plus the amount crossing over from left to right. 
      
      Since the point $S$ is a damage site, we expect to find tagged repair proteins around it, and so also at $\beta L$. Therefore, the  boundaries of the ROI, which are determined by presence of repair protein, will be at $\beta L$ with the point $S$. 
      
@@ -71,4 +72,8 @@
 	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\sqrt{3}L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
 	\label{fig:histoneSlidingMulti}
 	\end{figure}
+	
+	\section{2D model}
+	
+	
 \end{document}

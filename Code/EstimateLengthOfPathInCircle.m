@@ -9,8 +9,8 @@ numPairs     = 100;
 numPoints    = 2*numPairs;
 numExperiments = 10;
 
-dp(1) = DomainHandlerParams('domainWidth',5,'dimension',dimension);
-dp(2) = DomainHandlerParams('domainWidth',2,'dimension',dimension);
+dp(1)  = DomainHandlerParams('domainWidth',5,'dimension',dimension);
+dp(2)  = DomainHandlerParams('domainWidth',2,'dimension',dimension);
 domain = DomainHandler(dp);
 bb     = BrownianBridge('realizations',1,'noiseSTD',0.5,'numPoints',350);
 

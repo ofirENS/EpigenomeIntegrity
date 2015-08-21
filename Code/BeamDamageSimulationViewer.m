@@ -85,6 +85,8 @@ classdef BeamDamageSimulationViewer<handle
             mz = mz(:);
             if min(mz)==max(mz)
                 zlim = [0 0.00001];
+            else
+                zlim = [min(mz), max(mz)];
             end
             set(obj.handles.mainAxes,'XLim',[min(mx), max(mx)],'YLim',[min(my), max(my)],'ZLim',[zlim(1) zlim(2)]);
             obj.handles.frameSlider  = uicontrol('style','slider','Units','norm',...

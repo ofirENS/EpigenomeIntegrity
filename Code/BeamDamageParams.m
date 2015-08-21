@@ -147,15 +147,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 10;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 3000; % the steps until repair
+            obj.numRelaxationSteps     = 300;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numBeamSteps           = 300; % the steps until repair
             obj.numRepairSteps         = 300;    % repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 2;
+            obj.dimension              = 3;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 500;
+            obj.numMonomers           = 1000;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -181,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 2.5;
+            obj.mechanicalForceCutoff    = 2;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -193,7 +193,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
             obj.beamHeight                         = 70;    % for 3d graphics purposes
-            obj.breakAllDamagedConnectorsInBeam    = true;  % break all connections between damaged monomers in UVC beam  
+            obj.breakAllDamagedConnectorsInBeam    = false;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                 = false; % break all connections in the polymer after UVC
             obj.assignBendingToAffectedMonomers    = false; % assign bending elasticity for affected monomers after UVC
             obj.assignBendingToNonAffectedMonomers = false; % assign bending elasticity for non affected monomers after UVC

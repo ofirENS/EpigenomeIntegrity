@@ -22,7 +22,7 @@
   	\item length of linker DNA=50bp, length of histone-wrapped DNA=150bp;
   	\item we consider nuclesome to be the linker + the histones as a unit.   
   \end{enumerate}
-     With these assumptions and observations, I present a simplified 1D model which accounts for 40\% loss of histones, and 20\% loss of DNA, in a region expanding $\beta$ times its initial size. 
+     With these assumptions and observations, I'll present a simplified 1D model which accounts for 40\% loss of histones, and 20\% loss of DNA, in a region expanding $\beta$ times its initial size. 
      
      We start with a 1D model of a DNA strand with nucleosomes embedded in it. The leftmost point of the strand will be the origin. In this model, a UV beam damages a portion of size $L$ of the strand containing $N$ nucleosomes. Assume the rightmost damage point,$S$, is located at $L$. According to the assumption, repair can take place only on naked DNA. Therefore, in order to repair all damages, the repair proteins need to slide histones away from high concentration of damage sites. Assuming the focal point of the beam is above the origin, sliding direction will be to the right. From symmetry arguments, a mirror situation can be to extended to the left of the beam focal point.     
      
@@ -32,7 +32,7 @@
      
      For the point $S$ to reach $\beta L$ we need to displace $S$ a distance equivalent to of $(\beta-1)L$. Assume that a single nucleosome units (linker + histone) occupies a length of $\alpha_1$, and with each sliding of the histone over a point, we displace this point a length fo $\alpha_2$. The ratio $\alpha_1/\alpha_2 =\alpha$ will be used in the calculation. Then, The number of times we have to slide a histone over the point $S$ is thus $(\beta-1)N\alpha$.
      The number also indicates the number of histones transfered from the left to the right side of the point $S$ as it is being translated towards $\beta L$.
-     In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes plus the amount crossing over from left to right. 
+     In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes plus the amount crossing over from left to right of $S$. 
      
      Since the point $S$ is a damage site, we expect to find tagged repair proteins around it, and so also at $\beta L$. Therefore, the  boundaries of the ROI, which are determined by presence of repair protein, will be at $\beta L$ with the point $S$. 
      
@@ -51,12 +51,10 @@
      \frac{(\beta -1)}{\beta}=0.2, \quad \Rightarrow \beta = 1.25
      \end{equation*}     
      Histone loss is 40\%, which immediately gives $\alpha =1$.
-     
-     Based on experimental observations,
-     The old histone patch grows roughly 1.3 times in radius from time 0 to 15 minutes post UVC (estimated manually), in good agreement with the value of $\beta =1.25$.
-     
+              
      The value $\alpha=1$ has geometrical meaning and is the ratio of the distance we displace a point to the length of DNA wrapped on a histone. 
-                        
+     
+     Experimental observations show a growth of 1.7 in the radius of expansion. This is in no agreement with $\beta=1.25$ found in the 1D analytical calculation. We therefore have to incorporate information related to the spatial organization of the DNA. 
         
       
 	\begin{figure}
@@ -69,7 +67,7 @@
 	\begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{histoneSlidingMulti}
-	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\sqrt{3}L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
+	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\beta L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
 	\label{fig:histoneSlidingMulti}
 	\end{figure}
 	

@@ -502,60 +502,99 @@
      Which ever one of the two model represents real experiments is left for biological validation. however, the principle remains similar in both, the non damaged monomers are the mobile one and by their dynamics post UVC are responsible for the 20\% loss seen n experiments. The damaged monomers (regions) remain within the repair zone and are less mobile due to the attachment of repair proteins. 
           
 \section{Microscopic Description of DNA and Nucleusome Loss}
- To provide a microscopic description of nucleosome loss in the ROI, we need to state some observations and assumptions:
- \begin{enumerate}
- 	\itemsep0em
- 	\item histone- wrapped DNA is 3 times more probable to be damaged by UV than the linker DNA;
- 	\item repair mechanism presence indicate damage site;
- 	\item the repair zone is roughly circular;
- 	\item the repair zone grows 3 times in area, $\sqrt{3}$ times the radius;
- 	\item repair must occur on a naked DNA, with no histones on it; 
- 	\item histones can be pushed any distance;
- 	\item histones can slide over damage sites (since they have damages on the DNA that is wrapped around them);
- 	\item length of linker DNA=50bp, length of histone-wrapped DNA=150bp;
- 	\item we consider nuclesome to be the linker + the histones as a unit.   
- \end{enumerate}
- With these assumptions and observations, I present a simplified 1D model which accounts for 14\% loss of histones, with no loss of DNA, in a region expanding $\sqrt{3}$ times its initial size.  In this report I show that the extra percentages of loss can be attributed to nucleosome sliding, cause by exposing the damaged DNA (unwrapping it from histones) by repair proteins.
- 
- The first principle to take into account is that sliding histones over any point of the DNA displaces that point 150bp left or right, depending on histone sliding direction (Figure \ref{fig:histoneSlidingSingle}). This is because one full turn of the histone is about 150bp long.This displacement is not a displacement of the point on the actual DNA, but caused by the unwinding of the DNA wrapped around the histone by rolling it.
- 
-  \begin{figure}[H]
-  	\centering
-  	\includegraphics[width=0.7\linewidth]{histoneSlidingSingle}
-  	\caption{\tiny{\textbf{Three time points during a displacement of damage site (red star)  causes a caused by histone rolling. The displacement of the damage site is equivalent to the length of DNA wrapped on a histone. A displacement is relative to some reference point, like the origin, and does not refer to an actual motion on the DNA}}}
-  	\label{fig:histoneSlidingSingle}
-  \end{figure}
-    
- We know that the radius of the repair zone increases $\sqrt{3}$ folds. This means that the right most damage point should be translated $\sqrt{3}$ times to the right (Figure \ref{fig:histoneSlidingMulti}). 
- 
- If the packed region of the DNA contains $N$ nucleosomes is $L$ (Fig \ref{fig:histoneSlidingMulti}), then to translate a point $S$, initially at $L$ to $\sqrt{3}L$, we need to displace it a distance equivalent to the total length of linker DNA in $(\sqrt{3}-1)L$. The number of times we have to slide a histone over the point $S$ is thus $(\sqrt{3}-1)N50/150=(\sqrt{3}-1)N/3$.
- The number $(\sqrt{3}-1)N/3$ is also the number of histones transfered from the left to the right hand side of the point $S$ as it is being pushed towards $\sqrt{3}L$.
- In the region $\sqrt{3}L$ we initially have $\sqrt{3}N$ nucleosomes. After the point $S$ has reached $\sqrt{3}L$ the region contains $N-(\sqrt{3}-1)N/3$ nucleosomes. 
- 
- Since the point $S$ has reached $\sqrt{3}L$, and it is a damage site, we expect to find tagged repair proteins there, and by which we determine the boundary of the ROI. Thus, the percentage of histone loss from the ROI of length $\sqrt{3}$ is
- 
- \begin{equation*}
- \frac{(\sqrt{3}-1)N}{3\sqrt{3}N}=\frac{(\sqrt{3}-1)}{3\sqrt{3}} =0.14
- \end{equation*}
- which is independent of $N$
- 
-  \begin{figure}[H]
-  	\centering
-  	\includegraphics[width=0.7\linewidth]{histoneSlidingMulti}
-  	\caption{\tiny{\textbf{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\sqrt{3}L$ indicates the ROI's boundary (vertical dashed green line)}}}
-  	\label{fig:histoneSlidingMulti}
-  \end{figure}
- 
- 
- We note further that the ratio of the linker DNA to the histone-wrapped DNA plays a roll in this calculation. If this ratio is $\alpha$, then the number of histones transfered from the left to the right hand side of $S$, and thus lost, is:
- $(\sqrt{3}-1)N\alpha$, and the ratio to the initial number of histones is 
- $\frac{(\sqrt{3}-1)\alpha}{\sqrt{3}}=\alpha(1-1/\sqrt{3})$. For example, if instead of 1.5 turns of DNA around a histone we have only one single turn while displacing histones, then $\alpha=0.5$, and accounts for 100 bp translation of damage points while rolling histones over them. Plugging $alpa=0.5$ in the equation above gives 21\% loss of nucleosomes from the ROI.         
- 
- The most general form of the equation above is given if the ratio between the final and initial radius is stated as $\beta$. In the situation above we have $\beta=\sqrt{3}L/L = \sqrt{3}$, but generally it depends on the number of damage sites and the radius of the UV beam. Thus the general expression for the loss of histones is given by 
- \begin{equation*}
- (1-1/\beta)\alpha
- \end{equation*}
- This expression allows us to calculate the loss in the case of more damage sites. 
+\subsection{1D model of nucleosome sliding and chromatin expansion}
+   To provide a microscopic description of nucleosome loss in the ROI, we need to state some observations and assumptions:
+   \begin{enumerate}
+   	\itemsep0em
+   	\item histone- wrapped DNA is 3 times more probable to be damaged by UV than the linker DNA;
+   	\item repair mechanism presence indicate damage site;
+   	\item the repair zone is roughly circular;  
+   	\item repair must occur on a naked DNA, with no histones on it; 
+   	\item histone sliding on a damage site can be slided again to expose the damage site;
+   	\item histones can be pushed any distance;
+   	\item histones can slide over damage sites (since they have damages on the DNA that is wrapped around them);
+   	\item length of linker DNA=50bp, length of histone-wrapped DNA=150bp;
+   	\item we consider nuclesome to be the linker + the histones as a unit.   
+   \end{enumerate}
+   With these assumptions and observations, I'll present a simplified 1D model which accounts for 40\% loss of histones, and 20\% loss of DNA, in a region expanding $\beta$ times its initial size. 
+   
+   We start with a 1D model of a DNA strand with nucleosomes embedded in it. The leftmost point of the strand will be the origin. In this model, a UV beam damages a portion of size $L$ of the strand containing $N$ nucleosomes. Assume the rightmost damage point,$S$, is located at $L$. According to the assumption, repair can take place only on naked DNA. Therefore, in order to repair all damages, the repair proteins need to slide histones away from high concentration of damage sites. Assuming the focal point of the beam is above the origin, sliding direction will be to the right. From symmetry arguments, a mirror situation can be to extended to the left of the beam focal point.     
+   
+   The first principle to take into account is that sliding histones over any point of the DNA displaces that point several bp to the right (Figure \ref{fig:histoneSlidingSingle}). The actual distance it is displaced depends on the number of bp wrapped around each histone. It is important to note that this displacement is not a displacement of the point on the actual DNA, but rather measured by the aerial distance from the origin to the point. This displacement is caused by the sliding histones over the DNA.
+   
+   Assume now that the repair proteins have slided enough histones to reach a geometrical arrangement such that al damage sites are exposed. If we look at the rightmost damage point ,$S$, initially located at a distance of $L$ from the origin, then as a result of histones sliding, $S$ has been displaced from $L$ to $\beta L$. 
+   
+   For the point $S$ to reach $\beta L$ we need to displace $S$ a distance equivalent to of $(\beta-1)L$. Assume that a single nucleosome units (linker + histone) occupies a length of $\alpha_1$, and with each sliding of the histone over a point, we displace this point a length fo $\alpha_2$. The ratio $\alpha_1/\alpha_2 =\alpha$ will be used in the calculation. Then, The number of times we have to slide a histone over the point $S$ is thus $(\beta-1)N\alpha$.
+   The number also indicates the number of histones transfered from the left to the right side of the point $S$ as it is being translated towards $\beta L$.
+   In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes plus the amount crossing over from left to right of $S$. 
+   
+   Since the point $S$ is a damage site, we expect to find tagged repair proteins around it, and so also at $\beta L$. Therefore, the  boundaries of the ROI, which are determined by presence of repair protein, will be at $\beta L$ with the point $S$. 
+   
+   The percent of DNA loss from the ROI due to sliding is thus 
+   \begin{equation}
+   \frac{(\beta-1)}{\beta}
+   \end{equation}
+   All nucleosomes to the right of the point $S$ are lost, and in addition all nucleosomes which were slided from left to right of $S$ are lost. This brings the total percentage of nucleosome loss to 
+   \begin{equation*}
+   \frac{(\beta-1) +\alpha(\beta -1)}{\beta}= \frac{(\alpha+1)(\beta -1)}{\beta}
+   \end{equation*}
+   which is independent of $N$.
+   
+   Experimental result show 20\% of DNA loss, therefore we equate the loss of DNA to 0.2 
+   \begin{equation*}
+   \frac{(\beta -1)}{\beta}=0.2, \quad \Rightarrow \beta = 1.25
+   \end{equation*}     
+   Histone loss is 40\%, which immediately gives $\alpha =1$.
+   
+   The value $\alpha=1$ has geometrical meaning and is the ratio of the distance we displace a point to the length of DNA wrapped on a histone. 
+   
+   Experimental observations show a growth of 1.7 in the radius of expansion. This is in no agreement with $\beta=1.25$ found in the 1D analytical calculation. We therefore have to incorporate information related to the spatial organization of the DNA. 
+   
+   
+   \begin{figure}
+   	\centering
+   	\includegraphics[width=0.7\linewidth]{histoneSlidingSingle}
+   	\caption{{Three time points during a displacement of damage site (red star) caused by histone rolling. The displacement of the damage site is equivalent to the length of DNA wrapped on a histone. A displacement is relative to some reference point, like the origin, and does not refer to an actual motion on the DNA}}
+   	\label{fig:histoneSlidingSingle}
+   \end{figure}
+   
+   \begin{figure}
+   	\centering
+   	\includegraphics[width=0.7\linewidth]{histoneSlidingMulti}
+   	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $\sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\beta L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
+   	\label{fig:histoneSlidingMulti}
+   \end{figure}
+   
+\subsection{2D model- incorporating experimental observations}
+To generalize the simple 1D model into 2D we have to take into account the geometry of the problem. In the 1D model expansion of the damage zone occurs by sliding alone. As seen there, the radius of expansion required to reach 40\% loss of nucleosome signal is only 1.25 times the initial UV beam radius. However, in experimental results we see an expansion of the size 1.7. We then have to attribute some of the expansion to repair protein crowding in the repair region. The contribution of crowding will be explored in this subsection. 
+
+We start by observing the marked patch of nucleosomes at time 0 and 15 minutes post UVC. The patch area at time 0 is 20$\mu m^2$, which yields a radius of 2.52$\mu m$. After expansion at 15 minutes post UVC, the patch radius grows by 30\% to 3.28$\mu m$ (measured manually). We further assume that there is no loss in the signal of marked nucleosomes during 15 minutes post UVC stemming from the patch. The absolute expansion of the patch is $3.28-2.52=0.756\mu m$. This is roughly equivalent to the radius of expansion of the damage zone, which is 0.73 $\mu m$. We interpret this observation as the non compressibility of the chromatin. All chromatin pushed by crowding from the damage zone, are pushing further away to expand the patch equivalently. In this sense, we cannot determine the relative contribution of crowding and histone sliding to the expansion of the patch. 
+
+From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. dividing signal at time 15 with signal at time 0 as a function of the radius from the center, we obtain 
+
+\begin{figure}[H]
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/relativeGainNucleosomesConcentric}
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/nucleosomeSignalGainConcentricFit}
+\caption{}
+\label{fig:relativeGainNucleosomesConcentric}
+\end{figure}
+
+We now fit a quadratic function to this graph up to radius 2.52, which is the initial patch radius. This is done because for higher radii the signal is not reliable and includes gain of signal in areas that were initially outside the patch. The quadratic fit has the form 
+\begin{equation*}
+y(r)=0.15r^2-0.0087r-0.64
+\end{equation*}
+Because the total amount of signal is preserved 15 minutes post UVC, we ask for the radius, $R$ for which 
+\begin{equation*}
+Y=\int_0^R y(r)dr = 0
+\end{equation*}
+Which means that the total loss of nucleosomes signal in the ROI is balanced outside.
+Performing the integration and solving the resulting quadratic equation for $R$, taking only the positive root, we obtain $R=3.6215$. This is the radius the material should have been pushed in order to balance the loss in the ROI. In experiments we see that the radius of the patch grows to 3.28, which means that there is a difference of 3.6215-3.28=0.3415. This difference is the one caused by sliding. sliding of histones packs the DNA in contrast to crowding which spreads it. We therefore conclude that crowding is responsible for $\sqrt{3}-1 -0.3415=0.39$, and the remaining 0.3415 is attributed to sliding. 
+
+We have to note that by sliding nucleosomes we also push surrounding undamaged chromatin out of the ROI. The values attributed to sliding and crowding are to be understood in the following way. Initially, the chromatin is coiled and packed in the UVC beam area, after beam initiation, repair protein stretch the DNA in the damage region 0.39 $\mu m$ and then sliding of histones begins. Sliding of histones, as in the 1D model, causes the additional expansion of 0.3415 $\mu m$. 
+
+To test this theory, we have to plug the numbers into the calculation done in the 1D case. 
+
+
 
  
 	\section{DNA repair}

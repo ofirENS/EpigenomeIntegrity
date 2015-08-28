@@ -592,11 +592,32 @@ Performing the integration and solving the resulting quadratic equation for $R$,
 
 We have to note that by sliding nucleosomes we also push surrounding undamaged chromatin out of the ROI. The values attributed to sliding and crowding are to be understood in the following way. Initially, the chromatin is coiled and packed in the UVC beam area, after beam initiation, repair protein stretch the DNA in the damage region 0.39 $\mu m$ and then sliding of histones begins. Sliding of histones, as in the 1D model, causes the additional expansion of 0.3415 $\mu m$. 
 
-To test this theory, we have to plug the numbers into the calculation done in the 1D case. 
+\subsection{Material transfer between concentric rings}
+We now put forward a simple calculation of the transfer of material from one concentric ring to the next. We first take rings separated  $dr$ apart, assuming the circle of radius  $1$ contains $N$ particles, then the material between the rings of $r_0 r$ and $r_0 r+dr$ contains  
+\begin{equation*}
+F(r)dr = 0.5N\left((r+dr)^2- r^2\right)=Nrdr+(dr)^2
+\end{equation*}
+the last term vanishes when $dr$ is small.
+From each one of the concentric rings we lose a percentage of material following the 
+quadratic law in Figure \ref{fig:relativeGainNucleosomesConcentric}. Therefore, the amount of material remaining 15 minutes post UVC between $r$ and $r+dr$ is
+\begin{equation*}
+F(r)(y(r)+1)dr
+\end{equation*}
+Assuming the relative amount of material in the ROI is $\gamma$ of its initial value, we calculate 
+\begin{equation*}
+\frac{\int_0^RF(r)(y(r)+1)dr}{\int_0^RF(r)dr} =\gamma
+\end{equation*}
+with $R$ the radius of the expansion for which $\gamma$ of the initial material remains. 
+Plugging-in the function $F(r),y(r)$ , setting $\gamma =0.6$ and performing integration, we obtain a quadratic polynomial in $R$, which its roots are $R_1=2.23, R_2= -2.14$. Taking the positive root $R_1=2.23$ we see that according to the loss function, $y(r)$ a 40\% loss is obtained by expending the ROI to 2.23. However, in practice the ROI expands to $\sqrt{3}$, so we can assume that about 0.5 is unexplained by pushing. 
+
+We further ask at which distance can we equalize the material loss from the ROI, given the loss function observed. That is, we calculate 
+\begin{equation*}
+\int_0^R F(r)y(r)dr = 0
+\end{equation*}
 
 
 
  
-	\section{DNA repair}
+\section{DNA repair}
 	
-	\end{document}
+\end{document}

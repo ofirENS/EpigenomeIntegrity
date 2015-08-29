@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  29 AUG 2015 14:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  29 AUG 2015 16:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1197,24 +1197,24 @@ e.0.26}) has been already used, duplicate ignored
                                                   \fi \fi 
 l.594 
        <./Images/patchExpansion/relativeGainNucleosomesConcentric.jpg> <./Image
-s/patchExpansion/nucleosomeSignalGainConcentricFit.jpg>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 623.
- [36] [37]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 623.
+s/patchExpansion/nucleosomeSignalGainConcentricFit.jpg>] [36] [37]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 657.
+ [38]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 657.
 
 (./ChromatinArchitecturePostUVCDamage.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 623.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 623.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 657.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 657.
 Package rerunfilecheck Info: File `ChromatinArchitecturePostUVCDamage.out' has 
 not changed.
 (rerunfilecheck)             Checksum: 2749C1CB7399DF6FD4231E33E5BF8B7D;2349.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 623.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 657.
  ) 
 Here is how much of TeX's memory you used:
- 6499 strings out of 493109
- 106565 string characters out of 6140856
- 182547 words of memory out of 5000000
- 9716 multiletter control sequences out of 15000+600000
+ 6503 strings out of 493109
+ 106682 string characters out of 6140856
+ 182797 words of memory out of 5000000
+ 9719 multiletter control sequences out of 15000+600000
  13707 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,7n,31p,1161b,408s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1232,11 +1232,11 @@ public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
 1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on ChromatinArchitecturePostUVCDamage.pdf (38 pages, 4979100 byt
+Output written on ChromatinArchitecturePostUVCDamage.pdf (39 pages, 4982329 byt
 es).
 PDF statistics:
- 524 PDF objects out of 1000 (max. 8388607)
- 415 compressed objects within 5 object streams
- 147 named destinations out of 1000 (max. 500000)
+ 529 PDF objects out of 1000 (max. 8388607)
+ 419 compressed objects within 5 object streams
+ 148 named destinations out of 1000 (max. 500000)
  476 words of extra memory for PDF output out of 10000 (max. 10000000)
 

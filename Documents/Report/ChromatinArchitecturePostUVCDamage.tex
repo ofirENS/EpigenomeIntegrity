@@ -570,7 +570,7 @@ To generalize the simple 1D model into 2D we have to take into account the geome
 
 We start by observing the marked patch of nucleosomes at time 0 and 15 minutes post UVC. The patch area at time 0 is 20$\mu m^2$, which yields a radius of 2.52$\mu m$. After expansion at 15 minutes post UVC, the patch radius grows by 30\% to 3.28$\mu m$ (measured manually). We further assume that there is no loss in the signal of marked nucleosomes during 15 minutes post UVC stemming from the patch. The absolute expansion of the patch is $3.28-2.52=0.756\mu m$. This is roughly equivalent to the radius of expansion of the damage zone, which is 0.73 $\mu m$. We interpret this observation as the non compressibility of the chromatin. All chromatin pushed by crowding from the damage zone, are pushing further away to expand the patch equivalently. In this sense, we cannot determine the relative contribution of crowding and histone sliding to the expansion of the patch. 
 
-From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. dividing signal at time 15 with signal at time 0 as a function of the radius from the center, we obtain 
+From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. dividing the signal at time 15 with the signal at time 0 as a function of the radius from the center, we obtain to following graph
 
 \begin{figure}[H]
 \includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/relativeGainNucleosomesConcentric}
@@ -579,51 +579,45 @@ From the graphs of concentric old H3.3 signal around the damage site, we now cal
 \label{fig:relativeGainNucleosomesConcentric}
 \end{figure}
 
-We now fit a quadratic function to this graph up to radius 2.52, which is the initial patch radius. This is done because for higher radii the signal is not reliable and includes gain of signal in areas that were initially outside the patch. The quadratic fit has the form 
+We now fit a quadratic function to this graph up to radius 2.52, which is the initial radius of the patch. This is done because for higher radii the signal is not reliable and includes gain of signal in areas that were initially outside the patch. The quadratic fit has the form 
 \begin{equation*}
 y(r)=0.15r^2-0.0087r-0.64
 \end{equation*}
-Because the total amount of signal is preserved 15 minutes post UVC, we ask for the radius, $R$ for which 
-\begin{equation*}
-Y=\int_0^R y(r)dr = 0
-\end{equation*}
-Which means that the total loss of nucleosomes signal in the ROI is balanced outside.
-Performing the integration and solving the resulting quadratic equation for $R$, taking only the positive root, we obtain $R=3.6215$. This is the radius the material should have been pushed in order to balance the loss in the ROI. In experiments we see that the radius of the patch grows to 3.28, which means that there is a difference of 3.6215-3.28=0.3415. This difference is the one caused by sliding. sliding of histones packs the DNA in contrast to crowding which spreads it. We therefore conclude that crowding is responsible for $\sqrt{3}-1 -0.3415=0.39$, and the remaining 0.3415 is attributed to sliding. 
+The function $y(r)$ represent the gain and loss in percentages due to both pushing and sliding of DNA and nucleosomes. 
 
-We have to note that by sliding nucleosomes we also push surrounding undamaged chromatin out of the ROI. The values attributed to sliding and crowding are to be understood in the following way. Initially, the chromatin is coiled and packed in the UVC beam area, after beam initiation, repair protein stretch the DNA in the damage region 0.39 $\mu m$ and then sliding of histones begins. Sliding of histones, as in the 1D model, causes the additional expansion of 0.3415 $\mu m$. 
+Since the precentages are taken from growing concentric rings, which include higher quantity of nucleosomes with ting size, we have to calculate the actual distribution of DNA and nucleosomes in each ring. For this end we multiply the gain-loss function $y(r)$ with the amount of material expected in each concentric ring. The DNA is thought to be uniformly distributed in the nucleus prior to UVC and with uniform density. 
 
-\subsection{Material transfer between concentric rings}\label{subsection:materialTransferBetweenConcentricRings}
-We now put forward a simple calculation of the transfer of material from one concentric ring to the next. We first take rings separated  $dr$ apart, assuming the circle of radius  $1$ contains $N$ particles, then the material between the rings of $r_0 r$ and $r_0 r+dr$ contains  
+Taking rings separated  $dr$ apart and assuming the circle of radius  $1 \mu m$ contains $N$ particles, then the material between the rings of $r$ and $r+dr$ contains  
 \begin{equation*}
 F(r)dr = 0.5N\left((r+dr)^2- r^2\right)=Nrdr+(dr)^2
 \end{equation*}
-the last term vanishes when $dr$ is small.
-From each one of the concentric rings we lose a percentage of material following the 
-quadratic law in Figure \ref{fig:relativeGainNucleosomesConcentric}. Therefore, the amount of material remaining 15 minutes post UVC between $r$ and $r+dr$ is
+the term $dr ^2$ vanishes when $dr$ is small.
+From each one of the concentric rings we lose a percentage of material following $y(r)$ in Figure \ref{fig:relativeGainNucleosomesConcentric}. Therefore, the amount of material remaining 15 minutes post UVC between $r$ and $r+dr$ is
 \begin{equation*}
 F(r)(y(r)+1)dr
 \end{equation*}
-Using this function we now search for the radius $R$ for which $\gamma$ of the initial material remains in the region. 
+Using this function we now search for the radius $R$ for which $\gamma$ of the initial material remains in the circular region enclosed between 0 and $R$. That is 
 
 \begin{equation*}
 \frac{\int_0^RF(r)(y(r)+1)dr}{\int_0^RF(r)dr} =\gamma
 \end{equation*} 
 
-Plugging-in  $F(r)=r,y(r)=ar^2 +b^r +c$ and performing integration, we obtain a quadratic polynomial in $R$,
+Plugging-in  $F(r)=r,y(r)=ar^2 +b^r +c$ and performing integration, 
 \begin{equation*}
 \int_0^R r(ar^2 +br+c +1-\gamma)dr =0
 \end{equation*}
-The resulting forth-order polynomial has the same roots of the second order polynomial 
+we obtain a forth-order polynomial  in $R$ which has the same roots of the second order polynomial 
 \begin{equation*}
 \frac{aR^2}{4} +\frac{bR}{3} +\frac{c+1-\gamma}{2}
 \end{equation*}
-Plugging in the values $a=0.15, b=-0.0087,c=-0.64, \gamma=0.6$, we find the roots are \begin{equation*}
+Plugging-in the values $a=0.15, b=-0.0087,c=-0.64, \gamma=0.6$, we find the roots are 
+\begin{equation*}
 R_1=1.8279, \quad R_2= -1.7506
 \end{equation*}
 
 The positive root indicates that with the mechanism in the function $y(r)$, a 40\% loss is seen at a distance of 1.8279 from the center, which is close to the observed value of $\sqrt{3}$ for the ROI boundary. We treat this result as being in agreement with the observations and in the range of acceptable measurement error.
 
-The mechanism describing loss and gain, namely $y(r)$, can be used to predict the distance $R$ for which the loss of DNA and histones is balanced, in the sense that all signal loss from the ROI is gained at the periphery of the region. We therefore set $\gamma =1$ and calculate
+The mechanism describing loss and gain, namely $y(r)$, can also be used to predict the distance $R$ for which the loss of DNA and histones is balanced, in the sense that all signal loss from the ROI is gained at the periphery of the region. We therefore set $\gamma =1$ and calculate
 \begin{equation*}
 \int_0^R F(r)y(r)dr = 0
 \end{equation*}
@@ -632,14 +626,14 @@ which results in a second-order polynomial with roots
 R_1=2.906, \quad R_2=-2.882
 \end{equation*}.
 
-Taking the positive root, the predicted radius for which the loss is balanced is at $R=2.906$. In practice, the patch expands to 3.28, which give an unexplained difference fo $0.32$. 
+Taking the positive root, the predicted radius for which the loss is balanced is at $R=2.906$. In practice, the patch expands to $3.28$, which give an unexplained difference fo $0.32$. 
 
-To explain the observed difference we need to elaborate on the loss mechanism given by the function $y(r)$. According to our assumptions, the function $y(r)$ describes the loss of both DNA and histones by two sub-mechanisms; one caused by crowding of repair proteins in the ROI which creates pushing of material on one end, and straightening damaged DNA on the other; and a second sub-mechanism due to sliding of histones to expose the damaged DNA for repair activity. The second sub-mechanism is explained in sub-section \ref{subsection:1dModelOfNucleosomeSliding}.  
+To explain the observed difference we need to elaborate on the gain-loss mechanism given by the function $y(r)$. According to our assumptions, the function $y(r)$ describes the loss of both DNA and histones by two sub-mechanisms; one caused by crowding of repair proteins in the ROI which creates pushing of material on one end, and straightening damaged DNA on the other; and a second sub-mechanism due to sliding of histones to expose the damaged DNA for repair activity. The second sub-mechanism is explained in sub-section \ref{subsection:1dModelOfNucleosomeSliding}.  
 
-We assume that by the mechanism of pushing and straightening DNA in preparation for repair, no DNA packing is caused. In contrast, the mechanism of histone sliding packs both histones and DNA. It is important to note that the pushing mechanism is active during histone sliding but not necessarily to the converse; crowding and pushing is always present, whereas sliding can be alternatively activated. 
+We assume that by the mechanism of pushing and straightening DNA in preparation for repair, no DNA packing is caused. In contrast, the mechanism of histone sliding packs both histones and DNA. It is important to note that the pushing mechanism is active during histone sliding but not necessarily to the converse; crowding and pushing is always present during expansion, whereas sliding can be alternatively activated. 
 
-We can now explain the 0.32 difference in the predicted and observed patch expansion by the activity of sliding mechanism. From experimental result of patch expansion we measure a growth from 2.53 to 3.28 in radius, a total distance of 0.75, roughly equivalent to the expansion of the ROI (from 1 to $\sqrt{3}$).
-If both mechanisms would have been active continuously throughout expansion, the material loss would have been balanced at distance $2.906$ from the center. However, expansion of patch continuous to 3.28. This means that sliding is only active in $(\sqrt{3}-1-0.32)/(\sqrt{3}-1) =0.56$  parts of the way (or time, alternate or continuously throughout expansion stage) while pushing mechanism is continuously active.
+We can now explain the 0.32 difference in the predicted and observed patch expansion by the activity of sliding mechanism. 
+If both mechanisms would have been active continuously throughout expansion, the material loss would have been balanced at distance $2.906$ from the center. However, expansion of the patch continuous up to 3.28. This means that sliding is only active in $(\sqrt{3}-1-0.32)/(\sqrt{3}-1) =0.56$  parts of the way (or time, alternate or continuously throughout expansion stage) while pushing mechanism is continuously active.
 
 
 

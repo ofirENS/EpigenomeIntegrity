@@ -619,7 +619,7 @@ The positive root indicates that with the mechanism in the function $y(r)$, a 40
 
 The mechanism describing loss and gain, namely $y(r)$, can also be used to predict the distance $R$ for which the loss of DNA and histones is balanced, in the sense that all signal loss from the ROI is gained at the periphery of the region. We therefore set $\gamma =1$ and calculate
 \begin{equation*}
-\int_0^R F(r)y(r)dr = 0
+\int_0^R F(r)(1+y(r)-\gamma)dr = 0
 \end{equation*}
 which results in a second-order polynomial with roots 
 \begin{equation*}
@@ -638,9 +638,41 @@ If both mechanisms would have been active continuously throughout expansion, the
 
 
 
- 
+\subsubsection{A second approach}
+To estimate the contribution of sliding to the loss of histone signal from the ROI, we will construct a simple model, describing the loss of signal in each concentric ring by a transfer to the next. 
 
+We denote the radii of the concentric rings by $r_1,r_2,...r_N$. Define a function $g(r)$ which indicates the percentage of material passing from one ring to the next, given the amount received from the previous ring. Assume the total DNA and histone which are pushed from the most inner ring, completely  passes to the next one. This means that the amount of signal left in the first ring is
+\begin{equation*}
+F(r_1)(1+g(r_1)) = F(r_1)(1+y(r_1)) \Rightarrow g(r_1)=y(r_1)
+\end{equation*}
+for the second ring 
+\begin{equation*}
+(F(r_2)+y(r_1)F(r_1))(1+g(r_2))= F(r_2)(1+y(r_2))\Rightarrow g(r_2)=\frac{F(r_2)(1+y(r_2))}{F(r_2)+y(r_1)F(r_1)} -1
+\end{equation*}
+continuing in this manner we have for $g(r_k)$
+\begin{equation*}
+g(r_k) =\frac{F(r_k)(1+y(r_k))}{F(r_k)+y(r_{k-1})F(r_{k-1})} -1
+\end{equation*} 
+Using the values estimated for the coefficients of $y(r)$ and the function $F(r)=r$  we can find all values $g(r_i)$. 
+The graph of the instantaneous signal transfer is given below  
 
+\begin{figure}[H]
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/instantaneousLossGainFunction}
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/KMEstimatorForSignalLoss}
+\caption{}
+\label{fig:instantaneousLossGainFunction}
+\end{figure}
+The function $g(r)$ switches sign roughly at $r=1.2$, which means that from that point on the loss of signal to the next ring is smaller than the amount received from previous ring, hence a positive reminder is left. This is where accumulation should start
+
+We note further that the function 
+\begin{equation*}
+1+g(r_k)= \frac{y(r_k)F(r_k)}{F(r_k)+y(r_{k-1})F(r_{k-1})}
+\end{equation*}
+is the survivor estimator for material at concentric ring $k$. We can therefore calculate the Kaplan-Meier estimator for the signal loss 
+\begin{equation*}
+\hat{S} = \prod_{k=1}^{N}(1+g(r_k))
+\end{equation*}
+The graph of $\hat{S}$ has the following form \ref{fig:instantaneousLossGainFunction} right figure. We can therefore estimate the cumulative and hazard function and hazard rate for signal loss. 
 
 
 

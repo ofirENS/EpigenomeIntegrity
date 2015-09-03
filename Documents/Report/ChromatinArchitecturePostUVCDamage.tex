@@ -564,11 +564,36 @@
    	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $\sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\beta L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
    	\label{fig:histoneSlidingMulti}
    \end{figure}
+\subsection{Relative contribution of sliding and pushing}
+  We now use the 1D model to estimate the relative contribution of sliding to the expansion. we have to keep in mind that expansion due to sliding is active with pushing, but this mechanism can be inactive.
+  By pushing the DNA out od the region, we lose DNa and histones at the same proportion. The mechanism of sliding breaks this balance such that we can lose in percentages more histones than DNA. 
+  
+  Assume that in the ROI with radius $\beta$ we initially have $N$ nucleosomes (histones + linker DNA), and that due to pushing up to a distance of $L>1$ we have lost a fraction of $k$. We denote the additional fraction of DNA loss due to sliding by $A$ and the fraction of histones loss due to sliding by $B$, and the fraction of total loss of DNA by $d$ and that of histones by $h$. We have for the total loss fraction  
+  \begin{eqnarray*}
+  d &=& k+A(1-k) \\
+  h &=& k+B(1-k)
+  \end{eqnarray*}
+  fextracting $k$ from both equations and equating, we have 
+  \begin{equation*}
+   \frac{d-A}{1-A}=\frac{h-B}{1-B}
+  \end{equation*}
+  
+  From the equation of sliding in the 1D model we can substitute 
+  \begin{equation*}
+  A= \frac{\beta-L}{\beta}, \quad B=\frac{(\beta -L)(\alpha+1)}{\beta}
+  \end{equation*}
+  and solve for $L$ 
+  \begin{equation*}
+  L = \frac{\alpha\beta(d-1)}{(\alpha+1)d -(\alpha+h)}
+  \end{equation*}
+  
+  If we now plug the numbers $\beta=\sqrt{3}, \alpha =  2, d=0.2, h=0.4$ we get $L=1.51$. Which means that sliding is responsible for an expansion of about 0.22 out of 0.73, which is about 30\%.
+ 
    
 \subsection{2D model- incorporating experimental observations}\label{subsection:2dModel}
 To generalize the simple 1D model into 2D we have to take into account the geometry of the problem. In the 1D model expansion of the damage zone occurs by sliding alone. As seen there, the radius of expansion required to reach 40\% loss of nucleosome signal is only 1.25 times the initial UV beam radius. However, in experimental results we see an expansion of the size 1.7. We then have to attribute some of the expansion to repair protein crowding in the repair region. The contribution of crowding will be explored in this subsection. 
 
-We start by observing the marked patch of nucleosomes at time 0 and 15 minutes post UVC. The patch area at time 0 is 20$\mu m^2$, which yields a radius of 2.52$\mu m$. After expansion at 15 minutes post UVC, the patch radius grows by 25-30\% to 3.25$\mu m$ (measured manually, see Figure \ref{fig:patchExpansionMeasurement}). 
+We start by observing the marked patch of nucleosomes at time 0 and 15 minutes post UVC. The patch area at time 0 is 20$\mu m^2$, which yields a radius of 2.52$\mu m$. After expansion at 15 minutes post UVC, the patch radius grows by 25-30\% to 3.15-3.28$\mu m$ (measured manually, see Figure \ref{fig:patchExpansionMeasurement}). 
 
 \begin{figure}[H]
 \centering
@@ -577,8 +602,7 @@ We start by observing the marked patch of nucleosomes at time 0 and 15 minutes p
 \label{fig:patchExpansionMeasurement}
 \end{figure}
 
-
-We further assume that there is no loss in the signal of marked nucleosomes during 15 minutes post UVC stemming from the patch. The absolute expansion of the patch is $3.28-2.52=0.756\mu m$. This is roughly equivalent to the radius of expansion of the damage zone, which is 0.73 $\mu m$. We interpret this observation as the non-compressibility of the chromatin. All chromatin pushed by crowding from the damage zone, are pushing further away to expand the patch equivalently. In this sense, we cannot determine the relative contribution of crowding and histone sliding to the expansion of the patch. 
+We further assume that there is no loss in the signal of marked nucleosomes during 15 minutes post UVC stemming from the patch. The absolute expansion of the patch is between $3.15-2.52=0.63$ and $3.28-2.52=0.756\mu m$. This is roughly equivalent to the radius of expansion of the damage zone, which is 0.73 $\mu m$. We interpret this observation as the non-compressibility of the chromatin. All chromatin pushed by crowding from the damage zone, are pushing further away to expand the patch equivalently. In this sense, we cannot determine the relative contribution of crowding and histone sliding to the expansion of the patch. 
 
 From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. dividing the signal at time 15 with the signal at time 0 as a function of the radius from the center, we obtain to following graph
 

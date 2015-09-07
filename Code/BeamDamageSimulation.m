@@ -218,11 +218,14 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps+...
                                                               obj.params.numBeamSteps+obj.params.numRepairSteps;  
                         
-            obj.RepairDamageEffect; 
+        
             obj.TurnOffAffectedBeadsGraphics
                         
             for sIdx =1:obj.params.numRepairSteps
+                
                 obj.handles.framework.Step
+                obj.RepairDamageEffect; % perform repair 
+                
                 stepIdx  = obj.step-obj.params.numRelaxationSteps;                
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx) = obj.GetChainPosition;% record position of the chain   
                 obj.Snapshot
@@ -550,7 +553,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             affectedInBeam = (damageProb>rand(size(r,1),1) & inBeam);
             inBeamInds     = find(affectedInBeam); 
             
-            affectedMonomers    = false(size(affectedInBeam));
+            affectedMonomers = false(size(affectedInBeam));
             
             if obj.params.assignBendingToAffectedMonomers
              % Assign bending also to neighbors of damaged monomers, to
@@ -613,9 +616,10 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             % the effect after repair stage is over (15 min post UVC)
             if obj.params.turnOffBendingAfterRepair
             % Turn-off bending for affected monomers         
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
-            obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
+             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingElasticityForce   = false;
+             obj.handles.framework.objectManager.handles.chain.params.forceParams.bendingAffectedParticles = [];
             end
+            
             if obj.params.removeExclusionVolumeAfterRepair
                 % remove the exclusion volume around affected monomers
                 obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = false;
@@ -624,15 +628,31 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             if obj.params.repairBrokenCrosslinks
                 obj.ReformConnections
             end
+            
+            
         end
         
         function ReformConnections(obj)
             % At repair time, re-form the broken connections due to UVC damage
+            if obj.params.addCrosslinksByDistance
+                % add cross links up to the initial level by adding them to
+                % close monomers in the ROI
+                initialConnectivity = obj.params.percentOfConnectedMonomers;
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)               
+                chainPos               = obj.GetChainPosition;
+                % get monomer distance 
+                
+                % get the indices of monomers in the ROI
+                
+                
+            end
+            
             for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)
             obj.handles.framework.objectManager.ConnectParticles(...
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,1),...
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));            
             end
+            
             cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = cm;
         end

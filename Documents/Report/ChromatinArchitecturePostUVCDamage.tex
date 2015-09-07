@@ -564,8 +564,9 @@
    	\caption{Expansion of the ROI due to nucleusome rolling. \textbf{A}. a UV beam (transparent red) damages DNA, with the point $S$ being the rightmost damage site \textbf{B}. Repair proteins (green polygons) are recruited to the damage site and start to expose the DNA in order the repair damages. \textbf{C}. Sliding the nucleosomes to the right in order to expose damage sites, translates the point $S$ to the right until $S$ reached $\sqrt{3}L$. Repair proteins are present at the new location. The presence of repair proteins in $\beta L$ indicates the ROI's boundary (vertical dashed green line). All DNA and histones to the right of $S$ are lost}
    	\label{fig:histoneSlidingMulti}
    \end{figure}
+   
 \subsection{Relative contribution of sliding and pushing}
-  We now use the 1D model to estimate the relative contribution of sliding to the expansion. we have to keep in mind that expansion due to sliding is active with pushing, but this mechanism can be inactive.
+  We now use the 1D model to estimate the relative contribution of sliding to the expansion. We have to keep in mind that expansion due to sliding is active with pushing, but this mechanism can be inactive.
   By pushing the DNA out od the region, we lose DNa and histones at the same proportion. The mechanism of sliding breaks this balance such that we can lose in percentages more histones than DNA. 
   
   Assume that in the ROI with radius $\beta$ we initially have $N$ nucleosomes (histones + linker DNA), and that due to pushing up to a distance of $L>1$ we have lost a fraction of $k$. We denote the additional fraction of DNA loss due to sliding by $A$ and the fraction of histones loss due to sliding by $B$, and the fraction of total loss of DNA by $d$ and that of histones by $h$. We have for the total loss fraction  
@@ -573,7 +574,7 @@
   d &=& k+A(1-k) \\
   h &=& k+B(1-k)
   \end{eqnarray*}
-  fextracting $k$ from both equations and equating, we have 
+  extracting $k$ from both equations and equating, we have 
   \begin{equation*}
    \frac{d-A}{1-A}=\frac{h-B}{1-B}
   \end{equation*}
@@ -589,7 +590,41 @@
   
   If we now plug the numbers $\beta=\sqrt{3}, \alpha =  2, d=0.2, h=0.4$ we get $L=1.51$. Which means that sliding is responsible for an expansion of about 0.22 out of 0.73, which is about 30\%.
  
-   
+\subsection{2D model - geometrical arrangement of chromatin}\label{subsection:2dModelGeometricalArrangement}
+We now have to make some assumptions regarding the local organization of the chromatin before, during, and after expansion. 
+We assume a simple geometric arrangement in which a chromatin of length $l$ is zig-zagging in a rectangle of length $\beta$.
+We further assume that the histones are arranged on the chromatin in a zigzag manner. 
+We now make corrections to the estimate of loss made in previous subsection. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth, height=0.3\textheight]{Images/SlidingModel/2Darrangement}
+\caption{}
+\label{fig:2Darrangement}
+\end{figure}
+
+Now, the total histone loss fraction should read 
+\begin{equation*}
+\frac{(\beta-L)(1+\frac{\alpha}{\cos(\phi)})}{\beta}=\frac{(\beta-L)(\beta+\alpha l)}{\beta^2}
+\end{equation*}
+with $\alpha = \alpha_1/\alpha_2$ as in the previous subsection, $\beta$ is end radius of expansion, $L$ is the starting radius, and $l$ is the total length of the chromatin as in Figure \ref{fig:2Darrangement} B. 
+ 
+ We further give an estimate to $\alpha= \alpha_1/\alpha_2\approx \frac{1}{\pi}$
+ With this replacement, the length of expansion attributed to pushing is given by 
+   \begin{equation*}
+   L = \frac{\beta l(d-1)}{l(d-1) +\pi \beta(d-h)}
+   \end{equation*}
+ The quantity $\beta /l$ is the global compaction term after expansion. In Figure \ref{fig:radiiVsLengthOfChromainInROI} we present the radius $L$ for pushing as a function of the value of $l$ 
+ 
+ 
+\begin{figure}[H]
+
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/SlidingModel/radiusOfPushingVsLengthOfChromainInROI}
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/SlidingModel/radiusOfSlidingVsLengthOfChromatinInROI}
+\caption{\tiny{The expansion radius attributed to pushing with no sliding (left) of chromatin as a functio of the length of chromatin in the region, and it's complament, the radius of expansion attributed to pushing + sliding (right) as a function of the length of chromatin in the ROI. The ROI expansion is set to $\sqrt{3}$ and values of the chromatin length rang from $\sqrt{3}$ to $7\sqrt{3}$}}
+\label{fig:radiiVsLengthOfChromainInROI}
+\end{figure}
+
 \subsection{2D model- incorporating experimental observations}\label{subsection:2dModel}
 To generalize the simple 1D model into 2D we have to take into account the geometry of the problem. In the 1D model expansion of the damage zone occurs by sliding alone. As seen there, the radius of expansion required to reach 40\% loss of nucleosome signal is only 1.25 times the initial UV beam radius. However, in experimental results we see an expansion of the size 1.7. We then have to attribute some of the expansion to repair protein crowding in the repair region. The contribution of crowding will be explored in this subsection. 
 
@@ -597,14 +632,14 @@ We start by observing the marked patch of nucleosomes at time 0 and 15 minutes p
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\linewidth, height=0.3\textheight]{Images/patchExpansion/patchExpansionMeasurement}
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/patchExpansionMeasurement}
 \caption{\tiny{measurement of patch expansion from time 0  just before UVC (dashed) to 15 minutes post UVC (full line) the patch grows by 25-30\% of its initial radius}}
 \label{fig:patchExpansionMeasurement}
 \end{figure}
 
 We further assume that there is no loss in the signal of marked nucleosomes during 15 minutes post UVC stemming from the patch. The absolute expansion of the patch is between $3.15-2.52=0.63$ and $3.28-2.52=0.756\mu m$. This is roughly equivalent to the radius of expansion of the damage zone, which is 0.73 $\mu m$. We interpret this observation as the non-compressibility of the chromatin. All chromatin pushed by crowding from the damage zone, are pushing further away to expand the patch equivalently. In this sense, we cannot determine the relative contribution of crowding and histone sliding to the expansion of the patch. 
 
-From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. dividing the signal at time 15 with the signal at time 0 as a function of the radius from the center, we obtain to following graph
+From the graphs of concentric old H3.3 signal around the damage site, we now calculate the loss/gain of signal relative to the signal in the patch at time 0. The signal in the patch will from as a reference to the signal 15 minutes post UVC. Dividing the signal at time 15 with the signal at time 0 as a function of the radius from the center, we obtain to following graph
 
 \begin{figure}[H]
 \includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/patchExpansion/relativeGainNucleosomesConcentric}
@@ -621,7 +656,7 @@ The function $y(r)$ represent the gain in percentages due to both pushing and sl
 
 Since the precentages are taken from growing concentric rings, which include higher quantity of nucleosomes with ting size, we have to calculate the actual distribution of DNA and nucleosomes in each ring. For this end we multiply the gain function $y(r)$ with the amount of material expected in each concentric ring. The DNA is thought to be uniformly distributed in the nucleus prior to UVC and with uniform density. 
 
-Taking rings separated  $dr$ apart and assuming the circle of radius  $1 \mu m$ contains $N$ particles, then the material between the rings of $r$ and $r+dr$ contains  
+Taking rings separated  $dr$ apart and assuming the circle of radius  $1 \mu m$ contains $N$ particles, radiusOfPushingVsLengthOfChromainInROIthen the material between the rings of $r$ and $r+dr$ contains  
 \begin{equation*}
 F(r)dr = 0.5N\left((r+dr)^2- r^2\right)=Nrdr+0.5N(dr)^2
 \end{equation*}

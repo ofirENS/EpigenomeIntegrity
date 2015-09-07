@@ -147,15 +147,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 10;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 20;  % start recording before UVC beam
-            obj.numBeamSteps           = 30; % the steps until repair
-            obj.numRepairSteps         = 30;    % repair and relaxation of the fiber
+            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300;  % start recording before UVC beam
+            obj.numBeamSteps           = 300; % the steps until repair
+            obj.numRepairSteps         = 200;    % repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 3;
+            obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 1000;
+            obj.numMonomers           = 500;
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = false;
             obj.diffusionConst        = 1;
@@ -181,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 2;
+            obj.mechanicalForceCutoff    = 0.6;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;

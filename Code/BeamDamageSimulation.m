@@ -627,9 +627,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             if obj.params.repairBrokenCrosslinks
                 obj.ReformConnections
-            end
-            
-            
+            end      
         end
         
         function ReformConnections(obj)
@@ -638,23 +636,45 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 % add cross links up to the initial level by adding them to
                 % close monomers in the ROI
                 initialConnectivity = obj.params.percentOfConnectedMonomers;
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)               
-                chainPos               = obj.GetChainPosition;
-                % get monomer distance 
-                
-                % get the indices of monomers in the ROI
-                
-                
+                currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
+
+                % reconnect beads initially in beam 
+             if initialConnectivity>currentConnectivity
+                inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+%                 find the distances to those monomers  
+               partDist = obj.handles.framework.objectManager.particleDist;
+               % check the lines for the particles first in beam 
+               for ibIdx = 1:numel(inBeam)
+                   % find those particles, non nearest neighbors) who are
+                   % at a distance lower than the threshold for connectin                                       
+               neighbPartDist = (partDist(inBeam(ibIdx),:));
+               neighbPartDist(inBeam(ibIdx))= Inf;
+               f= find(neighbPartDist<obj.params.distanceTheresholdToCrosslink);              
+                if ~isempty(f)
+                    % connect to the smaller one 
+                    [~,m] = min(neighbPartDist(f));
+                    % connect f(mf) and inBeam(ibIdx)
+                    obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx));
+                    obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = ...
+                        [obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair; [f(m),inBeam(ibIdx)]];
+                    currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
+                    
+                end
+                if currentConnectivity>initialConnectivity 
+                    break
+                end
+               end              
             end
             
-            for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)
-            obj.handles.framework.objectManager.ConnectParticles(...
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,1),...
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));            
-            end
+%             for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)
+%             obj.handles.framework.objectManager.ConnectParticles(...
+%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,1),...
+%                 obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads(cIdx,2));            
+%             end
             
             cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = cm;
+            end
         end
         
         function BreakCrosslinks(obj)
@@ -686,9 +706,10 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             cm  = obj.handles.framework.objectManager.GetMembersConnectedParticles(1,'offDiagonals');
 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterBeam = cm;
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = cm;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numConnectionsLost =...
                 size( obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)-size(cm,1);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeadsAfterBeam = size(cm,1)/(obj.params.numMonomers/2);
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeadsAfterBeam = size(cm,1)/(obj.params.numMonomers/2);            
         end
         
         function FixDamagedMonomersToPlace(obj)

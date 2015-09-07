@@ -28,7 +28,7 @@ classdef BeamDamageSimulationViewer<handle
             obj.numMonomersInROI              = resultStruct.numBeadsIn;
             obj.connectedMonomers             = resultStruct.connectedBeads;
             obj.connectedMonomersAfterBeam    = resultStruct.connectedBeadsAfterBeam;%true(size(resultStruct.connectedBeads,1),1);
-            if isfield('connectedBeadsAfterRepair',resultStruct) % backward compatibility 
+            if isfield(resultStruct,'connectedBeadsAfterRepair') % backward compatibility 
             obj.connectedMonomersAfterRepair  = resultStruct.connectedBeadsAfterRepair;
             end
             % make a list of indices for the difference between the
@@ -146,7 +146,7 @@ classdef BeamDamageSimulationViewer<handle
             set(obj.handles.numMonomersIndicator,'XData',frameNum,'YData',obj.numMonomersInROI(frameNum));
             set(obj.handles.concentricNumMonomersInROI,'XData',1:numel(obj.concentricDensity(frameNum,:)),'YData',obj.concentricDensity(frameNum,:));
             
-            
+            % beam stage
             if frameNum>obj.params.numRecordingSteps && frameNum<=(obj.params.numRecordingSteps+obj.params.numBeamSteps) % beam
                 set(obj.handles.damagedMonomers,'Visible','on','markerFaceColor','r')
                 set(obj.handles.frameSlider,'BackgroundColor','r')
@@ -174,12 +174,19 @@ classdef BeamDamageSimulationViewer<handle
                     'Visible',vState);
             end
                 
-                % Repair
+             % Repair stage
             elseif frameNum>(obj.params.numRecordingSteps+obj.params.numBeamSteps)&& frameNum<=(obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps)% repair
                 set(obj.handles.frameSlider,'BackgroundColor','g')
                 set(obj.handles.damagedMonomers,'MarkerFacecolor','g')
-                             % plot extra connectors
-            for cIdx = 1:size(obj.connectedMonomers,1)
+              % plot extra connectors
+              
+              % remove unneccessary connectors 
+              if size(obj.handles.connectors,2)>size(obj.connectedMonomersAfterRepair,1)
+                  for cIdx = size(obj.connectedMonomersAfterRepair,1):size(obj.handles.connectors,2)
+                  set(obj.handles.connectors(cIdx),'XData',[nan nan],'YData',[nan nan],'ZData',[nan nan]);
+                  end
+              end
+            for cIdx = 1:size(obj.connectedMonomersAfterRepair,1)
                 vState = 'on';
                 if ~isempty(obj.connectedMonomersAfterRepair)
                 if obj.connectedMonomersAfterRepair(cIdx);
@@ -189,9 +196,9 @@ classdef BeamDamageSimulationViewer<handle
                 end
                 end
                 set(obj.handles.connectors(cIdx),...
-                    'XData',[obj.chainPosition(obj.connectedMonomers(cIdx,1),1,frameNum),obj.chainPosition(obj.connectedMonomers(cIdx,2),1,frameNum)],...
-                    'YData',[obj.chainPosition(obj.connectedMonomers(cIdx,1),2,frameNum),obj.chainPosition(obj.connectedMonomers(cIdx,2),2,frameNum)],...
-                    'ZData',[obj.chainPosition(obj.connectedMonomers(cIdx,1),3,frameNum),obj.chainPosition(obj.connectedMonomers(cIdx,2),3,frameNum)],...
+                    'XData',[obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,1),1,frameNum),obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,2),1,frameNum)],...
+                    'YData',[obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,1),2,frameNum),obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,2),2,frameNum)],...
+                    'ZData',[obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,1),3,frameNum),obj.chainPosition(obj.connectedMonomersAfterRepair(cIdx,2),3,frameNum)],...
                     'Visible',vState);
             end
             

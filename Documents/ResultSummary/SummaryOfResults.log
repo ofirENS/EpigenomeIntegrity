@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  7 SEP 2015 23:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.7.20)  8 SEP 2015 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -343,7 +343,7 @@ been already used, duplicate ignored
                    \relax 
 l.33 
       [1]
-<Images/SlidingModel/histoneSlidingSingle.jpg, id=59, 722.7pt x 542.025pt>
+<Images/SlidingModel/histoneSlidingSingle.jpg, id=63, 722.7pt x 542.025pt>
 File: Images/SlidingModel/histoneSlidingSingle.jpg Graphic file (type jpg)
 
 <use Images/SlidingModel/histoneSlidingSingle.jpg>
@@ -351,7 +351,7 @@ Package pdftex.def Info: Images/SlidingModel/histoneSlidingSingle.jpg used on i
 nput line 46.
 (pdftex.def)             Requested size: 272.99881pt x 204.74757pt.
 
-<Images/SlidingModel/histoneSlidingMulti.jpg, id=60, 722.7pt x 542.025pt>
+<Images/SlidingModel/histoneSlidingMulti.jpg, id=64, 722.7pt x 542.025pt>
 File: Images/SlidingModel/histoneSlidingMulti.jpg Graphic file (type jpg)
 
 <use Images/SlidingModel/histoneSlidingMulti.jpg>
@@ -372,7 +372,7 @@ l.57
                                                   \fi \fi 
 l.73 		\end{equation}
                       <./Images/SlidingModel/histoneSlidingMulti.jpg>]
-<Images/SlidingModel/radiusOfPushingVsLengthOfChromainInROI.jpg, id=72, 1686.3p
+<Images/SlidingModel/radiusOfPushingVsLengthOfChromainInROI.jpg, id=76, 1686.3p
 t x 939.51pt>
 File: Images/SlidingModel/radiusOfPushingVsLengthOfChromainInROI.jpg Graphic fi
 le (type jpg)
@@ -382,7 +382,7 @@ Package pdftex.def Info: Images/SlidingModel/radiusOfPushingVsLengthOfChromainI
 nROI.jpg used on input line 77.
 (pdftex.def)             Requested size: 194.98825pt x 164.54573pt.
 
-<Images/SlidingModel/radiusOfSlidingVsLengthOfChromatinInROI.jpg, id=73, 1686.3
+<Images/SlidingModel/radiusOfSlidingVsLengthOfChromatinInROI.jpg, id=77, 1686.3
 pt x 939.51pt>
 File: Images/SlidingModel/radiusOfSlidingVsLengthOfChromatinInROI.jpg Graphic f
 ile (type jpg)
@@ -397,7 +397,7 @@ Overfull \hbox (2.58759pt too wide) in paragraph at lines 77--79
  []
 
 
-<Images/PatchExpansion/patchExpansionMeasurement.jpg, id=75, 1380.15625pt x 863
+<Images/PatchExpansion/patchExpansionMeasurement.jpg, id=79, 1380.15625pt x 863
 .225pt>
 File: Images/PatchExpansion/patchExpansionMeasurement.jpg Graphic file (type jp
 g)
@@ -413,7 +413,7 @@ ed on input line 90.
 l.94 
       <./Images/SlidingModel/radiusOfPushingVsLengthOfChromainInROI.jpg> <./Ima
 ges/SlidingModel/radiusOfSlidingVsLengthOfChromatinInROI.jpg>]
-<Images/PatchExpansion/relativeGainNucleosomesConcentric.jpg, id=83, 1041.8925p
+<Images/PatchExpansion/relativeGainNucleosomesConcentric.jpg, id=87, 1041.8925p
 t x 626.34pt>
 File: Images/PatchExpansion/relativeGainNucleosomesConcentric.jpg Graphic file 
 (type jpg)
@@ -423,7 +423,7 @@ Package pdftex.def Info: Images/PatchExpansion/relativeGainNucleosomesConcentri
 c.jpg used on input line 97.
 (pdftex.def)             Requested size: 194.98871pt x 164.54573pt.
 
-<Images/PatchExpansion/nucleosomeSignalGainConcentricFit.jpg, id=84, 1686.3pt x
+<Images/PatchExpansion/nucleosomeSignalGainConcentricFit.jpg, id=88, 1686.3pt x
  896.34875pt>
 File: Images/PatchExpansion/nucleosomeSignalGainConcentricFit.jpg Graphic file 
 (type jpg)
@@ -442,61 +442,59 @@ Overfull \hbox (2.58804pt too wide) in paragraph at lines 97--99
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.110 		\begin{equation}
-                        \label{eq:ratioOfDNALengthToRoiRadius}pdfTeX warning (e
-xt4): destination with the same identifier (name{figure.0.5}) has been already 
-used, duplicate ignored
+l.113 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+0.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.110 		\begin{equation}
-                        \label{eq:ratioOfDNALengthToRoiRadius} <./Images/PatchE
-xpansion/patchExpansionMeasurement.jpg> <./Images/PatchExpansion/relativeGainNu
-cleosomesConcentric.jpg> <./Images/PatchExpansion/nucleosomeSignalGainConcentri
-cFit.jpg>]
-<Images/Simulations/meanRadiusOfExpansionAffected.jpg, id=93, 1686.3pt x 881.29
+l.113 
+       <./Images/PatchExpansion/patchExpansionMeasurement.jpg> <./Images/PatchE
+xpansion/relativeGainNucleosomesConcentric.jpg> <./Images/PatchExpansion/nucleo
+someSignalGainConcentricFit.jpg>]
+<Images/Simulations/meanRadiusOfExpansionAffected.jpg, id=99, 1686.3pt x 881.29
 25pt>
 File: Images/Simulations/meanRadiusOfExpansionAffected.jpg Graphic file (type j
 pg)
  <use Images/Simulations/meanRadiusOfExpansionAffected.jpg>
 Package pdftex.def Info: Images/Simulations/meanRadiusOfExpansionAffected.jpg u
-sed on input line 121.
+sed on input line 125.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-<Images/Simulations/percentOfMonomersInROI.jpg, id=94, 1686.3pt x 881.2925pt>
+<Images/Simulations/percentOfMonomersInROI.jpg, id=100, 1686.3pt x 881.2925pt>
 File: Images/Simulations/percentOfMonomersInROI.jpg Graphic file (type jpg)
 
 <use Images/Simulations/percentOfMonomersInROI.jpg>
 Package pdftex.def Info: Images/Simulations/percentOfMonomersInROI.jpg used on 
-input line 122.
+input line 126.
 (pdftex.def)             Requested size: 194.98825pt x 164.54266pt.
 
-Overfull \hbox (2.58759pt too wide) in paragraph at lines 121--123
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 125--127
 [][] []
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 128.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 132.
 [6pdfTeX warning (ext4): destination with the same identifier (name{figure.0.6}
 ) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.128 \end{document}
+l.132 \end{document}
                      <./Images/Simulations/meanRadiusOfExpansionAffected.jpg> <
 ./Images/Simulations/percentOfMonomersInROI.jpg>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 128.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 132.
  (./SummaryOfResults.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 128.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 128.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 132.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 132.
 Package rerunfilecheck Info: File `SummaryOfResults.out' has not changed.
-(rerunfilecheck)             Checksum: 1F4C987871C192492527C511B12F9C69;501.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 128.
+(rerunfilecheck)             Checksum: E6D61D4D028108D395C35E832333D4EC;578.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 132.
  ) 
 Here is how much of TeX's memory you used:
- 6159 strings out of 493109
- 89676 string characters out of 6140856
- 175784 words of memory out of 5000000
- 9527 multiletter control sequences out of 15000+600000
+ 6162 strings out of 493109
+ 89746 string characters out of 6140856
+ 175794 words of memory out of 5000000
+ 9529 multiletter control sequences out of 15000+600000
  13053 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,7n,28p,804b,343s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -510,10 +508,10 @@ t/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
 sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
-Output written on SummaryOfResults.pdf (7 pages, 795829 bytes).
+Output written on SummaryOfResults.pdf (7 pages, 796583 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 116 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 154 PDF objects out of 1000 (max. 8388607)
+ 122 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 102 words of extra memory for PDF output out of 10000 (max. 10000000)
 

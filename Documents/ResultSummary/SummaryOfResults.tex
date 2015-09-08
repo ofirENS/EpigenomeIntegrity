@@ -106,11 +106,15 @@
 		\end{equation} 
 		with $F(r)$ the amount of histones in concentric ring between $r$ and $r+dr$, $y(r)$ the quadratic fit to the gain function, and $\gamma$ is the fraction of histones in a region of radius $R$. We find that the expansion radius attributed to sliding is in the range 0.34 to 0.46 $\mu m$.  
 		
-		Plugging this estimation in the formula for the $L$ gives us an estimation of the ratio between the ROI radius and the length of DNA stretched from the damage zone
+		\subsection{Geometrical implications}\label{subsection:GeometricalImplications}
+		Normally we do not have access to the value of $l$, the length of the chromatin in the damage zone. 
+		We can bypass this demand by experimentally measure the expansion attributed to 
+		sliding by the procedure described in subsection \ref{subsection:ExpansionDueToSlidingAndPushing}. The expansion radius, $L$, can then be used to solve for $l/\beta$ in equation \ref{eq:expansionRadiusDueToSliding} to arrive at
+				
 		\begin{equation}\label{eq:ratioOfDNALengthToRoiRadius}
-		\frac{l}{\beta} = \frac{L\pi(d-h)}{(\beta-L)(d-1)}
+	       \frac{l}{\beta} = \frac{L\pi(d-h)}{(\beta-L)(d-1)}
 		\end{equation}				
-		
+						
 		\subsection{Simulation of expansion and repair}\label{subsection:SimulationOfExpansionAndRepair}
 		To examine the organization of the chromatin after repair, we perform 2D simulations of the damage process and expansion. Expansion of 1.7 is obtained for a Rouse polymer having 500 monomers, with 80\% additional cross-links. 		
 		After UVC, cross-links from damaged monomers are removed. We simulate crowding around damage zones by employing an harmonic potential around damaged monomers having a radius of exclusion between 0.6-0.65.

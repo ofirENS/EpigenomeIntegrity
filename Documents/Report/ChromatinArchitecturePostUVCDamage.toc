@@ -1,0 +1,45 @@
+\contentsline {section}{\numberline {0.1}Glossary of symbols}{2}{section.0.1}
+\contentsline {section}{\numberline {0.2}Experimental Settings and Main Findings}{2}{section.0.2}
+\contentsline {section}{\numberline {0.3}Model and Parameter Estimation}{4}{section.0.3}
+\contentsline {subsection}{\numberline {0.3.1}Simulation outline and definitions}{4}{subsection.0.3.1}
+\contentsline {subsection}{\numberline {0.3.2}Nucleus Size}{4}{subsection.0.3.2}
+\contentsline {subsection}{\numberline {0.3.3}Histone Density in the cell}{4}{subsection.0.3.3}
+\contentsline {subsection}{\numberline {0.3.4}The Simulation Domain}{4}{subsection.0.3.4}
+\contentsline {subsection}{\numberline {0.3.5}The chromatin}{5}{subsection.0.3.5}
+\contentsline {subsection}{\numberline {0.3.6}The UV beam}{6}{subsection.0.3.6}
+\contentsline {subsection}{\numberline {0.3.7}UVC effect on Polymer dynamics}{6}{subsection.0.3.7}
+\contentsline {subsection}{\numberline {0.3.8}The region of interest (ROI)}{7}{subsection.0.3.8}
+\contentsline {subsection}{\numberline {0.3.9}Model Parameters}{7}{subsection.0.3.9}
+\contentsline {subsubsection}{The parameter b}{7}{section*.2}
+\contentsline {subsection}{\numberline {0.3.10}The minimal distance between monomers -$l_0$}{7}{subsection.0.3.10}
+\contentsline {subsubsection}{Number of monomers}{8}{section*.3}
+\contentsline {subsubsection}{The Spring constant}{8}{section*.4}
+\contentsline {subsubsection}{The bending constant}{8}{section*.5}
+\contentsline {subsection}{\numberline {0.3.11}The ROI}{8}{subsection.0.3.11}
+\contentsline {subsubsection}{Determining expansion saturation}{8}{section*.6}
+\contentsline {section}{\numberline {0.4}Simulations}{9}{section.0.4}
+\contentsline {section}{\numberline {0.5}2D simulations of DNA loss}{9}{section.0.5}
+\contentsline {subsection}{\numberline {0.5.1}Adding Lennard-Jones force}{9}{subsection.0.5.1}
+\contentsline {subsection}{\numberline {0.5.2}Cross-linking the polymer}{11}{subsection.0.5.2}
+\contentsline {subsection}{\numberline {0.5.3}Assigning bending to damaged monomers}{11}{subsection.0.5.3}
+\contentsline {subsubsection}{Break damaged monomers' cross-links}{11}{section*.7}
+\contentsline {subsubsection}{Keep all cross-links}{13}{section*.8}
+\contentsline {subsection}{\numberline {0.5.4}Assign bending to non-damaged monomers}{16}{subsection.0.5.4}
+\contentsline {subsubsection}{Break damaged monomers' cross-links}{16}{section*.9}
+\contentsline {subsubsection}{Keeping all cross-links after UVC}{18}{section*.10}
+\contentsline {subsection}{\numberline {0.5.5}Assign bending to non-damaged monomers in the UVC beam}{19}{subsection.0.5.5}
+\contentsline {subsubsection}{Break damaged monomers' cross-links}{20}{section*.11}
+\contentsline {subsubsection}{Keep all cross-links after UVC}{20}{section*.12}
+\contentsline {subsection}{\numberline {0.5.6}Region of exclusion around damaged monomers}{20}{subsection.0.5.6}
+\contentsline {subsubsection}{Break damaged monomers' cross-links}{21}{section*.13}
+\contentsline {subsubsection}{No cross-links broken}{22}{section*.14}
+\contentsline {subsubsection}{Parameter fitting}{24}{section*.15}
+\contentsline {subsubsection}{Length of DNA in ROI}{28}{section*.16}
+\contentsline {subsection}{\numberline {0.5.7}Summary of Damage Stage}{29}{subsection.0.5.7}
+\contentsline {section}{\numberline {0.6}Microscopic Description of DNA and Nucleusome Loss}{31}{section.0.6}
+\contentsline {subsection}{\numberline {0.6.1}1D model of nucleosome sliding and chromatin expansion}{31}{subsection.0.6.1}
+\contentsline {subsection}{\numberline {0.6.2}Relative contribution of sliding and pushing}{33}{subsection.0.6.2}
+\contentsline {subsection}{\numberline {0.6.3}2D model - geometrical arrangement of chromatin}{35}{subsection.0.6.3}
+\contentsline {subsection}{\numberline {0.6.4}2D model- incorporating experimental observations}{37}{subsection.0.6.4}
+\contentsline {subsubsection}{A second approach}{41}{section*.17}
+\contentsline {section}{\numberline {0.7}DNA repair}{43}{section.0.7}

@@ -424,7 +424,7 @@
          
    \textbf{\large{Relationship between radius of exclusion and expansion}}   
    In essence, we should be able to predict the magnitude of the radius of expansion if we know the number of monomers damaged due to UVC in the volume exclusion model. 
-   The redius of expansion of the damaged monomers should depend on the radius of the UVC beam, the total number of monomers and the probability of a monomer to be damaged (time of UVC exposure).
+   The radius of expansion of the damaged monomers should depend on the radius of the UVC beam, the total number of monomers and the probability of a monomer to be damaged (time of UVC exposure).
    An exclusion around each damaged monomers converges over time to a geometrical arrangement with damaged monomers roughly equidistant from one another. Assuming equidistant (mean) model, we assume the expansion of damaged monomers to be in a square region rather than a circular (see figure), and we approximate the radius of expansion to be half the diagonal of this square region. Therefore, the relationship between the radius of expansion, the number of monomers, the UVC beam radius and the radius of exclusion should roughly follow
    \begin{equation*}
    \left[\frac{[pNF_{cm}^c(R_b)]^{0.5}}{2}-1 \right]R_e = R_b\alpha
@@ -512,31 +512,31 @@
    	\item length of linker DNA=50bp, length of histone-wrapped DNA=150bp;
    	\item we consider nuclesome to be the linker + the histones as a unit.   
    \end{enumerate}
-   With these assumptions and observations, I'll present a simplified 1D model which accounts for 40\% loss of histones, and 20\% loss of DNA, in a region expanding $\beta$ times its initial size. 
+   With these assumptions and observations, I'll present a simplified 1D model which accounts for 40\% loss of histones, and 20\% loss of DNA, in a region expanding from $L$ to $\beta$. 
    
-   We start with a 1D model of a DNA strand with nucleosomes embedded in it. The leftmost point of the strand will be the origin. In this model, a UV beam damages a portion of size $L$ of the strand containing $N$ nucleosomes. Assume the rightmost damage point,$S$, is located at $L$. According to the assumption, repair can take place only on naked DNA. Therefore, in order to repair all damages, the repair proteins need to slide histones away from high concentration of damage sites. Assuming the focal point of the beam is above the origin, sliding direction will be to the right. From symmetry arguments, a mirror situation can be to extended to the left of the beam focal point.     
+   We start with a 1D model of a DNA strand with nucleosomes embedded in it. The leftmost point of the strand will be the origin. In this model, a UV beam damages a portion of size $L$ of the strand containing $N$ nucleosomes. Assume the rightmost damage point,$S$, is located at a distance $L$. According to the assumption, repair can take place only on naked DNA. Therefore, in order to repair all damages, the repair proteins need to slide histones away from high concentration of damage sites. Assuming the focal point of the beam is above the origin, sliding direction will be to the right. From symmetry arguments, a mirror situation can be to extended to the left of the beam focal point.     
    
    The first principle to take into account is that sliding histones over any point of the DNA displaces that point several bp to the right (Figure \ref{fig:histoneSlidingSingle}). The actual distance it is displaced depends on the number of bp wrapped around each histone. It is important to note that this displacement is not a displacement of the point on the actual DNA, but rather measured by the aerial distance from the origin to the point. This displacement is caused by the sliding histones over the DNA.
    
-   Assume now that the repair proteins have slided enough histones to reach a geometrical arrangement such that al damage sites are exposed. If we look at the rightmost damage point ,$S$, initially located at a distance of $L$ from the origin, then as a result of histones sliding, $S$ has been displaced from $L$ to $\beta L$. 
+   Assume now that the repair proteins have slided enough histones to reach a geometrical arrangement such that all damage sites are exposed. If we look at the rightmost damage point ,$S$, initially located at a distance of $L$ from the origin, then as a result of histones sliding, $S$ has been displaced from $L$ to $\beta$. 
    
-   For the point $S$ to reach $\beta L$ we need to displace $S$ a distance equivalent to of $(\beta-1)L$. Assume that a single nucleosome units (linker + histone) occupies a length of $\alpha_1$, and with each sliding of the histone over a point, we displace this point a length fo $\alpha_2$. The ratio $\alpha_1/\alpha_2 =\alpha$ will be used in the calculation. Then, The number of times we have to slide a histone over the point $S$ is thus $(\beta-1)N\alpha$.
+   For the point $S$ to reach $\beta$ we need to displace $S$ a distance equivalent to of $\beta-L$. Assume that a single nucleosome units (linker + histone) occupies a length of $\alpha_1$, and with each sliding of the histone over a point, we displace this point a length fo $\alpha_2$. The ratio $\alpha_1/\alpha_2 =\alpha$ will be used in the calculation. Then, The number of times we have to slide a histone over the point $S$ is thus $(\beta-L)N\alpha$.
    The number also indicates the number of histones transfered from the left to the right side of the point $S$ as it is being translated towards $\beta L$.
-   In the region $\beta L$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta L$ the region contains $N-(\beta-1)N$ nucleosomes plus the amount crossing over from left to right of $S$. 
+   In the region up to $\beta$ we initially have $\beta N$ nucleosomes. After the point $S$ has reached $\beta$ the region contains $N-(\beta-L)N$ nucleosomes plus the amount crossing over from left to right of $S$. 
    
-   Since the point $S$ is a damage site, we expect to find tagged repair proteins around it, and so also at $\beta L$. Therefore, the  boundaries of the ROI, which are determined by presence of repair protein, will be at $\beta L$ with the point $S$. 
+   Since the point $S$ is a damage site, we expect to find tagged repair proteins around it, and so also at $\beta$ once $S$ has reached it. Therefore, the  boundaries of the ROI, which are determined by presence of repair protein, will be at $\beta$ with the point $S$. 
    
    The percent of DNA loss from the ROI due to sliding is thus 
    \begin{equation}
-   \frac{(\beta-1)}{\beta}
+   \frac{(\beta-L)}{\beta}
    \end{equation}
    All nucleosomes to the right of the point $S$ are lost, and in addition all nucleosomes which were slided from left to right of $S$ are lost. This brings the total percentage of nucleosome loss to 
    \begin{equation*}
-   \frac{(\beta-1) +\alpha(\beta -1)}{\beta}= \frac{(\alpha+1)(\beta -1)}{\beta}
+   \frac{(\beta-L) +\alpha(\beta -L)}{\beta}= \frac{(\alpha+1)(\beta -L)}{\beta}
    \end{equation*}
    which is independent of $N$.
    
-   Experimental result show 20\% of DNA loss, therefore we equate the loss of DNA to 0.2 
+   Experimental result show 20\% of DNA loss, therefore if we equate the loss of DNA to 0.2 
    \begin{equation*}
    \frac{(\beta -1)}{\beta}=0.2, \quad \Rightarrow \beta = 1.25
    \end{equation*}     
@@ -544,7 +544,7 @@
    
    The value $\alpha=1$ has geometrical meaning and is the ratio of the distance we displace a point to the length of DNA wrapped on a histone. 
    
-   Experimental observations show a growth of 1.7 in the radius of expansion. This is in no agreement with $\beta=1.25$ found in the 1D analytical calculation. We therefore have to incorporate information related to the spatial organization of the DNA. 
+   Experimental observations show a growth of 1.7-1.8 in the radius of expansion. This is in no agreement with $\beta=1.25$ found in the 1D analytical calculation. We therefore have to incorporate information related to the spatial organization of the DNA. Furthermore, we note that the above calculation takes into account sliding and pushing mechanism fro histone and DNA loss and not just pushing.
    
    
    \begin{figure}
@@ -563,9 +563,9 @@
    
 \subsection{Relative contribution of sliding and pushing}
   We now use the 1D model to estimate the relative contribution of sliding to the expansion. We have to keep in mind that expansion due to sliding is active with pushing, but this mechanism can be inactive.
-  By pushing the DNA out od the region, we lose DNa and histones at the same proportion. The mechanism of sliding breaks this balance such that we can lose in percentages more histones than DNA. 
+  By pushing the DNA out of the region, we lose DNA and histones at the same proportion. The mechanism of sliding breaks this balance such that we can lose, in percentages, more histones than DNA. 
   
-  Assume that in the ROI with radius $\beta$ we initially have $N$ nucleosomes (histones + linker DNA), and that due to pushing up to a distance of $L>1$ we have lost a fraction of $k$. We denote the additional fraction of DNA loss due to sliding by $A$ and the fraction of histones loss due to sliding by $B$, and the fraction of total loss of DNA by $d$ and that of histones by $h$. We have for the total loss fraction  
+  Assume that in the ROI with radius $\beta$ we initially have $N$ nucleosomes (histones + linker DNA), and that due to pushing up to a distance of $L'>1$ we have lost a fraction of $k$. We denote the additional fraction of DNA loss due to sliding by $A$ and the fraction of histones loss due to sliding by $B$, and the fraction of total loss of DNA by $d$ and that of histones by $h$. We have for the total loss fraction  
   \begin{eqnarray*}
   d &=& k+A(1-k) \\
   h &=& k+B(1-k)
@@ -577,11 +577,11 @@
   
   From the equation of sliding in the 1D model we can substitute 
   \begin{equation*}
-  A= \frac{\beta-L}{\beta}, \quad B=\frac{(\beta -L)(\alpha+1)}{\beta}
+  A= \frac{\beta-L'}{\beta}, \quad B=\frac{(\beta -L')(\alpha+1)}{\beta}
   \end{equation*}
-  and solve for $L$ 
+  and solve for $L'$ 
   \begin{equation*}
-  L = \frac{\alpha\beta(d-1)}{(\alpha+1)d -(\alpha+h)}
+  L' = \frac{\alpha\beta(d-1)}{(\alpha+1)d -(\alpha+h)}
   \end{equation*}
   
   If we now plug the numbers $\beta=\sqrt{3}, \alpha =  2, d=0.2, h=0.4$ we get $L=1.51$. Which means that sliding is responsible for an expansion of about 0.22 out of 0.73, which is about 30\%.
@@ -589,7 +589,7 @@
 \subsection{2D model - geometrical arrangement of chromatin}\label{subsection:2dModelGeometricalArrangement}
 We now have to make some assumptions regarding the local organization of the chromatin before, during, and after expansion. 
 We assume a simple geometric arrangement in which a chromatin of length $l$ is zig-zagging in a rectangle of length $\beta$.
-We further assume that the histones are arranged on the chromatin in a zigzag manner. 
+We further assume that the histones are arranged on the chromatin in a zigzag manner. Using this assumption we can estimate $\alpha = \alpha_1/\alpha_2 = 1/\pi$. 
 We now make corrections to the estimate of loss made in previous subsection. 
 
 \begin{figure}[H]
@@ -601,14 +601,13 @@ We now make corrections to the estimate of loss made in previous subsection.
 
 Now, the total histone loss fraction should read 
 \begin{equation*}
-\frac{(\beta-L)(1+\frac{\alpha}{\cos(\phi)})}{\beta}=\frac{(\beta-L)(\beta+\alpha l)}{\beta^2}
+\frac{(\beta-L')(1+\frac{\alpha}{\cos(\phi)})}{\beta}=\frac{(\beta-L')(\beta+\alpha l)}{\beta^2}
 \end{equation*}
-with $\alpha = \alpha_1/\alpha_2$ as in the previous subsection, $\beta$ is end radius of expansion, $L$ is the starting radius, and $l$ is the total length of the chromatin as in Figure \ref{fig:2Darrangement} B. 
+with $\alpha = \alpha_1/\alpha_2$ as in the previous subsection, $\beta$ is end radius of expansion, $L'$ is the starting radius, and $l$ is the total length of the chromatin as in Figure \ref{fig:2Darrangement} B. 
  
- We further give an estimate to $\alpha= \alpha_1/\alpha_2\approx \frac{1}{\pi}$
- With this replacement, the length of expansion attributed to pushing is given by 
+The length of expansion attributed to pushing is given by 
    \begin{equation*}
-   L = \frac{\beta l(d-1)}{l(d-1) +\pi \beta(d-h)}
+   L' = \frac{\beta l(d-1)}{l(d-1) +\pi \beta(d-h)}
    \end{equation*}
  The quantity $\beta /l$ is the global compaction term after expansion. In Figure \ref{fig:radiiVsLengthOfChromainInROI} we present the radius $L$ for pushing as a function of the value of $l$ 
  

@@ -190,6 +190,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             
             % Activate the UVC beam
             obj.ApplyDamageEffect; 
+            % record neighboring position for affected monomers 
             
             for sIdx =1:obj.params.numBeamSteps
                 obj.ApplyExclusionByVolume
@@ -630,7 +631,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end      
         end
         
-        function ReformConnections(obj)
+        function ReformConnections(obj)% need to prevent 
             % At repair time, re-form the broken connections due to UVC damage
             if obj.params.addCrosslinksByDistance
                 % add cross links up to the initial level by adding them to
@@ -639,7 +640,7 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
 
                 % reconnect beads initially in beam 
-             if initialConnectivity>currentConnectivity
+             if initialConnectivity>=ceil(currentConnectivity)
                 inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
 %                 find the distances to those monomers  
                partDist = obj.handles.framework.objectManager.particleDist;
@@ -649,18 +650,22 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                    % at a distance lower than the threshold for connectin                                       
                neighbPartDist = (partDist(inBeam(ibIdx),:));
                neighbPartDist(inBeam(ibIdx))= Inf;
+                % get off diagonal connections 
+                
                f= find(neighbPartDist<obj.params.distanceTheresholdToCrosslink);              
                 if ~isempty(f)
                     % connect to the smaller one 
                     [~,m] = min(neighbPartDist(f));
-                    % connect f(mf) and inBeam(ibIdx)
+                    % connect f(mf) and inBeam(ibIdx) if not already
+                    % connected
+                    if ~obj.handles.framework.objectManager.connectivity(f(m),inBeam(ibIdx))
                     obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx));
                     obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = ...
                         [obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair; [f(m),inBeam(ibIdx)]];
                     currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
-                    
+                    end
                 end
-                if currentConnectivity>initialConnectivity 
+                if currentConnectivity>=initialConnectivity 
                     break
                 end
                end              

@@ -131,7 +131,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
-            simulationState        = 'debug'; % options: [debug | simulation]
+            simulationState        = 'simulation'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
@@ -142,15 +142,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             obj.tryMechanicalForceMagnitude = [];%linspace(0.1, 0.5,3);
-            obj.tryMechanicalForceCutoff    = [];%linspace(0.5, sqrt(2),3);
+            obj.tryMechanicalForceCutoff    = linspace(0.4, sqrt(2),10);
             
             %___Simulation parameters___
-            obj.numRounds              = 1;%numel(obj.tryMechanicalForceCutoff);
+            obj.numRounds              = numel(obj.tryMechanicalForceCutoff);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
+            obj.numRelaxationSteps     = 300;  % initialization step (burn-in time)
             obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 300; % the steps until repair
-            obj.numRepairSteps         = 200;    % repair and relaxation of the fiber
+            obj.numBeamSteps           = 9000; % the steps until repair
+            obj.numRepairSteps         = 500;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
@@ -181,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.6;
+            obj.mechanicalForceCutoff    = 0.4;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -204,7 +204,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %_ Repair__
             obj.repairBrokenCrosslinks            = true;
             obj.addCrosslinksByDistance           = true;
-            obj.distanceTheresholdToCrosslink     = 1;    
+            obj.distanceTheresholdToCrosslink     = 0.1;    
             obj.turnOffBendingAfterRepair         = false;
             obj.removeExclusionVolumeAfterRepair  = true;
             
@@ -224,7 +224,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.loadRelaxationConfiguration  = false; % unused
             obj.loadFullConfiguration        = false; % unused
             obj.resultsPath                  = fullfile('/home/ofir/Work/ENS/OwnCloud/EpigenomicIntegrity/SimulationResults/'); % top level folder name
-            obj.resultsFolder                = 'ROIPostExpansion/ROIByDamaged/ExcludeAroundDamagedMonomers/NoLennardJones/BreakDamagedCrosslinks/10';% result sub-folder name
+            obj.resultsFolder                = 'TestRepair/ROIByDamaged/ExcludeAroundDamagedMonomers/BreakDamagedCrosslinks/01';% result sub-folder name
             cl                               = clock;            
             obj.resultFileName               = sprintf('%s',[num2str(cl(3)),'_',num2str(cl(2)),'_',num2str(cl(1))]); % result file name is given the current time 
             obj.saveAfterEachSimulation      = false;  % save results and create a Readme file after each simulation

@@ -334,6 +334,51 @@ classdef BeamDamageResultsAnalysis<handle
             end            
         end
         
+        function StructuteSimilarity(obj,plotFlag)
+            % calculate the similarity between the polymer structure before
+            % UVC and at the end of repair stage 
+            % the similarity is measured in terms of similar neighbors for
+            % each monomer. 
+            if ~exist('plotFig','var')
+               plotFig = true;
+            end
+            
+            for rIdx = 1:obj.numRounds
+                % Get chain position before beam and the indices of
+                % monomers in the beam
+                
+                 for sIdx = 1:obj.numSimulations
+                     inBeamInds     = obj.results(rIdx,sIdx).beadsInIndex;
+                     score          = zeros(numel(inBeamIdx,1));% similarity score
+                     chainPosBefore = obj.results(rIdx,sIdx).chainPosition(:,:,obj.results(rIdx,sIdx).numRecordingSteps);
+                     chainPosAfter  = obj.results(rIdx,sIdx).chainPosition(:,:,end);
+                     % get the 5 nearest neighbors (not including linear
+                     % neighbors)
+                     particleDistBefore = ForceManager.GetParticleDistance(chainPosBefore);
+                     particleDistAfter  = ForceManager.GetParticleDistance(chainPosAfter);
+                     for ibIdx = 1:numel(inBeamInds)
+                         pBefore = particleDistBefore(inBeamInds(ibIdx),:);
+                         pAfter  = particleDistAfter(inBeamInds(ibIdx),:);
+                         
+                         % set Inf to linear nearest neighbors 
+                         pBefore([max([1,inBeamInds(ibIdx)-1]),inBeamInds(ibIdx),min([inBeamInds(ibIdx)+1,numel(pBefore)])])= Inf;
+                         pAfter([max([1,inBeamInds(ibIdx)-1]),inBeamInds(ibIdx),min([inBeamInds(ibIdx)+1,numel(pAfter)])]) = Inf;
+                         
+                         [~,pBeforeInds] = sort(pBefore,'ascend'); % the indices of closest neighbors in ascending order of distance
+                         [~,pAfterInds]  = sort(pAfter,'ascend'); % the indices of closest neighbors in ascending order of distance
+                         % take only 5 (should be an input parameter)
+                         pBefore = pBeforeInds(1:5);
+                         pAfter  = pAfterInds(1:5);
+                         % compare the two vectors according to the
+                         % fraction of indices similar in both 
+                         score(ibIdx) = sum(ismember(pBefore,pAfter))./numel(pAfter);
+                     end
+                     
+                 end
+            end
+           
+        end
+        
         function PlotTimeline(obj,axisHandle)
             % Show the line for recording time, beam time, and repair time 
             hold(axisHandle,'on');

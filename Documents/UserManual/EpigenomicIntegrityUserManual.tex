@@ -1,0 +1,52 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{float}
+\begin{document}
+	\title{Epigenetic Integrity- Simulation framework User Manual}
+	\maketitle
+	\author{Ofir Shukron}
+	\section{Introduction}
+	This user manual gives a brief introduction to the software framework tool used to simulate and obtain results in the Epigenomic Integrity project- a collaboration between the laboratory of Sophie Polo (Paris 7) and David Holcman (ENS).
+	The construction of the simulation framework tool meant to give answers and insights into the process of epigenomic memory retention and correction post UV damage in chromatin. The simulation framework is constructed using toolboxes developed by Ofir Shukron (ENS) and is a wrapper for core functions and classes used in simulating polymer dynamics in various environments and conditions.
+	
+	All tools and functions were written in MATLAB 2015a. Several functions were translated into .mex format to speed up running. 
+	The code can be pulled or forked from the Git repository of the project at:\\ https://github.com/ofirENS/EpigenomeIntegrity.git. \\
+	
+	\section{Getting started}
+	Before you can start using the framework, several codes must be added to the core project to resolve dependencies.
+	
+    Open MATLAB and set the working path by navigating to the EpigeneticIntegrity Code folder. Run InitEnv.m to set the environment
+	\subsection{Code Dependencies}
+	The \textit{Utils} folder must be added to the project. The \textit{Utils} folder must be external to the Code folder.
+	Get the \textit{Utils} at:\\
+	 https://github.com/ofirENS/Utils.git\\
+	If you wish to change the location of the \textit{Utils} folder, make sure the path to include \textit{Utils} in \textit{InitEnv.m} points to its new location.
+	The \textit{Utils} folder contains general codes and classes and in addition classes needed for the activation of forces acting on the polymer and in the domain. 
+	
+	The \textit{PolymerChainDynamics} folder must be added to the project. The \textit{PolymerChainDynamics} folder must be external to the \textit{Code} folder. Get the \textit{PolymerChainDynamics} at:\\
+	https://github.com/ofirENS/PolymerChainDynamics.git\\
+	If you wish to change the location of the \textit{PolymerChainDynamics} folder, make sure the path to include it in \textit{InitEnv.m} points to its new location.	
+	The \textit{PolymerChainDynamics} folder contains classes to control the polymer itself and the domain
+	
+	\section{Code Structure}
+	\subsection{Main Classes}
+	The work pipeline relies on 4 main classes, all of which are in the EpigenetricIntegrity \textit{Code} folder. 
+	\begin{enumerate}
+		\item \textit{BeamDamageParams.m} - a collection of framework parameters 
+		\item \textit{BeamDamageSimulation.m} - the simulation class
+		\item \textit{BeamDamageResultsAnalysis.m} - a class to analyze results of simulations 
+		\item \textit{BeamDamageSimulationViewer.m} - an off-line graphical viewer
+	\end{enumerate}
+    A script is provided to run the first 3 classes in the right order, \textit{scrRunBeamDamageSimulation.m}
+     	
+	\section{Hello World}
+	After you have set the environment and resolved code dependencies, follow the next steps to run a one time full simulations 
+	\begin{enumerate}
+	\item 
+	\end{enumerate}
+	
+\end{document}

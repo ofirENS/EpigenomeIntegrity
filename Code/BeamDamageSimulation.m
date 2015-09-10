@@ -631,44 +631,44 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
             end      
         end
         
-        function ReformConnections(obj)% need to prevent 
-            % At repair time, re-form the broken connections due to UVC damage
+        function ReformConnections(obj)
+            % At repair time, re-create links 
             if obj.params.addCrosslinksByDistance
                 % add cross links up to the initial level by adding them to
                 % close monomers in the ROI
                 initialConnectivity = obj.params.percentOfConnectedMonomers;
-                currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
+                currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 
 
                 % reconnect beads initially in beam 
-             if initialConnectivity>=ceil(currentConnectivity)
+             if initialConnectivity>ceil(currentConnectivity)
                 inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
-%                 find the distances to those monomers  
-               partDist = obj.handles.framework.objectManager.particleDist;
-               % check the lines for the particles first in beam 
+                % find the distances to those monomers  
+                partDist = obj.handles.framework.objectManager.particleDist;               
+                % check connectivity for particles in beam
                for ibIdx = 1:numel(inBeam)
-                   % find those particles, non nearest neighbors) who are
-                   % at a distance lower than the threshold for connectin                                       
+                % get particle distance
                neighbPartDist = (partDist(inBeam(ibIdx),:));
-               neighbPartDist(inBeam(ibIdx))= Inf;
-                % get off diagonal connections 
-                
-               f= find(neighbPartDist<obj.params.distanceTheresholdToCrosslink);              
+                % assign Inf to nearest neighbors
+               neighbPartDist([max([1,inBeam(ibIdx)-1]),inBeam(ibIdx), min([obj.params.numMonomers,inBeam(ibIdx)+1])])= Inf;                
+                % find those particles who are
+                % at a distance lower than the threshold for connecting
+               f = find(neighbPartDist<obj.params.distanceTheresholdToCrosslink);
                 if ~isempty(f)
                     % connect to the smaller one 
                     [~,m] = min(neighbPartDist(f));
                     % connect f(mf) and inBeam(ibIdx) if not already
                     % connected
                     if ~obj.handles.framework.objectManager.connectivity(f(m),inBeam(ibIdx))
-                    obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx));
+                    obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx));% connnect
                     obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = ...
-                        [obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair; [f(m),inBeam(ibIdx)]];
-                    currentConnectivity = 2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100; 
+                        [obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair; [f(m),inBeam(ibIdx)]];% update connection list
+                    currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 
                     end
                 end
                 if currentConnectivity>=initialConnectivity 
                     break
                 end
-               end              
+               end
             end
             
 %             for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)

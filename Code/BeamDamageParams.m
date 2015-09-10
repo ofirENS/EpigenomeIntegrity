@@ -131,7 +131,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     methods
         
         function obj = BeamDamageParams()% Edit parametes here
-            simulationState        = 'simulation'; % options: [debug | simulation]
+            simulationState        = 'debug'; % options: [debug | simulation]
             
             % Simulation trials 
             % variables to simulate 
@@ -142,14 +142,14 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.tryBendingConst  = [];
             obj.trySpringConst   = [];
             obj.tryMechanicalForceMagnitude = [];%linspace(0.1, 0.5,3);
-            obj.tryMechanicalForceCutoff    = linspace(0.4, sqrt(2),10);
+            obj.tryMechanicalForceCutoff    = [];
             
             %___Simulation parameters___
-            obj.numRounds              = numel(obj.tryMechanicalForceCutoff);
-            obj.numSimulationsPerRound = 1;
+            obj.numRounds              = numel(obj.tryConnectivity);
+            obj.numSimulationsPerRound = 3;
             obj.numRelaxationSteps     = 300;  % initialization step (burn-in time)
             obj.numRecordingSteps      = 300;  % start recording before UVC beam
-            obj.numBeamSteps           = 9000; % the steps until repair
+            obj.numBeamSteps           = 5000; % the steps until repair
             obj.numRepairSteps         = 500;  % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
@@ -181,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.4;
+            obj.mechanicalForceCutoff    = 0.65;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;

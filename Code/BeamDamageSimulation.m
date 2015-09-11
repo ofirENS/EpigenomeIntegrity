@@ -638,10 +638,14 @@ classdef BeamDamageSimulation<handle %[UNFINISHED]
                 % close monomers in the ROI
                 initialConnectivity = obj.params.percentOfConnectedMonomers;
                 currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 
-
+                maxAllowedConnections = 2;
+               
                 % reconnect beads initially in beam 
              if initialConnectivity>ceil(currentConnectivity)
                 inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+                connectivity = obj.handles.framework.objectManager.connectivity;
+                s = sum(connectivity(inBeam,:),2);
+                inBeam = inBeam(s<(2+maxAllowedConnectivity));
                 % find the distances to those monomers  
                 partDist = obj.handles.framework.objectManager.particleDist;               
                 % check connectivity for particles in beam

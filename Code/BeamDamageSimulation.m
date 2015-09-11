@@ -1,4 +1,4 @@
-classdef BeamDamageSimulation<handle %[UNFINISHED]
+classdef BeamDamageSimulation<handle 
     % This test function moves histones on a Rouse chain
     
     % % create chain and domain and register them in the ObjectManager

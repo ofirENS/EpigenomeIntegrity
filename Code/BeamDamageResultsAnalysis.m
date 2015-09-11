@@ -346,10 +346,10 @@ classdef BeamDamageResultsAnalysis<handle
             for rIdx = 1:obj.numRounds
                 % Get chain position before beam and the indices of
                 % monomers in the beam
-                
+                score = cell(1,obj.numSimulations);
                  for sIdx = 1:obj.numSimulations
                      inBeamInds     = obj.results(rIdx,sIdx).beadsInIndex;
-                     score          = zeros(numel(inBeamIdx,1));% similarity score
+                     score{sIdx}          = zeros(numel(inBeamInds,1));% similarity score
                      chainPosBefore = obj.results(rIdx,sIdx).chainPosition(:,:,obj.results(rIdx,sIdx).numRecordingSteps);
                      chainPosAfter  = obj.results(rIdx,sIdx).chainPosition(:,:,end);
                      % get the 5 nearest neighbors (not including linear
@@ -371,7 +371,7 @@ classdef BeamDamageResultsAnalysis<handle
                          pAfter  = pAfterInds(1:5);
                          % compare the two vectors according to the
                          % fraction of indices similar in both 
-                         score(ibIdx) = sum(ismember(pBefore,pAfter))./numel(pAfter);
+                         score{sIdx}(ibIdx) = sum(ismember(pBefore,pAfter))./numel(pAfter);
                      end
                      
                  end

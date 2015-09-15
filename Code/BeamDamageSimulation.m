@@ -645,7 +645,7 @@ classdef BeamDamageSimulation<handle
                 inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
                 connectivity = obj.handles.framework.objectManager.connectivity;
                 s = sum(connectivity(inBeam,:),2);
-                inBeam = inBeam(s<(2+maxAllowedConnectivity));
+                inBeam = inBeam(s<(2+maxAllowedConnections));
                 % find the distances to those monomers  
                 partDist = obj.handles.framework.objectManager.particleDist;               
                 % check connectivity for particles in beam

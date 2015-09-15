@@ -147,7 +147,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 350;  % initialization step (burn-in time)
+            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
             obj.numRecordingSteps      = 200;  % start recording before UVC beam
             obj.numBeamSteps           = 500; % the steps until repair
             obj.numRepairSteps         = 200;  % repair and relaxation of the fiber
@@ -188,7 +188,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.domainCenter          = [0 0 0];
             
             %__Beam parameters/damage effect___
-            obj.beamRadius                         = obj.gyrationRadius/20;
+            obj.beamRadius                         = obj.gyrationRadius/10;
             obj.beamDamagePeak                     = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)

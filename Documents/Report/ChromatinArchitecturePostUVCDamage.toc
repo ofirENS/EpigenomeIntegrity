@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {0.3.8}The region of interest (ROI)}{7}{subsection.0.3.8}
 \contentsline {subsection}{\numberline {0.3.9}Model Parameters}{7}{subsection.0.3.9}
 \contentsline {subsubsection}{The parameter b}{7}{section*.2}
-\contentsline {subsection}{\numberline {0.3.10}The minimal distance between monomers -$l_0$}{7}{subsection.0.3.10}
+\contentsline {subsection}{\numberline {0.3.10}The minimal distance between monomers -$l_0$}{8}{subsection.0.3.10}
 \contentsline {subsubsection}{Number of monomers}{8}{section*.3}
 \contentsline {subsubsection}{The Spring constant}{8}{section*.4}
 \contentsline {subsubsection}{The bending constant}{8}{section*.5}

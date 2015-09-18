@@ -585,8 +585,60 @@
   \end{equation*}
   
   If we now plug the numbers $\beta=\sqrt{3}, \alpha =  2, d=0.2, h=0.4$ we get $L=1.51$. Which means that sliding is responsible for an expansion of about 0.22 out of 0.73, which is about 30\%.
+\subsection{2D model - chromatin expansion}
+ Assume a simplistic geometrical chromatin arrangement in which the chromatin is compacted in a zigzag manner before UVC initiation. The compacted chromatin will be stretched in an angle $\theta_1$, such that the rightmost damage point $s$, initially above $L_0$, can be projected onto $L_0$ after stretching. 
+ 
+ We further assume that by crowding of repair proteins in the damage zone no conformational changes are occurring, but the point $s$ is translated to $L_1$. Protein crowding does not alter compaction of the chromatin, but is responsible for some percentage of histone and DNA loss from the ROI. 
+ We assume further that the sub-mechanism of sliding (plus pushing) is responsible for conformational changes along the chromatin. In the simplistic geometrical description of chromatin compaction, we therefore assume that the expansion caused by sliding changes the conformation such that the chromatin de-compact into a more straight configuration in such a way that $\theta_1$ changes to $\theta_2$, for which the point $s$ is translated from $L_1$ to $L_2$.
+ 
+ With this model, the aerial distance the point $s$ has to move to translate from $L_1$ to $L_2$ is given by 
+ \begin{equation*}
+ \frac{L_2}{\cos(\theta_2)}-\frac{L_1}{\cos(\theta_1)}
+ \end{equation*}
+ 
+ 
+The DNA and histone loss from a ROI of radius $L_2$ can therefore be described using the following equations 
+\begin{eqnarray}
+ d &=& \frac{L_2-L_0}{L_2}\\
+ h &=& \frac{L_2-L_0}{L_2}+\frac{\alpha \cos(\theta_1)\left(\frac{L_2}{\cos(\theta_2)} -\frac{L_1}{\cos(\theta_1)}\right)}{L_2}
+\end{eqnarray}
+
+ From the equation for $h$, we can extract $L_1$ 
+ \begin{equation}
+ L_1 = L_2\left( \frac{1-h}{\alpha} +\frac{\cos(\theta_1)}{\cos(\theta_2)}\right)-\frac{L_0}{\alpha}=L_2\left(\frac{1-h}{\alpha}+\gamma(\theta) \right)-\frac{L_0}{\alpha}
+ \end{equation}
+ with $\gamma (\theta)$ the chromatin relaxation factor. 
+ 
+ Since $L_1>L_0$ we can set an lower boundary for the expansion factor $R_T=\frac{L_2}{L_0}$
+ \begin{equation*}
+ L_2\left(\frac{1-h}{\alpha}+\gamma\right)-\frac{L_0}{\alpha}>L_0 \Rightarrow \frac{L_2}{L_0}=R_T>\frac{\alpha+1}{1-h+\alpha\gamma}
+ \end{equation*}
+ The chromatin relaxation factor is in the range $0\leq\gamma<1$, and so the lower boundary of the expansion factor $R_{Tmin}$ 
+ can only assume values in the range 
+ \begin{equation*}
+ \frac{1+\alpha}{2-h}\leq R_{Tmin} < \frac{\alpha+1}{1-h}
+ \end{equation*}
+ 
+ Because $L_1<L_2$, we can find the upper bound of $R_T$
+ 
+ \begin{equation}
+ R_T <\frac{1}{1-h+\alpha(\gamma -1)}
+ \end{equation}
+ Similarly to the lower bound, the upper bound $R_{Tmax}$ is in the range 
+ \begin{equation*}
+ \frac{1}{1-h}<R_{Tmax}<\frac{1}{1-h-\alpha}
+ \end{equation*}
+ 
+ The relative contribution of sliding sub-mechanism to the overall expansion can be calculated as 
+ \begin{equation*}
+ \frac{L_2-L_1}{L_2}=1-\left(\frac{1-h}{\alpha}+\gamma -\frac{1}{R_T\alpha}\right)
+ \end{equation*}
+ 
+
  
 \subsection{2D model - geometrical arrangement of chromatin}\label{subsection:2dModelGeometricalArrangement}
+This section is incorrect and needs to be fixed
+\\
 We now have to make some assumptions regarding the local organization of the chromatin before, during, and after expansion. 
 We assume a simple geometric arrangement in which a chromatin of length $l$ is zig-zagging in a rectangle of length $\beta$.
 We further assume that the histones are arranged on the chromatin in a zigzag manner. Using this assumption we can estimate $\alpha = \alpha_1/\alpha_2 = 1/\pi$. 

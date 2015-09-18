@@ -39,8 +39,9 @@
 \contentsline {section}{\numberline {0.6}Microscopic Description of DNA and Nucleusome Loss}{31}{section.0.6}
 \contentsline {subsection}{\numberline {0.6.1}1D model of nucleosome sliding and chromatin expansion}{31}{subsection.0.6.1}
 \contentsline {subsection}{\numberline {0.6.2}Relative contribution of sliding and pushing}{35}{subsection.0.6.2}
-\contentsline {subsection}{\numberline {0.6.3}2D model - geometrical arrangement of chromatin}{35}{subsection.0.6.3}
-\contentsline {subsection}{\numberline {0.6.4}2D model- incorporating experimental observations}{37}{subsection.0.6.4}
-\contentsline {subsubsection}{A second approach}{41}{section*.17}
-\contentsline {section}{\numberline {0.7}DNA repair}{43}{section.0.7}
-\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{43}{subsection.0.7.1}
+\contentsline {subsection}{\numberline {0.6.3}2D model - chromatin expansion}{35}{subsection.0.6.3}
+\contentsline {subsection}{\numberline {0.6.4}2D model - geometrical arrangement of chromatin}{37}{subsection.0.6.4}
+\contentsline {subsection}{\numberline {0.6.5}2D model- incorporating experimental observations}{39}{subsection.0.6.5}
+\contentsline {subsubsection}{A second approach}{42}{section*.17}
+\contentsline {section}{\numberline {0.7}DNA repair}{44}{section.0.7}
+\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{44}{subsection.0.7.1}

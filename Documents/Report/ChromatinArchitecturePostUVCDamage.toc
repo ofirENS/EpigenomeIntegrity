@@ -10,13 +10,13 @@
 \contentsline {subsection}{\numberline {0.3.7}UVC effect on Polymer dynamics}{6}{subsection.0.3.7}
 \contentsline {subsection}{\numberline {0.3.8}The region of interest (ROI)}{7}{subsection.0.3.8}
 \contentsline {subsection}{\numberline {0.3.9}Model Parameters}{7}{subsection.0.3.9}
-\contentsline {subsubsection}{The parameter b}{7}{section*.2}
+\contentsline {subsubsection}{The parameter b}{8}{section*.2}
 \contentsline {subsection}{\numberline {0.3.10}The minimal distance between monomers -$l_0$}{8}{subsection.0.3.10}
 \contentsline {subsubsection}{Number of monomers}{8}{section*.3}
 \contentsline {subsubsection}{The Spring constant}{8}{section*.4}
 \contentsline {subsubsection}{The bending constant}{8}{section*.5}
 \contentsline {subsection}{\numberline {0.3.11}The ROI}{8}{subsection.0.3.11}
-\contentsline {subsubsection}{Determining expansion saturation}{8}{section*.6}
+\contentsline {subsubsection}{Determining expansion saturation}{9}{section*.6}
 \contentsline {section}{\numberline {0.4}Simulations}{9}{section.0.4}
 \contentsline {section}{\numberline {0.5}2D simulations of DNA loss}{9}{section.0.5}
 \contentsline {subsection}{\numberline {0.5.1}Adding Lennard-Jones force}{9}{subsection.0.5.1}
@@ -40,8 +40,9 @@
 \contentsline {subsection}{\numberline {0.6.1}1D model of nucleosome sliding and chromatin expansion}{31}{subsection.0.6.1}
 \contentsline {subsection}{\numberline {0.6.2}Relative contribution of sliding and pushing}{35}{subsection.0.6.2}
 \contentsline {subsection}{\numberline {0.6.3}2D model - chromatin expansion}{35}{subsection.0.6.3}
-\contentsline {subsection}{\numberline {0.6.4}2D model - geometrical arrangement of chromatin}{37}{subsection.0.6.4}
-\contentsline {subsection}{\numberline {0.6.5}2D model- incorporating experimental observations}{39}{subsection.0.6.5}
-\contentsline {subsubsection}{A second approach}{42}{section*.17}
-\contentsline {section}{\numberline {0.7}DNA repair}{44}{section.0.7}
-\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{44}{subsection.0.7.1}
+\contentsline {subsection}{\numberline {0.6.4}Number of sliding events}{37}{subsection.0.6.4}
+\contentsline {subsection}{\numberline {0.6.5}2D model - geometrical arrangement of chromatin}{37}{subsection.0.6.5}
+\contentsline {subsection}{\numberline {0.6.6}2D model- incorporating experimental observations}{39}{subsection.0.6.6}
+\contentsline {subsubsection}{A second approach}{43}{section*.17}
+\contentsline {section}{\numberline {0.7}DNA repair}{45}{section.0.7}
+\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{45}{subsection.0.7.1}

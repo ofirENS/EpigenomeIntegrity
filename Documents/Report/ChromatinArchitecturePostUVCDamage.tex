@@ -589,7 +589,7 @@
  Assume a simplistic geometrical chromatin arrangement in which the chromatin is compacted in a zigzag manner before UVC initiation. The compacted chromatin will be stretched in an angle $\theta_1$, such that the rightmost damage point $s$, initially above $L_0$, can be projected onto $L_0$ after stretching. 
  
  We further assume that by crowding of repair proteins in the damage zone no conformational changes are occurring, but the point $s$ is translated to $L_1$. Protein crowding does not alter compaction of the chromatin, but is responsible for some percentage of histone and DNA loss from the ROI. 
- We assume further that the sub-mechanism of sliding (plus pushing) is responsible for conformational changes along the chromatin. In the simplistic geometrical description of chromatin compaction, we therefore assume that the expansion caused by sliding changes the conformation such that the chromatin de-compact into a more straight configuration in such a way that $\theta_1$ changes to $\theta_2$, for which the point $s$ is translated from $L_1$ to $L_2$.
+ We assume further that the sub-mechanism of sliding (plus pushing) is responsible for conformational changes along the chromatin. In the simplistic geometrical description of chromatin compaction, we therefore assume that the expansion caused by sliding changes the conformation such that the chromatin de-compact into a more straight configuration in such a way that $\theta_1$ changes to $\theta_2<\theta_1$, for which the point $s$ is translated from $L_1$ to $L_2$.
  
  With this model, the aerial distance the point $s$ has to move to translate from $L_1$ to $L_2$ is given by 
  \begin{equation*}
@@ -629,11 +629,34 @@ The DNA and histone loss from a ROI of radius $L_2$ can therefore be described u
  \frac{1}{1-h}<R_{Tmax}<\frac{1}{1-h-\alpha}
  \end{equation*}
  
- The relative contribution of sliding sub-mechanism to the overall expansion can be calculated as 
+The maximal and minimal values of the expansion factor as a function of the chromatin relaxation factor is plotted in figure \ref{fig:expantionFactorBoundaries}, for several values of histone loss
+ 
+\begin{figure}[H]
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/SlidingModel/expantionFactorBoundaries}
+\includegraphics[width=0.5\linewidth,height=0.3\textheight]{Images/SlidingModel/relativeSlidingContribution}
+\caption{\tiny{\textbf{Left: Boundaries of the expension factor for chromatin relaxation factor ranging from 0 to 1 is plotted for several values of histone loss. Right: slidig fraction out of the ROI radius $L_2$}}}
+\label{fig:expantionFactorBoundaries}
+\end{figure}
+ 
+ 
+ The relative sliding distance out of the overall ROI radius can be calculated as 
  \begin{equation*}
  \frac{L_2-L_1}{L_2}=1-\left(\frac{1-h}{\alpha}+\gamma -\frac{1}{R_T\alpha}\right)
  \end{equation*}
+ Values of the relative sliding distance are plotted as a function of $\gamma$ in figure \ref{fig:expantionFactorBoundaries} right box
  
+ From $h-d$ we also get the relation 
+ \begin{equation*}
+ h-d = \alpha \left(\gamma -\frac{L_1}{L_2}\right)\geq 0
+ \end{equation*}
+in addition to the fact $L_1\geq L_0$ we get
+\begin{equation*}
+1\geq \frac{L_1}{L_2}\geq \frac{L_0}{L_2}\geq \gamma
+\end{equation*}
+which means that 
+ \begin{equation*}
+ L_1\geq L_0 \geq \gamma L_2
+ \end{equation*}
 \subsection{Number of sliding events}
 We now try to estimate the absolute number of sliding event occurring for any value of expansion and percentage of histone loss. Using the model in the previous subsection, we assume that with each sliding of a histone over the point $s$ (the rightmost damage point) the conformational change is $d\theta=const$ and the expansion along the line oriented at $\theta$ is $dl=\alpha=const$.
 The expansion for any given number of sliding events $k$ is given by 

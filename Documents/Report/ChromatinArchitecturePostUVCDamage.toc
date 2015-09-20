@@ -40,9 +40,11 @@
 \contentsline {subsection}{\numberline {0.6.1}1D model of nucleosome sliding and chromatin expansion}{31}{subsection.0.6.1}
 \contentsline {subsection}{\numberline {0.6.2}Relative contribution of sliding and pushing}{35}{subsection.0.6.2}
 \contentsline {subsection}{\numberline {0.6.3}2D model - chromatin expansion}{35}{subsection.0.6.3}
-\contentsline {subsection}{\numberline {0.6.4}Number of sliding events}{38}{subsection.0.6.4}
-\contentsline {subsection}{\numberline {0.6.5}2D model - geometrical arrangement of chromatin}{38}{subsection.0.6.5}
-\contentsline {subsection}{\numberline {0.6.6}2D model- incorporating experimental observations}{40}{subsection.0.6.6}
-\contentsline {subsubsection}{A second approach}{44}{section*.17}
-\contentsline {section}{\numberline {0.7}DNA repair}{46}{section.0.7}
-\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{46}{subsection.0.7.1}
+\contentsline {subsubsection}{The expantion factor}{37}{section*.17}
+\contentsline {subsubsection}{The contribution of sliding to the expansion}{38}{section*.18}
+\contentsline {subsection}{\numberline {0.6.4}Number of sliding events}{39}{subsection.0.6.4}
+\contentsline {subsection}{\numberline {0.6.5}2D model - geometrical arrangement of chromatin}{40}{subsection.0.6.5}
+\contentsline {subsection}{\numberline {0.6.6}2D model- incorporating experimental observations}{41}{subsection.0.6.6}
+\contentsline {subsubsection}{A second approach}{45}{section*.19}
+\contentsline {section}{\numberline {0.7}DNA repair}{47}{section.0.7}
+\contentsline {subsection}{\numberline {0.7.1}Structure similarity before UVC and after repair}{47}{subsection.0.7.1}

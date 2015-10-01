@@ -669,11 +669,27 @@ We can therefore limit the valid values for $\gamma$ for a given $h$ and $d$ usi
   
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth, height=0.3\textheight]{../../documents/report/Images/SlidingModel/relativeSlidingContribution}
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{Images/SlidingModel/relativeSlidingContribution}
 \caption{}
 \label{fig:relativeSlidingContribution}
 \end{figure}
 
+\subsection{A model with decreasing $\alpha$ }
+
+If the chromatin to the left of the point $s$ expends, we can assume that, due to crowding, the chromatin to the right of $s$ condenses. In this scenario, the sliding factor $\alpha$ decreases due to the fact that with each nucleosome sliding over the point $s$, the length the point $s$ travels decreases. In the ratio $\frac{\alpha_1}{\alpha_2}$ the value of $\alpha_2$ decreases while $\alpha_1$ remains constant. 
+
+To describe this process, we assume that the condensation of the chromatin to the right of the point $s$ is inversely proportional to the expansion. That is, 
+we assume an angle $\theta_3$ which describes the condensation of the chromatin to the right of $s$, such that the ratio 
+\begin{equation*}
+\frac{\theta_2}{\theta_1}=\frac{\pi/2 -\theta_3}{\pi/2 -\theta_1}
+\end{equation*}
+is kept. This brings us to 
+\begin{equation*}
+\theta_3 = \frac{\pi}{2}\frac{\theta_1-\theta_2}{\theta_1}+\theta_2
+\end{equation*}
+
+
+ 
 \subsection{Number of sliding events}
 We now try to estimate the absolute number of sliding event occurring for any value of expansion and percentage of histone loss. Using the model in the previous subsection, we assume that with each sliding of a histone over the point $s$ (the rightmost damage point) the conformational change is $d\theta=const$ and the expansion along the line oriented at $\theta$ is $dl=\alpha=const$.
 The expansion for any given number of sliding events $k$ is given by 

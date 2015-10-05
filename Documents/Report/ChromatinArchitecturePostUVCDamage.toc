@@ -44,7 +44,7 @@
 \contentsline {subsubsection}{The contribution of sliding to the expansion}{38}{section*.18}
 \contentsline {subsection}{\numberline {0.6.4}A model with decreasing $\alpha $ }{39}{subsection.0.6.4}
 \contentsline {subsection}{\numberline {0.6.5}Number of sliding events}{40}{subsection.0.6.5}
-\contentsline {subsection}{\numberline {0.6.6}2D model - geometrical arrangement of chromatin}{40}{subsection.0.6.6}
+\contentsline {subsection}{\numberline {0.6.6}2D model - geometrical arrangement of chromatin}{41}{subsection.0.6.6}
 \contentsline {subsection}{\numberline {0.6.7}2D model- incorporating experimental observations}{42}{subsection.0.6.7}
 \contentsline {subsubsection}{A second approach}{46}{section*.19}
 \contentsline {section}{\numberline {0.7}DNA repair}{48}{section.0.7}

@@ -640,7 +640,7 @@ R=\frac{1}{1-d}
 \subsubsection{The contribution of sliding to the expansion}    
 If only measure $h$ and $d$ are available, we can give an estimate of the sliding contribution to the overall expansion based on the values and $\gamma$. For this end, we calculate several auxiliary functions
 \begin{eqnarray*}
-\frac{h}{d}&=& 1+\frac{\alpha\left(\gamma L_2-L_1\right)}{L_2-L_1}\\
+\frac{h}{d}&=& 1+\frac{\alpha\left(\gamma L_2-L_1\right)}{L_2-L_0}\\
 \frac{h-d}{\alpha d} -\frac{\gamma}{d}&=& -\frac{L_1}{L_2-L_0}
 \end{eqnarray*} 
 We can notice that 
@@ -676,18 +676,38 @@ We can therefore limit the valid values for $\gamma$ for a given $h$ and $d$ usi
 
 \subsection{A model with decreasing $\alpha$ }
 
-If the chromatin to the left of the point $s$ expends, we can assume that, due to crowding, the chromatin to the right of $s$ condenses. In this scenario, the sliding factor $\alpha$ decreases due to the fact that with each nucleosome sliding over the point $s$, the length the point $s$ travels decreases. In the ratio $\frac{\alpha_1}{\alpha_2}$ the value of $\alpha_2$ decreases while $\alpha_1$ remains constant. 
+If the chromatin to the left of the point $s$ expends, we can assume that, due to crowding and sliding, the chromatin to the right of $s$ condenses. In this scenario, the sliding factor $\alpha$ decreases due to the fact that with each nucleosome sliding over the point $s$, the space occupied by a single nucleosome decreases. This means that in the ratio $\frac{\alpha_1}{\alpha_2}$ the value of $\alpha_1$ decreases while $\alpha_2$ remains constant. 
 
-To describe this process, we assume that the condensation of the chromatin to the right of the point $s$ is inversely proportional to the expansion. That is, 
-we assume an angle $\theta_3$ which describes the condensation of the chromatin to the right of $s$, such that the ratio 
-\begin{equation*}
-\frac{\theta_2}{\theta_1}=\frac{\pi/2 -\theta_3}{\pi/2 -\theta_1}
-\end{equation*}
-is kept. This brings us to 
-\begin{equation*}
-\theta_3 = \frac{\pi}{2}\frac{\theta_1-\theta_2}{\theta_1}+\theta_2
-\end{equation*}
+We assume that there is a region of aerial length (radius) $R$ in which all histones which slides over the right most damage point $s$ are accumulating, this is the region of influence. We set $n$ to be the number of histones which have slided, $N_R$ to be the initial number of histones in the region $R$. With each sliding of a histone, the region of influence  gains a histone and the radius remains similar, which brings us to re-evaluate $\alpha$ as 
 
+\begin{equation*}
+\alpha(N)=\frac{R}{(N_R+n)\alpha_2}=\frac{R/N_R}{(1+n/N_R)\alpha_2}
+\end{equation*}
+ the quantity $R/N_R$ is the space that each nucleosome occupies before sliding, which was written as $\alpha_1$, we set the packing factor 
+ $p(n)=1+n/N_R$ and write 
+ \begin{equation*}
+ \alpha(n) = \frac{\alpha_1}{\alpha_2p(n)}=
+ \end{equation*}
+The total contribution of sliding to the overall expansion is the sum of contributions $\alpha(n)$ from 0 to $N$. When the overall expansion is large in comparison to the size a histone occupies, we can use the integral for the summation 
+\begin{equation*}
+\alpha = \int_0^N \frac{\alpha_1}{\alpha_2p(n)}dn = \frac{\alpha_1}{\alpha_2}\ln(p(N))
+\end{equation*}
+with $p(N)=1+N/N_R=p$. 
+
+With this correction to $\alpha$, the equation for $h$ becomes 
+\begin{equation*}
+h=d+\frac{\alpha\ln(p)(L_2-L_1)}{L_2}
+\end{equation*}
+Note that we did not explicitly include chromatin expansion in the equation above, however, we do assume that the crowding contribution is responsible for the loss $(L_1-L_0)/L_2$.
+
+We can calculate the ratio 
+\begin{equation*}
+\frac{h}{d} = 1+\alpha\ln(p)\frac{L_2-L_1}{L_2-L_0}
+\end{equation*}
+which allows us to estimate the sliding contribution. setting $\alpha =1/\pi$
+\begin{equation*}
+\frac{L_2-L_1}{L_2-L_0}=\frac{\pi(h/d -1)}{\ln(p)}, \qquad p>1
+\end{equation*}
 
  
 \subsection{Number of sliding events}

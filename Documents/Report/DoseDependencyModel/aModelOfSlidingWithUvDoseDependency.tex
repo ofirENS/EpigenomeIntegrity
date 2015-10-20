@@ -1,0 +1,24 @@
+\documentclass[12pt]{report}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{float}
+\begin{document}
+	\title{A Model of Histone Sliding with UV Dose Dependency}
+	\maketitle
+	We start with a description of DNA and histone loss from the damage region centered at the origin. Let $R_0$ be the radius of the damage region, and $R$ the radius of the ROI at which chromatin expansion has reached saturation. Due to the radial symmetry of the model, we describe the histone and DNA loss in a radial manner. A chromatin strand will is considered to start at the origin and stretch in the positive $x$ direction. 
+	We assume that the length of the chromatin compacted from the origin up to $R_0$ is $l$, on which $n_0$ histones are initially embedded. The damages caused by the UV light are considered to spread up to $R_0$. By sliding histone over this damage point, the chromatin to the left of the exterior damage point unpacks. After expansion has reached saturation, the chromatin in the damage region has reached $R$ by extension resulting from the loss of histone by sliding. At this point, the length of the damaged chromatin remains $l$ but the number of histones embedded in it is $n$. Let the ratio $n/n_0 =g$, and the expansion factor $R/R_0=\beta$, we will describe the fraction of histone and DNA loss as a function of the UV dose, $u$, by
+	\begin{eqnarray}
+	d(u) &=& \frac{\beta(u)-1}{\beta(u)}\\
+	h(u) &=& d(u) +\frac{n_0-n(u)}{(R(u)/R_0) n_0}=d(u)+\frac{1-g(u)}{\beta(u)}
+	\end{eqnarray}
+ with $0\leq n(u)\leq n_0$, and $u\geq0$. 
+ 
+The contribution of sliding to the total histone loss is given by
+\begin{equation}
+h(u)-d(u)=\frac{1-g(u)}{\beta(u)}
+\end{equation}
+
+\end{document}

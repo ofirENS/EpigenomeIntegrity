@@ -8,8 +8,22 @@
 \begin{document}
 	\title{A Model of Histone Sliding with UV Dose Dependency}
 	\maketitle
-	We start with a description of DNA and histone loss from the damage region centered at the origin. Let $R_0$ be the radius of the damage region, and $R$ the radius of the ROI at which chromatin expansion has reached saturation. Due to the radial symmetry of the model, we describe the histone and DNA loss in a radial manner. A chromatin strand will is considered to start at the origin and stretch in the positive $x$ direction. 
-	We assume that the length of the chromatin compacted from the origin up to $R_0$ is $l$, on which $n_0$ histones are initially embedded. The damages caused by the UV light are considered to spread up to $R_0$. By sliding histone over this damage point, the chromatin to the left of the exterior damage point unpacks. After expansion has reached saturation, the chromatin in the damage region has reached $R$ by extension resulting from the loss of histone by sliding. At this point, the length of the damaged chromatin remains $l$ but the number of histones embedded in it is $n$. Let the ratio $n/n_0 =g$, and the expansion factor $R/R_0=\beta$, we will describe the fraction of histone and DNA loss as a function of the UV dose, $u$, by
+	% setting of the model
+	We start with a description of DNA and histone loss from the damage region centered at the origin.
+	Assuming radial symmetry, our model will described a one-dimensional loss of histone and DNA post UVC. We set $R_0$ to be the radius of the damage region centered at the UV light's focal point, for which damages to the DNA are considered to spread from the origin to $R_0$. We set $R$ to be the radius of the ROI in which chromatin expansion has reached saturation 15 minutes post UVC. Both DNA and histone loss in the ROI will be measured at saturation. 
+	
+	% 
+	We simplify our calculation by considering a single chromatin strand of length $l$, initially compacted in the damage region with one end at the origin and the other at $R_0$. Initially there are $n_0$ histones embedded in $l$. With histones assumed to be uniformly distributed, we have $(R/R_0) n_0$ histones initially in the ROI. 
+	
+	The expansion of the damaged region is measured according to the position of the most exterior damage point, $s$. 
+	
+	Chromatin de-compaction  in the damage region results from the recruitment and crowding of repair protein post UVC. As a result of crowding non-damaged DNA and histones are pushed out of the ROI in equal proportions. As chromatin unpacks and recruitment of repair proteins continues, damaged DNA is exposed for repair by sliding histones along the chromatin in a general direction of $R$, away from high concentration of damages. 
+	
+	The additional loss of histones from the ROI is therefore attributed to histone sliding.  
+	 
+	By sliding histone over the damage point $s$, the chromatin to the left of $s$ unpacks. At this point, the length of the damaged chromatin up to the right-most damage point does not change, and the point $s$ is at $R$, however the number of histones embedded in $l$ is $n<n_0$. 
+	
+	Both histone and DNA loss increase with UV dose, however the description of histone and DNA loss is considered to remain similar. Let the ratio $n/n_0 =g$, and the expansion factor $R/R_0=\beta$, DNA and histone loss fractions can be represented as
 	\begin{eqnarray}
 	d(u) &=& \frac{\beta(u)-1}{\beta(u)}\\
 	h(u) &=& d(u) +\frac{n_0-n(u)}{(R(u)/R_0) n_0}=d(u)+\frac{1-g(u)}{\beta(u)}

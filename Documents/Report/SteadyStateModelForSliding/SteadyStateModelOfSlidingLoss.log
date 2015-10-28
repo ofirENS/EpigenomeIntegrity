@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  27 OCT 2015 13:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  28 OCT 2015 20:10
 entering extended mode
 **SteadyStateModelOfSlidingLoss.tex
 (SteadyStateModelOfSlidingLoss.tex
@@ -314,41 +314,59 @@ LaTeX Warning: No \author given.
 
 [1
 
-{C:/Users/OfirDell/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 22.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+{C:/Users/OfirDell/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]pdfTeX wa
+rning (ext4): destination with the same identifier (name{page.1}) has been alre
+ady used, duplicate ignored
 <to be read again> 
                    \relax 
-l.22 \end{document}
-                    [1]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 22.
- (SteadyStateModelOfSlidingLoss.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 22.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 22.
+l.45 \begin{equation}
+                     \label{eq:totalHistoneLoss} [1]
+<images/hVsUVDoseModelFit01.jpg, id=28, 1686.3pt x 889.3225pt>
+File: images/hVsUVDoseModelFit01.jpg Graphic file (type jpg)
+
+<use images/hVsUVDoseModelFit01.jpg>
+Package pdftex.def Info: images/hVsUVDoseModelFit01.jpg used on input line 66.
+(pdftex.def)             Requested size: 194.98825pt x 164.54922pt.
+ [2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 83.
+ [3pdfTeX warning (ext4): destination with the same identifier (name{figure.0.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.83 \end{document}
+                    <./images/hVsUVDoseModelFit01.jpg>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 83.
+
+(SteadyStateModelOfSlidingLoss.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 83.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 83.
 Package rerunfilecheck Info: File `SteadyStateModelOfSlidingLoss.out' has not c
 hanged.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 22.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 83.
  ) 
 Here is how much of TeX's memory you used:
- 5922 strings out of 493698
- 84604 string characters out of 3144402
- 167416 words of memory out of 3000000
- 9201 multiletter control sequences out of 15000+200000
- 11183 words of font info for 44 fonts, out of 3000000 for 9000
+ 5956 strings out of 493698
+ 85113 string characters out of 3144402
+ 171628 words of memory out of 3000000
+ 9215 multiletter control sequences out of 15000+200000
+ 11490 words of font info for 45 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 29i,6n,26p,414b,343s stack positions out of 5000i,500n,10000p,200000b,50000s
-<d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Program Files/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/Program Files/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/symbols/msam10.pfb>
-Output written on SteadyStateModelOfSlidingLoss.pdf (2 pages, 71549 bytes).
+ 29i,7n,26p,561b,343s stack positions out of 5000i,500n,10000p,200000b,50000s
+<d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmr12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmr6.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb
+><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on SteadyStateModelOfSlidingLoss.pdf (4 pages, 182813 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 3 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 90 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

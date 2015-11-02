@@ -116,6 +116,7 @@ for uIdx = 1:numel(uData)
 end
 xlabel('time','Parent',ax6,'FontSize',fontSize)
 ylabel('h(t;U)','Parent',ax6,'FontSize',fontSize);
+title('histone and DNA loss in time','Parent', ax6,'FontSize',fontSize);
 % legend(get(ax6,'Children'))
 set(ax6,'LineWidth',lineWidth)
 
@@ -129,7 +130,7 @@ for uIdx = 1:numel(uValues)
 %     gamma = (hData(uIdx)-dData(uIdx))./hData(uIdx);
     % the fraction of the time for saturation for which we have gamma loss
     % of histones
-tStar(uIdx) = -(1./(c1*uValues(uIdx))).*log(((c2+1).*(1-gamma*h(c1,c2,uValues(uIdx))))./(1+c2-gamma*h(c1,c2,uValues(uIdx))));
+tStar(uIdx) = -(1./(c1*uValues(uIdx))).*log(((c2+1).*(1-gamma*h(c1,c2,uValues(uIdx))))./(1+c2*(1-gamma*h(c1,c2,uValues(uIdx)))));
 % plug this time into the equation for the expansion factor
 % and calculate the fraction of the expansion attributed to sliding: R(tStar,U)/R(t_s,U)
 S(uIdx) = R(c1,c2,tStar(uIdx).*uValues(uIdx))./R(c1,c2,uValues(uIdx));
@@ -158,6 +159,14 @@ annotation(fig7,'textbox',...
 set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
 % add a patch 
 
+figure, hold on,
+gamma = 0.6;
+uValues1 = linspace(5,100,10);
+for uIdx = 1:numel(uValues1)
+    tStar1 = -(1./(c1*uValues1(uIdx))).*log(((c2+1).*(1-gamma*h(c1,c2,uValues1(uIdx))))./(1+c2*(1-gamma*h(c1,c2,uValues1(uIdx)))));
+    t= linspace(0,tStar1,30);
+   plot(t,R(c1,c2,t.*uValues1(uIdx))./R(c1,c2,uValues1(uIdx)))
+end
 %___Calculate SSE 
 sseHistone   = sum((h(c1,c2,uData(1:end-1))-hData(1:end-1)).^2);
 sseDNA       = sum((d(c1,c2,uData)-dData).^2);

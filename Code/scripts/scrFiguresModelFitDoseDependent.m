@@ -6,7 +6,7 @@
 close all 
 % plot properties 
 
-fontSize   = 40;
+fontSize   = 32;
 markerSize = 12;
 lineWidth  = 4;
 
@@ -27,16 +27,16 @@ h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
 d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
 R = @(a1,a2,u) 1+a2.*(1-exp(-a1.*u));
 % parameter values
-c1 = 0.007;% 0.0070;
-c2 = 0.7;
+c1 = 0.0069;% 0.0070;
+c2 = 0.78;
 
 %____ plot histone loss, h
-fig1 = figure();
+fig1 = figure('Name','histone and DNA fit');
 ax1  = axes('Parent',fig1,'NextPlot','Add');
 line('Xdata',uData,'YData',h(c1,c2,uData),'Color','r','LineWidth',lineWidth,...
-    'Parent',ax1,'DisplayName','histone loss model');
+    'Parent',ax1,'DisplayName','histone loss, model');
 line('XData',uData,'YData',hData,'Marker','o','MarkerSize',markerSize,'MarkerFaceColor','r','MarkerEdgeColor','k',...
-    'LineStyle','none','Parent',ax1,'DisplayName','histone loss exp. data'), 
+    'LineStyle','none','Parent',ax1,'DisplayName','histone loss, exp. data'), 
 
 %____ plot DNA loss, d
 line('XData',uData,'YData',d(c1,c2,uData),'Color','g','LineWidth',lineWidth,...
@@ -75,7 +75,7 @@ line('XData',uData,'YData',(h(c1,c2,uData)-d(c1,c2,uData))./(1-d(c1,c2,uData)),'
     'LineWidth',lineWidth,'DisplayName','histone sliding out of DR, model')
 % add linear fit for comparison
 linearFitModel = fittype('a*x');
-[fitValues, fitScore] = fit(uData',((hData-dData)./(1-dData))',linearFitModel,'Robust','LAR');
+[fitValues, fitScore] = fit(uData',((hData-dData)./(1-dData))',linearFitModel,'Robust','LAR','StartPoint',1);
 line('XData',uData,'YData',fitValues(uData),'Parent',ax3,'DisplayName','linear fit','Color','r',...
     'LineStyle','--','LineWidth',lineWidth)
 title('Fraction of histone sliding out of the DR','Parent',ax3,'FontSize',fontSize)
@@ -121,56 +121,61 @@ title('histone and DNA loss in time','Parent', ax6,'FontSize',fontSize);
 set(ax6,'LineWidth',lineWidth)
 
 %___calculate the time for which there is gamma percent loss
-gamma = 0.6; % the constant value in (h-d)/h
-uValues = linspace(0,uData(end),100);
-S     = zeros(1,numel(uValues));
-tStar = zeros(1,numel(uValues));
+gamma            = 0.55; % the constant value in (h-d)/h
+uValues          = linspace(0,uData(end),100);
+expansionSliding = zeros(1,numel(uValues));
+expansionOpening = zeros(1,numel(uValues));
+tStar            = zeros(1,numel(uValues)); %the fraction of ts for which there is gamma loss of histones
 
 for uIdx = 1:numel(uValues)
 %     gamma = (hData(uIdx)-dData(uIdx))./hData(uIdx);
     % the fraction of the time for saturation for which we have gamma loss
     % of histones
-tStar(uIdx) = -(1./(c1*uValues(uIdx))).*log(((c2+1).*(1-gamma*h(c1,c2,uValues(uIdx))))./(1+c2*(1-gamma*h(c1,c2,uValues(uIdx)))));
+ts          = uValues(uIdx);% when the fraction equals 1. (at saturation)
+tStar(uIdx) = -(1./(c1*ts)).*log(((c2+1).*(1-gamma*h(c1,c2,ts)))./(1+c2*(1-gamma*h(c1,c2,ts))));
+
 % plug this time into the equation for the expansion factor
-% and calculate the fraction of the expansion attributed to sliding: R(tStar,U)/R(t_s,U)
-S(uIdx) = R(c1,c2,tStar(uIdx).*uValues(uIdx))./R(c1,c2,uValues(uIdx));
+% and calculate the fraction of the expansion attributed to sliding: (R(tStar,U)-R_0)/R(t_s,U)
+expansionSliding(uIdx) = (R(c1,c2,tStar(uIdx).*ts)-1)./(R(c1,c2,ts)-1);
+% relative contribution of chromatin opening to the expansion 
+expansionOpening(uIdx) =  (R(c1,c2,ts)-R(c1,c2,tStar(uIdx).*ts))./(R(c1,c2,ts)-1);
 end
 
-S1 = 1-S;% relative contirbution of chromatin opening to the expansion 
 
-%___ expansion attributed to sliding/ opening 
+%___ Expansion attributed to sliding/ opening 
 fig7 = figure('Units','norm');
 ax7  = axes('Parent',fig7,'NextPlot','Add');
 % line('XData',uData,'YData',S,'LineWidth',lineWidth,'LineStyle','--')
-bar(uValues, [S;S1]','stacked','BarWidth',2,'LineStyle','none','Parent',ax7);   
-plot(ax7,uValues,S,'k','LineWidth',lineWidth)
+bar(uValues, [expansionSliding;expansionOpening]','stacked','BarWidth',2,'LineStyle','none','Parent',ax7);   
+plot(ax7,uValues,expansionSliding,'k','LineWidth',lineWidth)
 set(ax7,'YLim',[0 1],'XLim',[0,uData(end)])
 xlabel('U.V dose','Parent',ax7,'FontSize',fontSize);
 ylabel('fraction of DR expansion','Parent', ax7,'FontSize',fontSize)
 title('Relative expansion attibuted to sliding and chromatin opening','Parent',ax7,'FontSize',fontSize);
 annotation(fig7,'textbox',...
-    [0.58 0.8 0.2 0.1],...
+    [0.38 0.6 0.2 0.1],...
     'String',{'Chromatin opening'},...
-    'FitBoxToText','on','LineStyle','none','Color','w','FontSize',fontSize);
+    'FitBoxToText','on','LineStyle','none','Color','k','FontSize',fontSize);
 annotation(fig7,'textbox',...
-    [0.38 0.45 0.2 0.1],...
+    [0.38 0.25 0.2 0.1],...
     'String',{'Histone sliding'},...
     'FitBoxToText','on','LineStyle','none','Color','w','FontSize',fontSize);
 set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
 % add a patch 
 
 figure, hold on,
-gamma = 0.6;
 uValues1 = linspace(5,100,10);
 for uIdx = 1:numel(uValues1)
     tStar1 = -(1./(c1*uValues1(uIdx))).*log(((c2+1).*(1-gamma*h(c1,c2,uValues1(uIdx))))./(1+c2*(1-gamma*h(c1,c2,uValues1(uIdx)))));
     t= linspace(0,tStar1,30);
    plot(t,R(c1,c2,t.*uValues1(uIdx))./R(c1,c2,uValues1(uIdx)))
 end
-%___Calculate SSE 
+
+%___Calculate SSEs for fittings 
 sseHistone   = sum((h(c1,c2,uData(1:end-1))-hData(1:end-1)).^2);
 sseDNA       = sum((d(c1,c2,uData)-dData).^2);
 sseHminusD   = sum((h(c1,c2,uData)-d(c1,c2,uData)-(hData-dData)).^2);
+sseLinearFit = fitScore.sse;
 sseRelativeH = sum(((h(c1,c2,uData)-d(c1,c2,uData))./h(c1,c2,uData)-(hData-dData)./hData).^2);
 
 

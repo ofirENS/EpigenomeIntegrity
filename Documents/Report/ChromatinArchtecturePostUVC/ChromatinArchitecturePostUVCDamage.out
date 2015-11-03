@@ -1,0 +1,33 @@
+\BOOKMARK [1][-]{section.0.1}{Glossary of symbols}{}% 1
+\BOOKMARK [1][-]{section.0.2}{Experimental Settings and Main Findings}{}% 2
+\BOOKMARK [1][-]{section.0.3}{Model and Parameter Estimation}{}% 3
+\BOOKMARK [2][-]{subsection.0.3.1}{Simulation outline and definitions}{section.0.3}% 4
+\BOOKMARK [2][-]{subsection.0.3.2}{Nucleus Size}{section.0.3}% 5
+\BOOKMARK [2][-]{subsection.0.3.3}{Histone Density in the cell}{section.0.3}% 6
+\BOOKMARK [2][-]{subsection.0.3.4}{The Simulation Domain}{section.0.3}% 7
+\BOOKMARK [2][-]{subsection.0.3.5}{The chromatin}{section.0.3}% 8
+\BOOKMARK [2][-]{subsection.0.3.6}{The UV beam}{section.0.3}% 9
+\BOOKMARK [2][-]{subsection.0.3.7}{UVC effect on Polymer dynamics}{section.0.3}% 10
+\BOOKMARK [2][-]{subsection.0.3.8}{The region of interest \(ROI\)}{section.0.3}% 11
+\BOOKMARK [2][-]{subsection.0.3.9}{Model Parameters}{section.0.3}% 12
+\BOOKMARK [2][-]{subsection.0.3.10}{The minimal distance between monomers -l0}{section.0.3}% 13
+\BOOKMARK [2][-]{subsection.0.3.11}{The ROI}{section.0.3}% 14
+\BOOKMARK [1][-]{section.0.4}{Simulations}{}% 15
+\BOOKMARK [1][-]{section.0.5}{2D simulations of DNA loss}{}% 16
+\BOOKMARK [2][-]{subsection.0.5.1}{Adding Lennard-Jones force}{section.0.5}% 17
+\BOOKMARK [2][-]{subsection.0.5.2}{Cross-linking the polymer}{section.0.5}% 18
+\BOOKMARK [2][-]{subsection.0.5.3}{Assigning bending to damaged monomers}{section.0.5}% 19
+\BOOKMARK [2][-]{subsection.0.5.4}{Assign bending to non-damaged monomers}{section.0.5}% 20
+\BOOKMARK [2][-]{subsection.0.5.5}{Assign bending to non-damaged monomers in the UVC beam}{section.0.5}% 21
+\BOOKMARK [2][-]{subsection.0.5.6}{Region of exclusion around damaged monomers}{section.0.5}% 22
+\BOOKMARK [2][-]{subsection.0.5.7}{Summary of Damage Stage}{section.0.5}% 23
+\BOOKMARK [1][-]{section.0.6}{Microscopic Description of DNA and Nucleusome Loss}{}% 24
+\BOOKMARK [2][-]{subsection.0.6.1}{1D model of nucleosome sliding and chromatin expansion}{section.0.6}% 25
+\BOOKMARK [2][-]{subsection.0.6.2}{Relative contribution of sliding and pushing}{section.0.6}% 26
+\BOOKMARK [2][-]{subsection.0.6.3}{2D model - chromatin expansion}{section.0.6}% 27
+\BOOKMARK [2][-]{subsection.0.6.4}{A model with decreasing \040}{section.0.6}% 28
+\BOOKMARK [2][-]{subsection.0.6.5}{Number of sliding events}{section.0.6}% 29
+\BOOKMARK [2][-]{subsection.0.6.6}{2D model - geometrical arrangement of chromatin}{section.0.6}% 30
+\BOOKMARK [2][-]{subsection.0.6.7}{2D model- incorporating experimental observations}{section.0.6}% 31
+\BOOKMARK [1][-]{section.0.7}{DNA repair}{}% 32
+\BOOKMARK [2][-]{subsection.0.7.1}{Structure similarity before UVC and after repair}{section.0.7}% 33

@@ -1,0 +1,227 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{hyperref}
+\usepackage{epsfig,graphicx,amsmath}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\mb}[1]{\mbox{\boldmath$#1$}}
+\newcommand{\p}{\partial}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\beq}{\begin{eqnarray}}
+\newcommand{\beqq}{\begin{eqnarray*}}
+\newcommand{\eeq}{\end{eqnarray}}
+\newcommand{\eeqq}{\end{eqnarray*}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\erf}{\mbox{erf}}
+\newcommand{\erfi}{\mbox{erfi}}
+\newcommand{\Ei}{\mbox{Ei}}
+\newcommand{\x}{\mbox{\boldmath$x$}}
+\newcommand{\Aa}{\mbox{\boldmath$A$}}
+\newcommand{\rr}{\mbox{\boldmath$r$}}
+\newcommand{\As}{\mbox{\boldmath$a$}}
+\newcommand{\y}{\mbox{\boldmath$y$}}
+\newcommand{\z}{\mbox{\boldmath$z$}}
+\newcommand{\J}{\mbox{\boldmath$J$}}
+\newcommand{\ET}{\mbox{\boldmath$\eta$}}
+\newcommand{\n}{\mbox{\boldmath$n$}}
+\newcommand{\X}{\mbox{\boldmath$X$}}
+\newcommand{\Y}{\mbox{\boldmath$Y$}}
+\newcommand{\Yy}{\mbox{\boldmath$y$}}
+\newcommand{\Z}{\mbox{\boldmath$Z$}}
+\newcommand{\w}{\mbox{\boldmath$w$}}
+\newcommand{\vv}{\mbox{\boldmath$v$}}
+\newcommand{\bb}{\mbox{\boldmath$b$}}
+\newcommand{\Bb}{\mbox{\boldmath$b$}}
+\newcommand{\B}{\mbox{\boldmath$B$}}
+\newcommand{\ALPHA}{\mbox{\boldmath$\alpha$}}
+\newcommand{\aaa}{\mbox{\boldmath$a$}}
+\newcommand{\C}{\mbox{\boldmath$C$}}
+\newcommand{\SSigma}{\mbox{\boldmath$\Sigma$}}
+\newcommand{\mmu}{\mbox{\boldmath$\mu$}}
+\newcommand{\IIm}{\mbox{\boldmath$I_m$}}
+\newcommand{\mean}[1]{\langle #1\rangle}
+\newcommand{\diffunit}{$\mu$m$^2$.s$^{-1}$}
+\newcommand{\Li}{\mbox{Li}}
+\newcommand{\thet}{\mbox{\boldmath$\theta$}}
+\newcommand{\intR}{\int\limits_{\mathbb{R}}}
+\newcommand{\intRm}{\int\limits_{\mathbb{R}^m}}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+%\definecolor{red}{rgb}{1,0,0}
+
+\usepackage{color}
+\usepackage{float}
+\begin{document}	
+\title{ Material and methods}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Result section : Modeling Nucleosome reorganization after damages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To estimate the nucleosome reorganization following DNA damages, we built a model where redistribution can be due either to chromatin de-compaction or nucleosome sliding along the chromatin or both of them.  Because the sliding loss is inaccessible experimentally, we use the model to assess the relative contribution of these two processes to nucleosomes eviction from the region of interest (ROI).
+
+The model (presented in Material and methods) follows the DNA $d(U)$ and nucleosome $h(U)$ fraction of signal loss from ROI and for a given UV does $U$, which are calibrated from the measured  H3.3 signal loss and DNA signal loss respectively (Fig. 3A-D). As result, we found that a large fraction of nucleosomes which is UV-dose dependent are sliding away from the ROI (see Fig. XXX).
+
+We conclude that 56\% of nucleosome redistribution is due to sliding.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Material and methods: Modeling  histones redistribution following UV damages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We present here a coarse-grained model for nucleosomes and chromatin re-organization following UV damages. At steady-state, nucleosomes are modeled as fixed beads located on the chromatin, itself modeled as a one dimensional unstructured wire. We use the model to study the relaxation of the chromatin and nucleosomes to a steady state, measured after 15 minutes.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dynamics of histones following UV damages in the region of interest}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Following the experimental protocol, the initial damage circular region (IDR) induced by the laser beam is centered around the focal point (origin of the coordinates), with an exposure time $U \in [5-100]$ ms. Following this laser induction, because the tagged damage points region increases and reaches it maximal size after 15 minutes, this domain is defined as the ROI, see also the empirical definition in XXX. Our goal is to estimate the amount of DNA and nucleosomes that has left this region. We assume that the loss of DNA and nucleosomes signal is due to two mechanisms: one is nucleosome sliding along the chromatin and outward in the direction of the ROI's boundary, and the second is chromatin expansion or unfolding. 
+
+First, the nucleosomes involved in sliding are those that contained damaged DNA wrapped around them. In this model, a nucleosome cannot detach from the chromatin or pass through another one. The exact mechanism of motion is not considered here because we will only consider the steady-state final position, defined at 15 minutes post UVC. Note that there is no limitation in the distance that histones can slide.  In the second mechanism, nucleosome and DNA are lost in equal proportion due to DNA unwrapping (Fig. 3XXX). Note that due to expansion of chromatin, the DNA and nucleosomes located in the annulus between the ROI and IDR is going to be extruded from the ROI.
+
+In the model, due to the radial symmetry, we consider that chromatin is a single wire of total length $l$, with one end fixed at the origin and the other at the boundary of the $IDR$ of radius $R_0$. There are $N_0$ histones on this chromatin wire.  The ROI region is considered to be a ball of radius $\alpha(U) R_0$, with  $\alpha(U)> 1$, and $U$ the UV-dose. In the ROI at 15 minutes, we are left with $N(U)$ nucleosomes, reflecting that nucleosomes are leaving the ROI due to sliding.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fraction of DNA and nucleosomes loss }\label{subsection:fractionOfDNAandNucleosomeLoss}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We shall now compute the fraction of DNA loss (resp. nucleosomes) $d(U)$ (resp. $h(U)$) in the ROI 15 minutes post UVC. By construction, $d(U)$ is given by the ratio of the amount of DNA in the annulus between $R_0$ and the ROI to the total amount in the ROI, while $h(U)$ is the sum of the nucleosomes that have been translocated with the DNA plus the ones that are sliding out, resulting in the following formula
+\begin{eqnarray*}
+d(U)&=& \frac{\alpha(U) -1}{\alpha(U)} \\
+h(U)&=&d(U)+\frac{N_0-N(U)}{N_0 \alpha(U)}.
+\end{eqnarray*}
+Our main goal is to estimate the fraction $h(U)-d(U)$ of lost nucleosomes due to sliding, we will now construct a model for computing the functions $\alpha(U)$ and $N(U)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Deriving the function $\alpha(u)$ and $N(u)$ from the dynamics of loss}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We follow in time, the number of nucleosomes $N(t)$ in IDR, where the average number per chromatin length is $N(t)/l$. The average number of damages $\bar{D}$ per chromatin length and $\alpha(t)$, the scaling factor for the radius of IDR, are used to derive the rate equations.
+
+Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the DR, $N(t)$, is a first-order process, proportional to the DNA-damages $\frac{\bar{D}}{l}$ per nucleosome.
+\begin{equation*}
+\frac{dN(t)}{dt} = -k_r\sum_{k\geq 1} (\frac{\bar{D}}{l})^kN(t)=-k_r \frac{\frac{\bar{D}}{l}}{1-\frac{\bar{D}}{l}}N(t) \approx -k_r (\frac{\bar{D}}{l})N(t)
+\end{equation*}
+with $k_r$ the rate constant of depletion from the damage region (DR) due to sliding. For an initial number $N(0) = N_0$, the solution is
+\begin{equation}\label{eq:NumHistones}
+N(t) = N_0\exp(-\frac{k_r\bar{D}t}{l}).
+\end{equation}
+Note that $N(t)$ represents the number of nucleosomes left in the expanding region, starting at the IDR, which contains the damage DNA and nucleosomes, characterized by a radius $\alpha(t)R_0$, but the chromatin length stays constant (equals to $l$) in such domain. To compute the dynamics of $\alpha(t)R_0$, we assume that the increase of the DR is directly proportional to the number of nucleosomes left in in the DR at time $t$. For a 2D region we get 
+\begin{equation}\label{dralpha}
+\frac{d\alpha(t)^2}{dt}=-\frac{\tilde{k}_R}{\pi R_0^2}N(t)
+\end{equation}
+where $\tilde{k_R}$ is a constant and with the initial condition $\alpha(0)=1$, we find 
+\begin{equation}\label{eq:expansionFactor}
+\alpha(t) = \sqrt{1-\frac{k_RN_0}{k_rD/l}\left(1-\exp(-\frac{k_r\bar{D}t}{l})\right)+k_RN_0t},
+\end{equation}
+where $k_R = \tilde{k}_R/(\pi R_0^2)$. We interpret the increase IDR as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
+
+We can now use these derivations to compute the fraction of DNA and nucleosome loss. The fraction of histone loss at time $t$ is given by
+\begin{equation}\label{eq:histoneLoss}
+h(t) = \frac{\alpha(t)-1}{\alpha(t)} +\frac{N_0-N(t)}{N_0\alpha(t)}=1-\frac{N(t)}{N_0\alpha(t)}
+\end{equation}
+Substituting expressions \ref{eq:NumHistones}-\ref{eq:expansionFactor} into \ref{eq:histoneLoss} and fixing the time to $t=t_s$ at saturation, we obtain
+\begin{equation}\label{eq:totalHistoneLoss}
+h(t_s)=1-\frac{\exp(-\frac{k_r\bar{D}}{l}t_s)}{ 1+k_RN_0(1-\exp(-\frac{k_r\bar{D}}{l}t_s))}.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dependency on UV dose and final expression for the nucleosomes $h$ and DNA $d$ loss}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The number of damages $\bar{D}$ increases with the UV dose, but decreases with the distance from the laser's focal point. To obtain an exact expression for $\bar{D}$, we use the UVC intensity $I$ which decays with the distance from the focal point as the inverse-square law of laser intensity: $I \sim \frac{U}{r^2}$, where $r$ is the distance from focal point, and $U$ the UV-exposure time.
+
+For a uniform DNA distribution, the amount enclosed in concentric rings around the focal point increases linearly with $r$. Therefore, the number of damages in a concentric two-dimensional ring of radius $r$ and size $dr$ is ${D}= \frac{rU}{r^2}=\frac{U}{r}dr$. The average of $\bar{D}$ in the entire circular region of radius $R$ is
+\begin{equation*}
+\bar{D}(R) = C\int_0^R \frac{U}{r} rdr = CUR,
+\end{equation*}
+where $C$ is constant. We conclude that the average number of damages per unit chromatin length is thus proportional to $U$ and thus the total loss of histones at saturation time $t_{s}$ depends on the UV dose and can be computed from relation \ref{eq:totalHistoneLoss} by
+\begin{equation}\label{eq:totalHiostoneLossVsUV}
+h(U)=h(t_s)=1-\frac{\exp(-\beta U)}{ 1+C_2(1-\exp(-\beta U))}.
+\end{equation}
+where $\beta=\frac{Ck_rt_s}{l}$, represent the decay of $h$ with respect to the UV does and $C_2=k_RN_0$ is a constant. Similarly, the DNA loss at time $t_{s}$ is given by
+\begin{equation}\label{eq:dStSt}
+d(t_s)= 1-\frac{1}{\alpha(t_s)}.
+\end{equation}
+Using expressions \ref{eq:expansionFactor} and \ref{eq:dStSt}, we obtain
+\begin{equation}\label{eq:dnaLoss}
+d(U)= \frac{C_2(1-\exp(-\beta U))}{1+C_2(1-\exp(-\beta U))}
+\end{equation}
+which is UV dose dependent function.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parameter fit for $h$ and DNA $d$ loss}\label{subsection:parameterFit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We now use eqs. \ref{eq:totalHiostoneLossVsUV} to fit the experimental data describing the fraction of histone loss from the ROI 15 minutes post UVC. Since $d(U)$ and $h(U)$ share similar parameters, only $h(U)$ will be used. A classical fitting procedure, where we excluded the measurement of histone loss at 100 ms UVC dose, we find
+\begin{eqnarray*}
+\beta &=&  0.007\\
+C_2   &=&  0.78
+\end{eqnarray*}
+where the square error (SSE) is 0.0225 (resp. 0.0173) for $h(U)$ (resp. $d(U)$).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[http!]
+\centering
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{histoneAndDnaVsUvDoseModelFit}
+\caption{\textbf{Histone loss (red): experimental data (circle) versus analytical curve (continuous)}. The fit is obtained from  eq. \ref{eq:totalHiostoneLossVsUV}.  The parameters are $C_2 =0.78,\quad \beta=0.007$. These parameter are used in eq. \ref{eq:dnaLoss} for DNA loss (green dashed curve) plotted against experimental points (green triangles).}
+\label{fig:histoneAndDnaVsUvDoseModelFit}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fraction of nucleosome loss attributed to sliding}\label{subsection:lossAttributedToSliding}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Using parameters of subsection \ref{subsection:parameterFit}, we can now calculate the fraction of histones loss attributed to sliding $h(U)-d(U)$. The result is show in Figure \ref{fig:hVsUVDoseModelFit01}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[http!]
+\centering
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{hVsUVDoseModelFit}
+\caption{\textbf{Fraction $h(U)-d(U)$ of histone loss attributed to sliding} plotted against the experimental data.}
+\label{fig:hVsUVDoseModelFit01}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The fraction of histone sliding out of the DR is $\frac{h(U)-d(U)}{1-d(U)}$. Figure \ref{fig:histoneSlideFromDamageRegionComparision} shows the result of the model and a linear approximation, both capture well the increase in sliding fraction in the UV dose range of the experimental data, with near equal variations from experimental data (SSE model = 0.028, SSE linear fit= 0.039).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[http!]
+	\centering
+	\includegraphics[width=0.7\linewidth, height=0.3\textheight]{histoneSlideFromDamageRegionComparision}
+	\caption{\textbf{Fraction of lost histones from the DR due to sliding.} The model (black curve) shows a near linear increase in the range of UV dosage tested for the experimental data $(h(U)-d(U))/(1-d(U))$. A linear fit approximation (dashed red line) shows a similar behavior to the model, although with higher SSE (model =0.028, vs. linear fit=0.039 ) }
+	\label{fig:histoneSlideFromDamageRegionComparision}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Interestingly we find that, independent of the UV dose, the relative contribution of histone sliding to the total histone loss remains a constant of roughly 56\% of the total loss (Figure \ref{fig:relativeSlidingContribution}), and in general is given by $1-C_2/(C_2+1)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relativeSlidingContribution}
+\caption{\textbf{Relative contribution of sliding to the total histone loss $(h(U)-d(U))/h(U)$}. It is constant according to our model (black line).}
+\label{fig:relativeSlidingContribution}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Relative contribution of sliding and chromatin opening to the expansion of the DR}\label{subsection:RelativecontibutionOfSlidingAndOpeningToExpansion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The fraction of expansion attributed to both histone sliding and chromatin opening can be computed using eq. \ref{eq:histoneLoss} for the time dependent function of histone loss, and search for the time $\hat{t}=\kappa t_s$, with $0\leq \kappa\leq 1$, for which the histone loss fraction reaches $0.56$, the constant value estimated for $(h(U)-d(U))/h(U)$ (Fig. \ref{fig:relativeSlidingContribution}). Using expressions \ref{eq:histoneLoss} and \ref{eq:totalHistoneLoss}, we solve for $\kappa$ the equation
+\begin{equation*}
+0.56h(t_s)=1-\frac{\exp(-\kappa C_1)}{ 1+C_2(1-\exp(-\kappa C_1))}
+\end{equation*}
+to obtain
+\begin{equation} \label{eq:timeFractionForHistoneLoss}
+\kappa = -\frac{1}{\beta U}\ln{\left( \frac{(1+C_2)(1-0.56h(t_s))}{1+C_2 -0.56C_2h(t_s)}\right)}
+\end{equation}
+Using $\kappa$ we calculate the relative expansion attributed to sliding by the relation
+\begin{equation} \label{eq:relativeSlidingExpansion}
+\frac{\alpha(\hat{t})-1}{\alpha (t_s)-1}
+\end{equation}
+The complementary function $\left(\alpha(t_s)-\alpha(\hat{t})\right) /\left(\alpha(t_s)-1\right)$, is the contribution of chromatin opening to the total expansion of the DR. Plugging \ref{eq:timeFractionForHistoneLoss} into \ref{eq:relativeSlidingExpansion}, we obtain the curve in Figure \ref{fig:histoneAndDNARelativeExpansionContribution}. As can be appreciated from Figure \ref{fig:histoneAndDNARelativeExpansionContribution}, histone sliding and chromatin opening contribute roughly equally to the expansion of the DR, with slight decrease of sliding contribution with increase in UV dose.
+The time dependent histone loss behaves in a near linear manner independent of UV dose (data not shown), which allows us to approximate the relative expansion related to histone sliding regardless of the exact time point, but as a function of the total time it takes to lose 56\% of the histones from the ROI. 
+
+We interpret the decreasing relative contribution of histone sliding (Figure \ref{fig:histoneAndDNARelativeExpansionContribution}) to the expansion as the increase in the need for DNA reorganization with increase in UV dose. With increasing UV dose more DNA is damaged in the IDR, which results in more chromatin opening and eventual loss of DNA and histones from the ROI. We note that the mechanism of DNA and histone loss due to chromatin opening contributes to the expansion during histone sliding. However, DNA and histone loss attributed solely to chromatin opening can operate with no sliding. 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth, height=0.3\textheight]{histoneAndDNARelativeExpansionContribution}
+\caption{\textbf{Relative contribution of histone sliding (purple) and chromatin opening (yellow) to the total expansion of the DR. Roughly 56\% of the total histone loss is attributed to sliding, independent of the UV dose (Figure \ref{fig:relativeSlidingContribution}), for which the relative contribution for the expansion of the DR is slightly decreasing with UV dose. We note that during histone sliding chromatin opening continues to operate, but no conversely.}}
+\label{fig:histoneAndDNARelativeExpansionContribution}
+\end{figure}
+
+
+\end{document}
+

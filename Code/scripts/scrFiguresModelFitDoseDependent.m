@@ -12,8 +12,8 @@ lineWidth  = 4;
 
 % Plot figues
 showHAndDFit        = true;
-showSlidingFraction = false;
-showSlidingOutOfDR  = false;
+showSlidingFraction = true;
+showSlidingOutOfDR  = true;
 showRelativeSliding = true;
 showExpansionFactor = false;
 showLossInTime      = false;
@@ -22,7 +22,7 @@ showRelativeOpening = false;
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [0 5	10	15	20	25	30	35	40	45	50	55	60	65	70	75];%	100];
+uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75];%	100];
 % histone loss data
 % previous 
 % hData = [ 10.7143   10.8680   22.1973   24.1895   27.9165   23.1343   36.7809 ...
@@ -45,32 +45,37 @@ dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.29
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 N  = @(a1,u) exp(-a1*u);
-R  = @(a1,a2,u)(1+(a2).*(1-N(a1,u)));%(1+a2.*(1-N(a1,u)));
-d  = @(a1,a2,u) ((R(a1,a2,u).^2) -1)./(R(a1,a2,u).^2);
-h  = @(a1,a2,u) 1-(N(a1,u))./((R(a1,a2,u).^2));
+R  = @(a1,a2,a3,u)sqrt(1+(a2).*(u) +a3.*(1-N(a1,u)));%(1+a2.*(1-N(a1,u)));
+d  = @(a1,a2,a3,u) ((R(a1,a2,a3,u)) -1)./(R(a1,a2,a3,u));
+h  = @(a1,a2,a3,u) 1-(N(a1,u))./((R(a1,a2,a3,u)));
 % h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
 % d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
-ftH = fittype('1-(exp(-a1*x))./(1+a2*(1-exp(-a1.*x))).^2');
+fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[1 1 1],'Lower',[0 0 0],'Robust','LAR','TolX',1e-12,'TolFun',1e-12,'MaxIter',1000);
+ftH = fittype('1-(exp(-a1*x.^2))./(1+a2*x.^2 +a3.*(1-exp(-a1.*x.^2)))','options',fo);
+   
 ftD = fittype('((1+a2*(1-exp(-a1.*x))).^2   -1)./(1+a2*(1-exp(-a1.*x))).^2 ');
-
-[fitParamsH]=fit(uData',hData',ftH)
-[fitParamsD]=fit(uData',dData',ftD)
-% parameter values
-c1 = fitParamsD.a1;%0.0069;
-c2 = fitParamsD.a2;%0.78;
-
+% 
+% [fitParamsH,gof,output]=fit(uData',hData',ftH);
+% % [fitParamsD]=fit(uData',dData',ftD);
+% % parameter values
+% c1 = fitParamsH.a1;%0.0069;
+% c2 = fitParamsH.a2;%0.78;
+% c3 = fitParamsH.a3;
+c1 = 0.0075;
+c2 = 0.003;
+c3  =0.1;
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
 fig1 = figure('Name','histone and DNA fit');
 ax1  = axes('Parent',fig1,'NextPlot','Add');
-line('Xdata',uData,'YData',h(c1,c2,uData),'Color','r','LineWidth',lineWidth,...
+line('Xdata',uData,'YData',h(c1,c2,c3,uData),'Color','r','LineWidth',lineWidth,...
     'Parent',ax1,'DisplayName','histone loss, model');
 line('XData',uData,'YData',hData,'Marker','o','MarkerSize',markerSize,'MarkerFaceColor','r','MarkerEdgeColor','k',...
     'LineStyle','none','Parent',ax1,'DisplayName','histone loss, exp. data'), 
 
 %____ plot DNA loss, d
-line('XData',uData,'YData',d(c1,c2,uData),'Color','g','LineWidth',lineWidth,...
+line('XData',uData,'YData',d(c1,c2,c3,uData),'Color','g','LineWidth',lineWidth,...
     'DisplayName','DNA loss fraction, model','Parent',ax1,'LineStyle','--');
 line('XData',uData,'YData',dData,'Marker','^','Color','g','MarkerSize',markerSize,'MarkerFaceColor','g',...
     'MarkerEdgeColor','k','LineStyle','none',...
@@ -89,7 +94,7 @@ fig2 = figure;
 ax2  = axes('Parent',fig2);
 line('XData',uData,'YData',(hData-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax2,'DisplayName','histone sliding loss, exp.data','MarkerSize',markerSize,'LineStyle','none');
-line('XData',uData,'YData',h(c1,c2,uData)-d(c1,c2,uData),'LineWidth',lineWidth,'Parent',ax2,...
+line('XData',uData,'YData',h(c1,c2,c3,uData)-d(c1,c2,c3,uData),'LineWidth',lineWidth,'Parent',ax2,...
     'DisplayName','histone sliding loss, model','Color','k')
 xlabel('U.V dose','Parent',ax2,'FontSize',fontSize);
 ylabel('h(U)-d(U)','Parent',ax2,'FontSize',fontSize);
@@ -105,7 +110,7 @@ ax3  = axes('Parent',fig3,'NextPlot','add');
 line('XData',uData,'Ydata',(hData-dData)./(1-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax3,'DisplayName','histone sliding out of DR, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
-line('XData',uData,'YData',(h(c1,c2,uData)-d(c1,c2,uData))./(1-d(c1,c2,uData)),'Parent',ax3,...
+line('XData',uData,'YData',(h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./(1-d(c1,c2,c3,uData)),'Parent',ax3,...
     'LineWidth',lineWidth,'DisplayName','histone sliding out of DR, model')
 % add linear fit for comparison
 linearFitModel = fittype('a*x');
@@ -127,7 +132,7 @@ ax4  = axes('Parent',fig4,'NextPlot','add','FontSize',fontSize);
 line('XData',uData,'Ydata',(hData-dData)./(hData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax4,'DisplayName','relative histone sliding contribution, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
-line('XData',uData,'YData',(h(c1,c2,uData)-d(c1,c2,uData))./(h(c1,c2,uData)),'Parent',ax4,...
+line('XData',uData,'YData',(h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./(h(c1,c2,c3,uData)),'Parent',ax4,...
     'LineWidth',lineWidth,'DisplayName','relative histone sliding contribution, model')
 xlabel('U.V dose','Parent',ax4,'FontSize',fontSize);
 ylabel('(h(U)-d(U))/h(U)','FontSize',fontSize,'Parent',ax4)

@@ -59,59 +59,53 @@
 \begin{document}	
 \title{ Material and methods}
 \maketitle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Result section : Modeling Nucleosome reorganization after damages}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 To estimate the nucleosome reorganization following DNA damages, we built a model where redistribution can be due either to chromatin de-compaction or nucleosome sliding along the chromatin or both of them.  Because the sliding loss is inaccessible experimentally, we use the model to assess the relative contribution of these two processes to nucleosomes eviction from the region of interest (ROI).
 
-The model (presented in Material and methods) follows the DNA $d(U)$ and nucleosome $h(U)$ fraction of signal loss from ROI and for a given UV does $U$, which are calibrated from the measured  H3.3 signal loss and DNA signal loss respectively (Fig. 3A-D). As result, we found that a large fraction of nucleosomes which is UV-dose dependent are sliding away from the ROI (see Fig. XXX).
-
-We conclude that 56\% of nucleosome redistribution is due to sliding.
+The model (presented in Material and methods) follows the DNA $d(U)$ and nucleosome $h(U)$ fraction of signal loss from ROI and for a given UV does $U$, which are calibrated from the measured  H3.3 signal loss and DNA signal loss respectively (Fig. 3A-D). 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Material and methods: Modeling  histones redistribution following UV damages}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We present here a coarse-grained model for nucleosomes and chromatin re-organization following UV damages. At steady-state, nucleosomes are modeled as fixed beads located on the chromatin, itself modeled as a one dimensional unstructured wire. We use the model to study the relaxation of the chromatin and nucleosomes to a steady state, measured after 15 minutes.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We present here a model for nucleosomes and chromatin re-organization following UV damages. 
+
 \subsection{Dynamics of histones following UV damages in the region of interest}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Following the experimental protocol, the initial damage circular region (IDR) induced by the laser beam is centered around the focal point (origin of the coordinates), with an exposure time $U \in [5-100]$ ms. Following this laser induction, because the tagged damage points region increases and reaches it maximal size after 15 minutes, this domain is defined as the ROI, see also the empirical definition in XXX. Our goal is to estimate the amount of DNA and nucleosomes that has left this region. We assume that the loss of DNA and nucleosomes signal is due to two mechanisms: one is nucleosome sliding along the chromatin and outward in the direction of the ROI's boundary, and the second is chromatin expansion or unfolding. 
+Following the experimental protocol, the initial damage circular region (IDR) induced by the laser beam is centered around the focal point (origin of the coordinates), with an exposure time $u \in [5-100]$ ms. Following laser induction, because the tagged damage points region increases and reaches it maximal size after 15 minutes, this domain is defined as the region of Interest (ROI), in which both histone and DNA signal is measured 15 minutes post UVC and compared to values before induction (see also the empirical definition in XXX). 
 
-First, the nucleosomes involved in sliding are those that contained damaged DNA wrapped around them. In this model, a nucleosome cannot detach from the chromatin or pass through another one. The exact mechanism of motion is not considered here because we will only consider the steady-state final position, defined at 15 minutes post UVC. Note that there is no limitation in the distance that histones can slide.  In the second mechanism, nucleosome and DNA are lost in equal proportion due to DNA unwrapping (Fig. 3XXX). Note that due to expansion of chromatin, the DNA and nucleosomes located in the annulus between the ROI and IDR is going to be extruded from the ROI.
+We assume that the loss of DNA and nucleosomes signal is due to two mechanisms: one is nucleosome sliding along the chromatin and outward in the direction of the ROI's boundary, and the second is chromatin expansion or unfolding. First, the nucleosomes involved in sliding are those that contained damaged DNA wrapped around them. In this model, a nucleosome cannot detach from the chromatin or pass through another one. The exact mechanism of motion is not considered here because we will only consider the steady-state final result, defined at 15 minutes post UVC. In the second mechanism, recruitment of repair proteins to the damage region unfolds the chromatin and as a result  both nucleosome and DNA signal is lost in equal proportion (Fig. 3XXX) as is being pushed out of the ROI with the expansion of the DR. Note that due to expansion of chromatin, the DNA and nucleosomes located in the annulus between the ROI and IDR is going to be extruded from the ROI.
 
-In the model, due to the radial symmetry, we consider that chromatin is a single wire of total length $l$, with one end fixed at the origin and the other at the boundary of the $IDR$ of radius $R_0$. There are $N_0$ histones on this chromatin wire.  The ROI region is considered to be a ball of radius $\alpha(U) R_0$, with  $\alpha(U)> 1$, and $U$ the UV-dose. In the ROI at 15 minutes, we are left with $N(U)$ nucleosomes, reflecting that nucleosomes are leaving the ROI due to sliding.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Fraction of DNA and nucleosomes loss }\label{subsection:fractionOfDNAandNucleosomeLoss}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We shall now compute the fraction of DNA loss (resp. nucleosomes) $d(U)$ (resp. $h(U)$) in the ROI 15 minutes post UVC. By construction, $d(U)$ is given by the ratio of the amount of DNA in the annulus between $R_0$ and the ROI to the total amount in the ROI, while $h(U)$ is the sum of the nucleosomes that have been translocated with the DNA plus the ones that are sliding out, resulting in the following formula
+In the model, due to the radial symmetry, we consider that chromatin is a single wire of total length $l$, with one end fixed at the origin and the other at the boundary of the $IDR$ of radius $R_0$. There are $N_0$ histones on this chromatin wire.  The ROI region is considered to be a circle of radius $\alpha(u) R_0$, with  $\alpha(u)> 1$, and $u$ the UV-dose. We set the number of nucleosomes in the DR as $N(u)$.
+
+\subsection{Fraction of DNA and nucleosome loss }\label{subsection:fractionOfDNAandNucleosomeLoss}
+We assume an initial uniform distribution of both DNA and nucleosome. 
+We shall now compute the fraction of DNA loss (resp. nucleosomes) $D(u)$ (resp. $H(u)$) in the ROI 15 minutes post UVC. By construction, $D(u)$ is given by the ratio of the amount of DNA in the annulus between $R_0$ and the ROI to the total amount in the ROI, while $H(u)$ is the sum of the nucleosomes that have been translocated with the DNA plus the ones that are sliding out, resulting in the following formulas
 \begin{eqnarray*}
-d(U)&=& \frac{\alpha(U) -1}{\alpha(U)} \\
-h(U)&=&d(U)+\frac{N_0-N(U)}{N_0 \alpha(U)}.
+D(u)&=& \frac{\alpha^2(u) -1}{\alpha^2(u)} \\
+H(u)&=&D(u)+\frac{N(0)-N(u)}{N(0) \alpha^2(u)}.
 \end{eqnarray*}
-Our main goal is to estimate the fraction $h(U)-d(U)$ of lost nucleosomes due to sliding, we will now construct a model for computing the functions $\alpha(U)$ and $N(U)$.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Deriving the function $\alpha(u)$ and $N(u)$ from the dynamics of loss}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We follow in time, the number of nucleosomes $N(t)$ in IDR, where the average number per chromatin length is $N(t)/l$. The average number of damages $\bar{D}$ per chromatin length and $\alpha(t)$, the scaling factor for the radius of IDR, are used to derive the rate equations.
+In order to evaluate the functions above, we will now construct models for the functions $\alpha(u)$ and $N(u)$.
 
-Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the DR, $N(t)$, is a first-order process, proportional to the DNA-damages $\frac{\bar{D}}{l}$ per nucleosome.
+\subsection{Deriving the function $\alpha(u)$ and $N(u)$ from the dynamics of loss}
+We construct a model for the number of nucleosomes $N(u)$ in ROI, as a function of the UV dose, $u$,  where the average number per chromatin length is $N(u)/l$. The average number of damages $\delta$ per chromatin length are used to derive the rate equations.
+
+Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the ROI, $N(u)$, is a first-order process, proportional to the DNA-damages $D$ per nucleosome.
 \begin{equation*}
-\frac{dN(t)}{dt} = -k_r\sum_{k\geq 1} (\frac{\bar{D}}{l})^kN(t)=-k_r \frac{\frac{\bar{D}}{l}}{1-\frac{\bar{D}}{l}}N(t) \approx -k_r (\frac{\bar{D}}{l})N(t)
+\frac{dN(u)}{du} = -k_r\delta N(u)
 \end{equation*}
-with $k_r$ the rate constant of depletion from the damage region (DR) due to sliding. For an initial number $N(0) = N_0$, the solution is
+with $k_r$ the rate constant of depletion from the ROI due to sliding. Using the initial condition $N(0) = N_0$, the solution is given by
 \begin{equation}\label{eq:NumHistones}
-N(t) = N_0\exp(-\frac{k_r\bar{D}t}{l}).
+N(u) = N_0\exp(-k_r\delta u^2).
 \end{equation}
-Note that $N(t)$ represents the number of nucleosomes left in the expanding region, starting at the IDR, which contains the damage DNA and nucleosomes, characterized by a radius $\alpha(t)R_0$, but the chromatin length stays constant (equals to $l$) in such domain. To compute the dynamics of $\alpha(t)R_0$, we assume that the increase of the DR is directly proportional to the number of nucleosomes left in in the DR at time $t$. For a 2D region we get 
+Note that $N(u)$ represents the number of nucleosomes left in the ROI, characterized by a radius $\alpha(u)R_0$. To compute the dynamics of $\alpha(u)R_0$, we assume that the increase of ROI radius is directly proportional to the number of nucleosomes left in the ROI 15 minutes post UVC as a result of UV induction. For a 2D region we get 
 \begin{equation}\label{dralpha}
-\frac{d\alpha(t)^2}{dt}=-\frac{\tilde{k}_R}{\pi R_0^2}N(t)
+\frac{d\alpha(U)^2}{dt}=-k_R\frac{dN(U)}{dU}
 \end{equation}
-where $\tilde{k_R}$ is a constant and with the initial condition $\alpha(0)=1$, we find 
+where $k_R$ is a constant. Using the initial condition $\alpha(0)= 1$, we find 
 \begin{equation}\label{eq:expansionFactor}
-\alpha(t) = \sqrt{1-\frac{k_RN_0}{k_rD/l}\left(1-\exp(-\frac{k_r\bar{D}t}{l})\right)+k_RN_0t},
+\alpha(u) = \sqrt{R_0^2 + \frac{k_RN_0}{k_r\delta}\left(1-\exp(-k_r\delta u.^2)\right)},
 \end{equation}
-where $k_R = \tilde{k}_R/(\pi R_0^2)$. We interpret the increase IDR as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
+We interpret the increase in ROI radius with the UV dose as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
 
 We can now use these derivations to compute the fraction of DNA and nucleosome loss. The fraction of histone loss at time $t$ is given by
 \begin{equation}\label{eq:histoneLoss}

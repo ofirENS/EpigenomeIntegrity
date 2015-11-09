@@ -12,8 +12,8 @@ lineWidth  = 4;
 
 % Plot figues
 showHAndDFit        = true;
-showSlidingFraction = true;
-showSlidingOutOfDR  = true;
+showSlidingFraction = false;
+showSlidingOutOfDR  = false;
 showRelativeSliding = true;
 showExpansionFactor = false;
 showLossInTime      = false;
@@ -22,7 +22,7 @@ showRelativeOpening = false;
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75];%	100];
+uData = [5 10	15	20	25	30	35	40	45	50	55	60	65	70	75];%	100];
 % histone loss data
 % previous 
 % hData = [ 10.7143   10.8680   22.1973   24.1895   27.9165   23.1343   36.7809 ...
@@ -45,30 +45,31 @@ dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 
-N  = @(a1,u) exp(-a1.*(u.^2));% N(U)/N(0)
-R  = @(a1,a2,a3,u) 1+(a2/a1).*(1-N(a1,u))+a3.*u.^2;%R(U)/R(0)
-d  = @(a1,a2,a3,u) (R(a1,a2,a3,u) -1)./R(a1,a2,a3,u);
-h  = @(a1,a2,a3,u) 1-(N(a1,u))./R(a1,a2,a3,u);
-N  = @(a1,u) exp(-a1*u);
-R  = @(a1,a2,a3,u)sqrt(1+(a2).*(u) +a3.*(1-N(a1,u)));%(1+a2.*(1-N(a1,u)));
-d  = @(a1,a2,a3,u) ((R(a1,a2,a3,u)) -1)./(R(a1,a2,a3,u));
-h  = @(a1,a2,a3,u) 1-(N(a1,u))./((R(a1,a2,a3,u)));
+N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
+R  = @(a1,a2,a3,u) 1+a3.*(1-N(a1,a2,u))+0.0001.*u.^2;%R(U)/R(0)
+d  = @(a1,a2,a3,u) (R(a1,a2,a3,u)-1)./(R(a1,a2,a3,u));
+h  = @(a1,a2,a3,u) 1- (N(a1,a2,u))./R(a1,a2,a3,u);
 % h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
 % d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
-fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[1 1 1],'Lower',[0 0 0],'Robust','LAR','TolX',1e-12,'TolFun',1e-12,'MaxIter',1000);
-ftH = fittype('1-(exp(-a1*x.^2))./(1+a2*x.^2 +a3.*(1-exp(-a1.*x.^2)))','options',fo);
+fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',0.1*[1 1 1],'Lower',[0 0 0],...
+    'Robust','LAR','TolX',0.00010000,'TolFun',0.01,'MaxIter',2000,'Normalize','off','DiffMinChange',0.01,...
+    'DiffMaxChange',1);
+% ftH = fittype('(a3-(1+a3).*(1-a2+exp(-a1.*x)))./(a3.*a2.*(1-exp(-a1.*x)))','options',fo);
    
-ftD = fittype('((1+a2*(1-exp(-a1.*x))).^2   -1)./(1+a2*(1-exp(-a1.*x))).^2 ');
-% 
-% [fitParamsH,gof,output]=fit(uData',hData',ftH);
-% % [fitParamsD]=fit(uData',dData',ftD);
-% % parameter values
-% c1 = fitParamsH.a1;%0.0069;
-% c2 = fitParamsH.a2;%0.78;
-% c3 = fitParamsH.a3;
-c1 = 0.0075;
-c2 = 0.003;
-c3  =0.1;
+ftH = fittype('1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x)+0.0001.*x.^2)',...
+            'independent','x','options',fo);
+ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
+%  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
+[fitParamsH,gof,output]=fit(uData',hData',ftD)
+% [fitParamsD]=fit(uData',dData',ftD);
+% % % parameter values
+c1 = fitParamsH.a1;%0.0069;
+c2 = fitParamsH.a2;%0.78;
+c3 = fitParamsH.a3;
+% c3*c2>1
+% c1 =0.051;
+% c2 = 0.30;
+% c3  =0.055;
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h

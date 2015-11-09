@@ -46,30 +46,30 @@ dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 
 N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
-R  = @(a1,a2,a3,u) 1+a3.*(1-N(a1,a2,u))+0.0001.*u.^2;%R(U)/R(0)
+R  = @(a1,a2,a3,u) 1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u));%   (1-exp(-a1.*u)).*(a3+a2.*a3.*exp(-a1.*u));%R(U)/R(0)
 d  = @(a1,a2,a3,u) (R(a1,a2,a3,u)-1)./(R(a1,a2,a3,u));
 h  = @(a1,a2,a3,u) 1- (N(a1,a2,u))./R(a1,a2,a3,u);
 % h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
 % d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
-fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',0.1*[1 1 1],'Lower',[0 0 0],...
-    'Robust','LAR','TolX',0.00010000,'TolFun',0.01,'MaxIter',2000,'Normalize','off','DiffMinChange',0.01,...
-    'DiffMaxChange',1);
+fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[0.01 0.5 0.5],'Lower',[0 0 0],...
+    'Robust','off','TolX',1e-17,'TolFun',1e-5,'MaxIter',30000,'MaxFunEval',1000,'Normalize','off','DiffMinChange',1000,...
+    'DiffMaxChange',100);
 % ftH = fittype('(a3-(1+a3).*(1-a2+exp(-a1.*x)))./(a3.*a2.*(1-exp(-a1.*x)))','options',fo);
    
-ftH = fittype('1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x)+0.0001.*x.^2)',...
-            'independent','x','options',fo);
-ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
+ftH = fittype('1-(1-a2.*(1-exp(-a1.*(u))))./(1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u)))',...
+            'independent','u','options',fo);
+% ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
 %  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
-[fitParamsH,gof,output]=fit(uData',hData',ftD)
+[fitParamsH,gof,output]=fit(uData',hData',ftH,fo)
 % [fitParamsD]=fit(uData',dData',ftD);
 % % % parameter values
 c1 = fitParamsH.a1;%0.0069;
 c2 = fitParamsH.a2;%0.78;
 c3 = fitParamsH.a3;
 % c3*c2>1
-% c1 =0.051;
-% c2 = 0.30;
-% c3  =0.055;
+% c1 =0.015;
+% c2 = 0.54;
+% c3  =.5;
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -222,8 +222,8 @@ set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
 %___Calculate SSEs for fittings 
-sseHistone   = sum((h(c1,c2,c3,uData(1:end-1))-hData(1:end-1)).^2)
-sseDNA       = sum((d(c1,c2,c3,uData)-dData).^2)
+sseHistone   = sum((h(c1,c2,c3,uData(1:end-1))-hData(1:end-1)).^2);
+sseDNA       = sum((d(c1,c2,c3,uData)-dData).^2);
 sseHminusD   = sum((h(c1,c2,c3,uData)-d(c1,c2,c3,uData)-(hData-dData)).^2);
 sseLinearFit = fitScore.sse;
 sseRelativeH = sum(((h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./h(c1,c2,c3,uData)-(hData-dData)./hData).^2);

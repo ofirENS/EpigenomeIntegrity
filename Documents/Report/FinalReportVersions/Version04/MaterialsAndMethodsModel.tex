@@ -9,7 +9,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\mb}[1]{\mbox{\boldmath$#1$}}
 \newcommand{\p}{\partial}
 \newcommand{\ds}{\displaystyle}
@@ -75,50 +75,58 @@ Following the experimental protocol, the initial damage circular region (IDR) in
 
 We assume that the loss of DNA and nucleosomes signal is due to two mechanisms: one is nucleosome sliding along the chromatin and outward in the direction of the ROI's boundary, and the second is chromatin expansion or unfolding. First, the nucleosomes involved in sliding are those that contained damaged DNA wrapped around them. In this model, a nucleosome cannot detach from the chromatin or pass through another one. The exact mechanism of motion is not considered here because we will only consider the steady-state final result, defined at 15 minutes post UVC. In the second mechanism, recruitment of repair proteins to the damage region unfolds the chromatin and as a result  both nucleosome and DNA signal is lost in equal proportion (Fig. 3XXX) as is being pushed out of the ROI with the expansion of the DR. Note that due to expansion of chromatin, the DNA and nucleosomes located in the annulus between the ROI and IDR is going to be extruded from the ROI.
 
-In the model, due to the radial symmetry, we consider that chromatin is a single wire of total length $l$, with one end fixed at the origin and the other at the boundary of the $IDR$ of radius $R_0$. There are $N_0$ histones on this chromatin wire.  The ROI region is considered to be a circle of radius $\alpha(u) R_0$, with  $\alpha(u)> 1$, and $u$ the UV-dose. We set the number of nucleosomes in the DR as $N(u)$.
+In the model, due to the radial symmetry, we consider that chromatin is a single wire of total length $l$, with one end fixed at the origin and the other at the boundary of the $IDR$ of radius $R_0$. There are $N_0$ histones on this chromatin wire.  The ROI region is considered to be a circle of area $A(u)$, with, and $u$ the UV-dose. We set the number of nucleosomes in the DR as $N(u)$.
 
 \subsection{Fraction of DNA and nucleosome loss }\label{subsection:fractionOfDNAandNucleosomeLoss}
 We assume an initial uniform distribution of both DNA and nucleosome. 
 We shall now compute the fraction of DNA loss (resp. nucleosomes) $D(u)$ (resp. $H(u)$) in the ROI 15 minutes post UVC. By construction, $D(u)$ is given by the ratio of the amount of DNA in the annulus between $R_0$ and the ROI to the total amount in the ROI, while $H(u)$ is the sum of the nucleosomes that have been translocated with the DNA plus the ones that are sliding out, resulting in the following formulas
 \begin{eqnarray*}
-D(u)&=& \frac{\alpha^2(u) -1}{\alpha^2(u)} \\
-H(u)&=&D(u)+\frac{N(0)-N(u)}{N(0) \alpha^2(u)}.
+D(u)&=& \frac{A(u)/I_u -1}{A(u)/I_u} \\
+H(u)&=&D(u)+\frac{N(0)-N(u)}{N(0)A(u)/I_u}.
 \end{eqnarray*}
-In order to evaluate the functions above, we will now construct models for the functions $\alpha(u)$ and $N(u)$.
+with $I_u$ the area of the initial damage region.
+In order to evaluate the functions above, we will now construct models for the functions $A(u)$ and $N(u)$.
 
-\subsection{Deriving the function $\alpha(u)$ and $N(u)$ from the dynamics of loss}
-We construct a model for the number of nucleosomes $N(u)$ in ROI, as a function of the UV dose, $u$,  where the average number per chromatin length is $N(u)/l$. The average number of damages $\delta$ per chromatin length are used to derive the rate equations.
+\subsection{Deriving the number of damages $T(u)$}
+We assume here that the rate of accumulating DNA damages, $T(u)$, in the initial damage region is increasing proportional to the undamaged DNA in the initial damage region, $I_u$.
+\begin{equation}
+\frac{dT(u)}{du}=k_T\left(T_{max}-T(u)\right)
+\end{equation}
+with $k_T$ the rate constant, and $T_{max}$ the maximal number of damages possible in $I_u$. 
+Using the initial condition $T(0) = 0$ the solution is
+\begin{equation}
+T(u) = T_{max}\left(1-\exp(-k_T u)\right) 
+\end{equation}
 
-Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the ROI, $N(u)$, is a first-order process, proportional to the DNA-damages $D$ per nucleosome.
+\subsection{Deriving the function $A(u)$ and $N(u)$ from the dynamics of loss}
+We now turn to construct a model for the number of nucleosomes $N(u)$ in ROI, as a function of the UV dose, $u$. Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the ROI, $N(u)$, is proportional to the rate of accumulation of DNA-damages $T(u)$ on the remaining nucleosome with increasing uv dose.
 \begin{equation*}
-\frac{dN(u)}{du} = -k_r\delta N(u)
+\frac{dN(u)}{du} = -k_N\frac{dT(u)}{du}
 \end{equation*}
-with $k_r$ the rate constant of depletion from the ROI due to sliding. Using the initial condition $N(0) = N_0$, the solution is given by
+with $k_N$ the rate constant of histone depletion from the ROI due to sliding. Using the initial condition $N(0) = N_0$, the solution is given by
 \begin{equation}\label{eq:NumHistones}
-N(u) = N_0\exp(-k_r\delta u^2).
+N(u) = N_0-k_NT_{max}\left(1-\exp(-k_Du)\right).
 \end{equation}
-Note that $N(u)$ represents the number of nucleosomes left in the ROI, characterized by a radius $\alpha(u)R_0$. To compute the dynamics of $\alpha(u)R_0$, we assume that the increase of ROI radius is directly proportional to the number of nucleosomes left in the ROI 15 minutes post UVC as a result of UV induction. For a 2D region we get 
+Note that $N(u)$ represents the number of nucleosomes left in the ROI 15 minutes post UVC for a given UV dose $u$.
+
+To compute the dynamics of $A(u)$, we assume that the increase of ROI area is directly proportional to rate of nucleosome sliding out as a result of UV induction. For a 2D region we get 
 \begin{equation}\label{dralpha}
-\frac{d\alpha(U)^2}{dt}=-k_R\frac{dN(U)}{dU}
+\frac{dA(U)}{du}=-k_A\frac{dN(U)}{dU}
 \end{equation}
-where $k_R$ is a constant. Using the initial condition $\alpha(0)= 1$, we find 
+where $k_A$ is a constant. Using the initial condition $A(0)=A_0$, we find 
 \begin{equation}\label{eq:expansionFactor}
-\alpha(u) = \sqrt{R_0^2 + \frac{k_RN_0}{k_r\delta}\left(1-\exp(-k_r\delta u.^2)\right)},
+A(u) = A_0 +k_Ak_NT_{max}\left(1-\exp(-k_Tu)\right),
 \end{equation}
-We interpret the increase in ROI radius with the UV dose as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
+with $A_0$ being a theoretical value for measurement in the absence of UV radiation. We interpret the increase in ROI radius with the UV dose as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
 
-We can now use these derivations to compute the fraction of DNA and nucleosome loss. The fraction of histone loss at time $t$ is given by
+We can now use these derivations to compute the fraction of DNA and nucleosome loss. The fraction of histone loss for UV dose $u$ is given by
 \begin{equation}\label{eq:histoneLoss}
-h(t) = \frac{\alpha(t)-1}{\alpha(t)} +\frac{N_0-N(t)}{N_0\alpha(t)}=1-\frac{N(t)}{N_0\alpha(t)}
+H(u) = \frac{(A(u)/I_u)-1}{(A(u)/I_u)} +\frac{N_0-N(t)}{N_0(A(u)/I_u)}=1-\frac{(N(t)/N_0)}{(A(u)/I_u)}
 \end{equation}
-Substituting expressions \ref{eq:NumHistones}-\ref{eq:expansionFactor} into \ref{eq:histoneLoss} and fixing the time to $t=t_s$ at saturation, we obtain
-\begin{equation}\label{eq:totalHistoneLoss}
-h(t_s)=1-\frac{\exp(-\frac{k_r\bar{D}}{l}t_s)}{ 1+k_RN_0(1-\exp(-\frac{k_r\bar{D}}{l}t_s))}.
-\end{equation}
+Substituting expressions \ref{eq:NumHistones}-\ref{eq:expansionFactor} into \ref{eq:histoneLoss}, we obtain
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Dependency on UV dose and final expression for the nucleosomes $h$ and DNA $d$ loss}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dependency on UV dose and final expression for the nucleosomes $H(u)$ and DNA $D(u)$ loss}
+
 The number of damages $\bar{D}$ increases with the UV dose, but decreases with the distance from the laser's focal point. To obtain an exact expression for $\bar{D}$, we use the UVC intensity $I$ which decays with the distance from the focal point as the inverse-square law of laser intensity: $I \sim \frac{U}{r^2}$, where $r$ is the distance from focal point, and $U$ the UV-exposure time.
 
 For a uniform DNA distribution, the amount enclosed in concentric rings around the focal point increases linearly with $r$. Therefore, the number of damages in a concentric two-dimensional ring of radius $r$ and size $dr$ is ${D}= \frac{rU}{r^2}=\frac{U}{r}dr$. The average of $\bar{D}$ in the entire circular region of radius $R$ is

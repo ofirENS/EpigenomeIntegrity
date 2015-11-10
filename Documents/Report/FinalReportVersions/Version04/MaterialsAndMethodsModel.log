@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  9 NOV 2015 18:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  10 NOV 2015 11:03
 entering extended mode
 **MaterialsAndMethodsModel.tex
 (MaterialsAndMethodsModel.tex
@@ -205,56 +205,57 @@ LaTeX Warning: No \author given.
 [2] [3] [4]
 
 LaTeX Warning: Reference `eq:totalHistoneLoss' on page 5 undefined on input lin
-e 136.
+e 142.
 
-<histoneAndDnaVsUvDoseModelFit.jpg, id=22, 1686.3pt x 934.49126pt>
+[5] <histoneAndDnaVsUvDoseModelFit.jpg, id=27, 1686.3pt x 934.49126pt>
 File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
 
 <use histoneAndDnaVsUvDoseModelFit.jpg>
 Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 1
-62.
+68.
 (pdftex.def)             Requested size: 194.98825pt x 164.55081pt.
 
-<hVsUVDoseModelFit.jpg, id=23, 1686.3pt x 934.49126pt>
+<hVsUVDoseModelFit.jpg, id=28, 1686.3pt x 934.49126pt>
 File: hVsUVDoseModelFit.jpg Graphic file (type jpg)
 
 <use hVsUVDoseModelFit.jpg>
-Package pdftex.def Info: hVsUVDoseModelFit.jpg used on input line 174.
+Package pdftex.def Info: hVsUVDoseModelFit.jpg used on input line 180.
 (pdftex.def)             Requested size: 194.98825pt x 164.55081pt.
 
-<histoneSlideFromDamageRegionComparision.jpg, id=24, 1686.3pt x 934.49126pt>
+<histoneSlideFromDamageRegionComparision.jpg, id=29, 1686.3pt x 934.49126pt>
 File: histoneSlideFromDamageRegionComparision.jpg Graphic file (type jpg)
 
 <use histoneSlideFromDamageRegionComparision.jpg>
 Package pdftex.def Info: histoneSlideFromDamageRegionComparision.jpg used on in
-put line 183.
+put line 189.
 (pdftex.def)             Requested size: 272.97841pt x 164.55081pt.
- [5] [6 <./histoneAndDnaVsUvDoseModelFit.jpg> <./hVsUVDoseModelFit.jpg>]
-<relativeSlidingContribution.jpg, id=34, 1686.3pt x 934.49126pt>
+
+<relativeSlidingContribution.jpg, id=30, 1686.3pt x 934.49126pt>
 File: relativeSlidingContribution.jpg Graphic file (type jpg)
 
 <use relativeSlidingContribution.jpg>
-Package pdftex.def Info: relativeSlidingContribution.jpg used on input line 193
+Package pdftex.def Info: relativeSlidingContribution.jpg used on input line 199
 .
 (pdftex.def)             Requested size: 194.98825pt x 164.55081pt.
- [7 <./histoneSlideFromDamageRegionComparision.jpg>]
-Overfull \hbox (9.70613pt too wide) in paragraph at lines 200--200
+ [6 <./histoneAndDnaVsUvDoseModelFit.jpg>] [7 <./hVsUVDoseModelFit.jpg> <./hist
+oneSlideFromDamageRegionComparision.jpg>]
+Overfull \hbox (9.70613pt too wide) in paragraph at lines 206--206
 []\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of slid-ing and chro-matin open-
  []
 
 
 LaTeX Warning: Reference `eq:totalHistoneLoss' on page 8 undefined on input lin
-e 202.
+e 208.
 
 [8 <./relativeSlidingContribution.jpg>]
 <histoneAndDNARelativeExpansionContribution.jpg, id=42, 1686.3pt x 934.49126pt>
 File: histoneAndDNARelativeExpansionContribution.jpg Graphic file (type jpg)
 <use histoneAndDNARelativeExpansionContribution.jpg>
 Package pdftex.def Info: histoneAndDNARelativeExpansionContribution.jpg used on
- input line 222.
+ input line 228.
 (pdftex.def)             Requested size: 194.98825pt x 164.55081pt.
- [9 <./histoneAndDNARelativeExpansionContribution.jpg>] (MaterialsAndMethodsMod
-el.aux)
+ [9] [10 <./histoneAndDNARelativeExpansionContribution.jpg>] (MaterialsAndMetho
+dsModel.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -262,7 +263,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  2322 strings out of 493698
  29404 string characters out of 3144402
- 89601 words of memory out of 3000000
+ 87603 words of memory out of 3000000
  5631 multiletter control sequences out of 15000+200000
  12403 words of font info for 48 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
@@ -277,9 +278,9 @@ msfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
 m/cmr6.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb
 ><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Pro
 gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on MaterialsAndMethodsModel.pdf (9 pages, 630621 bytes).
+Output written on MaterialsAndMethodsModel.pdf (10 pages, 632231 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
+ 84 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -70,8 +70,8 @@ c1 = fitParamsH.a1;%0.0069;
 c2 = fitParamsH.a2;%0.78;
 % c3 = fitParamsH.a3;
 % c3*c2>1
-c1 =0.0045;
-c2 = 1.6;
+% c1 =0.0045;
+% c2 = 1.5;
 c3  =0.001;
 %-- plot ---
 if showHAndDFit

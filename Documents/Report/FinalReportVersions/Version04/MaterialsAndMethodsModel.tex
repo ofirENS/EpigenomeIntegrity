@@ -99,9 +99,9 @@ T(u) = T_{max}\left(1-\exp(-k_T u)\right)
 \end{equation}
 
 \subsection{Deriving the function $A(u)$ and $N(u)$ from the dynamics of loss}
-We now turn to construct a model for the number of nucleosomes $N(u)$ in ROI, as a function of the UV dose, $u$. Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the ROI, $N(u)$, is proportional to the rate of accumulation of DNA damages $T(u)$ on the remaining nucleosome with increasing uv dose.
+We now turn to construct a model for the number of nucleosomes $N(u)$ in ROI, as a function of the UV dose, $u$. Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes left in the ROI, $N(u)$, is proportional to the rate of accumulation of DNA damages $T(u)$ on the remaining nucleosome with increasing uv dose. The nucleosome lost by sliding are initially located on a fixed chromatin of length $l$. The fraction of the total length nucleosomes are occupying is $N(u)b/l$, with $b$ the length of DNA wrapped on a histone. Therefore, with an addition of $T(u+du)-T(u)$ damages, the expected number of histone-wrapped DNA which is damaged is $(T(u+du)-T(u))/l  N(u)b/l $. Therefore, the equation for the number of nucleosomes left in the ROI 15 post UVC as a function of the uv dose can be written as
 \begin{equation*}
-\frac{dN(u)}{du} = -k_N\frac{dT(u)}{du}
+\frac{dN(u)}{du} = -k_NN(u)\frac{dT(u)}{du}
 \end{equation*}
 with $k_N$ the rate constant of histone depletion from the ROI due to sliding. Using the initial condition $N(0) = N_0$, the solution is given by
 \begin{equation}\label{eq:NumHistones}

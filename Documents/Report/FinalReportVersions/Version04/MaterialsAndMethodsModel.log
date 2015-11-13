@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  10 NOV 2015 11:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  13 NOV 2015 12:50
 entering extended mode
 **MaterialsAndMethodsModel.tex
 (MaterialsAndMethodsModel.tex
@@ -229,16 +229,16 @@ File: histoneSlideFromDamageRegionComparision.jpg Graphic file (type jpg)
 Package pdftex.def Info: histoneSlideFromDamageRegionComparision.jpg used on in
 put line 189.
 (pdftex.def)             Requested size: 272.97841pt x 164.55081pt.
-
-<relativeSlidingContribution.jpg, id=30, 1686.3pt x 934.49126pt>
+ [6 <./histoneAndDnaVsUvDoseModelFit.jpg>] [7 <./hVsUVDoseModelFit.jpg> <./hist
+oneSlideFromDamageRegionComparision.jpg>] <relativeSlidingContribution.jpg, id=
+38, 1686.3pt x 934.49126pt>
 File: relativeSlidingContribution.jpg Graphic file (type jpg)
 
 <use relativeSlidingContribution.jpg>
 Package pdftex.def Info: relativeSlidingContribution.jpg used on input line 199
 .
 (pdftex.def)             Requested size: 194.98825pt x 164.55081pt.
- [6 <./histoneAndDnaVsUvDoseModelFit.jpg>] [7 <./hVsUVDoseModelFit.jpg> <./hist
-oneSlideFromDamageRegionComparision.jpg>]
+
 Overfull \hbox (9.70613pt too wide) in paragraph at lines 206--206
 []\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of slid-ing and chro-matin open-
  []
@@ -278,7 +278,7 @@ msfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
 m/cmr6.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb
 ><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Pro
 gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on MaterialsAndMethodsModel.pdf (10 pages, 632231 bytes).
+Output written on MaterialsAndMethodsModel.pdf (10 pages, 632752 bytes).
 PDF statistics:
  84 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

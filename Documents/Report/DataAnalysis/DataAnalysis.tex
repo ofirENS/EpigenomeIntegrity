@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{hyperref}
+\usepackage{epsfig,graphicx,amsmath}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\begin{document}
+	\title{Data Analysis}
+	\maketitle
+	\section{definitions}
+		\begin{enumerate}
+			\item $H$ - histone signal loss
+			\item $D$ - DNA signal loss
+			\item $N_0$- whole nucleus signal time 0- undamaged cells
+			\item $N_{15}$ - while nucleus signal time 15- undamaged cells
+			\item $B_0$ background time 0- undamaged cells
+			\item $B_{15}$ background time 15- undamaged cells		
+		\end{enumerate}
+		
+	\section{Histone Signal}
+		
+	Calculation of histone signal loss
+	\begin{equation}
+	 H = 1-\frac{(R_{15}-B_{15})}{(R_0-B_0)}\frac{(N_0-B_0)}{(N_{15}-B_{15})}
+	\end{equation}
+	
+	\subsection{The background signal}
+	We will calculate the average value of the ratio $B_15/B_0$, indicating the stability of the undamaged cell's signal. The average of the ratio is 1.06, showing the background signal remains quite stable throughout the experiment. Excluding a value of 40, stemming probably from the low values of background at 0, for uv dose 30. 
+	
+	\subsection{The nucleus signal}
+	The ratio $N_0/N_{15}$ show and average of 0.98. Again reflecting the stability of the control signal (undamaged cells) throughout the experiment. 
+	
+	\section{DNA signal}
+		Calculation of DNA signal loss
+		\begin{equation}
+		D = 1-\frac{(R_{15}-B_{15})}{(R_0-B_0)}\frac{(N_0-B_0)}{(N_{15}-B_{15})}
+		\end{equation}
+	\subsection{The background signal}
+	The average of the ratio $B_{15}/B_0$ is 1.003. Indicating stable background signal of the undamaged cells
+	
+	\subsection{The nucleus signal}
+	The ratio $N_)/N_{15}$ show a sharp decrease to an average of 0.58, showing the signal at 15 minutes is much stronger than that of 0. The cause might be bleaching. 
+	
+	\section{Suggested analysis}
+	Because the nucleus signal is on average almost twice as strong as the signal at zero, and due to the fact that both the nucleus and the background were measured in non damaged cells, we propose the following correction to the analysis 
+	\begin{equation}
+	H = 1-\frac{(R_{15}-B_{15}(N_{15}/N_0))}{R_0-B_0}\frac{(N_0-B_0)}{(N_{15}-B_{15}(N_{15}/N_0))}
+	\end{equation}
+	And similarly for the DNA signal. The correction term $N_{15}/N_0$ to the background term at 15 minutes is added to extrapolate for the background signal in damaged cells, which is not directly measured. 
+		
+\end{document}

@@ -15,7 +15,7 @@ showHAndDFit        = true;
 showSlidingFraction = false;
 showSlidingOutOfDR  = true;
 showRelativeSliding = true;
-showExpansionFactor = false;
+showExpansionFactor = true;
 showLossInTime      = false;
 showRelativeOpening = false;
 
@@ -31,7 +31,7 @@ uData = [5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 hData = [10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872...
          21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765...
          42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168]./100;%	40.8353794651
-hData = [10.71430573	10.82207882	14.40149838	20.82254473	21.20240749	21.36685794	29.19504522	37.27065601	37.3479226	42.51381518	42.91330417	42.85087709	43.86607798	42.57639299	44.19479342	40.83537947
+hData = [10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168	40.8353794651
 ]./100;
 
 % hData = dataH./100;
@@ -47,7 +47,7 @@ dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900
          12.6333239455	20.0360763966	22.3129622161 22.5107680397	22.7887958612	20.4006799168...
          21.1679155925	22.757261652	26.9902966182]./100;%	26.4974599239
 % dData = [ 0.1184    0.1613    0.1148    0.1701    0.1427    0.1354    0.1856    0.2263    0.2318    0.2251    0.2410    0.2366    0.2455    0.2408    0.2699 0.2891];
-dData = [1.570421201	1.136516748	4.545552178	8.740619088	9.858121933	10.29003412	12.63332395	20.0360764	22.31296222	22.51076804	22.78879586	20.40067992	21.16791559	22.75726165	26.99029662	26.49745992
+dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
@@ -71,18 +71,18 @@ ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))
 % ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
 %  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
 [fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
-% % [fitParamsD]=fit(uData',dData',ftD);
-% % % parameter values
-a1 = fitParamsH.a1;%0.0069;
-a2 = fitParamsH.a2;%0.78;
-a3 = fitParamsH.a3;
-a4 = fitParamsH.a4;
+% % % [fitParamsD]=fit(uData',dData',ftD);
+% % % % parameter values
+c1 = fitParamsH.a1;%0.0069;
+c2 = fitParamsH.a2;%0.78;
+c3 = fitParamsH.a3;
+c4 = fitParamsH.a4;
 
 
-c1 = a1;%0.0014;% curve h
-c2 = a2;%15.35; % lift h
-c3 = a3;%0.000019; % lift d
-c4 = a4;%60.003;
+% c1 = 0.02 %0.027;% curve h
+% c2 = 0.001%0.34; % lift h
+% c3 = 0.00002 %0.1; % lift d
+% c4 = 0.1%0.25; % lift h and d
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -136,7 +136,7 @@ linearFitModel = fittype('a*x');
 [fitValues, fitScore] = fit(uData',((hData-dData)./(1-dData))',linearFitModel,'Robust','LAR','StartPoint',1);
 line('XData',uData,'YData',fitValues(uData),'Parent',ax3,'DisplayName','linear fit','Color','r',...
     'LineStyle','--','LineWidth',lineWidth)
-title('Fraction of histone sliding out of the DR','Parent',ax3,'FontSize',fontSize)
+title('(H-D)/(1-D), Fraction of histone sliding out of the DR','Parent',ax3,'FontSize',fontSize)
 xlabel('U.V dose','Parent',ax3,'FontSize',fontSize);
 ylabel('(h(u)-d(u))/(1-d(u)', 'FontSize', fontSize);
 legend(get(ax3,'Children'),'Location','NW')
@@ -156,7 +156,7 @@ line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(h(c1,c2
 xlabel('U.V dose','Parent',ax4,'FontSize',fontSize);
 ylabel('(h(U)-d(U))/h(U)','FontSize',fontSize,'Parent',ax4)
 legend(get(ax4,'Children'),'Location','NW');
-title('Contibition of sliding to the total histone loss','Parent',ax4,'FontSize',fontSize)
+title('1-D/H, Contibition of sliding to the total histone loss','Parent',ax4,'FontSize',fontSize)
 set(ax4,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
@@ -165,7 +165,7 @@ if showExpansionFactor
 fig5 = figure;
 uValues = 0:1:100;
 ax5  = axes('Parent',fig5,'NextPlot','add','FontSize',fontSize,'LineWidth',lineWidth);
-line('XData',uValues,'YData',R(c1,c2,c3,uValues),'Parent',ax5)
+line('XData',uValues,'YData',R(c1,c2,c3,c4,uValues),'Parent',ax5)
 xlabel('U.V dose','Parent',ax5,'FontSize',fontSize)
 ylabel('\alpha(U)','Parent',ax5,'FontSize',fontSize);
 set(ax5,'FontSize',fontSize,'LineWidth',lineWidth)

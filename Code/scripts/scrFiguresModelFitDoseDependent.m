@@ -13,7 +13,7 @@ lineWidth  = 4;
 % Plot figues
 showHAndDFit        = true;
 showSlidingFraction = false;
-showSlidingOutOfDR  = false;
+showSlidingOutOfDR  = true;
 showRelativeSliding = true;
 showExpansionFactor = false;
 showLossInTime      = false;
@@ -22,15 +22,18 @@ showRelativeOpening = false;
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75];
+uData = [5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 % histone loss data
 % previous 
 % hData = [ 10.7143   10.8680   22.1973   24.1895   27.9165   23.1343   36.7809 ...
 %     42.0486   38.1288   45.2075   43.6863   44.8139   46.0792   47.6219   48.8158]./100;% 39.5242]./100;
 % current 
-hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872...
+hData = [10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872...
          21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765...
          42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168]./100;%	40.8353794651
+hData = [10.71430573	10.82207882	14.40149838	20.82254473	21.20240749	21.36685794	29.19504522	37.27065601	37.3479226	42.51381518	42.91330417	42.85087709	43.86607798	42.57639299	44.19479342	40.83537947
+]./100;
+
 % hData = dataH./100;
 % hData = [ 0.1159    0.1312    0.1963    0.2286    0.2212    0.2137    0.3059    0.3727    0.3735    0.4251    0.4291    0.4285    0.4387    0.4258    0.4564 0.4084];
 
@@ -40,43 +43,46 @@ hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872.
 %     13.4063551786	18.2744867455	18.0307962375	23.0606990052	23.7519692784...
 %     19.9985465308	14.2129016791	18.6451205628	19.8890159764	25.5485722258]./100;%	23.34475654]./100;
 % current 
-dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153...
+dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153...
          12.6333239455	20.0360763966	22.3129622161 22.5107680397	22.7887958612	20.4006799168...
          21.1679155925	22.757261652	26.9902966182]./100;%	26.4974599239
 % dData = [ 0.1184    0.1613    0.1148    0.1701    0.1427    0.1354    0.1856    0.2263    0.2318    0.2251    0.2410    0.2366    0.2455    0.2408    0.2699 0.2891];
+dData = [1.570421201	1.136516748	4.545552178	8.740619088	9.858121933	10.29003412	12.63332395	20.0360764	22.31296222	22.51076804	22.78879586	20.40067992	21.16791559	22.75726165	26.99029662	26.49745992
+]./100;
+
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 % dData = dataD./100;
-T = @(a1,u) (1-exp(-a1*u));
+T = @(a1,u) 1-exp(-a1.*u);
 N = @(a1,a2,u) exp(-a2.*T(a1,u));
-R = @(a1,a2,a3,a4,u) 1+a3.*(N(a1,a2,u)-1)+a4.*T(a1,u);
+R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*T(a1,u);
 % N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
 % R  = @(a1,a2,a3,u) 1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u));%   (1-exp(-a1.*u)).*(a3+a2.*a3.*exp(-a1.*u));%R(U)/R(0)
 d  = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
 h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 % h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
 % d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
-fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[0.01 0.5 0.1 0.5],'Lower',[0 0 0],...
-    'Robust','off','TolX',1e-10,'TolFun',1e-8,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.001,...
-    'DiffMaxChange',0.001);
+fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[0.07 0.05 0.07 0.05],'Lower',[0 0 0],...
+    'Robust','off','TolX',1e-18,'TolFun',1e-18,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.0001,...
+    'DiffMaxChange',0.1);
 % ftH = fittype('(a3-(1+a3).*(1-a2+exp(-a1.*x)))./(a3.*a2.*(1-exp(-a1.*x)))','options',fo);
    
-ftH = fittype('1-1./(1+a2.*(1-exp(-a1.*(1-exp(-a0.*u))))+a3.*(1-exp(-a0.*u)))',...
-            'independent','u','options',fo);
+ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))+a4.*(1-exp(-a1.*u)))',...
+              'independent','u','options',fo);
 % ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
 %  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
-% [fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
+[fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
 % % [fitParamsD]=fit(uData',dData',ftD);
 % % % parameter values
-c1 = fitParamsH.a0;%0.0069;
-c2 = fitParamsH.a1;%0.78;
-c3 = fitParamsH.a2;
-c4 = fitParamsH.a3;
-% c3*c2>1
-%  0.0012    0.0073    0.0001
-c1 = 0.0058;
-c2 = 3;
-c3 = 0.02;
-c4 = 1.9;
+a1 = fitParamsH.a1;%0.0069;
+a2 = fitParamsH.a2;%0.78;
+a3 = fitParamsH.a3;
+a4 = fitParamsH.a4;
+
+
+c1 = a1;%0.0014;% curve h
+c2 = a2;%15.35; % lift h
+c3 = a3;%0.000019; % lift d
+c4 = a4;%60.003;
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -123,7 +129,7 @@ ax3  = axes('Parent',fig3,'NextPlot','add');
 line('XData',uData,'Ydata',(hData-dData)./(1-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax3,'DisplayName','histone sliding out of DR, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
-line('XData',uData,'YData',(h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./(1-d(c1,c2,c3,uData)),'Parent',ax3,...
+line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(1-d(c1,c2,c3,c4,uData)),'Parent',ax3,...
     'LineWidth',lineWidth,'DisplayName','histone sliding out of DR, model')
 % add linear fit for comparison
 linearFitModel = fittype('a*x');
@@ -142,7 +148,7 @@ if showRelativeSliding
 %____ relative sliding contribution (h-d)/h
 fig4 = figure; 
 ax4  = axes('Parent',fig4,'NextPlot','add','FontSize',fontSize);
-line('XData',uData,'Ydata',(hData-dData)./(hData),'Marker','o','Color','k','MarkerFaceColor','c',...
+line('XData',uData,'Ydata',(hData-dData)./hData,'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax4,'DisplayName','relative histone sliding contribution, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
 line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(h(c1,c2,c3,c4,uData)),'Parent',ax4,...

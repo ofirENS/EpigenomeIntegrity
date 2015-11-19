@@ -15,7 +15,7 @@ showHAndDFit        = true;
 showSlidingFraction = false;
 showSlidingOutOfDR  = true;
 showRelativeSliding = true;
-showExpansionFactor = true;
+showExpansionFactor = false;
 showLossInTime      = false;
 showRelativeOpening = false;
 
@@ -70,19 +70,19 @@ ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))
               'independent','u','options',fo);
 % ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
 %  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
-[fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
+% [fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
 % % % [fitParamsD]=fit(uData',dData',ftD);
 % % % % parameter values
-c1 = fitParamsH.a1;%0.0069;
-c2 = fitParamsH.a2;%0.78;
-c3 = fitParamsH.a3;
-c4 = fitParamsH.a4;
+% c1 = fitParamsH.a1;%0.0069;
+% c2 = fitParamsH.a2;%0.78;
+% c3 = fitParamsH.a3;
+% c4 = fitParamsH.a4;
 
 
-% c1 = 0.02 %0.027;% curve h
-% c2 = 0.001%0.34; % lift h
-% c3 = 0.00002 %0.1; % lift d
-% c4 = 0.1%0.25; % lift h and d
+c1 = 0.02;% curve h
+c2 = 0.387; % lift h
+c3 = 0.415; % lift d
+c4 = 0.245; % lift h and d
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -235,10 +235,11 @@ set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
 %___Calculate SSEs for fittings 
-% sseHistone   = sum((h(c1,c2,c3,uData(1:end-1))-hData(1:end-1)).^2);
-% sseDNA       = sum((d(c1,c2,c3,uData)-dData).^2);
+sseHistone   = sum((h(c1,c2,c3,c4,uData(1:end-1))-hData(1:end-1)).^2);
+sseDNA       = sum((d(c1,c2,c3,c4,uData)-dData).^2);
 % sseHminusD   = sum((h(c1,c2,c3,uData)-d(c1,c2,c3,uData)-(hData-dData)).^2);
 % sseLinearFit = fitScore.sse;
 % sseRelativeH = sum(((h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./h(c1,c2,c3,uData)-(hData-dData)./hData).^2);
-
+ sseRelativeH = sum(((h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(1-d(c1,c2,c3,c4,uData))-(hData-dData)./(1-dData)).^2);
+ [sseHistone sseDNA sseRelativeH]
 % figure, plot(uData,h(c1,c2,uData)./d(c1,c2,uData))

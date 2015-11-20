@@ -12,17 +12,17 @@ lineWidth  = 4;
 
 % Plot figues
 showHAndDFit        = true;
-showSlidingFraction = false;
+showSlidingFraction = true;
 showSlidingOutOfDR  = true;
 showRelativeSliding = true;
 showExpansionFactor = false;
 showLossInTime      = false;
-showRelativeOpening = false;
+showRelativeOpening = true;
 
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
+uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 % histone loss data
 % previous 
 % hData = [ 10.7143   10.8680   22.1973   24.1895   27.9165   23.1343   36.7809 ...
@@ -31,7 +31,7 @@ uData = [5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 hData = [10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872...
          21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765...
          42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168]./100;%	40.8353794651
-hData = [10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168	40.8353794651
+hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168	40.8353794651
 ]./100;
 
 % hData = dataH./100;
@@ -47,7 +47,7 @@ dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900
          12.6333239455	20.0360763966	22.3129622161 22.5107680397	22.7887958612	20.4006799168...
          21.1679155925	22.757261652	26.9902966182]./100;%	26.4974599239
 % dData = [ 0.1184    0.1613    0.1148    0.1701    0.1427    0.1354    0.1856    0.2263    0.2318    0.2251    0.2410    0.2366    0.2455    0.2408    0.2699 0.2891];
-dData = [1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
+dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
@@ -58,9 +58,9 @@ R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*T(a1,u);
 % N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
 % R  = @(a1,a2,a3,u) 1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u));%   (1-exp(-a1.*u)).*(a3+a2.*a3.*exp(-a1.*u));%R(U)/R(0)
 d  = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
-h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
-% h  = @(a1,a2,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u)));
-% d  = @(a1,a2,u) a2.*(1-exp(-a1.*u))./(1+a2.*(1-exp(-a1.*u)));
+% h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+h  = @(a1,a2,a3,a4,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u))+a3.*u);
+d  = @(a1,a2,a3,a4,u) (a2.*(1-exp(-a1.*u))+a3.*u)./(1+a2.*(1-exp(-a1.*u))+a3.*u);
 fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[0.07 0.05 0.07 0.05],'Lower',[0 0 0],...
     'Robust','off','TolX',1e-18,'TolFun',1e-18,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.0001,...
     'DiffMaxChange',0.1);
@@ -79,10 +79,10 @@ ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))
 % c4 = fitParamsH.a4;
 
 
-c1 = 0.02;% curve h
-c2 = 0.387; % lift h
-c3 = 0.415; % lift d
-c4 = 0.245; % lift h and d
+c1 = 0.005;%0.02;% curve h
+c2 = 0.0007;%0.387; % lift h
+c3 = 0.005;%0.415; % lift d
+c4 = 0.32;%0.245; % lift h and d
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -113,7 +113,7 @@ fig2 = figure;
 ax2  = axes('Parent',fig2);
 line('XData',uData,'YData',(hData-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax2,'DisplayName','histone sliding loss, exp.data','MarkerSize',markerSize,'LineStyle','none');
-line('XData',uData,'YData',h(c1,c2,c3,uData)-d(c1,c2,c3,uData),'LineWidth',lineWidth,'Parent',ax2,...
+line('XData',uData,'YData',h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData),'LineWidth',lineWidth,'Parent',ax2,...
     'DisplayName','histone sliding loss, model','Color','k')
 xlabel('U.V dose','Parent',ax2,'FontSize',fontSize);
 ylabel('h(U)-d(U)','Parent',ax2,'FontSize',fontSize);
@@ -148,10 +148,10 @@ if showRelativeSliding
 %____ relative sliding contribution (h-d)/h
 fig4 = figure; 
 ax4  = axes('Parent',fig4,'NextPlot','add','FontSize',fontSize);
-line('XData',uData,'Ydata',(hData-dData)./hData,'Marker','o','Color','k','MarkerFaceColor','c',...
+line('XData',uData,'Ydata',1 -(dData)./hData,'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax4,'DisplayName','relative histone sliding contribution, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
-line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(h(c1,c2,c3,c4,uData)),'Parent',ax4,...
+line('XData',uData,'YData',1-(d(c1,c2,c3,c4,uData))./(h(c1,c2,c3,c4,uData)),'Parent',ax4,...
     'LineWidth',lineWidth,'DisplayName','relative histone sliding contribution, model')
 xlabel('U.V dose','Parent',ax4,'FontSize',fontSize);
 ylabel('(h(U)-d(U))/h(U)','FontSize',fontSize,'Parent',ax4)
@@ -188,6 +188,12 @@ title('histone and DNA loss in time','Parent', ax6,'FontSize',fontSize);
 set(ax6,'LineWidth',lineWidth)
 end
 
+if showRelativeOpening
+fig7 = figure;
+% show A_openning/A(u)
+plot(uData, (c4.*T(c1,uData))./(c3.*(1-exp(-c2.*T(c1,uData)))+c4.*T(c1,uData)))
+
+end
 
 %___calculate the time for which there is gamma percent loss
 gamma            = 0.4; % the constant value in (h-d)/h
@@ -211,28 +217,28 @@ tStar            = zeros(1,numel(uValues)); %the fraction of ts for which there 
 % expansionOpening(uIdx) =  (R(c1,c2,c3,ts)-R(c1,c2,c3,tStar(uIdx).*ts))./(R(c1,c2,c3,ts)-1);
 % end
 
-if showRelativeOpening
-%___ Expansion attributed to sliding/ opening 
-fig7 = figure('Units','norm');
-ax7  = axes('Parent',fig7,'NextPlot','Add');
-% line('XData',uData,'YData',S,'LineWidth',lineWidth,'LineStyle','--')
-bar(uValues, [expansionSliding;expansionOpening]','stacked','BarWidth',2,'LineStyle','none','Parent',ax7);   
-plot(ax7,uValues,expansionSliding,'k','LineWidth',lineWidth)
-set(ax7,'YLim',[0 1],'XLim',[0,uData(end)])
-xlabel('U.V dose','Parent',ax7,'FontSize',fontSize);
-ylabel('fraction of DR expansion','Parent', ax7,'FontSize',fontSize)
-title('Relative expansion attibuted to sliding and chromatin opening','Parent',ax7,'FontSize',fontSize);
-annotation(fig7,'textbox',...
-    [0.38 0.6 0.2 0.1],...
-    'String',{'Chromatin opening'},...
-    'FitBoxToText','on','LineStyle','none','Color','k','FontSize',fontSize);
-annotation(fig7,'textbox',...
-    [0.38 0.25 0.2 0.1],...
-    'String',{'Histone sliding'},...
-    'FitBoxToText','on','LineStyle','none','Color','w','FontSize',fontSize);
-set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
-% add a patch 
-end
+% if showRelativeOpening
+% %___ Expansion attributed to sliding/ opening 
+% fig7 = figure('Units','norm');
+% ax7  = axes('Parent',fig7,'NextPlot','Add');
+% % line('XData',uData,'YData',S,'LineWidth',lineWidth,'LineStyle','--')
+% bar(uValues, [expansionSliding;expansionOpening]','stacked','BarWidth',2,'LineStyle','none','Parent',ax7);   
+% plot(ax7,uValues,expansionSliding,'k','LineWidth',lineWidth)
+% set(ax7,'YLim',[0 1],'XLim',[0,uData(end)])
+% xlabel('U.V dose','Parent',ax7,'FontSize',fontSize);
+% ylabel('fraction of DR expansion','Parent', ax7,'FontSize',fontSize)
+% title('Relative expansion attibuted to sliding and chromatin opening','Parent',ax7,'FontSize',fontSize);
+% annotation(fig7,'textbox',...
+%     [0.38 0.6 0.2 0.1],...
+%     'String',{'Chromatin opening'},...
+%     'FitBoxToText','on','LineStyle','none','Color','k','FontSize',fontSize);
+% annotation(fig7,'textbox',...
+%     [0.38 0.25 0.2 0.1],...
+%     'String',{'Histone sliding'},...
+%     'FitBoxToText','on','LineStyle','none','Color','w','FontSize',fontSize);
+% set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
+% % add a patch 
+% end
 
 %___Calculate SSEs for fittings 
 sseHistone   = sum((h(c1,c2,c3,c4,uData(1:end-1))-hData(1:end-1)).^2);

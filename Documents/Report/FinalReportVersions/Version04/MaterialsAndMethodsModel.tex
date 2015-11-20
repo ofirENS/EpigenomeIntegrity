@@ -123,11 +123,11 @@ where $k_A$ is a constant. Using the initial condition $A(0)=A_0$, we find
 \begin{equation}\label{eq:expansionFactor}
 A(u) = A_0 +k_AN_0\left(1-\exp\left(-k_NT(u)\right)\right) +k_BT(u)
 \end{equation}
-with $A_0$ being a theoretical value for measurement in the absence of UV radiation in an area $I_u$. We interpret the increase in ROI radius with the UV dose as follows: while nucleosomes are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of nucleosome in the damage region.
+with $A_0$ being a theoretical value for measurement in the absence of UV radiation in an area $I_u$. We interpret the increase in ROI radius with the UV dose as follows: while histones are sliding outside, repair proteins are invading and then binding at sites of DNA damages. The accumulation of these proteins are producing force on the chromatin that result in the radial outward expansion. In our model, the amount of repair proteins is directly proportional to the number of exposed damage points, which is also proportional to the number of histones in the damage region.
 
-We can now use these derivations to compute the fraction of DNA and nucleosome loss. The fraction of histone loss for UV dose $u$ is given by
+We can now use these derivations to compute the fraction of DNA and histone loss. The fraction of histone loss for UV dose $u$ is given by
 \begin{equation}\label{eq:histoneLoss}
-H(u) = \frac{(A(u)/I_u)-1}{(A(u)/I_u)} +\frac{N_0-N(t)}{N_0(A(u)/I_u)}=1-\frac{(N(t)/N_0)}{(A(u)/I_u)}
+H(u) = \frac{(A(u)/I_u)-1}{(A(u)/I_u)} +\frac{N_0-N(t)}{N_0(A(u)/I_u)}=1-\frac{(N(t)/N_0)}{(A(u)/A(0))}
 \end{equation}
 Substituting expressions \ref{eq:NumHistones}-\ref{eq:expansionFactor} into \ref{eq:histoneLoss}, we obtain
 
@@ -136,13 +136,17 @@ Substituting expressions \ref{eq:NumHistones}-\ref{eq:expansionFactor} into \ref
 The expansion of the damage region post UV is composed of two contributions, one of the sliding of histones and the second from chromatin de-compaction.
 The de-compaction by itself contributes to the opening a fraction related to the second term on the right hand side of equation \ref{dralpha}, that is 
 \begin{equation}
-\frac{dA_{opening}}{du}=+k_B\frac{dT(u)}{du}
+\frac{dA(u)_{opening}}{du}=k_B\frac{dT(u)}{du}
 \end{equation}
-For which the solution is 
+With the initial condition $A(0)_{openning}=A_0$, the solution is 
 \begin{equation}
-A(u)_{opening}= A(0)_{opening}+k_BT_{max}(1-\exp(-k_Tu))
+A(u)_{opening}= A_0+k_BT_{max}(1-\exp(-k_Tu))=A_0+k_BT(u)
 \end{equation}
 
+Because the loss of DNA due to opening is equivalent to the loss of histones due to opening, and both are given by 
+\begin{equation}
+D_{opening}=H_{opening}=\frac{A_{opening}-A_0}{A(u)-A(0)}=\frac{k_BT(u)}{k_AN_0(1-\exp(-k_NT(u)))+k_BT(u)}
+\end{equation}
 
 \subsection{Dependency on UV dose and final expression for the nucleosomes $H(u)$ and DNA $D(u)$ loss}
 
@@ -168,21 +172,27 @@ which is UV dose dependent function.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Parameter fit for $h$ and DNA $d$ loss}\label{subsection:parameterFit}
+\subsection{Parameter fit for $H$ and DNA $D$ loss}\label{subsection:parameterFit}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We now use eqs. \ref{eq:totalHiostoneLossVsUV} to fit the experimental data describing the fraction of histone loss from the ROI 15 minutes post UVC. Since $d(U)$ and $h(U)$ share similar parameters, only $h(U)$ will be used. A classical fitting procedure, where we excluded the measurement of histone loss at 100 ms UVC dose, we find
-\begin{eqnarray*}
-\beta &=&  0.007\\
-C_2   &=&  0.78
-\end{eqnarray*}
-where the square error (SSE) is 0.0225 (resp. 0.0173) for $h(U)$ (resp. $d(U)$).
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[http!]
-\centering
-\includegraphics[width=0.5\linewidth, height=0.3\textheight]{histoneAndDnaVsUvDoseModelFit}
-\caption{\textbf{Histone loss (red): experimental data (circle) versus analytical curve (continuous)}. The fit is obtained from  eq. \ref{eq:totalHiostoneLossVsUV}.  The parameters are $C_2 =0.78,\quad \beta=0.007$. These parameter are used in eq. \ref{eq:dnaLoss} for DNA loss (green dashed curve) plotted against experimental points (green triangles).}
-\label{fig:histoneAndDnaVsUvDoseModelFit}
-\end{figure}
+
+For the fitting procedure we use the following 4 parameters
+\begin{equation}
+a_1 = k_T; \quad a_2=k_N; \quad a_3= \frac{k_AN_0}{A_0};\quad a_4 = \frac{k_B}{A_0}
+\end{equation}
+which then enables us to write the equation for $H(u)$ and $D(u)$ in the following form 
+\begin{equation}
+H(u)=1-\frac{\exp(-a_2T(u))}{1+a_3(1-\exp(-a_2T(u))+a_4T(u)}
+\end{equation}
+and for $D(u)$
+\begin{equation}
+D(u) = 1-\frac{1}{1+a_3(1-\exp(-a_2T(u))+a_4T(u)}
+\end{equation}
+and 
+\begin{equation}
+A(u)/A_0 = 1+a_3(1-N(u))+a_4T(u)
+\end{equation}
+We now use eqs. \ref{eq:totalHiostoneLossVsUV} to fit the experimental data describing the fraction of histone loss from the ROI 15 minutes post UVC. Since $D(u)$ and $H(u)$ share similar parameters, only $H(u)$ will be used. A classical fitting procedure, we find
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Fraction of nucleosome loss attributed to sliding}\label{subsection:lossAttributedToSliding}

@@ -16,8 +16,8 @@ showSlidingFraction = true;
 showSlidingOutOfDR  = true;
 showRelativeSliding = true;
 showExpansionFactor = false;
-showLossInTime      = false;
-showRelativeOpening = true;
+showRelativeOpeningDNA  = true;
+showRelativeOpeningHistone  = true;
 
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
@@ -52,25 +52,30 @@ dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.29
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 % dData = dataD./100;
-T = @(a1,u) 1-exp(-a1.*u);
-N = @(a1,a2,u) exp(-a2.*T(a1,u));
-R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*T(a1,u);
+T = @(a1,u) 1-exp(-a1.*u);% T(u)/T_max
+N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
+R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*T(a1,u); %R(u)/R_0
 % N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
 % R  = @(a1,a2,a3,u) 1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u));%   (1-exp(-a1.*u)).*(a3+a2.*a3.*exp(-a1.*u));%R(U)/R(0)
 d  = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
-% h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
-h  = @(a1,a2,a3,a4,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u))+a3.*u);
-d  = @(a1,a2,a3,a4,u) (a2.*(1-exp(-a1.*u))+a3.*u)./(1+a2.*(1-exp(-a1.*u))+a3.*u);
-fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',[0.07 0.05 0.07 0.05],'Lower',[0 0 0],...
-    'Robust','off','TolX',1e-18,'TolFun',1e-18,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.0001,...
-    'DiffMaxChange',0.1);
+h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+
+% --alternative reduced version
+% R  = @(a1,a2,a3,a4,u) 1+a2*(1-exp(-a1.*T(a1,a2,a3,a4,u)))+a3.*T(a1,a2,a3,a4,u);
+% 
+% h  = @(a1,a2,a3,a4,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u))+a3.*u);
+% d  = @(a1,a2,a3,a4,u) (a2.*(1-exp(-a1.*u))+a3.*u)./(1+a2.*(1-exp(-a1.*u))+a3.*u);
+%----
+fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',0.2*[1 1 1 1 ],'Lower',[0 0 0],...
+    'Robust','off','TolX',1e-15,'TolFun',1e-15,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.000001,...
+    'DiffMaxChange',1);
 % ftH = fittype('(a3-(1+a3).*(1-a2+exp(-a1.*x)))./(a3.*a2.*(1-exp(-a1.*x)))','options',fo);
    
-ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))+a4.*(1-exp(-a1.*u)))',...
+ftH = fittype('1-exp(-(a2/a1).*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-(a2/a1).*(1-exp(-a1.*u))))+a4.*(1-exp(-a1.*u)))',...
               'independent','u','options',fo);
 % ftD = fittype('a3.*a2.*exp(-a1.*x)./(1+a3.*a2.*exp(-a1.*x))','options',fo);
-%  1-(1-a2.*(1-exp(-a1.*x)))./(1+a3.*a2.*exp(-a1.*x))
 % [fitParamsH,gof,output] = fit(uData',hData',ftH,fo);
+
 % % % [fitParamsD]=fit(uData',dData',ftD);
 % % % % parameter values
 % c1 = fitParamsH.a1;%0.0069;
@@ -79,10 +84,10 @@ ftH = fittype('1-exp(-a2.*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-a2.*(1-exp(-a1.*u))))
 % c4 = fitParamsH.a4;
 
 
-c1 = 0.005;%0.02;% curve h
-c2 = 0.0007;%0.387; % lift h
-c3 = 0.005;%0.415; % lift d
-c4 = 0.32;%0.245; % lift h and d
+c1 = 0.023;%0.027;%0.005;%0.02;% curve h
+c2 = 0.35;%0.009;%0.0007;%0.387; % lift h
+c3 = 0.45;%0.67;%0.005;%0.415; % lift d
+c4 = 0.22;%0.14;%0.32;%0.245; % lift h and d
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -172,80 +177,38 @@ set(ax5,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
 
-if showLossInTime
-%___histone/DNA loss in time 
-fig6  = figure;
-kappa = linspace(0,1,100); 
-ax6   = axes('Parent',fig6,'NextPlot','add','FontSize',fontSize,'LineWidth',lineWidth);
-for uIdx = 1:numel(uData)
- line('XData',kappa,'YData',h(c1,c2,kappa.*uData(uIdx)),'Parent',ax6,'displayName',['histone loss U=' num2str(uData(uIdx))],'Color','r')
- line('XData',kappa,'YData',d(c1,c2,kappa.*uData(uIdx)),'Parent',ax6,'displayName',['DNA loss U=' num2str(uData(uIdx))],'Color','b')
-end
-xlabel('time','Parent',ax6,'FontSize',fontSize)
-ylabel('h(t;U)','Parent',ax6,'FontSize',fontSize);
-title('histone and DNA loss in time','Parent', ax6,'FontSize',fontSize);
-% legend(get(ax6,'Children'))
-set(ax6,'LineWidth',lineWidth)
-end
-
-if showRelativeOpening
-fig7 = figure;
+if showRelativeOpeningDNA
+fig6 = figure;
+% this is the DNA loss due to opening 
 % show A_openning/A(u)
-plot(uData, (c4.*T(c1,uData))./(c3.*(1-exp(-c2.*T(c1,uData)))+c4.*T(c1,uData)))
-
+uVals = 0:max(uData);
+ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineWidth);
+title('Opening contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
+xlabel(ax6,'UV dose','FontSize',fontSize)
+relativeOpening = [(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals));...
+    1-(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals))]';
+bar(uVals,relativeOpening,1,'Stacked')
+legend('opening','sliding');
 end
 
-%___calculate the time for which there is gamma percent loss
-gamma            = 0.4; % the constant value in (h-d)/h
+if showRelativeOpeningHistone  
+    % histone loss due to opening
+  fig7 = figure;
+  uVals = 0:max(uData);
+  ax7 = axes('Parent',fig7,'NextPlot','Add');
+  relativeOpeningH = [(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals));...
+      1-(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals))];
+  bar(uVals,relativeOpeningH',1.5,'Stacked')
+  title('Relative contribution to histone loss','FontSize',fontSize)
+  xlabel('UV dose','FontSize',fontSize);
+  set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
+  legend('opening','sliding');
+end
 
-uValues          = linspace(0,uData(end),100);
-expansionSliding = zeros(1,numel(uValues));
-expansionOpening = zeros(1,numel(uValues));
-tStar            = zeros(1,numel(uValues)); %the fraction of ts for which there is gamma loss of histones
-
-% for uIdx = 1:numel(uValues)
-% %     gamma = (hData(uIdx)-dData(uIdx))./hData(uIdx);
-%     % the fraction of the time for saturation for which we have gamma loss
-%     % of histones
-% ts          = uValues(uIdx);% when the fraction equals 1. (at saturation)
-% tStar(uIdx) = -(1./(c1*ts)).*log(((c2+1).*(1-gamma*h(c1,c2,c3,ts)))./(1+c2*(1-gamma*h(c1,c2,c3,ts))));
-% 
-% % plug this time into the equation for the expansion factor
-% % and calculate the fraction of the expansion attributed to sliding: (R(tStar,U)-R_0)/R(t_s,U)
-% expansionSliding(uIdx) = (R(c1,c2,c3,tStar(uIdx).*ts)-1)./(R(c1,c2,c3,ts)-1);
-% % relative contribution of chromatin opening to the expansion 
-% expansionOpening(uIdx) =  (R(c1,c2,c3,ts)-R(c1,c2,c3,tStar(uIdx).*ts))./(R(c1,c2,c3,ts)-1);
-% end
-
-% if showRelativeOpening
-% %___ Expansion attributed to sliding/ opening 
-% fig7 = figure('Units','norm');
-% ax7  = axes('Parent',fig7,'NextPlot','Add');
-% % line('XData',uData,'YData',S,'LineWidth',lineWidth,'LineStyle','--')
-% bar(uValues, [expansionSliding;expansionOpening]','stacked','BarWidth',2,'LineStyle','none','Parent',ax7);   
-% plot(ax7,uValues,expansionSliding,'k','LineWidth',lineWidth)
-% set(ax7,'YLim',[0 1],'XLim',[0,uData(end)])
-% xlabel('U.V dose','Parent',ax7,'FontSize',fontSize);
-% ylabel('fraction of DR expansion','Parent', ax7,'FontSize',fontSize)
-% title('Relative expansion attibuted to sliding and chromatin opening','Parent',ax7,'FontSize',fontSize);
-% annotation(fig7,'textbox',...
-%     [0.38 0.6 0.2 0.1],...
-%     'String',{'Chromatin opening'},...
-%     'FitBoxToText','on','LineStyle','none','Color','k','FontSize',fontSize);
-% annotation(fig7,'textbox',...
-%     [0.38 0.25 0.2 0.1],...
-%     'String',{'Histone sliding'},...
-%     'FitBoxToText','on','LineStyle','none','Color','w','FontSize',fontSize);
-% set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
-% % add a patch 
-% end
-
-%___Calculate SSEs for fittings 
+%___Calculate SSEs and R2 for fittings 
 sseHistone   = sum((h(c1,c2,c3,c4,uData(1:end-1))-hData(1:end-1)).^2);
+rsHistone    = 1-sseHistone./sum((hData-mean(hData)).^2);
 sseDNA       = sum((d(c1,c2,c3,c4,uData)-dData).^2);
-% sseHminusD   = sum((h(c1,c2,c3,uData)-d(c1,c2,c3,uData)-(hData-dData)).^2);
-% sseLinearFit = fitScore.sse;
-% sseRelativeH = sum(((h(c1,c2,c3,uData)-d(c1,c2,c3,uData))./h(c1,c2,c3,uData)-(hData-dData)./hData).^2);
- sseRelativeH = sum(((h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(1-d(c1,c2,c3,c4,uData))-(hData-dData)./(1-dData)).^2);
- [sseHistone sseDNA sseRelativeH]
-% figure, plot(uData,h(c1,c2,uData)./d(c1,c2,uData))
+rsDNA        = 1- sseDNA./sum((dData-mean(dData)).^2);
+[rsDNA rsHistone]
+

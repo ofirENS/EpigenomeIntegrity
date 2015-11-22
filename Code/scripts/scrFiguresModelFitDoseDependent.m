@@ -52,20 +52,36 @@ dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.29
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 % dData = dataD./100;
-T = @(a1,u) 1-exp(-a1.*u);% T(u)/T_max
-N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
-R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*T(a1,u); %R(u)/R_0
-% N  = @(a1,a2,u) 1-a2.*(1-exp(-a1.*(u)));% N(U)/N(0)
-% R  = @(a1,a2,a3,u) 1+a3.*(1-a2).*(1-exp(-a1.*u))+0.5*a2.*a3.*(1-exp(-2*a1.*u));%   (1-exp(-a1.*u)).*(a3+a2.*a3.*exp(-a1.*u));%R(U)/R(0)
-d  = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
-h  = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+% %--- full (damages) system
+T = @(a1,u)  1-exp(-a1.*u);% T(u)/T_max
 
-% --alternative reduced version
-% R  = @(a1,a2,a3,a4,u) 1+a2*(1-exp(-a1.*T(a1,a2,a3,a4,u)))+a3.*T(a1,a2,a3,a4,u);
+c1 = 0.021;%0.021;% curve h
+c2 = 0.393;  %0.393;% lift h
+c3 = 0.44; %0.44; % lift d
+c4 = 0.23; %0.23; % lift h and d
+
+% % -- linear (damages) system
+% T = @(a1,u) a1.*u; %T/T_max
 % 
-% h  = @(a1,a2,a3,a4,u) 1-exp(-a1*u)./(1+a2.*(1-exp(-a1*u))+a3.*u);
-% d  = @(a1,a2,a3,a4,u) (a2.*(1-exp(-a1.*u))+a3.*u)./(1+a2.*(1-exp(-a1.*u))+a3.*u);
-%----
+% c1 = 0.01;%0.023;% curve h
+% c2 = 0.54;  %0.35;% lift h
+% c3 = 0.2; %0.45; % lift d
+% c4 = 0.378; %0.22; % lift h and d
+
+% %-- quadratic (damages) system 
+% T  = @(a1,u) a1.*u.^2;
+% 
+% c1 = 0.0001;%0.023;% curve h
+% c2 = 1.0;  %0.35;% lift h
+% c3 = 0.2; %0.45; % lift d
+% c4 = 0.2; %0.22; % lift h and d
+
+%---
+N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
+R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u)); %R(u)/R_0
+d = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
+h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+
 fo = fitoptions('Methods','NonlinearLeastSquares','StartPoint',0.2*[1 1 1 1 ],'Lower',[0 0 0],...
     'Robust','off','TolX',1e-15,'TolFun',1e-15,'MaxIter',30000,'MaxFunEval',10000,'Normalize','off','DiffMinChange',0.000001,...
     'DiffMaxChange',1);
@@ -78,16 +94,17 @@ ftH = fittype('1-exp(-(a2/a1).*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-(a2/a1).*(1-exp(
 
 % % % [fitParamsD]=fit(uData',dData',ftD);
 % % % % parameter values
+
+% ---autofit
 % c1 = fitParamsH.a1;%0.0069;
 % c2 = fitParamsH.a2;%0.78;
 % c3 = fitParamsH.a3;
 % c4 = fitParamsH.a4;
 
 
-c1 = 0.023;%0.027;%0.005;%0.02;% curve h
-c2 = 0.35;%0.009;%0.0007;%0.387; % lift h
-c3 = 0.45;%0.67;%0.005;%0.415; % lift d
-c4 = 0.22;%0.14;%0.32;%0.245; % lift h and d
+
+
+
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
@@ -181,28 +198,66 @@ if showRelativeOpeningDNA
 fig6 = figure;
 % this is the DNA loss due to opening 
 % show A_openning/A(u)
-uVals = 0:max(uData);
+uVals = 0:3:max(uData);
 ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineWidth);
-title('Opening contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
+title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
+ylabel(ax6,'Fraction of loss','FontSize',fontSize)
 relativeOpening = [(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals));...
     1-(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals))]';
 bar(uVals,relativeOpening,1,'Stacked')
-legend('opening','sliding');
+c = get(ax6,'Children');
+set(c(1),'LineStyle','none','FaceColor','y');
+set(c(2),'LineStyle','none')
+ legend('opening','sliding');
+ annotation(fig6,'textbox',...
+    [0.404834260977118 0.714880332986472 0.226581941867656 0.100936524453697],...
+    'String',{'Sliding contribution'},...
+    'FontSize',25,...
+    'FitBoxToText','off',...
+    'LineStyle','none',...
+    'LineWidth',2.5);
+annotation(fig6,'textbox',...
+    [0.402730531520393 0.369529983792544 0.270322620519159 0.11345218800648],...
+    'String',{'Opening contribution'},...
+    'FontSize',25,...
+    'FitBoxToText','off',...
+    'LineStyle','none',...
+    'LineWidth',2.5,...
+    'Color',[1 1 1]);
 end
 
 if showRelativeOpeningHistone  
     % histone loss due to opening
   fig7 = figure;
-  uVals = 0:max(uData);
+  uVals = 0:0.5:max(uData);
   ax7 = axes('Parent',fig7,'NextPlot','Add');
   relativeOpeningH = [(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals));...
       1-(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals))];
   bar(uVals,relativeOpeningH',1.5,'Stacked')
   title('Relative contribution to histone loss','FontSize',fontSize)
-  xlabel('UV dose','FontSize',fontSize);
+  xlabel(ax7,'UV dose','FontSize',fontSize); 
+  ylabel(ax7,'Fraction of loss','FontSize',fontSize)
   set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)
-  legend('opening','sliding');
+  c = get(ax7,'Children');
+  set(c(1),'LineStyle','none','FaceColor','y');
+  set(c(2),'LineStyle','none')
+  annotation(fig7,'textbox',...
+    [0.398404202719404 0.170872887242418 0.264760197775033 0.147995889003083],...
+    'String',{'Opening contribution'},...
+    'FontSize',25,...
+    'FitBoxToText','off',...
+    'LineStyle','none',...
+    'LineWidth',2.5,...
+    'Color',[1 1 1]);
+annotation(fig7,'textbox',...
+    [0.412619283065513 0.621788283658787 0.238802224969098 0.112024665981501],...
+    'String',{'Sliding contribution'},...
+    'FontSize',25,...
+    'FitBoxToText','off',...
+    'LineStyle','none',...
+    'LineWidth',2.5);
+%   legend('opening','sliding');
 end
 
 %___Calculate SSEs and R2 for fittings 

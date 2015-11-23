@@ -1,13 +1,24 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  22 NOV 2015 20:31
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.2)  23 NOV 2015 02:00
 entering extended mode
 **MaterialsAndMethodsModel.tex
-(MaterialsAndMethodsModel.tex
-LaTeX2e <2014/05/01>
-Babel <3.9l> and hyphenation patterns for 68 languages loaded.
-("d:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("d:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
-File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\FinalReportVersions\Version04\
+MaterialsAndMethodsModel.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size12.clo"
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -21,24 +32,24 @@ File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
 Package: amstext 2000/06/29 v2.01
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks14
 \ex@=\dimen103
 ))
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen104
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count87
@@ -79,44 +90,44 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
-Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks19
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-("d:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-("d:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count99
@@ -127,12 +138,12 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \epsfxsize=\dimen114
 \epsfysize=\dimen115
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
-Package: enumerate 2014/10/28 v3.00 enumerate extensions (DPC)
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
+Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
 \@enLab=\toks20
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\amscls\amsthm.sty"
-Package: amsthm 2009/07/02 v2.20.1
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amscls\amsthm.sty"
+Package: amsthm 2004/08/06 v2.20
 \thm@style=\toks21
 \thm@bodyfont=\toks22
 \thm@headfont=\toks23
@@ -143,15 +154,15 @@ Package: amsthm 2009/07/02 v2.20.1
 \thm@headsep=\skip48
 \dth@everypar=\toks26
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
-Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 137.
+Package color Info: Driver file: pdftex.def on input line 130.
 )
-("d:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count100
 \float@exts=\toks27
@@ -159,7 +170,8 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks28
 \@floatcapt=\box29
 )
-(MaterialsAndMethodsModel.aux)
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\FinalReportVersions\Version04\
+MaterialsAndMethodsModel.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
 LaTeX Font Info:    ... okay on input line 59.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
@@ -173,7 +185,7 @@ LaTeX Font Info:    ... okay on input line 59.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
 LaTeX Font Info:    ... okay on input line 59.
 
-(C:\Users\OfirDell\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+(C:\Users\Ofir\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count101
 \scratchdimen=\dimen116
@@ -187,78 +199,92 @@ LaTeX Font Info:    ... okay on input line 59.
 \makeMPintoPDFobject=\count106
 \everyMPtoPDFconversion=\toks30
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 61.
- ("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+LaTeX Font Info:    Try loading font information for U+msa on input line 62.
+ ("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 61.
+LaTeX Font Info:    Try loading font information for U+msb on input line 62.
 
-("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-
-LaTeX Warning: No \author given.
-
-[1
-
-{C:/Users/OfirDell/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-[2] [3] [4]
-<histoneAndDnaVsUvDoseModelFit.jpg, id=24, 1623.06375pt x 964.60374pt>
-File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
-
-<use histoneAndDnaVsUvDoseModelFit.jpg>
-Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 1
-52.
-(pdftex.def)             Requested size: 233.98846pt x 164.53976pt.
-
-Overfull \hbox (9.5812pt too wide) in paragraph at lines 158--158
-[]\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
- []
-
-[5 <./histoneAndDnaVsUvDoseModelFit.jpg>]
-<relatiiveContributionToDNALoss.jpg, id=28, 1624.0675pt x 929.4725pt>
+<relatiiveContributionToDNALoss.jpg, id=1, 1624.0675pt x 929.4725pt>
 File: relatiiveContributionToDNALoss.jpg Graphic file (type jpg)
 
 <use relatiiveContributionToDNALoss.jpg>
 Package pdftex.def Info: relatiiveContributionToDNALoss.jpg used on input line 
-195.
+71.
 (pdftex.def)             Requested size: 194.97882pt x 164.5464pt.
 
-<relativeContributionToHistoneLoss.jpg, id=29, 1624.0675pt x 929.4725pt>
+<relativeContributionToHistoneLoss.jpg, id=2, 1624.0675pt x 929.4725pt>
 File: relativeContributionToHistoneLoss.jpg Graphic file (type jpg)
 
 <use relativeContributionToHistoneLoss.jpg>
 Package pdftex.def Info: relativeContributionToHistoneLoss.jpg used on input li
-ne 196.
+ne 72.
 (pdftex.def)             Requested size: 194.97882pt x 164.5464pt.
 
-Overfull \hbox (2.56873pt too wide) in paragraph at lines 195--197
+Overfull \hbox (2.56873pt too wide) in paragraph at lines 71--73
 [][] [] 
  []
 
-[6] [7 <./relatiiveContributionToDNALoss.jpg> <./relativeContributionToHistoneL
-oss.jpg>] (MaterialsAndMethodsModel.aux) ) 
+[1
+
+{C:/Users/Ofir/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (1.39354pt too wide) in paragraph at lines 77--77
+\OT1/cmr/bx/n/17.28 and DNA re-dis-tri-bu-tion fol-low-ing UV dam-
+ []
+
+[2 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Report/FinalReportVersions/Version
+04/relatiiveContributionToDNALoss.jpg> <D:/Ofir/ENS/EpigenomeIntegrity/Document
+s/Report/FinalReportVersions/Version04/relativeContributionToHistoneLoss.jpg>]
+[3] [4] [5]
+<histoneAndDnaVsUvDoseModelFit.jpg, id=29, 1602.98875pt x 787.94376pt>
+File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
+
+<use histoneAndDnaVsUvDoseModelFit.jpg>
+Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 1
+68.
+(pdftex.def)             Requested size: 233.9806pt x 164.54729pt.
+
+Overfull \hbox (9.5812pt too wide) in paragraph at lines 173--173
+[]\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
+ []
+
+[6 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Report/FinalReportVersions/Version
+04/histoneAndDnaVsUvDoseModelFit.jpg>] [7]
+<fractionSlidingOutOfIDR.jpg, id=37, 1602.98875pt x 787.94376pt>
+File: fractionSlidingOutOfIDR.jpg Graphic file (type jpg)
+
+<use fractionSlidingOutOfIDR.jpg>
+Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 218.
+(pdftex.def)             Requested size: 194.99199pt x 164.54729pt.
+ [8 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Report/FinalReportVersions/Versio
+n04/fractionSlidingOutOfIDR.jpg>]
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\FinalReportVersions\Version04\
+MaterialsAndMethodsModel.aux) ) 
 Here is how much of TeX's memory you used:
- 2302 strings out of 493698
- 28678 string characters out of 3144402
- 87523 words of memory out of 3000000
- 5613 multiletter control sequences out of 15000+200000
+ 2316 strings out of 493921
+ 29874 string characters out of 3144880
+ 84535 words of memory out of 3000000
+ 5593 multiletter control sequences out of 15000+200000
  12403 words of font info for 48 fonts, out of 3000000 for 9000
- 1025 hyphenation exceptions out of 8191
- 34i,7n,26p,1127b,238s stack positions out of 5000i,500n,10000p,200000b,50000s
-<d:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmbx12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmex10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmmi12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mmi6.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
-<d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/Progr
-am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/Program Files/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmsy10.pfb>
-Output written on MaterialsAndMethodsModel.pdf (7 pages, 379533 bytes).
+ 841 hyphenation exceptions out of 8191
+ 34i,7n,26p,819b,238s stack positions out of 5000i,500n,10000p,200000b,50000s
+<d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/cm/cmex10.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmmi12.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmmi6.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmmi8.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmr17.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmr6.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8
+.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb>
+Output written on MaterialsAndMethodsModel.pdf (8 pages, 460112 bytes).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

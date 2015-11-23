@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.2)  23 NOV 2015 02:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.2)  23 NOV 2015 09:50
 entering extended mode
 **MaterialsAndMethodsModel.tex
 
@@ -208,23 +208,23 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 62.
 ("d:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<relatiiveContributionToDNALoss.jpg, id=1, 1624.0675pt x 929.4725pt>
+<relatiiveContributionToDNALoss.jpg, id=1, 1602.98875pt x 787.94376pt>
 File: relatiiveContributionToDNALoss.jpg Graphic file (type jpg)
 
 <use relatiiveContributionToDNALoss.jpg>
 Package pdftex.def Info: relatiiveContributionToDNALoss.jpg used on input line 
 71.
-(pdftex.def)             Requested size: 194.97882pt x 164.5464pt.
+(pdftex.def)             Requested size: 194.99199pt x 164.54729pt.
 
-<relativeContributionToHistoneLoss.jpg, id=2, 1624.0675pt x 929.4725pt>
+<relativeContributionToHistoneLoss.jpg, id=2, 1602.98875pt x 787.94376pt>
 File: relativeContributionToHistoneLoss.jpg Graphic file (type jpg)
 
 <use relativeContributionToHistoneLoss.jpg>
 Package pdftex.def Info: relativeContributionToHistoneLoss.jpg used on input li
 ne 72.
-(pdftex.def)             Requested size: 194.97882pt x 164.5464pt.
+(pdftex.def)             Requested size: 194.99199pt x 164.54729pt.
 
-Overfull \hbox (2.56873pt too wide) in paragraph at lines 71--73
+Overfull \hbox (2.59506pt too wide) in paragraph at lines 71--73
 [][] [] 
  []
 
@@ -282,7 +282,7 @@ cm/cmr17.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
 cmr6.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8
 .pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb>
-Output written on MaterialsAndMethodsModel.pdf (8 pages, 460112 bytes).
+Output written on MaterialsAndMethodsModel.pdf (8 pages, 448352 bytes).
 PDF statistics:
  73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

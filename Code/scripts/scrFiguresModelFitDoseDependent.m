@@ -198,7 +198,7 @@ if showRelativeOpeningDNA
 fig6 = figure;
 % this is the DNA loss due to opening 
 % show A_openning/A(u)
-uVals = 0:3:max(uData);
+uVals = 0:0.5:max(uData);
 ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineWidth);
 title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
@@ -209,7 +209,7 @@ bar(uVals,relativeOpening,1,'Stacked')
 c = get(ax6,'Children');
 set(c(1),'LineStyle','none','FaceColor','y');
 set(c(2),'LineStyle','none')
- legend('opening','sliding');
+%  legend('opening','sliding');
  annotation(fig6,'textbox',...
     [0.404834260977118 0.714880332986472 0.226581941867656 0.100936524453697],...
     'String',{'Sliding contribution'},...
@@ -225,6 +225,7 @@ annotation(fig6,'textbox',...
     'LineStyle','none',...
     'LineWidth',2.5,...
     'Color',[1 1 1]);
+set(ax6,'XLim',[uVals(1) uVals(end)]);
 end
 
 if showRelativeOpeningHistone  
@@ -257,6 +258,7 @@ annotation(fig7,'textbox',...
     'FitBoxToText','off',...
     'LineStyle','none',...
     'LineWidth',2.5);
+set(ax7,'Xlim',[uVals(1) uVals(end)])
 %   legend('opening','sliding');
 end
 

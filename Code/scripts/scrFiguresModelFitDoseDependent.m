@@ -102,9 +102,6 @@ ftH = fittype('1-exp(-(a2/a1).*(1-exp(-a1.*u)))./(1+a3.*(1-exp(-(a2/a1).*(1-exp(
 % c4 = fitParamsH.a4;
 
 
-
-
-
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h

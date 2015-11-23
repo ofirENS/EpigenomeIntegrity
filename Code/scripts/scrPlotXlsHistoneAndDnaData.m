@@ -1,4 +1,9 @@
 % scrPlotXlsHistoneAndDnaData
+% this scripts reads the histone and dna signal loss from the xls and
+% compares the graphs of two analysis: one using the ensemble of data and
+% the second calculates all related function using the mean of H and D
+% loss.
+
 close all 
 markerSize = 15; 
 fontSize   = 25;

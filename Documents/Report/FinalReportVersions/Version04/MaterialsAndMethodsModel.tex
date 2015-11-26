@@ -65,7 +65,7 @@
 
 To estimate the nucleosome reorganization following DNA damages, we have constructed a model where redistribution can be due either to chromatin de-compaction or nucleosome sliding along the chromatin or both of them. We have used the model to assess the relative contribution of these two processes to the total signal loss from a region of interest (ROI), a quantity which is inaccessible experimentally. 
 
-The model (presented in Material and methods) follows the DNA, $D(u)$, and nucleosome, $H(u)$, fraction of signal loss from the ROI as a function of the UV dose, $u$. We have used the measured H3.3 and DNA signal loss to calibrate parameters of nucleosome and DNA models respectively (Fig. 3A-D). Using the calibrated models we find that the relative contribution of nucleosome sliding to the total signal loss in the ROI is monotonically decreasing from 70\% to 64 \% for nucleosomes and 43 to 41\% for DNA loss, as the UV dose increases from 5 to 100 msec. The remaining percentages are attributed to chromatin expansion and de-compaction (see figure \ref{fig:relatiiveContributionToLoss}).
+The model (presented in Material and methods) follows the DNA, $D(u)$, and nucleosome, $H(u)$, fraction of signal loss from the ROI as a function of the UV dose, $u$. We have used the measured H3.3 and DNA signal loss to calibrate parameters of nucleosome and DNA models respectively (Fig. 3A-D). Using the calibrated models we find that the relative contribution of nucleosome sliding to the total signal loss in the ROI is monotonically decreasing from 70\% to 64 \% for nucleosomes and 43 to 41\% for DNA loss, as the UV dose increases from 5 to 100 msec. The remaining percentages are attributed to chromatin expansion and de-compaction (see Figure \ref{fig:relatiiveContributionToLoss}).
 
 \begin{figure}[H]
 	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relatiiveContributionToDNALoss}
@@ -104,7 +104,7 @@ In order to evaluate the functions above, we will now construct models for the f
 The increase of DNA damages with UV dose is thought of as governing the dynamics of both nucleosome and DNA signal loss. Therefore, we start our construction with a description of the accumulation of damages $T(u)$ in the IDR, and derive the function $N(u)$ and $A(u)$ from it.
 
 \subsection{Deriving the number of damages $T(u)$}
-We assume here that the rate of accumulating DNA damages, $T(u)$, with increasing uv dose in the IDR is increasing proportional to the undamaged DNA in the IDR.
+We assume here that the rate of accumulating DNA damages, $T(u)$, with increasing UV dose in the IDR is increasing proportional to the undamaged DNA in the IDR.
 \begin{equation}
 \frac{dT(u)}{du}=k_T\left(T_{max}-T(u)\right)
 \end{equation}
@@ -197,11 +197,11 @@ indicates the relative contribution of sliding to the total DNA loss.
 
 Similarly, the relative contribution of opening to the total nucleosome loss is given by 
 \begin{equation}\label{eq:openingContributionHistones}
-\frac{H_{opening}}{H(u)} =\frac{\left(A(0)_{opening}/A_0\right)-1}{(A(u)/A_0)-(N(u)/N_0)}
+\frac{H(u)_{opening}}{H(u)} =\frac{\left(A(0)_{opening}/A_0\right)-1}{(A(u)/A_0)-(N(u)/N_0)}
 \end{equation}
 and for sliding
 \begin{equation}\label{eq:slidingContributionHistones}
-\frac{H_{sliding}}{H(u)} = 1-\frac{H(u)_{opening}}{H(u)} 
+\frac{H(u)_{sliding}}{H(u)} = 1-\frac{H(u)_{opening}}{H(u)} 
 \end{equation}
 where here we used the fact that $H(u)_{opening}=D(u)_{opening}$
 The result can be appreciated in Figure \ref{fig:relatiiveContributionToLoss}, where the sliding contribution for both DNA and nucleosome loss is a decreasing function of the UV dose. 
@@ -216,7 +216,7 @@ Using the parameter values in subsection \ref{subsection:parameterFit} and plugg
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth, height=0.3\textheight]{fractionSlidingOutOfIDR}
-\caption{\textbf{Fraction of nucleosomes sliding out of the IDR.The plot against the experimental data results in $R^2=0.89$ }}
+\caption{\textbf{Fraction of nucleosomes sliding out of the IDR. The plot against the experimental data resulted in $R^2=0.89$ }}
 \label{fig:fractionSlidingOutOfIDR}
 \end{figure}
 

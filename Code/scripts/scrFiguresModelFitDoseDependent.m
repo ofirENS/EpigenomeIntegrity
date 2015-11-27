@@ -32,7 +32,11 @@ dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.29
 ]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
-T = @(a1,u)  1-exp(-a1.*u);% T(u)/T_max
+% T = @(a1,u)  1-exp(-a1.*u);% T(u)/T_max
+T = @(a1,u) ((1-exp(-(a1.^2).*u))+sqrt(pi.*u).*a1.*(1-erf(a1.*sqrt(u)))).^2; 
+% %-- quadratic (damages) system 
+% T  = @(a1,u) a1.*u.^2;
+
 N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
 R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u)); %R(u)/R_0
 d = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
@@ -61,8 +65,16 @@ h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 % c4 = 0.2; %0.22; % lift h and d
 
 % % ---autofit
-opt = optimset('TolFun',1e-19,'TolX',1e-19,'MaxIter',1e5,'MaxFunEvals',1e6,'TolCon',1e-19,'Hessian','bfgs');
-[fitParams,fval,exitFlag,output]=fmincon(@FitDandH,2*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),1*ones(4,1),[],opt);
+opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-10,'Hessian','bfgs');
+% run several tests
+numTests  = 2;
+fitParams = zeros(numTests,4); 
+fval      = zeros(numTests,1);
+for tIdx = 1:numTests
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,2*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
+end
+[~,pl] = min(fval);
+ fitParams = fitParams(pl,:);
 c1 = fitParams(1);
 c2 = fitParams(2);
 c3 = fitParams(3);
@@ -153,7 +165,7 @@ uValues = 0:1:100;
 ax5  = axes('Parent',fig5,'NextPlot','add','FontSize',fontSize,'LineWidth',lineWidth);
 line('XData',uValues,'YData',R(c1,c2,c3,c4,uValues),'Parent',ax5)
 xlabel('U.V dose','Parent',ax5,'FontSize',fontSize)
-ylabel('\alpha(U)','Parent',ax5,'FontSize',fontSize);
+ylabel('A(U)/A(o)','Parent',ax5,'FontSize',fontSize);
 set(ax5,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
@@ -167,8 +179,8 @@ ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineW
 title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
 ylabel(ax6,'Fraction of loss','FontSize',fontSize)
-relativeOpening = [(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals));...
-    1-(c4.*T(c1,uVals))./(c3.*(1-exp(-c2.*T(c1,uVals)))+c4.*T(c1,uVals))]';
+relativeOpening = [(c4.*T(c1,uVals))./(c3.*(1-N(c1,c2,uVals))+c4.*T(c1,uVals));...
+    1-(c4.*T(c1,uVals))./(c3.*(1-N(c1,c2,uVals))+c4.*T(c1,uVals))]';
 bar(uVals,relativeOpening,1,'Stacked')
 c = get(ax6,'Children');
 set(c(1),'LineStyle','none','FaceColor','y');

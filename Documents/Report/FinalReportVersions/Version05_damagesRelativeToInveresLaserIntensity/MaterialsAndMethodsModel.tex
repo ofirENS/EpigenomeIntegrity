@@ -65,12 +65,12 @@
 
 To estimate the nucleosome reorganization following DNA damages, we have constructed a model where redistribution can be due either to chromatin de-compaction or nucleosome sliding along the chromatin or both of them. We have used the model to assess the relative contribution of these two processes to the total signal loss from a region of interest (ROI), a quantity which is inaccessible experimentally. 
 
-The model (presented in Material and methods) follows the DNA, $D(u)$, and nucleosome, $H(u)$, fraction of signal loss from the ROI as a function of the UV dose, $u$. We have used the measured H3.3 and DNA signal loss to calibrate parameters of nucleosome and DNA models respectively (Fig. 3A-D). Using the calibrated models we find that the relative contribution of nucleosome sliding to the total signal loss in the ROI is monotonically decreasing from 70\% to 64 \% for nucleosomes and 43 to 41\% for DNA loss, as the UV dose increases from 5 to 100 msec. The remaining percentages are attributed to chromatin expansion and de-compaction (see Figure \ref{fig:relatiiveContributionToLoss}).
+The model (presented in Material and methods) follows the DNA, $D(u)$, and nucleosome, $H(u)$, fraction of signal loss from the ROI as a function of the UV dose, $u$. We have used the measured H3.3 and DNA signal loss to calibrate parameters of nucleosome and DNA models respectively (Fig. 3A-D). Using the calibrated models we find that the relative contribution of nucleosome sliding to the total signal loss in the ROI is monotonically decreasing from 52\% to 48 \% as the UV dose increases from 5 to 75 msec. The remaining percentages are attributed to chromatin expansion and de-compaction (see Figure \ref{fig:relatiiveContributionToLoss}). The DNA loss is predominantly affected by chromatin expansion and de-compaction, with negligible contribution of histone sliding.  
 
 \begin{figure}[H]
-	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relatiiveContributionToDNALoss}
+\centering
 	\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relativeContributionToHistoneLoss}
-	\caption{\textbf{Relative contribution of chromatin opening and histone sliding to DNA (left) and histone (right) loss}. Sliding contribution is monotonically decreasing with UV dose for both DNA and nucleosome signals. The increase in chromatin opening contribution is due to the increase in chromatin reorganization following high dosages of UV, which is responsible for the majority of signal loss}
+	\caption{\textbf{Relative contribution of chromatin opening and histone sliding to nucleosome loss}. Sliding contribution is monotonically decreasing with UV dose for nucleosome signals}
 	\label{fig:relatiiveContributionToLoss}
 \end{figure}
 
@@ -104,30 +104,40 @@ In order to evaluate the functions above, we will now construct models for the f
 The increase of DNA damages with UV dose is thought of as governing the dynamics of both nucleosome and DNA signal loss. Therefore, we start our construction with a description of the accumulation of damages $T(u)$ in the IDR, and derive the function $N(u)$ and $A(u)$ from it.
 
 \subsection{Deriving the number of damages $T(u)$}
-We assume here that the rate of accumulating DNA damages, $T(u)$, with increasing UV dose in the IDR is increasing proportional to the undamaged DNA in the IDR.
+Here we derive the number of damages along the radius of the IDR, $T_R(u,r)$, and later expand it to include the total number in the IDR. We assume here that the rate of accumulating DNA damages, $T(u)$, with increasing UV dose along the radius $r$ of the IDR is increasing proportional to the undamaged DNA along $r$.
+we further assume that the probability of damaging DNA is proportional to the intensity of the laser beam, which drops $\propto \frac{1}{r^2}$, with $0<r<R_0$, the radius of the IDR.
+
 \begin{equation}
-\frac{dT(u)}{du}=k_T\left(T_{max}-T(u)\right)
+\frac{dT_r(u)}{du}=\frac{k_T}{r^2}\left(T_{max}-T_r(u)\right)
 \end{equation}
-with $k_T$ the rate constant, and $T_{max}$ the maximal number of damages possible in $A_0$. 
+with $k_T$ the rate constant, and $T_{max}$ the maximal number of damages possible in position $r$. 
 Using the initial condition $T(0) = 0$ the solution is
 \begin{equation}
-T(u) = T_{max}\left(1-\exp(-k_T u)\right) 
+T_r(u) = T_{max}\left(1-\exp(-\frac{k_T}{r^2} u)\right) 
+\end{equation}
+The total amount of damages in the IDR, $T(u)$, is then given by the integration of the equation above from $0$ to $R_0$
+\begin{equation}
+T(u) = \pi \left(T_{max} \int_0^{R_0}  1-\exp\left(-\frac{k_T}{r^2} u\right) dr\right)^2
+\end{equation}
+For which the solution is given by 
+\begin{equation}
+T(u) = \pi(T_{max}R_0)^2 \left(1-\exp(-\frac{k_T}{R_0^2}u)+\sqrt{\pi u}\frac{\sqrt{ k_T}}{R_0}(1-\erf \left(\frac{\sqrt{k_T}}{R_0} \sqrt{u}\right)\right)^2
 \end{equation}
 We assume no two damages can occur in the same position on the DNA, hence we can treat the quantity 
 \begin{equation*}
-T(u)/T_{max}
+T(u)/\pi(T_{max}R_0)^2 
 \end{equation*}
-as the fraction of chromatin length in the IDR which is damaged, or as the DNA damage -coverage percentage. 
+as the fraction of chromatin length in the IDR which is damaged, or as the DNA damage-coverage percentage. 
 
 \subsection{Deriving the function $A(u)$ and $N(u)$}
 We now turn to construct a model for the number of nucleosomes $N(u)$ left in ROI, as a function of the UV dose. Although the exact mechanism by which nucleosomes are lost is not known, we assume here that the number of nucleosomes leaving the ROI,namely  $N_0-N(u)$, is proportional to the rate of accumulation of DNA damages, $T(u)$, on nucleosomes. The nucleosmes occupy a length of the chromatin proportional to $N(u)$, whereas chromatin damage coverage is proportional to $T(u)$. Therefore, in the first-order approximation, the dynamics of $N(u)$ is given as by the multiplication 
 
 \begin{equation*}
-\frac{dN(u)}{du} = -k_N\frac{N(u)}{T_{max}}\frac{dT(u)}{du}
+\frac{dN(u)}{du} = -k_N\frac{N(u)}{\pi(T_{max}R_0)^2 }\frac{dT(u)}{du}
 \end{equation*}
 with $k_N$ a constant describing the rate of nucleosome depletion from the ROI due to sliding. Using the initial condition $N(0) = N_0$, the solution is given by
 \begin{equation}\label{eq:NumHistones}
-N(u) = N_0\exp\left(-k_N\frac{T(u)}{T_{max}})\right).
+N(u) = N_0\exp\left(-k_N\frac{T(u)}{\pi(T_{max}R_0)^2})\right).
 \end{equation}
 
 Next, we model the dynamics of the ROI area $A(u)$ with increasing UV dose.  For this end, we consider the ROI expansion to be affected by two additive mechanisms: one is chromatin de-compaction, and the other is nucleosome sliding. 
@@ -144,25 +154,25 @@ where $A_0$ represents the size of the IDR even in the absence of UV induction.
 We can now substitute equations \ref{eq:NumHistones} and \ref{eq:RoiArea} into the steady-state equation \ref{eq:DNAStSt} and \ref{eq:histoneStSt} to get the expressions 
 \begin{equation}
 \label{eq:DnaLoss}
-D(u) = \frac{k_AN_0\left(1-\exp\left(-k_NT(u)/T_{max}\right)\right) +k_BT(u)}{A_0+k_AN_0\left(1-\exp\left(-k_NT(u)/T_{max}\right)\right) +k_BT(u)}
+D(u) = \frac{k_AN_0\left(1-\exp\left(-k_NT(u)/(\pi(T_{max}R_0)^2)\right)\right) +k_BT(u)}{A_0+k_AN_0\left(1-\exp\left(-k_NT(u)/(\pi(T_{max}R_0)^2)\right)\right) +k_BT(u)}
 \end{equation}
 and 
 \begin{equation}\label{eq:histoneLoss}
-H(u) = 1- \frac{\exp\left(-k_NT(u)/T_{max}\right)}{1+\frac{k_AN_0}{A_0}\left(1-\exp\left(-k_NT(u)/T_{max}\right)\right) +\frac{k_B}{A_0}T(u)}
+H(u) = 1- \frac{\exp\left(-k_NT(u)/(\pi(T_{max}R_0)^2) \right)}{1+\frac{k_AN_0}{A_0}\left(1-\exp\left(-k_NT(u)/(\pi(T_{max}R_0)^2) \right)\right) +\frac{k_B}{A_0}T(u)}
 \end{equation}
 
 
 \subsection{Parameter fit for $H(u)$ and $D(u)$ }\label{subsection:parameterFit}
 We now use equations. \ref{eq:histoneLoss} to fit the experimental data describing the fraction of nucleosome loss from the ROI 15 minutes post UV-C. Because $D(u)$ and $H(u)$ share similar parameters, only the H3.3 data will be used to fit the function $H(u)$ and he resulting parameters will be used in the model for $D(u)$. 
-Excluding the measurement at $u=100$ ms and using classical fitting procedure, we find a $R^2= 0.94$ using the following parameters
+Excluding the measurement at $u=100$ ms and using classical fitting procedure, we find a $R^2= 0.96$ using the following parameters
 \begin{eqnarray*}
-k_T &=&  0.021\\
-k_N &=&  0.39\\
-\frac{k_AN_0}{A_0}&=& 0.44\\
-\frac{k_BT_{max}}{A_0}&=& 0.23
+\sqrt{k_T}/R_0 &=&  0.025\\
+k_N &=&  3.2\\
+\frac{k_AN_0}{A_0}&=& 0\\
+k_BT_{max}^2&=& 2.98
 \end{eqnarray*}
 
-Plugging these values into DNA loss equation \ref{eq:DnaLoss} and calculating the deviation, we find a value of $R^2=0.87$
+Plugging these values into DNA loss equation \ref{eq:DnaLoss} and calculating the deviation, we find a value of $R^2=0.92$
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\linewidth, height=0.3\textheight]{histoneAndDnaVsUvDoseModelFit}
@@ -183,7 +193,7 @@ The effect of de-compaction on the expansion of the damage region and loss of si
 \end{equation*}
 with the initial condition $A(0)_{opening}=A_0$, the solution is given by
 \begin{equation}
-A(u)_{opening}= A(0)+k_BT_{max}(1-\exp(-k_Tu))
+A(u)_{opening}= A(0)+k_BT(u)
 \end{equation}
 The fraction attributed to chromatin opening out of the total DNA loss due is given by 
 \begin{equation}\label{eq:openingContributionDNA}
@@ -211,12 +221,12 @@ The fraction of nucleosomes sliding ot of the IDR (and eventually pushed out of 
 \begin{equation}
 \frac{H(u)-D(u)}{1-D(u)}
 \end{equation}
-Using the parameter values in subsection \ref{subsection:parameterFit} and plugging \ref{eq:histoneLoss} and \ref{eq:DnaLoss} into the expression above, we obtain the results in Figure \ref{fig:fractionSlidingOutOfIDR}, where the model is plotted against the experimental data ($R^2=0.89$). 
+Using the parameter values in subsection \ref{subsection:parameterFit} and plugging \ref{eq:histoneLoss} and \ref{eq:DnaLoss} into the expression above, we obtain the results in Figure \ref{fig:fractionSlidingOutOfIDR}, where the model is plotted against the experimental data ($R^2=0.84$). 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth, height=0.3\textheight]{fractionSlidingOutOfIDR}
-\caption{\textbf{Fraction of nucleosomes sliding out of the IDR. The plot against the experimental data resulted in $R^2=0.89$ }}
+\caption{\textbf{Fraction of nucleosomes sliding out of the IDR. The plot against the experimental data resulted in $R^2=0.84$ }}
 \label{fig:fractionSlidingOutOfIDR}
 \end{figure}
 

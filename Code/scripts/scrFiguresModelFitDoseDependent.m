@@ -65,13 +65,13 @@ h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 % c4 = 0.2; %0.22; % lift h and d
 
 % % ---autofit
-opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-10,'Hessian','bfgs');
+opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-13,'Hessian','bfgs');
 % run several tests
 numTests  = 2;
 fitParams = zeros(numTests,4); 
 fval      = zeros(numTests,1);
 for tIdx = 1:numTests
-[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,2*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,15*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),20*ones(4,1),[],opt);
 end
 [~,pl] = min(fval);
  fitParams = fitParams(pl,:);

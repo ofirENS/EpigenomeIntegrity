@@ -32,15 +32,15 @@ dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.29
 ]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
-% T = @(a1,u)  1-exp(-a1.*u);% T(u)/T_max
-T = @(a1,u) ((1-exp(-(a1.^2).*u))+sqrt(pi.*u).*a1.*(1-erf(a1.*sqrt(u)))).^2; 
+T = @(a1,u)  (1-exp(-a1.*u));% T(u)/T_max
+% T = @(a1,u) ((1-exp(-(a1.^2).*u))+sqrt(pi.*u).*a1.*(1-erf(a1.*sqrt(u)))).^2; 
 % %-- quadratic (damages) system 
 % T  = @(a1,u) a1.*u.^2;
 
 N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
-R = @(a1,a2,a3,a4,u) 1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u)); %R(u)/R_0
-d = @(a1,a2,a3,a4,u) (R(a1,a2,a3,a4,u)-1)./(R(a1,a2,a3,a4,u));
-h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+R = @(a1,a2,a3,a4,u) (1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u))); %R(u)/R_0
+d = @(a1,a2,a3,a4,u) ((R(a1,a2,a3,a4,u))-1)./(R(a1,a2,a3,a4,u));
+h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
 
 % %--- full (damages) system
 % c1 = 0.021;%0.021;% curve h
@@ -67,11 +67,11 @@ h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 % % ---autofit
 opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-13,'Hessian','bfgs');
 % run several tests
-numTests  = 2;
+numTests  = 10;
 fitParams = zeros(numTests,4); 
 fval      = zeros(numTests,1);
 for tIdx = 1:numTests
-[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,15*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),20*ones(4,1),[],opt);
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,4*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),10*ones(4,1),[],opt);
 end
 [~,pl] = min(fval);
  fitParams = fitParams(pl,:);

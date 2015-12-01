@@ -14,8 +14,8 @@ T  = (1-exp(-a(1).*u));
 % T  = ((1-exp(-(a(1).^2)*u))+sqrt(pi.*u).*a(1).*(1-erf(a(1).*sqrt(u)))).^2;
 N  = exp(-a(2).*T);
 R  = (1+a(3)*(1-N)+a(4)*T);
-D  = ((R)-1)./R;
-H  = 1-(N./R);
+D  = (R-(1-T))./R;
+H  = D+(1-T).*((1-N)./R);
 md = sum((dData-mean(dData)).^2);
 mh = sum((hData-mean(hData)).^2);
 m1mddh =sum(((1-(dData./hData))-mean(1-(dData./hData))).^2);
@@ -27,8 +27,8 @@ mddh   = sum((dData./hData  - mean(dData./hData)).^2);
 % H = sqrt(sum((1-exp(-a(2).*(1-exp(-a(1).*u)))./(1+a(3).*(1-exp(-(a(2)).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)))-hData).^2)) ;
 % D = sqrt(sum(((a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)))./...
 %     (1+a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u))) -dData).^2));
-fVal = (sum((H-hData).^2)) +(sum((D-dData).^2));% +...
-%        (sum(((1-(D./H)) -(1-(dData./hData))).^2))./m1mddh+...
+fVal = (sum((H-hData).^2))./mh +(sum((D-dData).^2))./md +...
+       (sum(((1-(D./H)) -(1-(dData./hData))).^2))./m1mddh;%+...
 %        sum((D./H - dData./hData).^2)./mddh;
        
    

@@ -22,13 +22,13 @@ showRelativeOpeningHistone  = true;
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75];% 100];
+uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 %__ histone loss data___
-hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 %	40.8353794651
+hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 	40.8353794651
 ]./100;
 
 %___DNA loss data____
-dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	%26.4974599239
+dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
@@ -67,11 +67,11 @@ h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
 % % ---autofit
 opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-13,'Hessian','bfgs');
 % run several tests
-numTests  = 10;
+numTests  = 3;
 fitParams = zeros(numTests,4); 
 fval      = zeros(numTests,1);
 for tIdx = 1:numTests
-[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,4*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),10*ones(4,1),[],opt);
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),10*ones(4,1),[],opt);
 end
 [~,pl] = min(fval);
  fitParams = fitParams(pl,:);

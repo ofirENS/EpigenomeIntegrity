@@ -39,11 +39,11 @@ T = @(a1,u)  (1-exp(-a1.*u));% T(u)/T_max
 
 N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
 R = @(a1,a2,a3,a4,u) (1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u))); %R(u)/R_0
-d = @(a1,a2,a3,a4,u) ((R(a1,a2,a3,a4,u))-1)./(R(a1,a2,a3,a4,u));
-h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
+d = @(a1,a2,a3,a4,u) ((R(a1,a2,a3,a4,u))-(1-T(a1,u)))./(R(a1,a2,a3,a4,u));
+h = @(a1,a2,a3,a4,u) d(a1,a2,a3,a4,u)+(1-T(a1,u)).*(1-N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
 
 % %--- full (damages) system
-% c1 = 0.021;%0.021;% curve h
+% c1 = 0.0021;%0.021;% curve h
 % c2 = 0.39;  %0.39;% lift h
 % c3 = 0.44; %0.44; % lift d+h
 % c4 = 0.23; %0.23; % lift d+ h
@@ -65,7 +65,7 @@ h = @(a1,a2,a3,a4,u) 1-(N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
 % c4 = 0.2; %0.22; % lift h and d
 
 % % ---autofit
-opt = optimset('TolFun',1e-10,'TolX',1e-10,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-13,'Hessian','bfgs');
+opt = optimset('TolFun',1e-15,'TolX',1e-13,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-19,'Hessian','bfgs');
 % run several tests
 numTests  = 3;
 fitParams = zeros(numTests,4); 
@@ -79,6 +79,12 @@ c1 = fitParams(1);
 c2 = fitParams(2);
 c3 = fitParams(3);
 c4 = fitParams(4);
+
+% c1 = 0.03;%0.021;% curve h
+% c2 = 0.01;  %0.39;% lift h
+% c3 = 0.1; %0.44; % lift d+h
+% c4 = 0.1; %0.23; % lift d+ h
+
 
 
 %-- plot ---

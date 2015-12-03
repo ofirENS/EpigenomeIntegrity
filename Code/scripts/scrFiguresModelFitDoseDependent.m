@@ -37,10 +37,10 @@ T = @(a1,u)  (1-exp(-a1.*u));% T(u)/T_max
 % %-- quadratic (damages) system 
 % T  = @(a1,u) a1.*u.^2;
 
-N = @(a1,a2,u) exp(-(a2).*T(a1,u)); % N(u)/N_0
-R = @(a1,a2,a3,a4,u) (1+a3.*(1-N(a1,a2,u))+a4.*(T(a1,u))); %R(u)/R_0
-d = @(a1,a2,a3,a4,u) ((R(a1,a2,a3,a4,u))-(1-T(a1,u)))./(R(a1,a2,a3,a4,u));
-h = @(a1,a2,a3,a4,u) d(a1,a2,a3,a4,u)+(1-T(a1,u)).*(1-N(a1,a2,u)./R(a1,a2,a3,a4,u)) ;%./R(a1,a2,a3,u);
+N = @(a1,a2,u)exp(-(a2).*T(a1,u)); % N(u)/N_0
+R = @(a1,a2,a3,a4,u) (1+a3.*(1-N(a1,a2,u)).*T(a1,u)+(a4).*(T(a1,u))); %R(u)/R_0
+d = @(a1,a2,a3,a4,u) ((R(a1,a2,a3,a4,u))-T(a1,u))./(R(a1,a2,a3,a4,u));
+h = @(a1,a2,a3,a4,u) d(a1,a2,a3,a4,u)+T(a1,u).*(1-N(a1,a2,u))./R(a1,a2,a3,a4,u);%d(a1,a2,a3,a4,u)+(T(a1,u)-N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 
 % %--- full (damages) system
 % c1 = 0.0021;%0.021;% curve h
@@ -65,13 +65,14 @@ h = @(a1,a2,a3,a4,u) d(a1,a2,a3,a4,u)+(1-T(a1,u)).*(1-N(a1,a2,u)./R(a1,a2,a3,a4,
 % c4 = 0.2; %0.22; % lift h and d
 
 % % ---autofit
-opt = optimset('TolFun',1e-15,'TolX',1e-13,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-19,'Hessian','bfgs');
+opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e6,'MaxFunEvals',1e6,'TolCon',1e-18,'Hessian','bfgs');
 % run several tests
-numTests  = 3;
+numTests  = 4;
 fitParams = zeros(numTests,4); 
 fval      = zeros(numTests,1);
 for tIdx = 1:numTests
-[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=fmincon(@FitDandH,1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),10*ones(4,1),[],opt);
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=...
+    fmincon(@FitDandH,1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
 end
 [~,pl] = min(fval);
  fitParams = fitParams(pl,:);
@@ -84,8 +85,6 @@ c4 = fitParams(4);
 % c2 = 0.01;  %0.39;% lift h
 % c3 = 0.1; %0.44; % lift d+h
 % c4 = 0.1; %0.23; % lift d+ h
-
-
 
 %-- plot ---
 if showHAndDFit

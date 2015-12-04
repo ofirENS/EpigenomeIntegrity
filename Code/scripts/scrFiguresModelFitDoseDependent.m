@@ -25,11 +25,11 @@ showRelativeOpeningHistone  = true;
 uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 %__ histone loss data___
 hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 	40.8353794651
-];
+]./100;
 
 %___DNA loss data____
 dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
-];
+]./100;
 
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 T = @(a1,u)  (1-exp(-a1.*u)).^2;% T(u)/T_max
@@ -37,13 +37,15 @@ T = @(a1,u)  (1-exp(-a1.*u)).^2;% T(u)/T_max
 % %-- quadratic (damages) system 
 % T  = @(a1,u) a1.*u.^2;
 
-N_open  = @(a1,a2,a3,u)a3.*exp(-a2.*(1-a3).*T(a1,u)); % out due to pushing
-N_slide = @(a1,a2,a3,u)(1-exp(-a2.*(1-a3).*T(a1,u))); % out due to sliding
-N_total = @(a1,a2,a3,u) N_open(a1,a2,a3,u)+N_slide(a1,a2,a3,u); % total out of IDR
+
+N_total = @(a1,a2,a3,u)1-exp(-(a3.*(1-a2)+a2).*T(a1,u));
+N_slide = @(a1,a2,a3,u) (a2./((a3.*(1-a2)+a2))).*N_total(a1,a2,a3,u);
+N_open  = @(a1,a2,a3,u) (a3.*(1-a2)./(a3.*(1-a2)+a2)).*N_total(a1,a2,a3,u);
+
 % N = @(a1,a2,u)exp(-(a2).*T(a1,u))+(1-T(a1,u)); % N(u)/N_0
 R = @(a1,a2,a3,a4,u)  1+a4.*N_total(a1,a2,a3,u);%+(a4).*(T(a1,u))); %R(u)/R_0
-d = @(a1,a2,a3,a4,u) 100.*(((R(a1,a2,a3,a4,u))-1+N_open(a1,a2,a3,u))./(R(a1,a2,a3,a4,u)));%+(T(a1,u))./R(a1,a2,a3,a4,u);
-h = @(a1,a2,a3,a4,u) 100*(d(a1,a2,a3,a4,u)./100 +(N_slide(a1,a2,a3,u))./R(a1,a2,a3,a4,u));%d(a1,a2,a3,a4,u)+(T(a1,u)-N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
+d = @(a1,a2,a3,a4,u) (((R(a1,a2,a3,a4,u))-1+N_open(a1,a2,a3,u))./(R(a1,a2,a3,a4,u)));%+(T(a1,u))./R(a1,a2,a3,a4,u);
+h = @(a1,a2,a3,a4,u) (d(a1,a2,a3,a4,u) +(N_slide(a1,a2,a3,u))./R(a1,a2,a3,a4,u));%d(a1,a2,a3,a4,u)+(T(a1,u)-N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 
 % %--- full (damages) system
 % c1 = 0.0021;%0.021;% curve h
@@ -67,7 +69,7 @@ h = @(a1,a2,a3,a4,u) 100*(d(a1,a2,a3,a4,u)./100 +(N_slide(a1,a2,a3,u))./R(a1,a2,
 % c3 = 0.2; %0.45; % lift d
 % c4 = 0.2; %0.22; % lift h and d
 
-% % ---autofit
+% % % ---autofit
 % opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-19,'Hessian','bfgs',...
 %     'Diagnostics','off');
 % % run several tests
@@ -76,7 +78,7 @@ h = @(a1,a2,a3,a4,u) 100*(d(a1,a2,a3,a4,u)./100 +(N_slide(a1,a2,a3,u))./R(a1,a2,
 % fval      = zeros(numTests,1);
 % for tIdx = 1:numTests
 % [fitParams(tIdx,:),fval(tIdx),exitFlag,output]=...
-%     fmincon(@FitDandH,2*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),200*ones(4,1),[],opt);
+%     fmincon(@FitDandH,1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
 % end
 % [~,pl] = min(fval);
 %  fitParams = fitParams(pl,:);
@@ -85,10 +87,10 @@ h = @(a1,a2,a3,a4,u) 100*(d(a1,a2,a3,a4,u)./100 +(N_slide(a1,a2,a3,u))./R(a1,a2,
 % c3 = fitParams(3);
 % c4 = fitParams(4);
 
-c1 = 0.0347;%0.021;% curve h
-c2 = 0.3858;  %0.39;% lift h
-c3 = 0.01; %0.44; % lift d+h
-c4 = 1.5; %0.23; % lift d+ h
+c1 = 0.036;%0.021;% curve h
+c2 = 0.35;  %0.39;% lift h
+c3 = 0.24; %0.44; % lift d+h
+c4 = 0.48; %0.23; % lift d+ h
 
 %-- plot ---
 if showHAndDFit
@@ -133,11 +135,12 @@ if showSlidingOutOfDR
 %_____ fraction of sliding out of the damage region (h-d)/(1-d)
 fig3 = figure; 
 ax3  = axes('Parent',fig3,'NextPlot','add');
-line('XData',uData,'Ydata',(hData-dData)./(100-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
+line('XData',uData,'Ydata',(hData-dData)./(1-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
     'Parent',ax3,'DisplayName','histone sliding out of DR, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
-line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(100-d(c1,c2,c3,c4,uData)),'Parent',ax3,...
+line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(1-d(c1,c2,c3,c4,uData)),'Parent',ax3,...
     'LineWidth',lineWidth,'DisplayName','histone sliding out of DR, model')
+line('Xdata',uData,'YData',N_slide(c1,c2,c3,uData),'Color','r','Parent',ax3)
 % add linear fit for comparison
 % linearFitModel = fittype('a*x');
 % [fitValues, fitScore] = fit(uData',((hData-dData)./(1-dData))',linearFitModel,'Robust','LAR','StartPoint',1);
@@ -188,7 +191,7 @@ ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineW
 title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
 ylabel(ax6,'Fraction of loss','FontSize',fontSize)
-d_open = 100*(R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals)-1)./(R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals));
+d_open = (R(c1,0,c3,c4,uVals)+N_open(c1,0,c3,uVals)-c4*N_slide(c1,c2,c3,uVals)-1)./(R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals));
 
 relativeOpening = [d_open./d(c1,c2,c3,c4,uVals);
                    1-d_open./d(c1,c2,c3,c4,uVals)];

@@ -156,7 +156,7 @@ A(u) = A_0 +k_AN_0\exp\left(-\frac{(k_p(1-k_s)+k_s)}{\pi T_{max}^2}T(u)\right)
 \end{equation}
 where $A_0$ represents the size of the IDR even in the absence of UV induction.
 
-We can now substitute equations \ref{eq:nucleosomeSliding}, \ref{eq:nucleosomePushed} and \ref{eq:RoiArea} into the steady-state equation \ref{eq:DNAStSt} and \ref{eq:histoneStSt} to get the expressions for $D(u)$ and $H(u)$. Using the relation $D_p(u)=N_p(u)$, we present the result in term of $N_T(u)$
+We can now substitute equations \ref{eq:nucleosomeSliding}, \ref{eq:nucleosomePushed} and \ref{eq:RoiArea} into the steady-state equation \ref{eq:DNAStSt} and \ref{eq:histoneStSt} to get the expressions for $D(u)$ and $H(u)$. Using the relation $D_p(u)=N_p(u)$, we present the result in terms of $N_T(u)$
 
 
 \begin{equation}
@@ -189,22 +189,18 @@ with $R^2=0.943$ and $R^2=0.945$ for DNA and histone loss fit respectively.
 
 \subsection{Relative contribution of opening and sliding to DNA and nucleosome signal loss}
 Using the calibrated model in equation \ref{eq:DnaLoss} and \ref{eq:histoneLoss}, we now calculate the relative contribution of chromatin opening and nucleosome sliding to the total loss of DNA and nucleosomes.
-We start by partitioning the ROI area dynamics into the two sub-mechanisms of signal loss
+We start by dividing the equation describing the ROI expansion into the two sub-mechanisms of signal loss
 \begin{equation*}
-A(u) = A(u)_{opening}+A(u)_{sliding}
+A(u) = A_p(u)+A_s(u)
 \end{equation*}
-
-Calculating the area of the ROI reached by chromatin opening alone, is done by zeroing out the sliding contribution to the ROI expansion in equation \ref{eq:RoiArea}. 
-\begin{equation*}
-\frac{dA(u)_{opening}}{du}=k_A\frac{dN_p(u)}{du}
-\end{equation*}
-with the initial condition $A(0)_{opening}=A_0$, the solution is given by
+with $A_p(u)$ the area attributed to chromatin opening, and $A_s(u)$ to nucleosome sliding. 
+subtracting the sliding contribution from the ROI expansion in equation \ref{eq:RoiArea} we arrive at
 \begin{equation}
-A(u)_{opening}= A(0)+k_A\frac{k_p(1-k_s)}{k_p(1-k_s)+k_s}N_T(u)
+A_p(u)= A(0)+k_AN_p(u)
 \end{equation}
-The fraction attributed to chromatin opening out of the total DNA loss due is given by 
+The fraction attributed to chromatin opening out of the total DNA loss is given by 
 \begin{equation}\label{eq:openingContributionDNA}
-\frac{D(u)_{opening}}{D(u)}=\frac{\left(A(u)_{opening}/A_0\right)-1}{\left(A(u)/A_0\right) -1}
+\frac{D(u)_{opening}}{D(u)}=\frac{\left(A(u)_{opening}/A_0\right)-1+N_p(u)/N_0}{\left(A(u)/A_0\right) -1 +N_p(u)/N_0}
 \end{equation}
 and the complementary function 
 \begin{equation}\label{eq:slidingContributionDNA}

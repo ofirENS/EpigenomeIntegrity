@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  4 DEC 2015 18:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  4 DEC 2015 18:54
 entering extended mode
 **MaterialsAndMethodsModel.tex
 (MaterialsAndMethodsModel.tex
@@ -246,7 +246,7 @@ Overfull \hbox (9.5812pt too wide) in paragraph at lines 190--190
 File: fractionSlidingOutOfIDR.jpg Graphic file (type jpg)
 
 <use fractionSlidingOutOfIDR.jpg>
-Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 235.
+Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 231.
 (pdftex.def)             Requested size: 194.99199pt x 164.54729pt.
  [8] [9 <./fractionSlidingOutOfIDR.jpg>]
 (MaterialsAndMethodsModel.aux) ) 
@@ -269,7 +269,7 @@ iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9
 e1/public/amsfonts/cm/cmr8.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/
 amsfonts/cm/cmsy10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb>
-Output written on MaterialsAndMethodsModel.pdf (9 pages, 468159 bytes).
+Output written on MaterialsAndMethodsModel.pdf (9 pages, 468005 bytes).
 PDF statistics:
  80 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

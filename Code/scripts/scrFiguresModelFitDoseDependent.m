@@ -22,15 +22,21 @@ showRelativeOpeningHistone  = true;
 % Experimental measurements 
 % uvc dose (the point u=100 is excluded for now due to irregular
 % measurement)
-uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
+% uData = [0 5 10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
+uData = [0  10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 %__ histone loss data___
-hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 	40.8353794651
+% hData = [0 10.714305725	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 	40.8353794651
+% ]./100;
+% excluding measurement at 5 msec
+hData = [0 	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.3668579387	29.195045218	37.2706560079	37.3479226024	42.5138151765	42.9133041668	42.8508770934	43.8660779761	42.5763929893	44.1947934168 	40.8353794651
 ]./100;
 
 %___DNA loss data____
-dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
+% dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
+% ]./100;
+% ecluding measurement at 5 msec
+dData = [0 	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
-
 % Analytical solutions of the model for histones and DNA loss vs UV dose
 T = @(a1,u)  (1-exp(-a1.*u)).^2;% T(u)/T_max
 % T = @(a1,u) ((1-exp(-(a1.^2).*u))+sqrt(pi.*u).*a1.*(1-erf(a1.*sqrt(u)))).^2; 
@@ -87,20 +93,20 @@ h = @(a1,a2,a3,a4,u) (d(a1,a2,a3,a4,u) +(N_slide(a1,a2,a3,u))./R(a1,a2,a3,a4,u))
 % c3 = fitParams(3);
 % c4 = fitParams(4);
 
-c1 = 0.036;%0.021;% curve h
-c2 = 0.35;  %0.39;% lift h
-c3 = 0.24; %0.44; % lift d+h
-c4 = 0.48; %0.23; % lift d+ h
+c1 = 0.037;%0.036;% curve h
+c2 = 0.35;  %0.35;% lift h
+c3 = 0.24; %0.24; % lift d+h
+c4 = 0.46; %0.48; % lift d+ h
 
 %-- plot ---
 if showHAndDFit
 %____ plot histone loss, h
-fig1 = figure('Name','histone and DNA fit');
+fig1 = figure('Name','nucleosome and DNA fit');
 ax1  = axes('Parent',fig1,'NextPlot','Add');
 line('Xdata',uData,'YData',h(c1,c2,c3,c4,uData),'Color','r','LineWidth',lineWidth,...
-    'Parent',ax1,'DisplayName','histone loss, model');
+    'Parent',ax1,'DisplayName','nucleosome loss, model');
 line('XData',uData,'YData',hData,'Marker','o','MarkerSize',markerSize,'MarkerFaceColor','r','MarkerEdgeColor','k',...
-    'LineStyle','none','Parent',ax1,'DisplayName','histone loss, exp. data'), 
+    'LineStyle','none','Parent',ax1,'DisplayName','nucleosome loss, exp. data'), 
 
 %____ plot DNA loss, d
 line('XData',uData,'YData',d(c1,c2,c3,c4,uData),'Color','g','LineWidth',lineWidth,...
@@ -121,12 +127,12 @@ if showSlidingFraction
 fig2 = figure;
 ax2  = axes('Parent',fig2);
 line('XData',uData,'YData',(hData-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
-    'Parent',ax2,'DisplayName','histone sliding loss, exp.data','MarkerSize',markerSize,'LineStyle','none');
+    'Parent',ax2,'DisplayName','nucleosome sliding loss, exp.data','MarkerSize',markerSize,'LineStyle','none');
 line('XData',uData,'YData',h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData),'LineWidth',lineWidth,'Parent',ax2,...
-    'DisplayName','histone sliding loss, model','Color','k')
+    'DisplayName','nucleosome sliding loss, model','Color','k')
 xlabel('U.V dose','Parent',ax2,'FontSize',fontSize);
 ylabel('h(U)-d(U)','Parent',ax2,'FontSize',fontSize);
-title('Fraction of histones lost by sliding','Parent',ax2,'FontSize',fontSize);
+title('Fraction of nucleosomes lost by sliding','Parent',ax2,'FontSize',fontSize);
 legend(get(ax2,'Children'),'Location','NW')
 set(ax2,'FontSize',fontSize,'LineWidth',lineWidth)
 end
@@ -136,17 +142,17 @@ if showSlidingOutOfDR
 fig3 = figure; 
 ax3  = axes('Parent',fig3,'NextPlot','add');
 line('XData',uData,'Ydata',(hData-dData)./(1-dData),'Marker','o','Color','k','MarkerFaceColor','c',...
-    'Parent',ax3,'DisplayName','histone sliding out of DR, exp. data','MarkerSize',markerSize,...
+    'Parent',ax3,'DisplayName','nucleosome sliding out of DR, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
 line('XData',uData,'YData',(h(c1,c2,c3,c4,uData)-d(c1,c2,c3,c4,uData))./(1-d(c1,c2,c3,c4,uData)),'Parent',ax3,...
-    'LineWidth',lineWidth,'DisplayName','histone sliding out of DR, model')
-line('Xdata',uData,'YData',N_slide(c1,c2,c3,uData),'Color','r','Parent',ax3)
+    'LineWidth',lineWidth,'DisplayName','nucleosome sliding out of DR, model')
+% line('Xdata',uData,'YData',N_slide(c1,c2,c3,uData)./(1-N_open(c1,c2,c3,uData)),'Color','r','Parent',ax3)
 % add linear fit for comparison
 % linearFitModel = fittype('a*x');
 % [fitValues, fitScore] = fit(uData',((hData-dData)./(1-dData))',linearFitModel,'Robust','LAR','StartPoint',1);
 % line('XData',uData,'YData',fitValues(uData),'Parent',ax3,'DisplayName','linear fit','Color','r',...
 %     'LineStyle','--','LineWidth',lineWidth)
-title('Fraction of histone sliding out of the IDR','Parent',ax3,'FontSize',fontSize)
+title('Fraction of nucleosome sliding out of the IDR','Parent',ax3,'FontSize',fontSize)
 xlabel('U.V dose','Parent',ax3,'FontSize',fontSize);
 ylabel('(H(u)-D(u))/(1-D(u)', 'FontSize', fontSize);
 legend(get(ax3,'Children'),'Location','NW')
@@ -159,14 +165,14 @@ if showRelativeSliding
 fig4 = figure; 
 ax4  = axes('Parent',fig4,'NextPlot','add','FontSize',fontSize);
 line('XData',uData,'Ydata',1 -(dData)./hData,'Marker','o','Color','k','MarkerFaceColor','c',...
-    'Parent',ax4,'DisplayName','relative histone sliding contribution, exp. data','MarkerSize',markerSize,...
+    'Parent',ax4,'DisplayName','relative nucleosome sliding contribution, exp. data','MarkerSize',markerSize,...
     'LineStyle','none');
 line('XData',uData,'YData',((h(c1,c2,c3,c4,uData))-d(c1,c2,c3,c4,uData))./(h(c1,c2,c3,c4,uData)),'Parent',ax4,...
-    'LineWidth',lineWidth,'DisplayName','relative histone sliding contribution, model')
+    'LineWidth',lineWidth,'DisplayName','relative nucleosome sliding contribution, model')
 xlabel('U.V dose','Parent',ax4,'FontSize',fontSize);
 ylabel('(h(U)-d(U))/h(U)','FontSize',fontSize,'Parent',ax4)
 legend(get(ax4,'Children'),'Location','NW');
-title('1-D/H, Contribution of sliding to the total histone loss','Parent',ax4,'FontSize',fontSize)
+title('1-D/H, Contribution of sliding to the total nucleosome loss','Parent',ax4,'FontSize',fontSize)
 set(ax4,'FontSize',fontSize,'LineWidth',lineWidth)
 end
 
@@ -229,7 +235,7 @@ if showRelativeOpeningHistone
 %   relativeOpeningH = [c4.*T(c1,uVals)./(R(c1,c2,c3,c4,uVals)-N(c1,c2,uVals));...(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals));...
 %       1-(c4.*T(c1,uVals))./(R(c1,c2,c3,c4,uVals)-N(c1,c2,uVals))];%1-(1-(1./(1+c4.*T(c1,uVals))))./(1-N(c1,c2,uVals)./R(c1,c2,c3,c4,uVals))];
   bar(uVals,relativeOpeningH',1.5,'Stacked')
-  title('Relative contribution to histone loss','FontSize',fontSize)
+  title('Relative contribution to nucleosome loss','FontSize',fontSize)
   xlabel(ax7,'UV dose','FontSize',fontSize); 
   ylabel(ax7,'Fraction of loss','FontSize',fontSize)
   set(ax7,'FontSize',fontSize,'LineWidth',lineWidth)

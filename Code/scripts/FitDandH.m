@@ -24,8 +24,8 @@ H  = (D+((N_slide)./R));
 
 md = sum((dData-mean(dData)).^2);
 mh = sum((hData-mean(hData)).^2);
-m1mddh =sum(((1-(dData./hData))-mean(1-(dData./hData))).^2);
-mddh   = sum((dData./hData  - mean(dData./hData)).^2);
+% mhmdd1md =sum(((hData-dData)./(1-dData)-mean((hData-dData)./(1-dData))).^2);
+% mddh   = sum((dData./hData  - mean(dData./hData)).^2);
 % H = 1-(exp(-a(2).*(1-exp(-a(1).*u))))./(1+a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)));
 % D = (a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)))./...
 %     (1+a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)));

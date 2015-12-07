@@ -34,7 +34,7 @@ hData = [0 	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.366857938
 %___DNA loss data____
 % dData = [0 1.5704212005	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 % ]./100;
-% ecluding measurement at 5 msec
+% excluding measurement at 5 msec
 dData = [0 	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
 % Analytical solutions of the model for histones and DNA loss vs UV dose
@@ -53,27 +53,6 @@ R = @(a1,a2,a3,a4,u)  1+a4.*N_total(a1,a2,a3,u);%+(a4).*(T(a1,u))); %R(u)/R_0
 d = @(a1,a2,a3,a4,u) (((R(a1,a2,a3,a4,u))-1+N_open(a1,a2,a3,u))./(R(a1,a2,a3,a4,u)));%+(T(a1,u))./R(a1,a2,a3,a4,u);
 h = @(a1,a2,a3,a4,u) (d(a1,a2,a3,a4,u) +(N_slide(a1,a2,a3,u))./R(a1,a2,a3,a4,u));%d(a1,a2,a3,a4,u)+(T(a1,u)-N(a1,a2,u))./R(a1,a2,a3,a4,u) ;%./R(a1,a2,a3,u);
 
-% %--- full (damages) system
-% c1 = 0.0021;%0.021;% curve h
-% c2 = 0.39;  %0.39;% lift h
-% c3 = 0.44; %0.44; % lift d+h
-% c4 = 0.23; %0.23; % lift d+ h
-
-% % -- linear (damages) system
-% T = @(a1,u) a1.*u; %T/T_max
-% 
-% c1 = 0.01;%0.023;% curve h
-% c2 = 0.54;  %0.35;% lift h
-% c3 = 0.2; %0.45; % lift d
-% c4 = 0.378; %0.22; % lift h and d
-
-% %-- quadratic (damages) system 
-% T  = @(a1,u) a1.*u.^2;
-% 
-% c1 = 0.0001;%0.023;% curve h
-% c2 = 1.0;  %0.35;% lift h
-% c3 = 0.2; %0.45; % lift d
-% c4 = 0.2; %0.22; % lift h and d
 
 % % % ---autofit
 % opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-19,'Hessian','bfgs',...

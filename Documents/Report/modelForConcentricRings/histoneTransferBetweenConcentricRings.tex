@@ -64,22 +64,41 @@ g(r) =\frac{\int_{0}^r F(\phi)y(\phi)d\phi}{F(r)-\int_{0}^{r}y(\phi)F(\phi)d\phi
 
 We note that
 \begin{equation*}
-1+g(r) =\frac{F(r)}{F(r)-\int_0^r y(\phi)F(\phi)d\phi}
+h(r)= 1+g(r) =\frac{F(r)}{F(r)-\int_0^r y(\phi)F(\phi)d\phi}
 \end{equation*}
-is the ratio of particles remaining is ring $r$ to those existing in $r$. We can use this function to calculate the probability that a particle which omit a signal is found at a distance larger than $r$ from its initial position. For this end, we can estimate the survival function 
+is the ratio of particles remaining is ring $r$ to those existing in $r$, which we term the hazard function. We can use the hazard function to calculate the probability that a particle, which omits a signal, is found at a distance larger than $r$ from the origin 15 minutes pose UV-C. For this end, we can estimate the survival function 
 \begin{equation*}
-S(r)=\prod_r (1+g(r)) =\prod_r \frac{F(r)}{F(r)-\int_0^r y(\phi)F(\phi)d\phi}
+S(r) = \exp(-\int_0^Rh(r)dr)
 \end{equation*}
-
-
-substituting the forms of functions
+The integral $H(r)=\int_0^r h(\phi)d\phi$ can be calculated by substituting into it the forms of functions
 \begin{equation*}
 F(r)=r, \quad y(r) =0.15r^2 -0.0087r-0.64
 \end{equation*}
- we get, after performing integration and rearranging
-\begin{equation}
-S(r) =	\prod_r \frac{1}{1-0.15r^3/4 +0.0087r^2/3 +0.64r/2}
-\end{equation}
+
+The mean distance a particle which stats at the origin will translocate 15 minutes post UV-C is determined by the first moment of the survival function, namely
+\begin{equation*}
+\lambda=\int()
+\end{equation*} 
+
+In addition, the CDF, $P(r)$, and the pdf $f(r)$, can be derived by using the relations 
+\begin{equation*}
+P(r) = 1-S(r), \quad f(r) = dP/dr=S(r)h(r)
+\end{equation*}
+
+The graphs of these function is presented in Figure 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth, height=0.3\textheight]{survivalCdfPdfFunctions}
+\caption{}
+\label{fig:survivalCdfPdfFunctions}
+\end{figure}
+
+the First moment of the survial function gives the average distance in which we expect to find a tagged histone 15 minutes post UV-C. This displacement is caused by histone sliding and chromatin de-compaction.
+the relative contribution of each of the process for the loss of histone signal from a predefined region of interest (ROI) was previously calculated to give 70\% loss due to sliding and 30\% due to chromatin opening. 
+
+
+ 
+
 
  
 \end{document}

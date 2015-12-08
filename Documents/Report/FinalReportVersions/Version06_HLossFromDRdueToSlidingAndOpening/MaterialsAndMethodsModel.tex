@@ -128,7 +128,7 @@
 	the IDR is proportional to its area. We define the number of nucleosomes leaving the IDR 15 minutes post UV-C as $N_T(u) = N_P(u) + N_S(u)$,
 	with $N_S(u)$ and $N_P(u)$ the number of nucleosomes sliding and pushed out
 	of the IDR, respectively. Nucleosomes pushed out of the IDR are associated
-	with undamaged DNA, therefore we set $D_p(u) = N_P(u)$ to represent this
+	with undamaged DNA, therefore we set $D_p(u)/A_0 = N_P(u)/N_0$ to represent this
 	quantity. The IDR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$ respectively,
 	with $A(u) > A_0$, for all $u$ values. We shall now compute the fraction of
 	DNA loss (resp. nucleosomes) $D(u)$ (resp. $H(u)$) in the ROI 15 minutes
@@ -140,7 +140,7 @@
 	translocated with the DNA plus the ones that are sliding out, resulting in
 	the following formulas
 	\begin{equation}\label{eq:DNAstst}
-	D(u) = \frac{(A(u)/A_0)-1 + (D_P(u)/N_0)}{A(u)/A_0}	
+	D(u) = \frac{(A(u)/A_0)-1 + (D_P(u)/A_0)}{A(u)/A_0}	
 	\end{equation}
 	
 	\begin{equation}\label{eq:nucleosomeStst}
@@ -241,7 +241,7 @@
 	\end{equation}
 	where $A_0$ represents the size of the IDR even in the absence of UV induction.
 	
-	We can now substitute equations \eqref{eq:nucleosomePush}, \eqref{eq:nucleosomeSlide} and \eqref{eq:areaROI} into the steady-state equations \eqref{eq:DNAstst} and \eqref{eq:nucleosomeStst} to get the expressions for $D(u)$ and $H(u)$. Using the relation $D_p(u) = N_p(u)$, we present the result in terms of $N_T(u)$			
+	We can now substitute equations \eqref{eq:nucleosomePush}, \eqref{eq:nucleosomeSlide} and \eqref{eq:areaROI} into the steady-state equations \eqref{eq:DNAstst} and \eqref{eq:nucleosomeStst} to get the expressions for $D(u)$ and $H(u)$. Using the relation $D_p(u)/A_0 = N_p(u)/N_0$, we present the result in terms of $N_T(u)$			
 	\begin{equation}\label{eq:DNALoss}
 	D(u) = \frac{\frac{N_T(u)}{N_0}\left(\frac{k_p(1-k_s)}{k_p(1-k_s)+k_s}-\frac{k_aN_0}{A_0}\right)+\frac{k_aN_0}{A_0}}{1+\frac{k_aN_0}{A_0}\left(1-\frac{N_T(u)}{N_0}\right)}
 	\end{equation}
@@ -295,7 +295,7 @@ A_P(u) = A_0 + k_aN_P(u)
 
 The DNA loss attributed to chromatin opening and de-compaction is thus
 \begin{equation*}
-D(u)_{opening}= \frac{A_P(u)/A_0 -1 +N_P(u)/N_0}{A_P(u)/A_0}
+D(u)_{opening}= \frac{A_P(u)/A_0 -1 +D_P(u)/A_0}{A_P(u)/A_0}
 \end{equation*}	
 The fraction attributed to chromatin opening and sliding out of the total
 DNA loss are given respectively by

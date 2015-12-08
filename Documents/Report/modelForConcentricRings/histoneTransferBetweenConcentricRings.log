@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  7 DEC 2015 15:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  8 DEC 2015 15:54
 entering extended mode
 **histoneTransferBetweenConcentricRings.tex
 (histoneTransferBetweenConcentricRings.tex
@@ -352,26 +352,38 @@ e.0.1}) has been already used, duplicate ignored
 l.40 
       <../Images/patchExpansion/patchExpansionMeasurement.jpg> <../Images/patch
 Expansion/nucleosomeSignalGainConcentricFit.jpg>] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 85.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 85.
+<survivalCdfPdfFunctions.jpg, id=33, 1624.0675pt x 976.64874pt>
+File: survivalCdfPdfFunctions.jpg Graphic file (type jpg)
+
+<use survivalCdfPdfFunctions.jpg>
+Package pdftex.def Info: survivalCdfPdfFunctions.jpg used on input line 86.
+(pdftex.def)             Requested size: 233.9845pt x 164.53784pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 96.
+ [3pdfTeX warning (ext4): destination with the same identifier (name{figure.0.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.96 \end{document}
+                    <./survivalCdfPdfFunctions.jpg>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 96.
 
 (histoneTransferBetweenConcentricRings.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 85.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 85.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 96.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 96.
 Package rerunfilecheck Info: File `histoneTransferBetweenConcentricRings.out' h
 as not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 85.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 96.
  ) 
 Here is how much of TeX's memory you used:
- 5949 strings out of 493698
- 85536 string characters out of 3144402
- 170685 words of memory out of 3000000
- 9216 multiletter control sequences out of 15000+200000
+ 5955 strings out of 493698
+ 85715 string characters out of 3144402
+ 170709 words of memory out of 3000000
+ 9221 multiletter control sequences out of 15000+200000
  11183 words of font info for 44 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 29i,6n,26p,394b,343s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,7n,26p,394b,343s stack positions out of 5000i,500n,10000p,200000b,50000s
 <d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Program Files/MiKTe
@@ -380,10 +392,10 @@ ts/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/
 public/amsfonts/cm/cmr8.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
 fonts/cm/cmsy10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 /cmsy8.pfb>
-Output written on histoneTransferBetweenConcentricRings.pdf (4 pages, 265969 by
+Output written on histoneTransferBetweenConcentricRings.pdf (4 pages, 349514 by
 tes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
+ 68 PDF objects out of 1000 (max. 8388607)
  10 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

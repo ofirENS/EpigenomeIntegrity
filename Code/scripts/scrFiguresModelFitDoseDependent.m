@@ -176,7 +176,7 @@ ax6 = axes('Parent', fig6,'NextPlot','Add','FontSize',fontSize,'LineWidth',lineW
 title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
 ylabel(ax6,'Fraction of loss','FontSize',fontSize)
-d_open = (R(c1,0,c3,c4,uVals)+N_open(c1,0,c3,uVals)-c4*N_slide(c1,c2,c3,uVals)-1)./(R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals));
+d_open = (R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals)-1)./(R(c1,c2,c3,c4,uVals)+N_open(c1,c2,c3,uVals)-c4*N_slide(c1,c2,c3,uVals));
 
 relativeOpening = [d_open./d(c1,c2,c3,c4,uVals);
                    1-d_open./d(c1,c2,c3,c4,uVals)];

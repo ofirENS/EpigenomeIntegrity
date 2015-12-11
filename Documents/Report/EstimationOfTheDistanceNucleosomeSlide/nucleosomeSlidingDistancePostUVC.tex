@@ -1,0 +1,31 @@
+\documentclass[12pt]{report}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{float}
+\begin{document}
+	\title{Estimation Of the distance nucleosome slide Post UV-C}
+	\maketitle
+	Previously, we have developed a model for the loss of nucleosome and DNA signal from a fixed ROI post UVC as a function of the UV dose. Here we shall use this model to estimate the maximal sliding distance of nucleosomes post UVC
+	
+	The system of equations 
+	\begin{eqnarray}
+	T(u)   &=& \pi T_{max}(1-\exp(-k_tu))^2\\
+	N_T(u) &=& N_0\left(1-\exp(-\frac{k_p(1-k_s)+k_s}{\pi T_{max}}T(u))\right)\\
+	N_S(u) &=& \left(\frac{k_s}{k_p(1-k_s)+k_s}\right)N_T(u)\\
+	N_P(u) &=& \left(1-\frac{k_s}{k_p(1-k_s)+k_s}\right)N_T(u)\\
+	A(u)   &=& A_0 +k_a(N_T(u)-N_0)
+	\end{eqnarray}
+	with $N_S(u)$ the loss of nucleosome from the initial damage region (IDR) due to sliding; $N_p(u)$- the loss of nucleosome from the IDR due to chromatin opening; $A(u)$- the area of the region of interest (ROI); $T(u)$- the number of damages in the IDR. 
+	
+	The area of the ROI attriuted to sliding is given by 
+	\begin{equation}
+	A_S(u) = A_0+k_a(N_S(u)-N_0)
+	\end{equation}
+	To reduce the number of parameters used in the function above, we will be calculating the relative expansion due to sliding given by $A(u)/A_0$ 
+	
+	
+
+\end{document}

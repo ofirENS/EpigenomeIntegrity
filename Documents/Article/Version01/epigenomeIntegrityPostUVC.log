@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  14 DEC 2015 16:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.20)  14 DEC 2015 16:42
 entering extended mode
 **epigenomeIntegrityPostUVC.tex
 (epigenomeIntegrityPostUVC.tex
@@ -187,94 +187,101 @@ LaTeX Font Info:    ... okay on input line 59.
 \makeMPintoPDFobject=\count106
 \everyMPtoPDFconversion=\toks30
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 62.
+LaTeX Font Info:    Try loading font information for U+msa on input line 63.
  ("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 62.
+LaTeX Font Info:    Try loading font information for U+msb on input line 63.
 
 ("d:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<relatiiveContributionToDNALoss.jpg, id=1, 1623.06375pt x 976.64874pt>
-File: relatiiveContributionToDNALoss.jpg Graphic file (type jpg)
-
-<use relatiiveContributionToDNALoss.jpg>
-Package pdftex.def Info: relatiiveContributionToDNALoss.jpg used on input line 
-84.
-(pdftex.def)             Requested size: 194.98213pt x 164.53784pt.
-
-<relativeContributionToHistoneLoss.jpg, id=2, 1624.0675pt x 976.64874pt>
-File: relativeContributionToHistoneLoss.jpg Graphic file (type jpg)
-
-<use relativeContributionToHistoneLoss.jpg>
-Package pdftex.def Info: relativeContributionToHistoneLoss.jpg used on input li
-ne 85.
-(pdftex.def)             Requested size: 194.97882pt x 164.53784pt.
-
-Overfull \hbox (2.57204pt too wide) in paragraph at lines 84--86
-[][] [] 
+Overfull \hbox (9.7355pt too wide) in paragraph at lines 63--63
+ [][] 
  []
 
 [1
 
 {C:/Users/OfirDell/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Overfull \hbox (8.59172pt too wide) in paragraph at lines 90--90
+<relatiiveContributionToDNALoss.jpg, id=12, 1623.06375pt x 976.64874pt>
+File: relatiiveContributionToDNALoss.jpg Graphic file (type jpg)
+
+<use relatiiveContributionToDNALoss.jpg>
+Package pdftex.def Info: relatiiveContributionToDNALoss.jpg used on input line 
+106.
+(pdftex.def)             Requested size: 194.98213pt x 164.53784pt.
+
+<relativeContributionToHistoneLoss.jpg, id=13, 1624.0675pt x 976.64874pt>
+File: relativeContributionToHistoneLoss.jpg Graphic file (type jpg)
+
+<use relativeContributionToHistoneLoss.jpg>
+Package pdftex.def Info: relativeContributionToHistoneLoss.jpg used on input li
+ne 107.
+(pdftex.def)             Requested size: 194.97882pt x 164.53784pt.
+
+Overfull \hbox (2.57204pt too wide) in paragraph at lines 106--108
+[][] [] 
+ []
+
+
+Overfull \hbox (8.59172pt too wide) in paragraph at lines 112--112
 \OT1/cmr/bx/n/17.28 somes and DNA re-dis-tri-bu-tion fol-low-ing UV
  []
 
 [2 <./relatiiveContributionToDNALoss.jpg> <./relativeContributionToHistoneLoss.
-jpg>] [3]
+jpg>] [3] [4]
 Missing character: There is no â in font cmr12!
 Missing character: There is no ˆ in font cmr12!
 Missing character: There is no ’ in font cmr12!
 Missing character: There is no â in font cmr12!
 Missing character: There is no ˆ in font cmr12!
 Missing character: There is no ’ in font cmr12!
- [4] [5] [6]
+ [5] [6]
 <histoneAndDnaVsUvDoseModelFit.jpg, id=33, 1623.06375pt x 976.64874pt>
 File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
 
 <use histoneAndDnaVsUvDoseModelFit.jpg>
 Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 2
-62.
+83.
 (pdftex.def)             Requested size: 194.98213pt x 164.53784pt.
-
-Overfull \hbox (9.5812pt too wide) in paragraph at lines 273--273
+ [7]
+Overfull \hbox (9.5812pt too wide) in paragraph at lines 293--293
 []\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
  []
 
-[7 <./histoneAndDnaVsUvDoseModelFit.jpg>] [8]
-<fractionSlidingOutOfIDR.jpg, id=41, 1624.0675pt x 976.64874pt>
+[8 <./histoneAndDnaVsUvDoseModelFit.jpg>]
+<fractionSlidingOutOfIDR.jpg, id=44, 1624.0675pt x 976.64874pt>
 File: fractionSlidingOutOfIDR.jpg Graphic file (type jpg)
 
 <use fractionSlidingOutOfIDR.jpg>
-Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 329.
+Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 349.
 (pdftex.def)             Requested size: 194.97882pt x 164.53784pt.
- [9 <./fractionSlidingOutOfIDR.jpg>]
+ [9] [10 <./fractionSlidingOutOfIDR.jpg>]
 (epigenomeIntegrityPostUVC.aux) ) 
 Here is how much of TeX's memory you used:
- 2315 strings out of 493698
- 29022 string characters out of 3144402
- 89587 words of memory out of 3000000
- 5625 multiletter control sequences out of 15000+200000
- 12403 words of font info for 48 fonts, out of 3000000 for 9000
+ 2323 strings out of 493698
+ 29147 string characters out of 3144402
+ 88588 words of memory out of 3000000
+ 5632 multiletter control sequences out of 15000+200000
+ 14259 words of font info for 55 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 34i,6n,26p,1007b,242s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,9n,26p,1229b,289s stack positions out of 5000i,500n,10000p,200000b,50000s
 <d:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmbx12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmex10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-mi12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb>
-<d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Progr
-am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/Program Files/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr8.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmsy8.pfb>
-Output written on epigenomeIntegrityPostUVC.pdf (9 pages, 493961 bytes).
+c/amsfonts/cm/cmbx10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmbx12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+ex10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmr12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmr6.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+r8.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on epigenomeIntegrityPostUVC.pdf (10 pages, 532120 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
+ 95 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

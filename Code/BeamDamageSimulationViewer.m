@@ -1,4 +1,5 @@
 classdef BeamDamageSimulationViewer<handle
+    
     properties
         simulator
         chainPosition 

@@ -606,10 +606,17 @@ classdef BeamDamageSimulation<handle
             % create an exclusion region around affected monomer with
             % harmonic pushing force (half spring)
             if obj.params.excludeMonomersAroundAffected
-             obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = true;
-             obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForceCenter = ...
-                obj.handles.framework.objectManager.handles.chain.position.cur(...
+                obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForce = true;
+                obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForceCenter = ...
+                    obj.handles.framework.objectManager.handles.chain.position.cur(...
                  obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam,:);
+               obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForceMagnitude = obj.params.mechanicalForceMagnitude;
+               obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForceCutoff = obj.params.mechanicalForceCutoff;
+               obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForceDirection = obj.params.mechanicalForceDirection;
+%              obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = true;
+%              obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForceCenter = ...
+%                 obj.handles.framework.objectManager.handles.chain.position.cur(...
+%                  obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam,:);
             end
         end
         

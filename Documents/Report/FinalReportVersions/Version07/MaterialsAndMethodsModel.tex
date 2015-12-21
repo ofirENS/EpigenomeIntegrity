@@ -108,83 +108,60 @@
 	to two mechanisms: the first is chromatin expansion, and the second is nucleosomes sliding along the chromatin. For chromatin expansion, recruitment and
 	binding of repair factors to damaged DNA causes chromatin de-compaction, and cross-links break [ref] to enable repair factor access to damaged DNA. Because the majority of damages are inflicted around the laser's focal point, the accumulation of repair factors will generate a pushing force on surrounding chromatin in a radial outward direction. As a result of the pushing force, DNA and nucleosome will be extruded from the ROI in equal proportions. 
 	
-	An additional loss of nucleosome signal is caused by the mechanism of nucleosome sliding. Repair proteins slide nucleosomes from damaged position on the DNA away from high concentration of DNA damages. Each nucleosome sliding over damaged positions on the DNA displaces the tagged damages
-    spatially in the general direction of the ROI boundary. Additionally, with each nucleosome sliding, the damages in the damage region are exposed, and repair factors are recruited to bind to them.   
+	An additional loss of nucleosome signal is caused by the mechanism of nucleosome sliding. Repair proteins slide nucleosomes from damaged position on the DNA away from high concentration of DNA damages. Each nucleosome sliding over damaged positions on the DNA displaces the tagged damages spatially in the general direction of the ROI boundary. Additionally, with each nucleosome sliding, the damages in the damage region are exposed, and repair factors are recruited to bind to them.   
 
     In-line with the description above, we construct a model representing
 	signal loss 15 minutes post UV-C. We do not specifically take into account the
 	mechanism of signal loss in time and only present equations representing the maximal loss of signal as a function of the UV dose.
 	
-	\subsection{Steady-state equations describing DNA and nucleosome loss}
-	The IDR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$ respectively,
-	with $A(u)\leq A_0$, for all $u$ values. We assume an initial uniform distribution of both DNA and nucleosomes in the IDR and its vicinity. As a result, the amount of DNA and nucleosomes in $A(u)$ is proportional $A(u)$. 
-	\begin{equation*}
-	d(A(u))= k_DA(u)
-	\end{equation*}
-	where $k_D$ is measured in units of $bp/\mu m$. Similarly, the number of nucleosome in a given region is proportional to its area
-	\begin{equation*}
-	n(A(u))=k_NN(u)
-	\end{equation*}
+	\subsection{Dynamics of DNA and nucleosome loss from the DR}
+	The IDR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$ respectively. We assume an initial uniform distribution of DNA in the IDR and its vicinity, such that the amount of DNA in $A(u)$ is $k_DA(u)$, with $k_D$ in units of $bp/\mu m^2$. We assume that damages can only occur on DNA located in $A_0$. Depending on the uv dose, an increasing fraction of the DNA in $A_0$ will be damaged. This fraction is mainly what resides in $A(u)$ 15 minutes post UV-C. Therefore, the total DNA in $A(u)$ is the sum of damaged and undamaged DNA 
+	\begin{equation}
+	 k_DA(u)= D_d(u)+D_h(u)
+	\end{equation}
+	with $D_d(u)$ amount of damaged DNA, and $D_h(u)$ the amount of undamaged DNA.
+	 
+	According to our assumption the undamaged DNA is extruded from the ROI. Therefore, DNA signal loss fraction is given by the ratio of the amount of
+	DNA in the annulus between the IDR and the ROI plus the nucleosomes
+	pushed out of the IDR to the total amount of signal in the ROI. 
+	\begin{equation}\label{eq:DNAstst}
+	D(u) = \frac{k_D(A(u)-A_0) + \varphi(u)}{k_DA(u)}
+	\end{equation}
 	
-	The total number of nucleosomes leaving the IDR, $N_T(u)$, is the sum of nucleosomes leaving by pushing and sliding, thus 
+	Similarly to DNA, we assume that the number of nucleosome in a given region is proportional to its area
+	\begin{equation*}
+	\psi(A(u))=k_NN(u)
+	\end{equation*}
+	with $k_N$ in units of $nucleosomes/\mu m^2$.
+	
+	We mark the number of nucleosome lost by pushing as $N_P(u)$ and by sliding as $N_S(u)$. Thus the total loss, $N_T(u)$, is the sum 
 	\begin{equation*}
 	N_T(u) = N_P(u) + N_S(u)
 	\end{equation*}
-	with $N_S(u)$ and $N_P(u)$ the number of nucleosomes sliding and pushed out
-	of the IDR, respectively. The amount of undamaged DNA in the IDR, $D_P(u)$, measured in units of bp.   
-	Nucleosomes pushed out of the IDR are associated
-	with undamaged DNA, therefore the fraction of loss is equal we have 
+	Because we assume that nucleosomes pushed out of the IDR are associated with undamaged DNA, the fraction of DNA and nucleosome signal loss due to pushing is similar. Therefore,
 	\begin{equation*}
-	\frac{D_p(u)}{k_DA_0} = \frac{N_P(u)}{k_NA_0}
+	\frac{D_P(u)}{k_DA_0} = \frac{N_P(u)}{k_NA_0}
 	\end{equation*} 
-		
-	By construction, DNA signal loss is given by the ratio of the amount of
-	DNA in the annulus between the IDR and the ROI plus the nucleosomes
-	pushed out of the IDR to the total amount of signal in the ROI. Nucleosome signal loss is calculated as the sum of the nucleosomes that have been
-	translocated with the DNA plus the ones that are sliding out, resulting in
-	the following formulas
-	\begin{equation}\label{eq:DNAstst}
-	D(u) = \frac{k_D(A(u)-A_0) + \varphi(u)}{k_DA(u)}	
-	\end{equation}
 	
+	The total fraction of loss for nucleosomes is
 	\begin{equation}\label{eq:nucleosomeStst}
 	H(u) = D(u) + \frac{N_S(u)}{k_NA(u)}	
 	\end{equation}
 	
-	In order to evaluate the functions above, we will now construct models
-	for the functions $A(u)$ and $N_T(u)$. The increase of DNA damages with UV
-	dose is thought of as governing the dynamics of both nucleosome and DNA
-	signal loss. Therefore, we start our construction with a description of the
-	accumulation of DNA damages $\varphi_D(u)$ in the IDR, and derive the function $N_T(u)$ and $A(u)$ from it
+	In order to evaluate the functions \ref{eq:DNAstst} and \ref{eq:nucleosomeStst}, we will first present a model for the accumulation of DNA damages with uv dose, $\varphi_D(u)$ and derive the functions $A(u)$ and $N_T(u)$ from it. 
 	
-	\subsection{Deriving the amount of damaged DNA $T(u)$}
-	We assume here that the rate of accumulating DNA damages in the
-	IDR with increasing UV dose is increasing proportional
-	to the undamaged DNA in the IDR.
-	
-	\begin{equation*}
-	\frac{dT(u)}{du} = k_t(T_{max} - T_r(u))
+	\subsection{Accumulation of DNA damages in the IDR}\label{subsection:AccumulationOfDNADamagesInTheIDR}
+	We assume that the rate of accumulation of DNA damages in the
+	IDR with increasing UV dose is proportional to the undamaged DNA in the IDR.	
+	\begin{equation*}\label{eq:damagesRate}
+	\frac{d\varphi_D(u)}{du} = k_t(k_DA_0 - \varphi_D(u))
 	\end{equation*}	
-	with $k_t$ the rate constant, and $T_{max}$ the maximal number of damages possible
-	along the radius. Using the initial condition $T_r(0) = 0$, the solution is
+	with $k_t$ a constant of units. Using the initial condition $\varphi_D(0) = 0$, the solution to equation \ref{eq:damagesRate}
 	
-	\begin{equation*}
-	T_r(u) = T_{max}(1-\exp(−k_tu))
+	\begin{equation*}\label{eq:damagesIDR}
+	\varphi_D(u) = \kappa_tA_0(1-\exp(−k_tu))
 	\end{equation*}
-	
-	Expanding this equation to describe damages in a two-dimensional IDR, we
-	obtain
-	\begin{equation}\label{eq:damagesIDR}
-	T(u) = \pi T_{max}^2 (1-\exp(−k_tu))^2
-	\end{equation}
-	
-	We assume no two damages can occur in the same position on the DNA,
-	hence we can treat the quantity
-	\begin{equation*}
-	T(u)/(\pi T_{max}^2)
-	\end{equation*}
-	as the fraction of chromatin length in the IDR which is damaged, or as the
-	DNA damage-coverage percentage.
+	We note that the damaged DNA can only appear in the IDR of area $A_0$.
 	
 	\subsection{Deriving the functions describing loss of nucleosome from the IDR and the ROI expansion}
 	We now turn to construct a model for the total number of nucleosomes $N_T(u)$

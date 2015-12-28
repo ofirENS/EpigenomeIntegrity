@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  28 DEC 2015 10:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  28 DEC 2015 16:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -276,52 +276,64 @@ Overfull \hbox (8.59172pt too wide) in paragraph at lines 89--89
  []
 
 [2 <./relatiiveContributionToDNALoss.jpg> <./relativeContributionToHistoneLoss.
-jpg>] [3]
-Missing character: There is no â in font cmr12!
-Missing character: There is no ˆ in font cmr12!
-Missing character: There is no ’ in font cmr12!
- [4] [5]
+jpg>] [3] [4] [5]
 <histoneAndDnaVsUvDoseModelFit.jpg, id=28, 1623.06375pt x 976.64874pt>
 File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
 
 <use histoneAndDnaVsUvDoseModelFit.jpg>
 Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 2
-16.
+11.
 (pdftex.def)             Requested size: 194.98213pt x 164.53784pt.
  [6]
-Overfull \hbox (9.5812pt too wide) in paragraph at lines 227--227
+Overfull \hbox (9.5812pt too wide) in paragraph at lines 222--222
 []\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
  []
 
 [7 <./histoneAndDnaVsUvDoseModelFit.jpg>]
+
+LaTeX Warning: Reference `eq:nucleosomeSlide' on page 8 undefined on input line
+ 274.
+
 <fractionSlidingOutOfIDR.jpg, id=39, 1624.0675pt x 976.64874pt>
 File: fractionSlidingOutOfIDR.jpg Graphic file (type jpg)
 
 <use fractionSlidingOutOfIDR.jpg>
-Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 283.
+Package pdftex.def Info: fractionSlidingOutOfIDR.jpg used on input line 278.
 (pdftex.def)             Requested size: 194.97882pt x 164.53784pt.
- (./MaterialsAndMethodsModel.bbl [8]) [9 <./fractionSlidingOutOfIDR.jpg>] (./Ma
-terialsAndMethodsModel.aux) ) 
+
+
+LaTeX Warning: Reference `eq:nucleosomePush' on page 8 undefined on input line 
+286.
+
+
+LaTeX Warning: Reference `eq:nucleosomeSlide' on page 8 undefined on input line
+ 286.
+
+(./MaterialsAndMethodsModel.bbl [8]) [9 <./fractionSlidingOutOfIDR.jpg>]
+(./MaterialsAndMethodsModel.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2685 strings out of 493054
- 35243 string characters out of 6140585
- 100083 words of memory out of 5000000
- 6156 multiletter control sequences out of 15000+600000
+ 2687 strings out of 493054
+ 35300 string characters out of 6140585
+ 99082 words of memory out of 5000000
+ 6158 multiletter control sequences out of 15000+600000
  12750 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  38i,6n,26p,758b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/shar
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mti12.pfb>
-Output written on MaterialsAndMethodsModel.pdf (9 pages, 498715 bytes).
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></u
+sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on MaterialsAndMethodsModel.pdf (9 pages, 497705 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  58 compressed objects within 1 object stream

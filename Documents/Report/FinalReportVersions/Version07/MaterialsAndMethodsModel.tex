@@ -116,38 +116,39 @@
 	The IDR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$, respectively. We assume an initial uniform distribution of DNA in the IDR and its vicinity, such that the amount of DNA in $A(u)$ is $c_dA(u)$, with $c_d$ in units of $bp/\mu m^2$. 
 	
 	We restrict DNA damages to be inflicted in $A_0$ immediately after UV induction. We set $T(u)$ to represent the amount of damaged DNA left in $A(u)$ 15 minutes post UV-C, while the undamaged DNA is assumed to be extruded. Therefore, the fraction of DNA signal loss, $D(u)$, is calculated as the ratio of the extruded DNA to the total amount of DNA in the ROI, $c_dA(u)$. 
-	\begin{equation}\label{eq:DNAstst}
+	\begin{equation}\label{eq:DNALossFraction}
 	D(u) = \frac{c_dA(u)- T(u)}{c_dA(u)}
 	\end{equation}
 	
 	Similarly to the DNA, we assume that the number of nucleosome in a $A(u)$ is $c_nA(u)$, with $c_n$ a constant in units of $nucleosomes/\mu m^2$. The total fraction of nucleosome extruded from the ROI, $H(u)$, is calculated as the sum of nucleosomes pushed with undamaged DNA and the ones sliding out.
-	\begin{equation}\label{eq:nucleosomeStst}
+	\begin{equation}\label{eq:nucleosomeLossFraction}
 	H(u) = D(u) + \frac{N_S(u)}{c_nA(u)}	
 	\end{equation}
 	
-	In order to evaluate the fractions in \eqref{eq:DNAstst} and \eqref{eq:nucleosomeStst}, we shall first formulate a model for the damaged DNA in the DR, $T(u)$ and derive $A(u)$ and $N(u)$ based on it.
+	In order to evaluate the fractions in \eqref{eq:DNALossFraction} and \eqref{eq:nucleosomeLossFraction}, we shall first formulate a model for the damaged DNA in the DR, $T(u)$ and derive $A(u)$ and $N(u)$ based on it.
 	
 	\subsection{DNA damages in the IDR as a function of the UV dose}\label{subsection:AccumulationOfDNADamagesInTheIDR}
 	We assume that the rate of accumulation of DNA damages in the
-	$A_0$ with increasing UV dose is proportional to the undamaged DNA in $A_0$ [REF]. Therefore,	
-	\begin{equation}\label{eq:damagesRate}
-	\frac{dT(u)}{du} = k_t(c_dA_0 - T(u))
+	$A_0(u)$ with increasing UV dose is proportional to the undamaged DNA in $A_0(u)$ [REF]. Therefore,	
+	\begin{equation}\label{eq:DNADamageRate}
+	\frac{dT(u)}{du} = k_t(c_dA_0(u) - T(u))
 	\end{equation}	
-	with $k_t$ a constant. Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:damagesRate} is
-	\begin{equation*}\label{eq:damagesIDR}
-	T(u) = c_dA_0(1-\exp(−k_tu))
-	\end{equation*}
+	with $k_t$ a constant. Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:DNADamageRate} is
+	\begin{equation}\label{eq:DNADamagedIDR}
+	T(u) = c_dA_0(1-\exp(-k_tu))
+	\end{equation}
 	
 	\subsection{Deriving the functions describing loss of nucleosome from the IDR and the ROI expansion}
 	We now turn to construct a model for the number of nucleosomes $N(u)$
 	extruded from the DR and subsequently out of the ROI as a function of the UV dose. Although the exact mechanism by which nucleosome are lost is not known, we will describe the loss by that contribution of chromatin expansion and nucleosome sliding out of the DR. Hence,
-	\begin{equation}\label{eq:nucleosomesAsSum}
+	\begin{equation}\label{eq:nucleosomesAsSumDR}
 	N(u)=N_P(u)+N_S(u)
 	\end{equation}
 	where $N_P(u)$ is the number of nucleosomes pushed with undamaged DNA and $N_S(u)$ is the number of nucleosomes sliding out of the DR.
-	The amount of undamaged DNA in $A_0$ immediately after applying $u$ dose is $c_dA_0-T(u)$. Therefore, using our assumption that nucleosomes are pushed from the DR along with undamaged DNA, we can write 
-	\begin{equation}\label{eq:nucleosomePush}
-	N_P(u) = k_p(c_dA_0-T(u))
+	
+	According to our assumption, the undamaged DNA is pushed out of the DR, therefore we can write
+	\begin{equation}\label{eq:nucleosomePushDR}
+	N_P(u) = k_pT(u)
 	\end{equation}	
 	with $k_p$ a constant of units $nucleosomes/bp $. 
 	
@@ -157,47 +158,42 @@
 	\end{equation}
 	with $k_s$ a constant of units $1/bp$. 
 	
-	We note that from equation \eqref{eq:nucleosomesAsSum}
+	We note that differentiating equation \eqref{eq:nucleosomesAsSumDR} with respect to $u$ leads to 
 	\begin{equation}
 	\frac{dN(u)}{du}=\frac{dN_P(u)}{du} +\frac{dN_S(u)}{du}
-	\end{equation}
-	Therefore, differentiating equation \eqref{eq:nucleosomePush} with respect to $u$ and adding to it equation \eqref{eq:nucleosomeSlideRate} we obtain 
-	\begin{equation}\label{eq:nucleosomeTotalRate}
+	\end{equation}	
+	Therefore, differentiating equation \eqref{eq:nucleosomePushDR} and adding to it \eqref{eq:nucleosomeSlideRate} we obtain the rate equation for $N(u)$ 
+	\begin{equation}\label{eq:nucleosomeRateDR}
 	\frac{dN(u)}{du}= \left(k_s(c_nA_0-N(u))-k_p\right)\frac{dT(u)}{du}
 	\end{equation}
-	 Using the initial condition $N(0) = 0$, the solution of equation \eqref{eq:nucleosomeTotalRate} is 
-	\begin{equation}\label{eq:totalNucleosomeLossIDR}
-	N(u) = N_0\left[1-\exp\left(-\frac{k_p(1-k_s)+k_s}{\pi T_{max}^2}T(u)\right)\right]
+	 Using the initial condition $N(0) = 0$, the solution of equation \eqref{eq:nucleosomeRateDR} is 
+	 
+	\begin{equation}\label{eq:nucleosomeLossDR}
+	N(u) = \left(c_nA_0-\frac{k_p}{k_s}\right)\left(1-\exp\left(-k_sT(u)\right)\right)
+	\end{equation}	
+	and the number of nucleosomes sliding out of the DR is 
+	\begin{equation}\label{eq:nucleosomeSlideDR}
+	N_S(u) = N(u)-N_P(u)
 	\end{equation}
-	
-	Therefore, 
-	\begin{equation}
-	N_P(u) = \left(1-\frac{k_s}{k_p(1-k_s)+k_s}\right)N_T(u)
-	\end{equation}
-	\begin{equation}\label{eq:nucleosomeSlide}
-	N_S(u) = \left(\frac{k_s}{k_p(1-k_s)+k_s}\right)N_T(u)
-	\end{equation}
-	with $k_s$ and $k_p$ constants describing the rate of nucleosome depletion from
-	the ROI due to sliding and pushing respectively.
-	
 	Next, we model the dynamics of the ROI area $A(u)$ with increasing UV
-	dose. For this end, we consider the ROI expansion to be affected by two
-	additive mechanisms originating from the IDR: one is chromatin opening or
-	de-compaction, and the other is nucleosome sliding. The two contributions
-	are inherent in the equation for $N_T(u)$, therefore
-	
+	dose. For this end, we consider a linear increase of ROI radius, $R(u)$, with sliding and chromatin de-compaction (see Figure NNN). 
+		
 	\begin{equation*}
-	\frac{dA(u)}{du}=k_a\frac{dN_T(u)}{du}=k_a\left(\frac{dN_P(u)}{du}+\frac{dN_S(u)}{du}\right)
+	\frac{dR(u)}{du}=k_a\left(\frac{dN_P(u)}{du}+\frac{dN_S(u)}{du}\right)= k_a\frac{dN(u)}{du}
 	\end{equation*}
-	where $k_a$ is the rate constant. Using the initial condition $A(0) = A_0$, we find
-	\begin{equation}\label{eq:areaROI}
-	A(u) = A_0+ k_aN_0\exp\left(-\frac{(k_p(1-k_s)+k_s)}{\pi T_{max}^2}T(u)\right)
+	where $k_a$ is a constant of units $\mu m/ nucleosomes$. Using the initial condition $R(0) = R_0$, we find
+	\begin{equation}
+	R(u) = R_0+ k_aN(u)
 	\end{equation}
-	where $A_0$ represents the size of the IDR even in the absence of UV induction.
+	The ROI area is then 
+	\begin{equation}\label{eq:ROIarea}
+	A(u)= \pi R(u)^2 = \pi (R_0+k_aN(u))^2
+	\end{equation}
+	where we consider $R_0$ to represent the radius of the IDR even in the absence of UV induction.
 	
-	We can now substitute equations \eqref{eq:nucleosomePush}, \eqref{eq:nucleosomeSlide} and \eqref{eq:areaROI} into the steady-state equations \eqref{eq:DNAstst} and \eqref{eq:nucleosomeStst} to get the expressions for $D(u)$ and $H(u)$. Using the relation $D_p(u)/A_0 = N_p(u)/N_0$, we present the result in terms of $N_T(u)$			
+	We can now substitute the functions \eqref{eq:DNADamagedIDR}, \eqref{eq:nucleosomeSlideDR}, \eqref{eq:ROIarea} into the equations \eqref{eq:DNALossFraction} and \eqref{eq:nucleosomeLossFraction} to get the expressions for $D(u)$ and $H(u)$. We present the functions in terms of $T(u)$
 	\begin{equation}\label{eq:DNALoss}
-	D(u) = \frac{\frac{N_T(u)}{N_0}\left(\frac{k_p(1-k_s)}{k_p(1-k_s)+k_s}-\frac{k_aN_0}{A_0}\right)+\frac{k_aN_0}{A_0}}{1+\frac{k_aN_0}{A_0}\left(1-\frac{N_T(u)}{N_0}\right)}
+	D(u) = \frac{\frac{N(u)}{N_0}\left(\frac{k_p(1-k_s)}{k_p(1-k_s)+k_s}-\frac{k_aN_0}{A_0}\right)+\frac{k_aN_0}{A_0}}{1+\frac{k_aN_0}{A_0}\left(1-\frac{N_T(u)}{N_0}\right)}
 	\end{equation}
 	\begin{equation}\label{eq:nucleosomeLoss}
 		H(u) = \frac{\frac{N_T(u)}{N_0}\left(1-\frac{k_aN_0}{A_0}\right)+\frac{k_aN_0}{A_0}}{1+\frac{k_aN_0}{A_0}\left(1-\frac{N_T(u)}{N_0}\right)}
@@ -242,7 +238,7 @@ two sub-mechanisms of signal loss
 A(u) = A_P(u) +A_S(u)
 \end{equation*}
 with $A_P(u)$ the area attributed to chromatin opening, and $A_S(u)$ to nucleosome sliding. Subtracting the sliding contribution from the ROI expansion
-in equation \eqref{eq:areaROI}, we arrive at
+in equation \eqref{eq:ROIarea}, we arrive at
 \begin{equation*}
 A_P(u) = A_0 + k_aN_P(u)
 \end{equation*}

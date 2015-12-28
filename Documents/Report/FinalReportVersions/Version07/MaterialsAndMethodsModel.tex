@@ -135,43 +135,43 @@
 	\end{equation}	
 	with $k_t$ a constant. Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:damagesRate} is
 	\begin{equation*}\label{eq:damagesIDR}
-	T(u) = c_dA_0(1-\exp(-k_tu))
+	T(u) = c_dA_0(1-\exp(−k_tu))
 	\end{equation*}
 	
 	\subsection{Deriving the functions describing loss of nucleosome from the IDR and the ROI expansion}
 	We now turn to construct a model for the number of nucleosomes $N(u)$
 	extruded from the DR and subsequently out of the ROI as a function of the UV dose. Although the exact mechanism by which nucleosome are lost is not known, we will describe the loss by that contribution of chromatin expansion and nucleosome sliding out of the DR. Hence,
-	\begin{equation}
+	\begin{equation}\label{eq:nucleosomesAsSum}
 	N(u)=N_P(u)+N_S(u)
 	\end{equation}
 	where $N_P(u)$ is the number of nucleosomes pushed with undamaged DNA and $N_S(u)$ is the number of nucleosomes sliding out of the DR.
-		
-	In our model we assume that for $T(u)$ damages, the position of nucleosomes along the DNA 15 minutes post UV-C allows repair with no further sliding of nucleosomes out of the DR. Because nucleosomes wrapped by damaged DNA will be forced to displace in order to expose the damage position, an addition of $dT(u)$ damage will change the organization reached for $T(u)$ to a new one allowing repair with no further sliding. 
+	The amount of undamaged DNA in $A_0$ immediately after applying $u$ dose is $c_dA_0-T(u)$. Therefore, using our assumption that nucleosomes are pushed from the DR along with undamaged DNA, we can write 
+	\begin{equation}\label{eq:nucleosomePush}
+	N_P(u) = k_p(c_dA_0-T(u))
+	\end{equation}	
+	with $k_p$ a constant of units $nucleosomes/bp $. 
 	
-	In the first-order approximation, the expected additional number of nucleosomes affected by $dT(u)$ damages is $(c_nA_0-N(u))dT(u)$. Therefore, we write	
+	We propose that the rate of nucleosomes leaving the DR by sliding is proportional to the fraction of nucleosomes affected by increase of UV dose in $A_0$. In the first-order approximation, the dynamics of nucleosomes sliding, $N_S(u)$, is given by
 	\begin{equation}\label{eq:nucleosomeSlideRate}
 	\frac{dN_S(u)}{du} = k_s\left( c_nA_0-N(u))\right)\frac{dT(u)}{du}	
 	\end{equation}
 	with $k_s$ a constant of units $1/bp$. 
 	
-    The nucleosomes lost by chromatin de-compaction are those translocated along with undamaged DNA in the DR. Therefore     
+	We note that from equation \eqref{eq:nucleosomesAsSum}
 	\begin{equation}
-	N_P(u) = k_p(c_dA_0-T(u))
+	\frac{dN(u)}{du}=\frac{dN_P(u)}{du} +\frac{dN_S(u)}{du}
 	\end{equation}
-	with $k_p$ a constant of units $nucleosomes/bp$. 
-	
-	\begin{equation}\label{eq:nucleosomePushRate}
-    \frac{dN_P(u)}{du}=k_p\left((c_nA_0-N(u))-k_s(c_nA_0-N_S(u))\right)\frac{dT(u)}{du}
+	Therefore, differentiating equation \eqref{eq:nucleosomePush} with respect to $u$ and adding to it equation \eqref{eq:nucleosomeSlideRate} we obtain 
+	\begin{equation}\label{eq:nucleosomeTotalRate}
+	\frac{dN(u)}{du}= \left(k_s(c_nA_0-N(u))-k_p\right)\frac{dT(u)}{du}
 	\end{equation}
-	
-	The dynamics of $N(u)$ is obtained by adding equations \eqref{eq:nucleosomeSlideRate} and \eqref{eq:nucleosomePushRate}. Using
-	the initial condition $N(0) = 0$, we can solve for $N_T(u)$ to have
+	 Using the initial condition $N(0) = 0$, the solution of equation \eqref{eq:nucleosomeTotalRate} is 
 	\begin{equation}\label{eq:totalNucleosomeLossIDR}
 	N(u) = N_0\left[1-\exp\left(-\frac{k_p(1-k_s)+k_s}{\pi T_{max}^2}T(u)\right)\right]
 	\end{equation}
 	
 	Therefore, 
-	\begin{equation}\label{eq:nucleosomePush}
+	\begin{equation}
 	N_P(u) = \left(1-\frac{k_s}{k_p(1-k_s)+k_s}\right)N_T(u)
 	\end{equation}
 	\begin{equation}\label{eq:nucleosomeSlide}

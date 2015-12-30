@@ -6,7 +6,7 @@
 % damaged DNA 
 T = @(a1,a2,u) a2.*(1-exp(-a1.*u)); % damaged DNA
 D = @(a1,a2,a3,u) 1-1./(1+a3.*T(a1,a2,u)); % total DNa fraction loss
-H = @(a1,a2,a4,u) (1+a3.*a4).*T(a1,a2,u)./(a3+T(a1,a2,u)); % total nucleosome fraction of loss
+H = @(a1,a2,a3,a4,u) (1+a3.*a4).*T(a1,a2,u)./(a3+T(a1,a2,u)); % total nucleosome fraction of loss
 
 uData = [0  10	15	20	25	30	35	40	45	50	55	60	65	70	75 100];
 %__ histone loss data___
@@ -31,7 +31,7 @@ fitParams = zeros(numTests,4);
 fval      = zeros(numTests,1);
 for tIdx = 1:numTests
 [fitParams(tIdx,:),fval(tIdx),exitFlag,output]=...
-    fmincon(@OneDimensionalModelFit,0.1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),2*ones(4,1),[],opt);
+    fmincon(@OneDimensionalModelFit,0.05*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),2*ones(4,1),[],opt);
 end
 a1 = fitParams(1);
 a2 = fitParams(2);
@@ -39,4 +39,4 @@ a3 = fitParams(3);
 a4 = fitParams(4);
 
 figure, plot(uData,dData,'og'), hold on, plot(uData,D(a1,a2,a3,uData),'g')
- plot(uData,hData,'or'),  plot(uData,H(a1,a2,a4,uData),'r')
+ plot(uData,hData,'or'),  plot(uData,H(a1,a2,a3,a4,uData),'r')

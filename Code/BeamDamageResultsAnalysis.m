@@ -334,7 +334,7 @@ classdef BeamDamageResultsAnalysis<handle
             end            
         end
         
-        function StructuteSimilarity(obj,plotFlag)
+        function StructureSimilarity(obj,plotFlag)
             % calculate the similarity between the polymer structure before
             % UVC and at the end of repair stage 
             % the similarity is measured in terms of similar neighbors for

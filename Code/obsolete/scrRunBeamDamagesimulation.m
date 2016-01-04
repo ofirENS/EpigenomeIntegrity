@@ -85,7 +85,7 @@ dp(3)        = DomainHandlerParams('domainWidth',sqrt(cp.numBeads/6)*cp.b,...% r
 simulatorParams.SetDomainParams(dp);
 simulatorParams.SetChainParams(cp);
 
-beamDamageParams = BeamDamageParams('simulatorParams',simulatorParams);
+beamDamageParams = BeamDamageParams();
 
 % Initialize simulator framework
 r = RouseSimulatorFramework(simulatorParams);

@@ -38,7 +38,7 @@ hData = [0 	10.8220788165	14.4014983755	20.8225447327	21.2024074872	21.366857938
 dData = [0 	1.1365167475	4.545552178	8.7406190878	9.8581219326	10.2900341153	12.6333239455	20.0360763966	22.3129622161	22.5107680397	22.7887958612	20.4006799168	21.1679155925	22.757261652	26.9902966182	26.4974599239
 ]./100;
 % Analytical solutions of the model for histones and DNA loss vs UV dose
-T = @(a1,u)  (1-exp(-a1.*u)).^2;% T(u)/T_max
+T = @(a1,u)  (1-exp(-a1.*u.^2));% T(u)/T_max
 % T = @(a1,u) ((1-exp(-(a1.^2).*u))+sqrt(pi.*u).*a1.*(1-erf(a1.*sqrt(u)))).^2; 
 % %-- quadratic (damages) system 
 % T  = @(a1,u) a1.*u.^2;
@@ -55,27 +55,27 @@ h = @(a1,a2,a3,a4,u) (d(a1,a2,a3,a4,u) +(N_slide(a1,a2,a3,u))./R(a1,a2,a3,a4,u))
 
 
 % % % ---autofit
-% opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-19,'Hessian','bfgs',...
-%     'Diagnostics','off');
-% % run several tests
-% numTests  = 1;
-% fitParams = zeros(numTests,4); 
-% fval      = zeros(numTests,1);
-% for tIdx = 1:numTests
-% [fitParams(tIdx,:),fval(tIdx),exitFlag,output]=...
-%     fmincon(@FitDandH,1*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
-% end
-% [~,pl] = min(fval);
-%  fitParams = fitParams(pl,:);
-% c1 = fitParams(1);
-% c2 = fitParams(2);
-% c3 = fitParams(3);
-% c4 = fitParams(4);
+opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-19,'Hessian','bfgs',...
+    'Diagnostics','off');
+% run several tests
+numTests  = 1;
+fitParams = zeros(numTests,4); 
+fval      = zeros(numTests,1);
+for tIdx = 1:numTests
+[fitParams(tIdx,:),fval(tIdx),exitFlag,output]=...
+    fmincon(@FitDandH,0.011*rand(1,4),-1*eye(4),zeros(4,1),[],[],zeros(4,1),5*ones(4,1),[],opt);
+end
+[~,pl] = min(fval);
+ fitParams = fitParams(pl,:);
+c1 = fitParams(1);
+c2 = fitParams(2);
+c3 = fitParams(3);
+c4 = fitParams(4);
 
-c1 = 0.037;%0.036;% curve h
-c2 = 0.35;  %0.35;% lift h
-c3 = 0.24; %0.24; % lift d+h
-c4 = 0.46; %0.48; % lift d+ h
+% c1 = 0.037;%0.036;% curve h
+% c2 = 0.35;  %0.35;% lift h
+% c3 = 0.24; %0.24; % lift d+h
+% c4 = 0.46; %0.48; % lift d+ h
 
 %-- plot ---
 if showHAndDFit

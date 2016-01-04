@@ -39,6 +39,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         bendingConst@double
         bendingOpeningAngle@double        % opening angle for bending elasticity potential
         minParticleEqDistance@double      % particle equilibrium distance (for springs)
+        minCrossLinkedParticlesEqDistance % cross-linked particle equilibrium distance
         gyrationRadius@double
         lennardJonesForce@logical         % on/off [true/false]
         LJPotentialDepth@double
@@ -147,24 +148,33 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200;  % start recording before UVC beam
+            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 200; % start recording before UVC beam
             obj.numBeamSteps           = 500; % the steps until repair
-            obj.numRepairSteps         = 200;  % repair and relaxation of the fiber
+            obj.numRepairSteps         = 200; % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers           = 500;
+            obj.numMonomers                = 500;
+            obj.percentOfConnectedMonomers = 80; % range: 0 to 100
+            
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = true;
             obj.diffusionConst        = 1;
             obj.shutDownDiffusionAfterRelaxationSteps = true;
             obj.springForce           = true;
             obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.connectedMonomers     = [];
-            obj.percentOfConnectedMonomers = 80; % range: 0 to 100
-            obj.minParticleEqDistance = 0.5;       % sqrt(obj.dimension); % for spring force
+            obj.connectedMonomers     = [];            
+            obj.minParticleEqDistance = ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.minCrossLinkedParticlesEqDistance = 0.1;       % minimal distance for cross-linked particles   
+            
+            % assign min dist for connected monomers
+            for cIdx = 1:size(obj.connectedMonomers,1)
+                obj.minParticleEqDistance(obj.connectedMonomers(cIdx,1),obj.connectedMonomers(cIdx,2)) = obj.minCrossLinkedParticlesEqDistance;
+                obj.minParticleEqDistance(obj.connectedMonomers(cIdx,2),obj.connectedMonomers(cIdx,1)) = obj.minCrossLinkedParticlesEqDistance;
+            end
+            
             obj.bendingForce          = false;   % (only at initialization)
             obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;
@@ -202,11 +212,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.excludeMonomersAroundAffected            = true;
             
             %_ Repair__
-            obj.repairBrokenCrosslinks            = true;
-            obj.addCrosslinksByDistance           = true;
-            obj.distanceTheresholdToCrosslink     = 0.05;    
+            obj.repairBrokenCrosslinks            = true; % at repair stage, do we reintroduce crosslinks
+            obj.addCrosslinksByDistance           = true; % if yes, do we do it by distance
+            obj.distanceTheresholdToCrosslink     = 0.05; % what is the distance between monomers for which we cross-link them   
             obj.turnOffBendingAfterRepair         = false;
-            obj.removeExclusionVolumeAfterRepair  = true;
+            obj.removeExclusionVolumeAfterRepair  = true; % the pushing force around damaged monomers
             
             % ___ROI parameters___
             obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
@@ -216,8 +226,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.calculateExpansionFromCenterOfMass = true;      % calculate expansion dynamically from the center of mass
             obj.calculateExpansionFromBeamCenter   = false;     % calculate expansion from a fixed point (beam center)
             obj.percentOfMonomersIncludedInROI     = 90;        % calculate the ROI such that x percent are in the ROI (circular ROI), this is calculated relatively to the damaged or nondamaged, depending on the value of calculateExpansionAccordingTo
-            
-            
+                        
             %___Save and load___
             obj.saveRelaxationConfiguration  = false; % unused
             obj.saveEndConfiguration         = false; % unused           
@@ -246,6 +255,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.showExpansionCircle             = false; % show expansion circles (works for 2D only) 
             obj.showAdditionalPolymerConnectors = false; % false speeds up display (for 2D projection image only)
             
+            % set state to debug or simulation
             obj.SetSimulationState(simulationState)
             
             %___Initializ the classes___
@@ -300,7 +310,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                                 'mechanicalForceDirection','out',...
                                                 'mechanicalForceMagnitude',obj.mechanicalForceMagnitude,...
                                                 'mechanicalForceCutoff',obj.mechanicalForceCutoff);
-                                            
+                                                       
+            % randomize connected monomers other than linear connectivity           
             if ~isempty(obj.percentOfConnectedMonomers)
                 if (obj.percentOfConnectedMonomers>100 ||obj.percentOfConnectedMonomers<0)
                     error('percentage of connected monomer must be positive and <100')
@@ -322,13 +333,20 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                      end
                 end
                 obj.connectedMonomers(pIdx,:) = [rp(pIdx), rp1(1)];
+            end            
             end
             
+            % assign min distance for connected monomers
+            for cIdx = 1:size(obj.connectedMonomers,1)
+                obj.minParticleEqDistance(obj.connectedMonomers(cIdx,1),obj.connectedMonomers(cIdx,2)) = obj.minCrossLinkedParticlesEqDistance;
+                obj.minParticleEqDistance(obj.connectedMonomers(cIdx,2),obj.connectedMonomers(cIdx,1)) = obj.minCrossLinkedParticlesEqDistance;
             end
+            
+            
             cp          = ChainParams('numBeads',obj.numMonomers,...
                                       'dimension',obj.dimension,...
                                       'connectedBeads',obj.connectedMonomers,...
-                                      'initializeInDomain',1,...
+                                      'initializeInDomain',obj.domainNumbers.sphere,...
                                       'minBeadDistance',obj.minParticleEqDistance,...
                                       'forceParams',polymerForces,...
                                       'b',obj.b);
@@ -339,7 +357,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                                             'morseForce',false,...
                                             'mechanicalForce',false,...
                                             'springForce',false);
-            % the laser beam
+            % Representing the laser beam
             dp(2)     = DomainHandlerParams('domainShape','cylinder',...
                                             'reflectionType','off',...
                                             'domainCenter',[0 0 0],...

@@ -128,15 +128,28 @@
 	In order to evaluate the fractions in \eqref{eq:DNALossFraction} and \eqref{eq:nucleosomeLossFraction}, we shall first formulate a model for the damaged DNA in the DR, $T(u)$ and derive $A(u)$ and $N(u)$ based on it.
 	
 	\subsection{DNA damages in the IDR as a function of the UV dose}\label{subsection:AccumulationOfDNADamagesInTheIDR}
-	We assume that the rate of accumulation of DNA damages in the
-	$A_0$ with increasing UV dose is proportional to the undamaged DNA in $A_0$ [REF]. Therefore,	
-	\begin{equation}\label{eq:DNADamageRate}
-	\frac{dT(u)}{du} = k_t(c_dA_0 - T(u))
-	\end{equation}	
-	with $k_t$ a constant. Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:DNADamageRate} is
-	\begin{equation}\label{eq:DNADamagedIDR}
-	T(u) = c_dA_0(1-\exp(-k_tu))
+	We assume a fixed Gaussian profile of the UV laser beam, with some $\sigma>0$. With increase in UV exposure time, additional DNA damages, located further from the focal point, will be inflicted. With the radius of damage zone, $R(u)$, increasing as a function of $u$ until the damage region reaches a maximal area of $A_0$. We assume damages past the $R(u)$ are negligible, both in measurements and for the dynamics of nucleosome and DNA loss.
+	
+	For a uniform distribution of DNA, the expected number of damages in $R(u)$ is
+	\begin{equation}\label{eq:expectednumberOfDamagesWithRadius}
+	\frac{1}{\sqrt{2\pi}\sigma}\int_0^{R(u)}\exp\left(-\frac{r^2}{2\sigma^2}\right)rdr
 	\end{equation}
+	We assume here that the radius is proportional to the UV dose, hence $R(u)=k_uu$, with $0<u<u_{max}$. The solution of equation \eqref{eq:expectednumberOfDamagesWithRadius} is the expected total damaged DNA
+	\begin{equation}\label{eq:DNADamagedIDR}
+	T(u) = \frac{k_t}{2\sqrt{\pi}}\left[1-\exp\left(-\frac{u^2}{k_t^2}\right)\right]
+	\end{equation}
+	and $k_t=\frac{\sqrt{2}\sigma}{k_u}$.
+	
+	
+%	We assume that the rate of accumulation of DNA damages in the
+%	$A_0$ with increasing UV dose is proportional to the undamaged DNA in $A_0$ [REF]. Therefore,	
+%	\begin{equation}\label{eq:DNADamageRate}
+%	\frac{dT(u)}{du} = k_t(c_dA_0 - T(u))
+%	\end{equation}	
+%	with $k_t$ a constant. Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:DNADamageRate} is
+%	\begin{equation}
+%	T(u) = c_dA_0(1-\exp(-k_tu))
+%	\end{equation}
 	
 	\subsection{Deriving the functions describing loss of nucleosome from the IDR and the ROI expansion}
 	We now turn to construct a model for the number of nucleosomes $N(u)$
@@ -154,7 +167,7 @@
 	
 	We propose that the rate of nucleosomes leaving the DR by sliding is proportional to the fraction of nucleosomes affected by increase of UV dose in $A_0$. In the first-order approximation, the dynamics of nucleosomes sliding, $N_S(u)$, is given by
 	\begin{equation}\label{eq:nucleosomeSlideRate}
-	\frac{dN_S(u)}{du} = k_s\left( c_nA_0-N(u))\right)\frac{dT(u)}{du}	
+	\frac{dN_S(u)}{du} = k_s\left( c_nA_0-N_S(u))\right)\frac{dT(u)}{du}	 
 	\end{equation}
 	with $k_s$ a constant of units $1/bp$. 
 	

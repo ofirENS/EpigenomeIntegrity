@@ -1,6 +1,6 @@
 classdef BeamDamageParams<handle %{UNFINISHED}
     
-    properties% Do not edit this section manually
+    properties% Do not edit this section
         % These properties are place-holders for parameter values. Do not edit this section
         % manually. To set parameter values see BeamDamageParams function
         % in the method section of this class
@@ -130,7 +130,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
     
     methods
         
-        function obj = BeamDamageParams()% Edit parametes here
+        function obj = BeamDamageParams()% Edit parameters here
             simulationState        = 'debug'; % options: [debug | simulation]
             
             % Simulation trials
@@ -147,7 +147,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 100;  % initialization step (burn-in time)
+            obj.numRelaxationSteps     = 200;  % initialization step (burn-in time)
             obj.numRecordingSteps      = 200;  % start recording before UVC beam
             obj.numBeamSteps           = 500; % the steps until repair
             obj.numRepairSteps         = 200;  % repair and relaxation of the fiber
@@ -164,7 +164,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.springConst           = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];
             obj.percentOfConnectedMonomers = 80; % range: 0 to 100
-            obj.minParticleEqDistance = 1;       % sqrt(obj.dimension); % for spring force
+            obj.minParticleEqDistance = 0.5;       % sqrt(obj.dimension); % for spring force
             obj.bendingForce          = false;   % (only at initialization)
             obj.bendingConst          = 1*obj.dimension*obj.diffusionConst/obj.b^2;
             obj.bendingOpeningAngle   = pi;
@@ -181,7 +181,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.65;
+            obj.mechanicalForceCutoff    = 0.45;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -204,7 +204,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %_ Repair__
             obj.repairBrokenCrosslinks            = true;
             obj.addCrosslinksByDistance           = true;
-            obj.distanceTheresholdToCrosslink     = 0.1;    
+            obj.distanceTheresholdToCrosslink     = 0.05;    
             obj.turnOffBendingAfterRepair         = false;
             obj.removeExclusionVolumeAfterRepair  = true;
             

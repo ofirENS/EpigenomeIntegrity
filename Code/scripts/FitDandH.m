@@ -19,7 +19,7 @@ N_slide = 1-exp(-a(2).*T);%(a(2)./((a(3).*(1-a(2))+a(2)))).*N_total;
 % N_open  = (a(3).*(1-a(2))./(a(3).*(1-a(2))+a(2))).*N_total;
 % N  = (exp(-a(2).*T))+(1-T);
 A  = a(3).*N_slide +a(4).*T;%(1+a(4)*(N_total));%+(a(4))*T);
-D  = 1-(T./A);%((R-1)./R +N_open./R );
+D  = 1-(1./A);%((R-1)./R +N_open./R );
 H  = D+(N_slide./A);
 
 md = sum((dData-mean(dData)).^2);
@@ -33,7 +33,7 @@ mh = sum((hData-mean(hData)).^2);
 % H = sqrt(sum((1-exp(-a(2).*(1-exp(-a(1).*u)))./(1+a(3).*(1-exp(-(a(2)).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)))-hData).^2)) ;
 % D = sqrt(sum(((a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u)))./...
 %     (1+a(3).*(1-exp(-a(2).*(1-exp(-a(1).*u))))+a(4).*(1-exp(-a(1).*u))) -dData).^2));
-fVal = (sum((H-hData).^2))./mh ;%+(sum((D-dData).^2))./md;%+...
+fVal = (sum((H-hData).^2))./mh +(sum((D-dData).^2))./md;%+...
 %        (sum(((1-(D./H)) -(1-(dData./hData))).^2))./m1mddh;%+...
 %         sum((D./H - dData./hData).^2)./mddh;
        

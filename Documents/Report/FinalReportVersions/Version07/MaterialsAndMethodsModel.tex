@@ -63,20 +63,15 @@
 	
 	\section{Result section}
 	To estimate the nucleosome reorganization following DNA damages, we have
-	constructed a mathematical model, where redistribution can be due either to chromatin de-
-	compaction or nucleosome sliding along the chromatin or both of them. We
-	have used the model to assess the relative contribution of these two processes
-	to the total DNA and nucleosome signal loss from a region of interest (ROI),
-	a quantity which is inaccessible experimentally.
+	constructed a mathematical model, where redistribution can be due either to chromatin de-compaction or nucleosome sliding along the chromatin or both of them. We have used the model to assess the relative contribution of these two processes to the total DNA and nucleosome signal loss from a region of interest (ROI), a quantity which is inaccessible experimentally.
 	
 	The model (presented in Material and methods) follows the DNA, $D(u)$,
 	and nucleosome, $H(u)$, fraction of signal loss from the ROI as a function of
 	the UV dose, $u$. We have used the measured H3.3 and DNA signal loss to
-	calibrate parameters of nucleosome and DNA models respectively (Fig. 3A-
-	D). Using the calibrated models we have found that the relative contribution
+	calibrate parameters of nucleosome and DNA models respectively. Using the calibrated models we have found that the relative contribution
 	of nucleosome sliding to the total signal loss in the ROI is monotonically
-	decreasing from 75\% to 70\% for nucleosomes and 51\% to 40\% for DNA loss,
-	as the UV dose increases from 5 to 100 msec. The remaining percentages are
+	decreasing from 62.5\% to 56.3\% for nucleosomes and 27.3\% to 20\% for DNA loss,
+	as the UV dose increases from 0 to 100 msec. The remaining percentages are
 	attributed to chromatin expansion and de-compaction (see Figure \ref{fig:relatiiveContributionToLoss}).
 	
 	\begin{figure}[H]
@@ -86,22 +81,19 @@
 		\label{fig:relatiiveContributionToLoss}
 	\end{figure}
 	
- \section{Material and methods: Modeling nucleosomes and DNA redistribution following UV damages} 
+ \section{Material and methods} 
 	
 	We present here a model for nucleosomes and DNA re-organization following
 	UV damages. The cascade of events leading to tagged DNA and nucleosomes'
 	redistribution, results in signal extrusion from a region of interest (ROI) up
 	to a maximal loss, measured 15 minutes post UV-C.
 	
-	\subsection{Dynamics of nucleosomes following UV damages in the region of interest}
+ \subsection{The experimental procedure}
 	% short explanation of the experimental protocol and observation
-	Following the experimental protocol (see Figure NNN), a two-dimensional circular initial damage region (DR), induced by the UV-C laser, is centered around the focal point (origin of the coordinates) with a fixed area of $A_0$. Following
-	laser induction with a UV dose $u$ $[msec]$, the damaged region expands radially outward and reaches its maximal area of $A(u)$ after 15 minutes. At the end of expansion, the circular region is defined as the ROI, in which DNA and nucleosome signals are measured at
-	time 0 and 15 minutes. The fraction of signal loss is calculated for DNA and nucleosomes as
-	\begin{equation*}
-	\frac{signal(0)-signal(15)}{signal(0)}
-	\end{equation*}	
-	where $signal(0)$ and $signal(15)$ are the DNA or nucleosome signals at time 0 and 15 minutes respectively. 
+	Following the experimental protocol (see Figure NNN), a two-dimensional circular initial damage region (DR), induced by the UV-C laser, is centered around the focal point (origin of the coordinates). Following
+	laser induction with a UV exposure $u$ $[msec]$, the damaged region expands radially outward and reaches its maximal area after 15 minutes. At the end of expansion, the circular region is defined as the ROI, in which DNA and nucleosome signals are measured and compared to signals measured at the ROI just prior to UV induction. The fraction of signal loss is calculated as the difference between the two measurements relative to time 0.  
+	
+	\subsection{Modeling nucleosomes and DNA redistribution following UV damages}
 	% experimental data shows that nucleosome signal loss is geater than DNa signal loss. the imbalance cannot be explained by pushing alone, therefore we introduce sliding. 
 	We assume that the loss of DNA and nucleosome signals post UV-C is due
 	to two mechanisms: the first is chromatin expansion, and the second is nucleosomes sliding along the chromatin. For chromatin expansion, recruitment of repair and chromatin remodeling factors to bind to damaged DNA causes chromatin de-compaction and cross-links break \cite{luijsterburg2012ddb2} to facilitate efficient repair \cite{gaillard2003chromatin}. Accumulation of repair factors in the DR will generate a pushing force surrounding chromatin in a radial outward direction \cite{dinant2007activation}. As a result, DNA and nucleosome outside the DR will be extruded from the ROI in equal proportions. 
@@ -128,20 +120,16 @@
 	In order to evaluate the fractions in \eqref{eq:DNALossFraction} and \eqref{eq:nucleosomeLossFraction}, we shall first formulate a model for the damaged DNA in the DR, $T(u)$ and derive $A(u)$ and $N_S(u)$ based on it.
 	
 	\subsection{DNA damages in the DR as a function of the UV dose}\label{subsection:AccumulationOfDNADamagesInTheDR}
-	 We assume a uniform illumination of UV in $A_0$ such that the expected number of damages in $A_0$ increases monotonically with $u$. Let the expected number of damages in $A_0$ for a given UV dose $u$ be $\lambda(u)A_0$, with $\lambda(u)$ in units of $1/\mu m^2$. Because damages cannot occur on the same position on the DNA, the rate of accumulation of DNA damages with UV dose can be written as
+	 We assume a uniform illumination of the UV beam in $A_0$ such that the average number of damages per $\mu m^2$ is constant for a fixed $u$. As the uv exposure time increases, we assume that the average number of damages per $\mu m^2$ increases as $k_tu$, with $k_t$ in units of $bp/(msec\times \mu m^2)$. Because damages cannot occur on the same position on the DNA, the rate of accumulation of DNA damages with UV dose can be written as
 	\begin{equation}\label{eq:DNADamageRate}
 	\frac{dT(u)}{du} = \lambda(u)A_0(c_dA_0 - T(u))
 	\end{equation}	
 	 Using the initial condition $T(0) = 0$, the solution to equation \eqref{eq:DNADamageRate} is
-	\begin{equation}\label{eq:DNADamageDRgeneral}
-	T(u) = c_dA_0(1-\exp(-A_0\int_0^u\lambda(s)ds))
-	\end{equation}
-	In our model we assume $\lambda(u)=k_tu$, with $k_t$ a constant of units  $1/(msec\times \mu m^2)$. Plugging $\lambda(u)$ into equation \eqref{eq:DNADamageDRgeneral}, we obtain 
 	\begin{equation}\label{eq:DNADamageDR}
-	T(u) = c_dA_0(1-\exp(-k_tA_0u^2))
+		T(u) = c_dA_0(1-\exp(-k_tu^2))
 	\end{equation}
 	
-	\subsection{The number of nucleosomes sliding and the ROI expansion}
+	\subsection{The number of nucleosomes sliding out of the DR}
 	We now turn to construct a model for the number of nucleosomes $N_S(u)$
 	sliding out of the DR and subsequently out of the ROI as a function of the UV dose. Although the exact mechanism by which nucleosome are lost is not known, 
 	we propose that the rate of nucleosomes sliding out is proportional to the fraction of nucleosomes affected by increase of UV dose in $A_0$. In the first-order approximation, the dynamics of nucleosomes sliding is given by
@@ -153,7 +141,7 @@
 	N_S(u)= c_nA_0\left(1-\exp(-k_sT(u))\right)
 	\end{equation}
 	with $T(u)$ defined in equation \eqref{eq:DNADamageDR}.
-
+   \subsection{A model for ROI expansion}
 	Next, we model the dynamics of the ROI area $A(u)$ with increasing UV
 	dose. For this end, we consider the ROI area to expand as a result of the de-compaction of the damaged DNA, and by the effect of nucleosome sliding. 			
 	\begin{equation}\label{eq:RoiAreaGrowthRate}
@@ -165,6 +153,7 @@
 	\end{equation}
 	 with $A_0$ representing the size of the DR even in the absence of UV irradiation.
 	 
+	 \subsection{Final expression for $D(u)$ and $H(u)$}
 	We can now substitute the functions \eqref{eq:DNADamageDR}, \eqref{eq:nucleosomeSlideDR}, \eqref{eq:RoiArea} into the equations \eqref{eq:DNALossFraction} and \eqref{eq:nucleosomeLossFraction} to get the expressions for $D(u)$ and $H(u)$. We present the result in terms of $T(u)$
 	\begin{equation}\label{eq:DNALoss}
 	D(u) = 1-\frac{1}{1+ k_ac_n\left(1-\exp(-k_sT(u))\right)+k_bT(u)/A_0} 
@@ -174,9 +163,9 @@
 	\end{equation}
 	
 	\subsection{Parameter fit for $D(u)$ and $H(u)$}\label{subsection:parameterFit}
-	We now fit equations \eqref{eq:DNALoss}  and \eqref{eq:nucleosomeLoss} to the experimental data. We simultaneously fit equations \eqref{eq:DNALoss}  and \eqref{eq:nucleosomeLoss} to the H3.3 and DNA loss data, with the goal of maximizing the $R^2$ of both equations. Excluding the measurement at 5 msec, and using classical fitting procedure, we find
+	We now fit equations \eqref{eq:DNALoss} and \eqref{eq:nucleosomeLoss} to the experimental data. We simultaneously fit equations \eqref{eq:DNALoss}  and \eqref{eq:nucleosomeLoss} to the H3.3 and DNA loss data, with the goal of maximizing the $R^2$ of both equations. Excluding the measurement at 5 msec, and using classical fitting procedure, we find
 	\begin{equation*}
-	k_tA_0 = 0.0008, \quad k_sc_dA_0 = 0.31,\quad k_ac_n = 0.29, \quad k_bc_d = 0.24
+	k_tA_0 = 8\times 10^{-4}, \quad k_sc_dA_0 = 0.31,\quad k_ac_n = 0.29, \quad k_bc_d = 0.24
 	\end{equation*}
 	with $R^2 = 0.94$ and $R^2 = 0.955$ for DNA and nucleosome loss fit respectively.
 	
@@ -196,69 +185,39 @@
 \subsection{Relative contribution of opening and sliding to DNA
 	and nucleosome signal loss}
 
-Using the calibrated model in equation equations \eqref{eq:DNALoss}  and \eqref{eq:nucleosomeLoss}, we now calculate the
+Using the calibrated model in equation equations \eqref{eq:DNALoss} and \eqref{eq:nucleosomeLoss}, we now calculate the
 relative contribution of chromatin opening and nucleosome sliding to the
 total loss of DNA and nucleosomes. The sliding contribution refers to all loss
 caused by either directly sliding nucleosome out of the DR or as the effect
 nucleosome sliding has on pushing chromatin out of the DR. Chromatin opening contribution refers to all signal loss caused by chromatin remodeling.
 
-We start by dividing the equation describing the ROI expansion into the
-two sub-mechanisms of signal loss
+We start by partitioning equation \eqref{eq:RoiArea}, describing the ROI into the two sub-mechanisms contributing to its expansion 
 \begin{equation*}
 A(u) = A_P(u) +A_S(u)
 \end{equation*}
-with $A_P(u)$ the area attributed to chromatin opening, and $A_S(u)$ to nucleosome sliding. Subtracting the sliding contribution from the ROI expansion
-in equation \eqref{eq:RoiArea}, we arrive at
+with $A_P(u)=A_0+k_bT(u)$, the area attributed to chromatin opening, and $A_S(u)=k_aN_S(u)$ to nucleosome sliding. 
+
+The fraction of DNA signal loss attributed to chromatin opening is calculated as the ratio 
 \begin{equation*}
-A_P(u) = A_0 + k_aT(u)
+D_P(u)=\frac{c_dA_P(u)-c_dA_0}{c_dA(u)}
 \end{equation*}
-
-The DNA loss attributed to chromatin opening and de-compaction is thus
-\begin{equation*}
-D(u)_{opening}= \frac{A_P(u)/A_0 -1 +D_P(u)/A_0}{A_P(u)/A_0}
-\end{equation*}	
-The fraction attributed to chromatin opening and sliding out of the total
-DNA loss are given respectively by
+The relative contribution of chromatin opening to the total DNA signal loss is therefore,
 \begin{equation}\label{eq:relativeOpeningSlidingDNA}
-\frac{D(u)_{opening}}{D(u)}, \quad \frac{D(u)_{sliding}}{D(u)}=1-\frac{D(u)_{opening}}{D(u)}
+\frac{D_P(u)}{D(u)}=\frac{A_P(u)/A_0-1}{A(u)/A_0-1}
+\end{equation}	
+The relative contribution of nucleosome sliding to the total DNA signal loss is
+\begin{equation}
+\frac{D_S(u)}{D(u)}=1-\frac{D_P(u)}{D(u)}
 \end{equation}
 
-Similarly, the relative contribution of chromatin opening and nucleosome
-sliding to the total nucleosome loss is given respectively by
+The relative contribution of chromatin opening and nucleosome
+sliding to the total nucleosome signal loss is given respectively by
 \begin{equation}\label{eq:relativeOpeningSlidingNucleosomes}
-\frac{H(u)_{opening}}{H(u)} = \frac{D(u)_{opening}}{H(u)},\quad \frac{H(u)_{sliding}}{H(u)}=1-\frac{H(u)_{opening}}{H(u)}
+\frac{H_P(u)}{H(u)} = \frac{D_P(u)}{H(u)},\quad \frac{H_S(u)}{H(u)}=1-\frac{H_P(u)}{H(u)}
 \end{equation}
-
-where here we have used the fact that $H(u)_{opening} = D(u)_{opening}$. Graphs of
+where here we have used the fact that $H_P(u) = D_P(u)$, i.e fraction of nucleosomes pushed with undamaged DNA out of the ROI. Graphs of
 equations \eqref{eq:relativeOpeningSlidingDNA} and \eqref{eq:relativeOpeningSlidingNucleosomes}  are presented in Figure \ref{fig:relatiiveContributionToLoss}.
 
-\subsection{Nucleosome sliding out of the IDR}
-The fraction of nucleosomes lost by sliding out of the total nucleosomes in the IDR
-(and eventually pushed out of the ROI) is found to be an increasing function
-of the UV dose
-
-\begin{equation*}
-N_S(u) = \frac{H(u)-D(u)}{1-D(u)}
-\end{equation*}
-
-Substituting the parameter values in subsection \ref{subsection:parameterFit} and plugging \eqref{eq:DNALoss} and \eqref{eq:nucleosomeLoss} into the expression above, we obtain the results in Figure \ref{fig:fractionSlidingOutOfIDR}, where the model
-in equation \eqref{eq:nucleosomeSlide} is plotted against the experimental data ($R^2 = 0.75$).
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\linewidth, height=0.3\textheight]{fractionSlidingOutOfIDR}
-\caption{\textbf{Fraction of nucleosomes sliding out of the IDR. The plot
-		against the experimental data resulted in $R^2 = 0.75$}}
-\label{fig:fractionSlidingOutOfIDR}
-\end{figure}
-
-The parameters values found in subsection \ref{subsection:parameterFit}, can further be used to estimate the fraction of nucleosome loss from the IDR attributed to sliding and
-chromatin opening. These contributions are given by the leading coefficients
-in the equations \eqref{eq:nucleosomePush} and \eqref{eq:nucleosomeSlide} for $N_P(u)$ and $N_S(u)$, respectively. We have, for
-chromatin opening and sliding, respectively
-\begin{equation*}
-N_P(u) = 0.3N_T(u),\quad N_S(u) = 0.7N_T(u)
-\end{equation*}
 
 % The bibliography
 \bibliographystyle{plain}

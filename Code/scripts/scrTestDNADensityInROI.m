@@ -5,7 +5,7 @@
 % parameter values are set proportional to (dimension*diffusionConst/b^2)
 close all 
 %% parameters
-numParticles     = 400;
+numParticles     = 200;
 dimension        = 3;
 % relxation time 
 % (numParticles*b)^2 / (3*diffusionConst*pi^2)
@@ -100,18 +100,16 @@ projRoiHandle       = patch([cm(1)-roiRadius,cm(1)+roiRadius,cm(1)+roiRadius,cm(
                                 'Parent',projAxes,'FaceAlpha',0.5);  
                             
 baseLineDensity   = ConcentricDensityInRoi(particlePosition,[cm(1)-roiRadius,cm(2)-roiRadius,2*roiRadius,2*roiRadius],roiRes);
-affectedBeadsInds = find(affectedBeads);
+
 %% Run Simulation                            
 for sIdx = 1:numSteps
     
     particleDist = ForceManager.GetParticleDistance(particlePosition);
-    
+    affectedBeadsInds = find(affectedBeads);
     % Calculate forces
-    bendingForce   = ForceManager.GetBendingElasticityForce(bendingFlag,particlePosition,particleDist,connectivityMap,bendingConst,affectedBeadsInds,angle0,fixedParticleNum);
-
-    bendingForce(~affectedBeads,:) = 0;% zero out bending forces for unaffected beads 
-    diffusionForce = ForceManager.GetDiffusionForce(diffusionFlag,dimension,numParticles,diffusionConst,dt,fixedParticleNum);
-    springForce    = ForceManager.GetSpringForce(springsFlag,particlePosition,particleDist,springConst,connectivityMap,minParticleDist,fixedParticleNum);
+    bendingForce   = ForceManager.GetBendingElasticityForce(bendingFlag,particlePosition,particleDist,connectivityMap,bendingConst,affectedBeadsInds,angle0,fixedParticleNum,[]);
+    diffusionForce = ForceManager.GetDiffusionForce(diffusionFlag,particlePosition,diffusionConst,dt,fixedParticleNum,[]);
+    springForce    = ForceManager.GetSpringForce(springsFlag,particlePosition,particleDist,springConst,connectivityMap,minParticleDist,fixedParticleNum,[]);
     
     % Update position
     particlePosition = particlePosition +(bendingFlag*bendingForce +springsFlag*springForce)*dt+ diffusionFlag*diffusionForce;

@@ -5,7 +5,7 @@
 % bridge between them. the number of points falling within the inner circle
 % is shown in the histogram 
 close all 
-dimension    = 3;
+dimension    = 2;
 numPairs     = 150;
 numPoints    = 2*numPairs;
 numExperiments = 1;
@@ -30,7 +30,7 @@ bbPath   = cell(numPairs,1);
 for pIdx = 1:numPairs
     % pass a brownianBridge between the pair of points 
     bb.params.startPoint = sampledPoints(pairInds(2*pIdx-1),:);
-    bb.params.endPoint  = sampledPoints(pairInds(2*pIdx),:);
+    bb.params.endPoint   = sampledPoints(pairInds(2*pIdx),:);
     bb.GetBridge;
     bbPath(pIdx) = bb.paths;
     % for each path, check the number of points in the inner circle 
@@ -58,5 +58,4 @@ daspect(a,[1 1 1]), cameratoolbar
 inDomain = inDomain(:); 
 inDomain = inDomain(inDomain~=0);
 figure,
-hist(inDomain,20)
-% end
+hist(inDomain,20), title('Histogram of path length')

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  8 JAN 2016 16:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  8 JAN 2016 16:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -288,14 +288,14 @@ Overfull \hbox (7.54552pt too wide) in paragraph at lines 107--108
 nu-cle-o-somes wrapped
  []
 
-[4] [5] [6] <histoneAndDnaVsUvDoseModelFit.jpg, id=34, 1686.3pt x 938.50626pt>
+[4] [5] <histoneAndDnaVsUvDoseModelFit.jpg, id=31, 1686.3pt x 938.50626pt>
 File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
 
 <use histoneAndDnaVsUvDoseModelFit.jpg>
 Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 1
 82.
 (pdftex.def)             Requested size: 194.98825pt x 164.54178pt.
-
+ [6]
 Overfull \hbox (9.5812pt too wide) in paragraph at lines 193--193
 []\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
  []
@@ -309,7 +309,7 @@ Here is how much of TeX's memory you used:
  6164 multiletter control sequences out of 15000+600000
  14606 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,6n,26p,1879b,274s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,6n,26p,1855b,274s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
@@ -321,7 +321,7 @@ msfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmti12.pfb>
-Output written on MaterialsAndMethodsModel.pdf (9 pages, 499836 bytes).
+Output written on MaterialsAndMethodsModel.pdf (9 pages, 499964 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  58 compressed objects within 1 object stream

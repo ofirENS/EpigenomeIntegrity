@@ -47,8 +47,8 @@ h       = @(a1,a2,a3,a4,u) ((d(a1,a2,a3,a4,u) +(N_slide(a1,a2,u))./R(a1,a2,a3,a4
 
 
 % % % ---autofit
-opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-15,'Hessian','bfgs',...
-    'Diagnostics','off');
+% opt       = optimset('TolFun',1e-15,'TolX',1e-15,'MaxIter',1e7,'MaxFunEvals',1e7,'TolCon',1e-15,'Hessian','bfgs',...
+%     'Diagnostics','off');
 % % run several tests
 % numTests  = 1;
 % fitParams = zeros(numTests,4); 
@@ -174,7 +174,7 @@ title('Relative contribution to DNA loss','FontSize',fontSize,'Parent',ax6)
 xlabel(ax6,'UV dose','FontSize',fontSize)
 ylabel(ax6,'Fraction of loss','FontSize',fontSize)
 
-d_open          = ((R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)-1)./(R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)));
+d_open          = ((R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)-1)./(R(c1,c2,c3,c4,uVals)));%-c3.*N_slide(c1,c2,uVals)));
 relativeOpening = [d_open./d(c1,c2,c3,c4,uVals);
                    1-d_open./d(c1,c2,c3,c4,uVals)];
 
@@ -206,9 +206,9 @@ if showRelativeOpeningHistone
   fig7  = figure;
   uVals = 0.001:0.5:max(uData);
   ax7   = axes('Parent',fig7,'NextPlot','Add');
-  d_open           = ((R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)-1)./(R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)));
-  relativeOpeningH = [d_open./h(c1,c2,c3,c4,uVals); 
-                      1-d_open./h(c1,c2,c3,c4,uVals)];
+  h_open           = ((R(c1,c2,c3,c4,uVals)-c3.*N_slide(c1,c2,uVals)-1)./(R(c1,c2,c3,c4,uVals)));%-c3.*N_slide(c1,c2,uVals)));
+  relativeOpeningH = [h_open./h(c1,c2,c3,c4,uVals); 
+                      1-h_open./h(c1,c2,c3,c4,uVals)];
   bar(uVals,relativeOpeningH',1.5,'Stacked')
   title('Relative contribution to nucleosome loss','FontSize',fontSize)
   xlabel(ax7,'UV dose','FontSize',fontSize); 

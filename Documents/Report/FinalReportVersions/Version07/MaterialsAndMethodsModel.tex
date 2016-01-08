@@ -71,14 +71,14 @@
 	
 	Using the calibrated models we have found that the relative contribution
 	of nucleosome sliding to the total signal loss in the ROI is monotonically
-	decreasing from 62.5\% to 56.3\% for nucleosomes and 27.3\% to 20\% for DNA loss,
+	decreasing from 27.3\% to 24\% for DNA loss and from 62.5\% to 60\% for nucleosome signal,
 	as the UV dose increases from 0 to 100 msec. The remaining percentages are
 	attributed to chromatin expansion and de-compaction (see Figure \ref{fig:relatiiveContributionToLoss}).
 	
 	\begin{figure}[H]
 		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relatiiveContributionToDNALoss}
 		\includegraphics[width=0.5\linewidth, height=0.3\textheight]{relativeContributionToHistoneLoss}
-		\caption{\textbf{Relative contribution of chromatin opening and nucleosome sliding to DNA (left) and histone (right) loss}. Sliding contribution is monotonically decreasing with UV dose for both DNA and nucleosome signals. The increase in chromatin opening contribution is due to the increase in chromatin reorganization following high dosages of UV, which is responsible for the majority of signal loss.}
+		\caption{\textbf{Relative contribution of chromatin opening and nucleosome sliding to DNA (left) and histone (right) loss}. Sliding contribution is monotonically decreasing with UV dose for both DNA and nucleosome signals.}
 		\label{fig:relatiiveContributionToLoss}
 	\end{figure}
 	
@@ -96,7 +96,7 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.7\linewidth, height=0.4\textheight]{ExperimentalProcedure}
-			\caption{\small{\textbf{Expansion of the ROI post UV-C as a result of chromatin de-compaction and nucleosome sliding.} \textbf{A.} illumination of UV-C (red cylinder) in the initial damage region (DR) of area $A_0$ create uniformly distributed UV lesions (red stars) shows repair proteins (green polygons) de-compact the chromatin to access DNA damages. Additionally, to facilitate efficient repair, DNA is exposed by sliding nucleosomes. Chromatin de-compaction and nucleosome sliding expand the DR up to a maximal area $A(u)$ (the ROI), reached 15 minutes post UV-C irradiation \textbf{C.} expansion of the DR due to DNA de-compaction by chromatin remodlers and repair proteins results in equal proportion of DNA and nucleosome signal extrusion from the ROI \textbf{D.} nucleosome sliding allows additional loss of nucleosome signal with no DNA signal loss. Three time points on a 1D representation shows the principle of nucleosome signal loss with no DNA signal loss from the ROI. Nucleosomes (green circle) slide over a UV lesion (red star) displaces the lesion spatially by a distance equivalent to length of DNA wrapped on a histone ($\approx150 bp$) }. As nucleosome slide, tagged repair protein will bind to newly exposed damage points, thus expanding the DR while retaining all UV lesions in it.}
+			\caption{\small{\textbf{Expansion of the ROI post UV-C as a result of chromatin de-compaction and nucleosome sliding.} \textbf{A.} illumination of UV-C (red cylinder) in the initial damage region (DR) of area $A_0$ create uniformly distributed UV lesions (red stars) shows repair proteins (green polygons) de-compact the chromatin to access DNA damages. Additionally, to facilitate efficient repair, DNA is exposed by sliding nucleosomes. Chromatin de-compaction and nucleosome sliding expand the DR up to a maximal area $A(u)$ (the ROI), reached 15 minutes post UV-C irradiation \textbf{C.} expansion of the DR due to DNA de-compaction by chromatin remodlers and repair proteins results in equal proportion of DNA and nucleosome signal extrusion from the ROI \textbf{D.} nucleosome sliding allows additional loss of nucleosome signal with no DNA signal loss. Three time points on a 1D representation shows the principle of nucleosome signal loss with no DNA signal loss from the ROI. Nucleosomes (green circle) sliding over a UV lesion (red star) displaces the lesion spatially by a distance equivalent to length of DNA wrapped on a histone ($\approx150 bp$) }. As nucleosome slide, tagged repair protein will bind to newly exposed damage points, thus expanding the DR while retaining all UV lesions in it.}
 			\label{fig:ExperimentalProcedure}
 		\end{figure}
 		
@@ -112,7 +112,7 @@
 	
 
 	\subsection{Dynamics of DNA and nucleosome loss from the DR}
-	The DR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$, respectively. We assume an initial uniform distribution of DNA in the DR and its vicinity, such that the amount of DNA in $A(u)$ is $c_dA(u)$, with $c_d$ in units of $bp/\mu m^2$. 
+	The DR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$, respectively (Figure \ref{fig:ExperimentalProcedure} box A,B). We assume an initial uniform distribution of DNA in the DR and its vicinity, such that the amount of DNA in $A(u)$ is $c_dA(u)$, with $c_d$ in units of $bp/\mu m^2$. 
 	
 	We restrict DNA damages to be inflicted only in $A_0$ immediately after UV induction. We set $T(u)$ to represent the amount of damaged DNA left in $A(u)$ 15 minutes post UV-C, while the undamaged DNA is assumed to be extruded. Therefore, the fraction of DNA signal loss, $D(u)$, is calculated as the ratio of extruded DNA to the total amount of DNA in the ROI, $c_dA(u)$. 
 	\begin{equation}\label{eq:DNALossFraction}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  9 JAN 2016 19:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Arch Linux) (preloaded format=pdflatex 2015.12.16)  10 JAN 2016 17:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -321,46 +321,54 @@ LaTeX Info: Redefining \nameref on input line 8.
 \@outlinefile=\write3
 \openout3 = `SimulationFrameworkForChromatineArchitecturePostUVC.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 15.
+LaTeX Font Info:    Try loading font information for U+msa on input line 18.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 15.
+LaTeX Font Info:    Try loading font information for U+msb on input line 18.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
- [1
+Overfull \hbox (8.08151pt too wide) in paragraph at lines 18--19
+\OT1/cmr/m/n/12 har-monic springs to rep-re-sent a coarse-grained model of the 
+chro-matin. Springs
+ []
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 32.
+ [2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 32.
 
 (./SimulationFrameworkForChromatineArchitecturePostUVC.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 32.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 32.
 Package rerunfilecheck Info: File `SimulationFrameworkForChromatineArchitecture
 PostUVC.out' has not changed.
-(rerunfilecheck)             Checksum: DFFF3DE25BBF2BE92073C54D9A693DB2;362.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
+(rerunfilecheck)             Checksum: 3A7042353B9EF41C2E76B04B23C04EA3;401.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 32.
  ) 
 Here is how much of TeX's memory you used:
- 6038 strings out of 493054
- 86511 string characters out of 6140585
- 171673 words of memory out of 5000000
- 9498 multiletter control sequences out of 15000+600000
- 9197 words of font info for 35 fonts, out of 8000000 for 9000
+ 6042 strings out of 493054
+ 86537 string characters out of 6140585
+ 173673 words of memory out of 5000000
+ 9500 multiletter control sequences out of 15000+600000
+ 9803 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,5n,28p,599b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,5n,28p,858b,325s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on SimulationFrameworkForChromatineArchitecturePostUVC.pdf (1 pa
-ge, 38095 bytes).
+ts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r8.pfb>
+Output written on SimulationFrameworkForChromatineArchitecturePostUVC.pdf (2 pa
+ges, 61741 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
- 9 named destinations out of 1000 (max. 500000)
+ 65 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
+ 10 named destinations out of 1000 (max. 500000)
  49 words of extra memory for PDF output out of 10000 (max. 10000000)
 

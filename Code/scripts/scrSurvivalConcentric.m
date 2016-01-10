@@ -1,4 +1,8 @@
-% calculate hazard and survival for signal transfered between concentric rings 
+% calculate hazard and survival for signal transfered between concentric
+% rings aroung a uv laser focal point. The loss function is described at
+% steady state 15 minutes post UV-C. Here we are interested in the material
+% passing between layers and not necesserily the end amount. 
+
 R     = 3.5; % [mu/m]
 dr    = 0.005;
 startRadius = 1e-10;

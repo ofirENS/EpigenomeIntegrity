@@ -806,8 +806,8 @@ classdef BeamDamageSimulation<handle
                     'LineStyle','none');
                 
                 % insert the projection to the projection axes
-                obj.handles.projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
-                    'r', 'Parent',obj.handles.projectionAxes, 'FaceAlpha',0.5);
+%                 obj.handles.projPlane2D = patch([rectX, (rectX+rectWidth), (rectX+rectWidth), rectX],[rectY, rectY, (rectY+rectHeight), (rectY+rectHeight)],...
+%                     'r', 'Parent',obj.handles.projectionAxes, 'FaceAlpha',0.5);
             end
                         
             % create density in ROI axes
@@ -880,6 +880,8 @@ classdef BeamDamageSimulation<handle
                 set(obj.handles.affectedBeads2D,'XData',chainPos(bIn,1), 'YDAta',chainPos(bIn,2));
                 % update additional connectors
                 if obj.params.showAdditionalPolymerConnectors
+                    % remove previous connector graphics
+                    delete(obj.handles.projectedPolymerAdditionalConnectors(isgraphics(obj.handles.projectedPolymerAdditionalConnectors)));
                     cb = obj.params.simulatorParams.chain.connectedBeads;
                     for cIdx =1:size(cb,1)
                     obj.handles.projectedPolymerAdditionalConnectors(cIdx) = line('XData',[chainPos(cb(cIdx,1),1),chainPos(cb(cIdx,2),1)],...
@@ -1057,8 +1059,7 @@ classdef BeamDamageSimulation<handle
                 msdNonAffected = obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension;
                 set(obj.handles.msdAffected,'XData',1:numel(msdAffected) ,'YDAta',msdAffected);
                 set(obj.handles.msdNonAffected,'XData',1:numel(msdNonAffected),'YData',msdNonAffected);
-            end
-            
+            end            
         end        
         
         function SaveResults(obj)

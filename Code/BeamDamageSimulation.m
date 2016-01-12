@@ -630,7 +630,7 @@ classdef BeamDamageSimulation<handle
             
             if obj.params.removeExclusionVolumeAfterRepair
                 % remove the exclusion volume around affected monomers
-                obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = false;
+                 obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForce = false;
             end
             
             if obj.params.repairBrokenCrosslinks
@@ -670,7 +670,7 @@ classdef BeamDamageSimulation<handle
                     % connect f(mf) and inBeam(ibIdx) if not already
                     % connected
                     if ~obj.handles.framework.objectManager.connectivity(f(m),inBeam(ibIdx))
-                    obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx));% connnect
+                    obj.handles.framework.objectManager.ConnectParticles(f(m),inBeam(ibIdx),obj.params.crossLinkedParticlesSpringConst,obj.params.minCrossLinkedParticlesEqDistance);% connnect
                     obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = ...
                         [obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair; [f(m),inBeam(ibIdx)]];% update connection list
                     currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 

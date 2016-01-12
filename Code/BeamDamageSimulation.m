@@ -630,7 +630,7 @@ classdef BeamDamageSimulation<handle
             
             if obj.params.removeExclusionVolumeAfterRepair
                 % remove the exclusion volume around affected monomers
-                obj.handles.framework.objectManager.handles.chain.params.forceParams.mechanicalForce = false;
+                obj.handles.framework.handles.classes.domain.params(1).forceParams.mechanicalForce=false;
             end
             
             if obj.params.repairBrokenCrosslinks

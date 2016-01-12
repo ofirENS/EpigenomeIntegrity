@@ -148,16 +148,16 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
             obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200; % start recording before UVC beam
-            obj.numBeamSteps           = 500; % the steps until repair
+            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 300; % start recording before UVC beam
+            obj.numBeamSteps           = 200; % the steps until repair
             obj.numRepairSteps         = 200; % repair and relaxation of the fiber
             obj.dt                     = 0.1;
-            obj.dimension              = 3;
+            obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers                = 400;
-            obj.percentOfConnectedMonomers = 40; % range: 0 to 100
+            obj.numMonomers                = 500;
+            obj.percentOfConnectedMonomers = 70; % range: 0 to 100
             
             obj.b                     = sqrt(obj.dimension);                            
             obj.diffusionForce        = true;
@@ -166,8 +166,8 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.springForce           = true;
             obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers     = [];            
-            obj.minParticleEqDistance = ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
-            obj.minCrossLinkedParticlesEqDistance = 1;       % minimal distance for cross-linked particles   
+            obj.minParticleEqDistance = 0.5*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.minCrossLinkedParticlesEqDistance = 0.5;       % minimal distance for cross-linked particles   
             
             % assign min dist for connected monomers
             for cIdx = 1:size(obj.connectedMonomers,1)
@@ -191,7 +191,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.45;
+            obj.mechanicalForceCutoff    = 0.6;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
@@ -247,7 +247,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.numSnapshotsDuringRepair     = 0;  % how many snapshots during repair phase
             
             %__Display real-time parameters___
-            obj.show3D                          = true;
+            obj.show3D                          = false;
             obj.show2D                          = false;
             obj.showDensity                     = false;
             obj.showConcentricDensity           = false;

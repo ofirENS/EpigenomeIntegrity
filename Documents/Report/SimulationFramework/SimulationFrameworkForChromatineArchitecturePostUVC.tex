@@ -19,12 +19,16 @@
 	\subsubsection{The repair stage}	
 	To simulate the affect of repair proteins crowding at sites of DNA damage, a circular exclusion region is centered at each damaged monomer. An elastic pushing force originating from the damaged monomer and having affect radius $r_p$ is applied on any monomers entering the exclusion region. In addition, all cross-links from and to damaged monomers are removed to simulate chromatin de-compaction caused by the activity of chromatin remodlers and repair proteins [REF]. 
 	
-	The polymer will evolve into a new steady spatial configuration which represents the chromatin 15 minutes post UV-C. At which point, the region of interest (ROI) is defined as the circle containing 95\% of the damaged monomers and centered at their CM. The ROI remains a fixed region used to track the number of damaged and undamaged monomers within it. Measurements are done off-line, such that the ROI's position is retrospectively updated to be centered at the CM of the monomers tagged damaged.
+	The polymer will evolve into a new steady spatial configuration which represents the chromatin 15 minutes post UV-C. At which point, the region of interest (ROI) is defined as the circle containing 90\% of the damaged monomers and centered at their CM. The ROI remains a fixed region used to track the number of damaged and undamaged monomers within it. Measurements are done off-line, such that the ROI's position is retrospectively updated to be centered at the CM of the monomers tagged damaged.
 	
 	\subsection{Post repair stage}
 	% cross-linking back to the initial level. this sectio is not yet simulated. 
 	
-	As damaged monomers are repaired, the exclusion region is removed from damaged monomers. Cross-links are reintroduced gradually according to the spatial distance between monomers. The amount of cross-links re-introduces is such that the initial cross-linking percentage $\alpha$ is restored. 
+	As damaged monomers are repaired, the exclusion region is removed from damaged monomers. Cross-links are reintroduced by linking any two monomers located within an encounter distance of $\epsilon$ from one another. Cross-links post repair are allowed to be added up to initial cross-linking percentage $\alpha$ is not exceeded.
+	
+	\subsection{Measuring structural similarity}
+	A measure of similarity between the polymer spatial organization before UV and post repair is based on the comparison of their encounter probability matrices.
+	
 	
 	\subsection{Parameter Values}
 	% insert a table with parameter values. the only parameter needed to change is the number of damages (or probability of damages) with this the only change, we should see agreement with experimental results. 

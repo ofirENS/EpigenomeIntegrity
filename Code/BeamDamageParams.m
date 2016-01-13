@@ -149,7 +149,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 100;
+            obj.numSimulationsPerRound = 5;
             obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
             obj.numRecordingSteps      = 300; % start recording before UVC beam
             obj.numBeamSteps           = 700; % the steps until repair
@@ -332,7 +332,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
                 nnFlag = false; % exit flag
                 while ~nnFlag 
                      rp1   = randperm(n);   
-                     if abs(rp(pIdx)-rp1(1))~=1
+                     if abs(rp(pIdx)-rp1(1))>1
                          nnFlag = true;
                      end
                 end

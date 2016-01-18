@@ -149,11 +149,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;%numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 5;
+            obj.numSimulationsPerRound = 1;
             obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 300; % start recording before UVC beam
-            obj.numBeamSteps           = 700; % the steps until repair
-            obj.numRepairSteps         = 400; % repair and relaxation of the fiber
+            obj.numRecordingSteps      = 150; % start recording before UVC beam
+            obj.numBeamSteps           = 100; % the steps until repair
+            obj.numRepairSteps         = 100; % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
@@ -194,14 +194,14 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 1*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 0.55;
+            obj.mechanicalForceCutoff    = 0.65;
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
             obj.domainCenter          = [0 0 0];
             
             %__Beam parameters/damage effect___
-            obj.beamRadius                         = obj.gyrationRadius/10;
+            obj.beamRadius                         = obj.gyrationRadius/20;
             obj.beamDamagePeak                     = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
             obj.beamDamageSlope                    = 1.5;   % slope of the Gaussian shape beam [unitless]
             obj.beamDamageProbThresh               = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)

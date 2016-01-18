@@ -11,6 +11,7 @@ classdef BeamDamageSimulationViewer<handle
         connectedMonomersAfterRepair
         concentricDensity
         roi
+        uvBeam
         params
         handles
         dimension
@@ -26,6 +27,7 @@ classdef BeamDamageSimulationViewer<handle
             obj.radiusOfExpansion.nonAffected = resultStruct.nonAffectedBeadsRadOfExpension;
             obj.radiusOfExpansion.affected    = resultStruct.affectedBeadsRadOfExpension;
             obj.roi                           = resultStruct.ROI;
+            obj.uvBeam                        = resultStruct.params.beamRadius;
             obj.numMonomersInROI              = resultStruct.numBeadsIn;
             obj.connectedMonomers             = resultStruct.connectedBeads;
             obj.connectedMonomersAfterBeam    = resultStruct.connectedBeadsAfterBeam;%true(size(resultStruct.connectedBeads,1),1);
@@ -93,7 +95,7 @@ classdef BeamDamageSimulationViewer<handle
             obj.handles.frameSlider  = uicontrol('style','slider','Units','norm',...
                                                  'Parent',obj.handles.controlPanel,'Position',[0.3 0, 0.5 0.9],...
                                                  'Callback',@obj.SliderMotion,'Max',size(obj.chainPosition,3),'Min',1,'Value',1,...
-                                                 'SliderStep',[3 3].*(1/(size(obj.chainPosition,3)-1)));
+                                                 'SliderStep',[1 1].*(1/(size(obj.chainPosition,3)-1)));
            % initialize the chain graphics
            obj.handles.chain           = line('XData',obj.chainPosition(:,1,1),'YData',obj.chainPosition(:,2,1),...
                'ZData', obj.chainPosition(:,3,1),'Marker','o','Parent',obj.handles.mainAxes,...
@@ -115,9 +117,10 @@ classdef BeamDamageSimulationViewer<handle
             % expansion radius 
             t   = linspace(0,2*pi,20);
             cmz = mean(obj.chainPosition(:,3,1));
-            obj.handles.radiusOfExpansion.damaged       = line('XData',cos(t),'YData',sin(t),'ZData',ones(1,numel(t)).*cmz,'Color','r','Visible','off','Parent',obj.handles.mainAxes,'LineWidth',2);
+            obj.handles.radiusOfExpansion.damaged       = line('XData',cos(t),'YData',sin(t),'ZData',ones(1,numel(t)).*cmz,'Color','r','Visible','off','Parent',obj.handles.mainAxes,'LineWidth',3,'LineStyle','--');
             obj.handles.radiusOfExpansion.nonDamaged    = line('XData',cos(t),'YData',sin(t),'ZData',ones(1,numel(t)).*cmz,'Color','b','Visible','off','Parent',obj.handles.mainAxes,'LineWidth',2);
             obj.handles.roi                             = line('XData',obj.roi*cos(t),'YData',obj.roi*sin(t),'ZData',ones(1,numel(t)).*cmz,'Color','m','Parent',obj.handles.mainAxes,'Visible','off','LineWidth',3);
+            obj.handles.uvBeam                          = line('XData',obj.uvBeam*cos(t),'YData',obj.uvBeam*sin(t),'ZData',ones(1,numel(t)).*cmz,'Color','k','Parent',obj.handles.mainAxes,'Visible','off','LineWidth',3,'LineStyle','--');
             obj.handles.expansion.affected              = line('XData',1:numel(obj.radiusOfExpansion.affected),'YData',obj.radiusOfExpansion.affected,'Parent',obj.handles.expansionAxes,'Color','r','DisplayName','damaged');
             obj.handles.expansion.indicator.affected    = line('XData',1,'YData',obj.radiusOfExpansion.affected(1),'marker','o','markerFacecolor','r','Parent',obj.handles.expansionAxes,'HandleVisibility','off');
             obj.handles.expansion.nonAffected           = line('XData',1:numel(obj.radiusOfExpansion.nonAffected),'YData',obj.radiusOfExpansion.nonAffected,'Parent',obj.handles.expansionAxes,'Color','b','Displayname','non damaged');
@@ -148,19 +151,22 @@ classdef BeamDamageSimulationViewer<handle
             set(obj.handles.concentricNumMonomersInROI,'XData',1:numel(obj.concentricDensity(frameNum,:)),'YData',obj.concentricDensity(frameNum,:));
             
             % beam stage
+            % show UV beam                                                 
             if frameNum>obj.params.numRecordingSteps && frameNum<=(obj.params.numRecordingSteps+obj.params.numBeamSteps) % beam
                 set(obj.handles.damagedMonomers,'Visible','on','markerFaceColor','r')
                 set(obj.handles.frameSlider,'BackgroundColor','r')
+                set(obj.handles.roi,'Visible','off')
                 cm = mean(obj.chainPosition(obj.affectedMonomers,:,frameNum),1);
                 % plot radius of expansion 
                 t= linspace(0,2*pi,20);
                 set(obj.handles.radiusOfExpansion.damaged,'XData',cm(1)+obj.radiusOfExpansion.affected(frameNum)*cos(t),...
                     'YData',cm(2)+obj.radiusOfExpansion.affected(frameNum)*sin(t),'Visible','on');
-                set(obj.handles.radiusOfExpansion.nonDamaged,'XData',cm(1)+obj.radiusOfExpansion.nonAffected(frameNum)*cos(t),...
-                    'YData',cm(2)+obj.radiusOfExpansion.nonAffected(frameNum)*sin(t),'Visible','on');
+%                 set(obj.handles.radiusOfExpansion.nonDamaged,'XData',cm(1)+obj.radiusOfExpansion.nonAffected(frameNum)*cos(t),...
+%                     'YData',cm(2)+obj.radiusOfExpansion.nonAffected(frameNum)*sin(t),'Visible','on');
                 
-                set(obj.handles.roi,'XData', cm(1)+obj.roi*cos(t),'Ydata',cm(2)+obj.roi*sin(t),'Visible','on');
-                
+%                 set(obj.handles.roi,'XData', cm(1)+obj.roi*cos(t),'Ydata',cm(2)+obj.roi*sin(t),'Visible','on');
+%            cmAll = mean(obj.chainPosition(:,:,obj.params.numRecordingSteps+1));
+%                 set(obj.handles.uvBeam,'XData',cmAll(1)+obj.uvBeam.*cos(t),'YData',cmAll(2)+obj.uvBeam.*sin(t),'Visible','on');
              % plot extra connectors
             for cIdx = 1:size(obj.connectedMonomers,1)
                 if obj.connectedMonomersAfterBeam(cIdx);
@@ -179,6 +185,12 @@ classdef BeamDamageSimulationViewer<handle
             elseif frameNum>(obj.params.numRecordingSteps+obj.params.numBeamSteps)&& frameNum<=(obj.params.numRecordingSteps+obj.params.numBeamSteps+obj.params.numRepairSteps)% repair
                 set(obj.handles.frameSlider,'BackgroundColor','g')
                 set(obj.handles.damagedMonomers,'MarkerFacecolor','g')
+                set(obj.handles.uvBeam,'Visible','off'); % don't show the uv beam
+                % show the ROI 
+                t= linspace(0,2*pi,20);
+                cm = mean(obj.chainPosition(obj.affectedMonomers,:,obj.params.numRecordingSteps+obj.params.numBeamSteps),1);
+                set(obj.handles.roi,'XData', cm(1)+obj.roi*cos(t),'Ydata',cm(2)+obj.roi*sin(t),'Visible','on');
+
               % plot extra connectors
               
               % remove unneccessary connectors 
@@ -206,6 +218,8 @@ classdef BeamDamageSimulationViewer<handle
             else % recording
                 set(obj.handles.damagedMonomers,'Visible','off')
                 set(obj.handles.frameSlider,'BackgroundColor',[0.9400 0.9400 0.9400]);
+                set(obj.handles.uvBeam,'Visible','off'); % don't show the uv beam
+                set(obj.handles.roi,'Visible','off');
                              % plot extra connectors
             for cIdx = 1:size(obj.connectedMonomers,1)                
                 set(obj.handles.connectors(cIdx),...

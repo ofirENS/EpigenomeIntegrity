@@ -12,7 +12,7 @@
 	
 	\subsection{The polymer model}
 	We use a cross-linked Rouse chain of $N$ monomers connected by harmonic springs \cite{doi1988theory} to represent a coarse-grained model of the chromatin. Springs connecting adjacent monomers in the linear chain are assigned a spring constant $2k_BT/b^2$ and a minimal length $L_0>0$. Cross-links are represented by connecting non nearest-neighbor (NN) monomers by a harmonic springs with a spring constant $2k_BT/b^2$ and zero minimal length. The measure of cross-linking is given by the percentage $0\leq \alpha\leq 100$ of non-NN monomers connected out of the total. For each realization of the polymer, cross-links are added between pairs of monomers chosen uniformly at random. The dynamics of the cross-linked polymer is then simulated up to its relaxation time, determined by be the slowest mode of the linear chain \cite{doi1988theory}.
-	
+
 	\subsection{UV irradiation}
 	At the end of relaxation steps an instantaneous UV beam is shot with its focal point placed at the polymer's center-of-mass (CM). Small fluctuations of monomers are not of interest at the scale of our simulation, therefore the diffusion force acting on the polymer is stopped at this point. Damages caused by UV are restricted to be contained within a fixed two-dimensional circular region of area $A_0$ centered at laser's focal point. Damages to DNA are represented by monomers labeled as damaged. For each UV dose $u$, damages caused by UV are uniformly distributed between the monomers in $A_0$ at the time of beam shot. With increase of UV dose, we increase the probability of damages linearly as $k_tu$, with $k_t$ in units of $bp/msec$. 
 	
@@ -24,7 +24,7 @@
 \begin{figure}
 
 \includegraphics[width=0.9\linewidth, height=0.35\textheight]{threeStagesOfSimulation}
-\caption{}
+\caption{\textbf{Stages in the Simulation of chromatin spatial organization post UV-C irradiation}. \textbf{A.} a Rouse chain of 500 monomers (circles) connected by harmonic spring (black lines) with a minimal length L0 is crossed-linked by harmonic springs (dashed lines in box) is simulated up to relaxation time, at which point a UV-C beam is vertically shot through a circular damage region (red dashed circle) around the polymer’s center-of-mass. \textbf{B.}  damaged monomers (red circles) are set to be distributed uniformly for each UV dose. Following UV-C irradiation, cross-links (dashed lines in box) to and from damaged monomers are removed. \textbf{C.} crowding of repair proteins is simulated by regions of exclusion centered around each damaged monomer. An elastic pushing force is applied to surrounding monomers with a maximal affect radius of rp. As a result, the damage region expands until reaching its maximal size 15 minutes post UV-C. The Region of Interest (ROI) is then determined as the circles containing 90\% of the damaged monomers (dashed red circle).}
 \label{fig:threeStagesOfSimulation}
 \end{figure}
 	\subsection{Post repair stage}

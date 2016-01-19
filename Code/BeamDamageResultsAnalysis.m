@@ -385,6 +385,10 @@ classdef BeamDamageResultsAnalysis<handle
 %                      end
                      
                  end
+                 % remove diagonal entries
+                 encounterMat(rIdx).beforeUV(diag(true(1,size(encounterMat(rIdx).beforeUV,1))))=0;
+                 encounterMat(rIdx).afterRepair(diag(true(1,size(encounterMat(rIdx).afterRepair,1))))=0;
+
             end
             
            if plotFlag

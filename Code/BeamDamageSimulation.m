@@ -435,7 +435,7 @@ classdef BeamDamageSimulation<handle
                 [monomersInConcentric]           = obj.GetMonomersInRoiConcentric(stepIdx);  
                 % calculate the radius from the center of mass                                
                 %----
-                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;            
+                obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx) = numMonomersIn;            
         end
         
         function dnaLength = GetDnaLengthInROI(obj,inROI, stepIdx)
@@ -501,7 +501,10 @@ classdef BeamDamageSimulation<handle
             
             chainPos = obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx);
 
-            cm = mean(chainPos,1);
+            cm = mean(chainPos);
+            % take only the projected positions
+            cm(3) = 0;
+            chainPos(:,3) = 0;
             r  = pdist2mex(chainPos',cm','euc',[],[],[]);
 
             inROI         = r<obj.roi.radius;   
@@ -645,14 +648,20 @@ classdef BeamDamageSimulation<handle
                 % close monomers in the ROI
                 initialConnectivity = obj.params.percentOfConnectedMonomers;
                 currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 
-                maxAllowedConnections = 2;
+                maxAllowedConnections = 4;
                
                 % reconnect beads initially in beam 
              if initialConnectivity>ceil(currentConnectivity)
-                inBeam  = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+                 % take only beads initially in the beam (affected
+                 % monomers)
+                inBeam       = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+                % get current chain connectivity 
                 connectivity = obj.handles.framework.objectManager.connectivity;
-                s = sum(connectivity(inBeam,:),2);
-                inBeam = inBeam(s<(2+maxAllowedConnections));
+                % Get number of connections per affected monomers
+                s            = sum(connectivity(inBeam,:),2);
+                
+                % monomers connections cannot exceed the maximal allowed
+                inBeam       = inBeam(s<(2+maxAllowedConnections));
                 % find the distances to those monomers  
                 partDist = obj.handles.framework.objectManager.particleDist;               
                 % check connectivity for particles in beam
@@ -725,7 +734,7 @@ classdef BeamDamageSimulation<handle
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair = cm;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).numConnectionsLost =...
                 size( obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)-size(cm,1);
-            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeadsAfterBeam = size(cm,1)/(obj.params.numMonomers/2);            
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeadsAfterBeam = 100*size(cm,1)/(obj.params.numMonomers/2);            
         end
         
         function FixDamagedMonomersToPlace(obj)
@@ -753,9 +762,7 @@ classdef BeamDamageSimulation<handle
         
         function InitializeGraphics(obj)
             
-            % create figure for the projection in the x-y plane            
-           
-            
+            % create figure for the projection in the x-y plane                       
             if obj.params.show3D
             % insert the projection to the 3d axes
 %             [rectX,rectY,rectWidth, rectHeight] = obj.GetROI;
@@ -1018,8 +1025,7 @@ classdef BeamDamageSimulation<handle
              % Turn-off affected beasd highlighting
 
             if obj.params.show2D                
-                set(obj.handles.affectedBeads2D,'XData',NaN, 'YDAta',NaN);
-            
+                set(obj.handles.affectedBeads2D,'XData',NaN, 'YDAta',NaN);            
             end
             
             if obj.params.show3D

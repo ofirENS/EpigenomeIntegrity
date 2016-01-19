@@ -395,9 +395,9 @@ classdef BeamDamageResultsAnalysis<handle
                for rIdx = 1:obj.numRounds
                    figure, 
                    sp1=subplot(1,2,1); imagesc(encounterMat(rIdx).beforeUV),title('Before UV-C');
-                   xlabel('Monomer number'), ylabel('Monomer number')
+                   xlabel('Monomer number'), ylabel('Monomer number'),daspect([1 1 1])
                    sp2=subplot(1,2,2); imagesc(encounterMat(rIdx).afterRepair), title('After Repair');
-                   xlabel('Monomer number'), ylabel('Monomer number')
+                   xlabel('Monomer number'), ylabel('Monomer number'), daspect([1 1 1])
                    colormap hot
                    linkaxes([sp1,sp2])
                end

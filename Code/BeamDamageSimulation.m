@@ -444,7 +444,7 @@ classdef BeamDamageSimulation<handle
             cm       = mean(chainPos,1);
             chainPos(:,1) = chainPos(:,1)-cm(1);
             chainPos(:,2) = chainPos(:,2)-cm(2);
-            chainPos(:,3) = chainPos(:,3)-cm(3);
+            chainPos(:,3) = 0;%chainPos(:,3)-cm(3); % take the projection
             
             % get all monomers in ROI 
             dnaLength = 0;
@@ -646,33 +646,37 @@ classdef BeamDamageSimulation<handle
             if obj.params.addCrosslinksByDistance
                 % add cross links up to the initial level by adding them to
                 % close monomers in the ROI
-                initialConnectivity = obj.params.percentOfConnectedMonomers;
-                currentConnectivity = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100); 
-                maxAllowedConnections = 4;
+                initialConnectivity   = obj.params.percentOfConnectedMonomers;
+                currentConnectivity   = ceil(2*size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeadsAfterRepair,1)./obj.params.numMonomers *100);               
                
                 % reconnect beads initially in beam 
              if initialConnectivity>ceil(currentConnectivity)
                  % take only beads initially in the beam (affected
                  % monomers)
-                inBeam       = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
-                % get current chain connectivity 
+                 inBeam       = obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
+                
+                
+                for ibIdx = 1:numel(inBeam)                             
+                 % get current chain connectivity 
                 connectivity = obj.handles.framework.objectManager.connectivity;
+                
                 % Get number of connections per affected monomers
-                s            = sum(connectivity(inBeam,:),2);
+                s            = sum(connectivity,2);
                 
                 % monomers connections cannot exceed the maximal allowed
-                inBeam       = inBeam(s<(2+maxAllowedConnections));
+                if (s(inBeam(ibIdx))<(2+obj.params.maxCrossLinksPerMonomer));
                 % find the distances to those monomers  
-                partDist = obj.handles.framework.objectManager.particleDist;               
+                neighbPartDist = obj.handles.framework.objectManager.particleDist(inBeam(ibIdx),:);
                 % check connectivity for particles in beam
-               for ibIdx = 1:numel(inBeam)
+               
                 % get particle distance
-               neighbPartDist = (partDist(inBeam(ibIdx),:));
+%                neighbPartDist = (partDist(inBeam(ibIdx),:));
                 % assign Inf to nearest neighbors
                neighbPartDist([max([1,inBeam(ibIdx)-1]),inBeam(ibIdx), min([obj.params.numMonomers,inBeam(ibIdx)+1])])= Inf;                
                 % find those particles who are
                 % at a distance lower than the threshold for connecting
-               f = find(neighbPartDist<obj.params.distanceTheresholdToCrosslink);
+               f = find(neighbPartDist<obj.params.distanceTheresholdToCrosslink & s'<(2+obj.params.maxCrossLinksPerMonomer));
+               % cross link with available neighbor 
                 if ~isempty(f)
                     % connect to the smaller one 
                     [~,m] = min(neighbPartDist(f));
@@ -688,7 +692,8 @@ classdef BeamDamageSimulation<handle
                 if currentConnectivity>=initialConnectivity 
                     break
                 end
-               end
+                end
+                end
             end
             
 %             for cIdx = 1:size(obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads,1)

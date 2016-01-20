@@ -149,11 +149,11 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;   % numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 50; % initialization step (burn-in time)
+            obj.numSimulationsPerRound = 100;
+            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
             obj.numRecordingSteps      = 150; % start recording before UVC beam
-            obj.numBeamSteps           = 400; % the steps until repair
-            obj.numRepairSteps         = 300; % repair and relaxation of the fiber
+            obj.numBeamSteps           = 500; % the steps until repair
+            obj.numRepairSteps         = 500; % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     

@@ -79,8 +79,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         beamRadius@double                                % radius of the UVC beam 
         beamHeight@double                                % for display purposes 
         beamDamagePeak@double                            % the distance from center the highest pro. for damage
-        beamDamageSlope@double                           % the alpha term in exp(-alpha(r-beamDamagePeak)^2)
-        beamDamageProbThresh@double                      % threshold below the monomer is damaged [unused]
+        beamDamageSTD@double                             % the std term in exp(-(1/std)^2(r-beamDamagePeak)^2)      
         assignBendingToAffectedMonomers@logical          % assign bending to the affectd monomers after beam
         assignBendingToNonAffectedMonomers@logical       % assign bending to the non-affected monomers after beam
         assignBendingToNonAffectedMonomersInBeam@logical % assign bending to the non-affected monomers after beam
@@ -96,6 +95,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         maxCrossLinksPerMonomer           % maximum number of cross links in addition to the linear nearest neighbors connection
         turnOffBendingAfterRepair        % turn bending elastivity force off for affected monomers
         removeExclusionVolumeAfterRepair % revmove the volume of exclusion around damaged monomers
+        repairProbRate                   % rate of repair (Poissonian)
         encounterDistance                % the distance at which two monomers are considerd to have encounterd. used for comparision of structure before and after UV
         
         %__Save and load___
@@ -137,8 +137,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
         function obj = BeamDamageParams()% Edit parameters here
             simulationState        = 'debug'; % options: [debug | simulation]
             
-            % Simulation trials
-            % variables to simulate
+            % Simulation trials            
             obj.description      = 'Test the expansion and repair of the damaged monomers with 90% crosslinking. Damaged crosslinks are broken after UVC. A volume of exclusion is placed around each damaged monomer with radius 0.55. We test values of exclusion rangin 0.1 to 1. with repair and crosslinks repaires. No Lennard-Jones. Simulation in 2D';
             obj.tryOpeningAngles            = []; % obsolete
             obj.tryConnectivity             = [];
@@ -149,30 +148,30 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.tryMechanicalForceCutoff    = [];
             
             %___Simulation parameters___
-            obj.numRounds              = 1;   %numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 100;
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200; % start recording before UVC beam
-            obj.numBeamSteps           = 700; % the steps until repair
-            obj.numRepairSteps         = 1000; % repair and relaxation of the fiber
+            obj.numRounds              = 1;   % numel(obj.tryConnectivity);
+            obj.numSimulationsPerRound = 1;
+            obj.numRelaxationSteps     = 50; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 150; % start recording before UVC beam
+            obj.numBeamSteps           = 400; % the steps until repair
+            obj.numRepairSteps         = 300; % repair and relaxation of the fiber
             obj.dt                     = 0.1;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers                = 500;
-            obj.percentOfConnectedMonomers = 90; % range: 0 to 100
-            
-            obj.b                     = sqrt(obj.dimension);                            
-            obj.diffusionForce        = true;
-            obj.diffusionConst        = 1;
+            obj.numMonomers                       = 500;
+            obj.percentOfConnectedMonomers        = 90; % range: 0 to 100            
+            obj.b                                 = sqrt(obj.dimension);                            
+            obj.diffusionForce                    = true;
+            obj.diffusionConst                    = 1;
             obj.shutDownDiffusionAfterRelaxationSteps = true;
-            obj.springForce           = true;
-            obj.springConst           = obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.connectedMonomers     = [];            
-            obj.minParticleEqDistance = 0.5*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.springForce                       = true;
+            obj.springConst                       = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.connectedMonomers                 = [];            
+            obj.minParticleEqDistance             = 0.5*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
             obj.minCrossLinkedParticlesEqDistance = 0;%0.5*obj.minParticleEqDistance(1);       % minimal distance for cross-linked particles   
             obj.crossLinkedParticlesSpringConst   = obj.springConst; % spring constant for crosslinks
-            % assign min dist for connected monomers
+            % Assign minimal contraction distance for connected monomers'
+            % springs
             for cIdx = 1:size(obj.connectedMonomers,1)
                 obj.minParticleEqDistance(obj.connectedMonomers(cIdx,1),obj.connectedMonomers(cIdx,2)) = obj.minCrossLinkedParticlesEqDistance;
                 obj.minParticleEqDistance(obj.connectedMonomers(cIdx,2),obj.connectedMonomers(cIdx,1)) = obj.minCrossLinkedParticlesEqDistance;                
@@ -194,18 +193,19 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter    = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = 0.5*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 1.5*obj.minParticleEqDistance(1);
+            obj.mechanicalForceCutoff    = 1*obj.minParticleEqDistance(1);
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
             obj.domainCenter          = [0 0 0];
             
-            %__Beam parameters/damage effect___
-            obj.beamRadius                               = obj.gyrationRadius/20;% defines a unit of 1 mu/m in true space
-            obj.beamDamagePeak                           = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
-            obj.beamDamageSlope                          = 1.5;   % slope of the Gaussian shape beam [unitless]
-            obj.beamDamageProbThresh                     = 1/100; % threshold to determine affected monomers in the UVC beam (obsolete)
-            obj.beamHeight                               = 70;    % for 3d graphics purposes
+            %__Beam parameters___
+            obj.beamRadius           = obj.gyrationRadius/20;% defines a unit of 1 mu/m in true space
+            obj.beamDamagePeak       = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
+            obj.beamDamageSTD        = obj.beamRadius/5;   % slope of the Gaussian shape beam [unitless]            
+            obj.beamHeight           = 70;    % for 3d graphics purposes
+            
+            %__Damage effect ___
             obj.breakAllDamagedConnectorsInBeam          = true;  % break all connections between damaged monomers in UVC beam  
             obj.breakAllConnectors                       = false; % break all connections in the polymer after UVC
             obj.assignBendingToAffectedMonomers          = false; % assign bending elasticity for affected monomers after UVC
@@ -214,13 +214,14 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.fixDamagedMonomersToPlaceAfterBeam       = false; % keep the damaged beads in place after UVC            
             obj.excludeMonomersAroundAffected            = true;  % create an exclusion sphere around damaged monomers with spring pushing force
             
-            %_ Repair__
+            %__ Repair__
             obj.repairBrokenCrosslinks            = true; % at repair stage, do we reintroduce crosslinks
             obj.addCrosslinksByDistance           = true; % if yes, do we do it by distance
             obj.distanceTheresholdToCrosslink     = obj.minParticleEqDistance(1)/5;% 0.1*obj.b; % what is the distance between monomers for which we cross-link them after repair  
-            obj.maxCrossLinksPerMonomer           = 2;
+            obj.maxCrossLinksPerMonomer           = 2;  % in addition to the linear NN connection
             obj.turnOffBendingAfterRepair         = false;
             obj.removeExclusionVolumeAfterRepair  = true; % the pushing force around damaged monomers
+            obj.repairProbRate                    = 5; % (Poissonian) the number of event is determined with rate repairProbRate*dt
             obj.encounterDistance                 = obj.minParticleEqDistance(1)/5;% 0.1*obj.b; % the distance at which monomers are considered to have encounter
             
             % ___ROI parameters___

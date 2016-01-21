@@ -334,7 +334,8 @@ classdef BeamDamageSimulation<handle
             if isfield(obj.handles,'framework')
                 delete(obj.handles.framework)
             end
-                       
+            
+            obj.params.InitializeParamClasses;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params        = obj.params;
             
              % initialize simulation framework
@@ -366,7 +367,7 @@ classdef BeamDamageSimulation<handle
             % Calculate the densities in the ROI after UVC beam stated
             for stepIdx = obj.params.numRecordingSteps:obj.params.numBeamSteps+obj.params.numRecordingSteps+obj.params.numRepairSteps
                 % get the polymer's center of mass at that point                 
-               [~,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
+               [inROI,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
                  [dnaLengthIn] = obj.GetDnaLengthInROI(inROI,stepIdx);
@@ -470,7 +471,7 @@ classdef BeamDamageSimulation<handle
                     % find intersection with circle
                    a    = sum((chainPos(rIdx,:)-chainPos(rIdx-1,:)).^2);
                    b    = 2*dot(chainPos(rIdx-1,:),chainPos(rIdx,:)-chainPos(rIdx-1,:));
-                   c    = sum(chainPos(rIdx-1,:).^2 -obj.roi.radius^2);
+                   c    = sum(chainPos(rIdx-1,:).^2) -obj.roi.radius^2;
                    t(1) = (-b +sqrt(b^2 -4*a*c))/(2*a);
                    t(2) = (-b -sqrt(b^2 -4*a*c))/(2*a);
                    % take the positive t

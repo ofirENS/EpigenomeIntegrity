@@ -149,25 +149,25 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;   % numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 100;
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 150; % start recording before UVC beam
-            obj.numBeamSteps           = 500; % the steps until repair
-            obj.numRepairSteps         = 500; % repair and relaxation of the fiber
-            obj.dt                     = 0.1;
+            obj.numSimulationsPerRound = 1;
+            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 200; % start recording before UVC beam
+            obj.numBeamSteps           = 400; % the steps until repair
+            obj.numRepairSteps         = 400; % repair and relaxation of the fiber
+            obj.dt                     = 0.0001;
             obj.dimension              = 2;
                                     
             %__Polymer parameters and forces___
-            obj.numMonomers                       = 500;
+            obj.numMonomers                       = 400;
             obj.percentOfConnectedMonomers        = 90; % range: 0 to 100            
-            obj.b                                 = sqrt(obj.dimension);                            
+            obj.b                                 = sqrt(obj.dimension/1.75e-2);
             obj.diffusionForce                    = true;
-            obj.diffusionConst                    = 1;
-            obj.shutDownDiffusionAfterRelaxationSteps = true;
+            obj.diffusionConst                    = 4e-2;%0.001;
+            obj.shutDownDiffusionAfterRelaxationSteps = false;
             obj.springForce                       = true;
-            obj.springConst                       = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.springConst                       = 1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers                 = [];            
-            obj.minParticleEqDistance             = 0.5*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.minParticleEqDistance             = 0.05;% 0.1*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
             obj.minCrossLinkedParticlesEqDistance = 0;%0.5*obj.minParticleEqDistance(1);       % minimal distance for cross-linked particles   
             obj.crossLinkedParticlesSpringConst   = obj.springConst; % spring constant for crosslinks
             % Assign minimal contraction distance for connected monomers'
@@ -192,15 +192,15 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForce          = false;
             obj.mechanicalForceCenter    = [];
             obj.mechanicalForceDirection = 'out';
-            obj.mechanicalForceMagnitude = 0.5*obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 1*obj.minParticleEqDistance(1);
+            obj.mechanicalForceMagnitude = obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.mechanicalForceCutoff    = 3*obj.minParticleEqDistance(1);
                         
             %___Domain parameters____
             obj.domainRadius          = obj.gyrationRadius;
             obj.domainCenter          = [0 0 0];
             
-            %__Beam parameters___
-            obj.beamRadius           = obj.gyrationRadius/20;% defines a unit of 1 mu/m in true space
+            %__UV Beam parameters___
+            obj.beamRadius           = obj.gyrationRadius/30;% defines a unit of 1 mu/m in true space
             obj.beamDamagePeak       = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
             obj.beamDamageSTD        = obj.beamRadius/5;   % slope of the Gaussian shape beam [unitless]            
             obj.beamHeight           = 70;    % for 3d graphics purposes
@@ -221,7 +221,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.maxCrossLinksPerMonomer           = 2;  % in addition to the linear NN connection
             obj.turnOffBendingAfterRepair         = false;
             obj.removeExclusionVolumeAfterRepair  = true; % the pushing force around damaged monomers
-            obj.repairProbRate                    = 5; % (Poissonian) the number of event is determined with rate repairProbRate*dt
+            obj.repairProbRate                    = 1/obj.dt; % (Poissonian) the number of event is determined with rate repairProbRate*dt
             obj.encounterDistance                 = obj.minParticleEqDistance(1)/5;% 0.1*obj.b; % the distance at which monomers are considered to have encounter
             
             % ___ROI parameters___

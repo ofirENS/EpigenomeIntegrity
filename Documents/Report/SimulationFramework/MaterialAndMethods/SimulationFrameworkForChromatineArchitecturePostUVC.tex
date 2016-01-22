@@ -56,7 +56,11 @@
 	
 	\subsection{Measuring structural similarity}
 	A measure of similarity between the polymer spatial organization before UV and post repair is based on the comparison of their encounter probability matrices. The polymer's encounter matrix just prior the onset of UV-irradiation is compared to that at end simulation time. The similarity values is given by the mean square error between matrices. 
-			
+	
+	\subsection{Parameter estimation}
+	We model a circular region of 3 $\mu m^2$ around the UVC laser's focal point. This area is represented by the Rouse polymer's gyration radius given by $R_g= \sqrt{N/6}b$. To estimate $b$ we then substitute $N=500, R_g=3\mu m$ to obtain $b=0.32$. 
+	
+		
 	\bibliographystyle{plain}
 	\bibliography{SimulationFrameworkForChromatineArchitecturePostUVC} % the bibliography.bib file 
 \end{document}

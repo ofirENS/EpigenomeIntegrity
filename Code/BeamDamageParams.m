@@ -149,25 +149,30 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;   % numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 200; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 200; % start recording before UVC beam
-            obj.numBeamSteps           = 400; % the steps until repair
-            obj.numRepairSteps         = 400; % repair and relaxation of the fiber
-            obj.dt                     = 0.0001;
+            obj.numSimulationsPerRound = 200;
+            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 100; % start recording before UVC beam
+            obj.numBeamSteps           = 200; % the steps until repair
+            obj.numRepairSteps         = 200; % repair and relaxation of the fiber
+            obj.dt                     = 0.001;
             obj.dimension              = 2;
-                                    
+            
+            %___Domain parameters____
+            obj.domainRadius          = 3; % mu m^2
+            obj.domainCenter          = [0 0 0];
+            
             %__Polymer parameters and forces___
-            obj.numMonomers                       = 400;
-            obj.percentOfConnectedMonomers        = 90; % range: 0 to 100            
-            obj.b                                 = sqrt(obj.dimension/1.75e-2);
+            obj.numMonomers                       = 500;
+            obj.percentOfConnectedMonomers        = 1; % range: 0 to 100     
+            obj.gyrationRadius                    = obj.domainRadius; %sqrt(obj.numMonomers/6)*obj.b; % the microenvironment of the UV beam
+            obj.b                                 = obj.gyrationRadius.*sqrt(6./obj.numMonomers);%sqrt(obj.dimension/1.75e-2); in practice the gyration radius decreases with crosslinking
             obj.diffusionForce                    = true;
-            obj.diffusionConst                    = 4e-2;%0.001;
+            obj.diffusionConst                    = 4e-2;
             obj.shutDownDiffusionAfterRelaxationSteps = false;
             obj.springForce                       = true;
-            obj.springConst                       = 1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.springConst                       = obj.dimension.*obj.diffusionConst/obj.b^2; %1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
             obj.connectedMonomers                 = [];            
-            obj.minParticleEqDistance             = 0.05;% 0.1*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.minParticleEqDistance             = obj.b.*ones(obj.numMonomers);% 0.1*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
             obj.minCrossLinkedParticlesEqDistance = 0;%0.5*obj.minParticleEqDistance(1);       % minimal distance for cross-linked particles   
             obj.crossLinkedParticlesSpringConst   = obj.springConst; % spring constant for crosslinks
             % Assign minimal contraction distance for connected monomers'
@@ -179,8 +184,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             obj.bendingForce             = false;   % (only at initialization)
             obj.bendingConst             = obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.bendingOpeningAngle      = pi;
-            obj.gyrationRadius           = sqrt(obj.numMonomers/6)*obj.b;
+            obj.bendingOpeningAngle      = pi;            
             obj.morseForce               = false;
             obj.morsePotentialDepth      = 0;
             obj.morsePotentialWidth      = 0;
@@ -192,17 +196,13 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForce          = false;
             obj.mechanicalForceCenter    = [];
             obj.mechanicalForceDirection = 'out';
-            obj.mechanicalForceMagnitude = obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.mechanicalForceCutoff    = 3*obj.minParticleEqDistance(1);
-                        
-            %___Domain parameters____
-            obj.domainRadius          = obj.gyrationRadius;
-            obj.domainCenter          = [0 0 0];
-            
+            obj.mechanicalForceMagnitude = obj.springConst; 
+            obj.mechanicalForceCutoff    = 2*obj.minParticleEqDistance(1);
+                                    
             %__UV Beam parameters___
-            obj.beamRadius           = obj.gyrationRadius/30;% defines a unit of 1 mu/m in true space
+            obj.beamRadius           = obj.gyrationRadius/6;% defines a unit of 1 mu/m in true space
             obj.beamDamagePeak       = 0;     % [mu/m/]  zero value coresponds to the focus of the beam 
-            obj.beamDamageSTD        = obj.beamRadius/5;   % slope of the Gaussian shape beam [unitless]            
+            obj.beamDamageSTD        = obj.beamRadius/4;   % slope of the Gaussian shape beam [unitless]            
             obj.beamHeight           = 70;    % for 3d graphics purposes
             
             %__Damage effect ___
@@ -221,12 +221,12 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.maxCrossLinksPerMonomer           = 2;  % in addition to the linear NN connection
             obj.turnOffBendingAfterRepair         = false;
             obj.removeExclusionVolumeAfterRepair  = true; % the pushing force around damaged monomers
-            obj.repairProbRate                    = 1/obj.dt; % (Poissonian) the number of event is determined with rate repairProbRate*dt
-            obj.encounterDistance                 = obj.minParticleEqDistance(1)/5;% 0.1*obj.b; % the distance at which monomers are considered to have encounter
+            obj.repairProbRate                    = 2/obj.dt; % (Poissonian) the number of event is determined with rate repairProbRate*dt
+            obj.encounterDistance                 = obj.distanceTheresholdToCrosslink;% 0.1*obj.b; % the distance at which monomers are considered to have encounter
             
             % ___ROI parameters___
-            obj.roiWidth                           = obj.gyrationRadius/6; % obsolete used for graphics
-            obj.roiHeight                          = obj.roiWidth;         % obsolete used for graphics
+            obj.roiWidth                           = obj.gyrationRadius/6; % (obsolete) used for graphics
+            obj.roiHeight                          = obj.roiWidth;         % (obsolete) used for graphics
             obj.numConcentricBandsInROI            = 15;
             obj.calculateExpansionAccordingTo      = 'damaged'; % either 'damaged' or 'nondamaged'
             obj.calculateExpansionFromCenterOfMass = true;      % calculate expansion dynamically from the center of mass

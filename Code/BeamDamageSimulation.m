@@ -335,7 +335,7 @@ classdef BeamDamageSimulation<handle
                 delete(obj.handles.framework)
             end
             
-            obj.params.InitializeParamClasses;
+%             obj.params.InitializeParamClasses;
             obj.results.resultStruct(obj.simulationRound,obj.simulation).params        = obj.params;
             
              % initialize simulation framework
@@ -412,10 +412,12 @@ classdef BeamDamageSimulation<handle
             % affected beads. chainPos is an numBedsXdimension vector of position
             % inBeam is a numBeadsX1 binary vector indicating the beads affected
             % (true) and non affected (false)
-
+            
+              % project onto x-y plane
+              chainPos(:,3) = 0;
             if obj.params.calculateExpansionFromCenterOfMass
                 cmInBeam         = mean(chainPos(inBeam,:));  % center of mass for particles in beam
-                cmOutBeam        = mean(chainPos(~inBeam,:)); % center of mass for paarticles out of the beam
+                cmOutBeam        = mean(chainPos(~inBeam,:)); % center of mass for particles out of the beam
                 % calculate the radius of the expansion circle according to
                 % the percentage of monomers inside
                 r   = sort(sqrt(sum(bsxfun(@minus, chainPos(inBeam,:), cmInBeam).^2,2)));

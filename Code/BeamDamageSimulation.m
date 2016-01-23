@@ -87,6 +87,7 @@ classdef BeamDamageSimulation<handle
             obj.results.resultStruct(obj.simulationRound,obj.simulation).connectedBeads          = [];  
             obj.results.resultStruct(obj.simulationRound,obj.simulation).percentOfConnectedBeads = obj.params.percentOfConnectedMonomers;            
             obj.results.resultStruct(obj.simulationRound,obj.simulation).description             = obj.params.description;
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).radiusOfGyration        = 0;
             
         end
         
@@ -172,15 +173,28 @@ classdef BeamDamageSimulation<handle
             % Start Recording 
             obj.state = 'Recording';
             obj.handles.framework.params.simulator.numSteps = obj.params.numRelaxationSteps+obj.params.numRecordingSteps;
-            
+%             s1 = zeros(obj.params.numMonomers);
             for sIdx =1:obj.params.numRecordingSteps
                 obj.handles.framework.Step;
                 stepIdx  = obj.step -obj.params.numRelaxationSteps;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx) = obj.GetChainPosition;% record position of the chain           
+                
+                % Calculate square radius of gyration
+%                 s1  = (s1*(sIdx-1)+obj.handles.framework.objectManager.particleDist.^2)./sIdx;
+               
+%                 spd = sum(pd.^2,2)./2;
+%                 s   = (s*(stepIdx-1)+(1/(2*obj.params.numMonomers.^2)).*spd)*(1/stepIdx);    
+%                 cm = obj.GetPolymerCenterOfMass;                
+%                 s  = (1/stepIdx)*(s*(stepIdx-1)+sum(bsxfun(@minus,obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx),cm).^2,2));
+                %----
                 obj.UpdateGraphics;                                
                 obj.Snapshot
                 obj.step = obj.step+1;%obj.handles.framework.simulationData.step;
             end
+            s1  = obj.handles.framework.objectManager.particleDist.^2;
+%              s  = sqrt(sum(s1(:))/(2*obj.params.numMonomers.^2));
+            % record radius of gyration
+            obj.results.resultStruct(obj.simulationRound,obj.simulation).radiusOfGyration = s1;
         end
          
         function RunBeamSteps(obj)
@@ -269,6 +283,7 @@ classdef BeamDamageSimulation<handle
            % take the last 10% of the beam phase and calculate the
                 % mean                 
             sIdx = round(0.9*(obj.params.numRecordingSteps+obj.params.numBeamSteps)):obj.params.numRecordingSteps+obj.params.numBeamSteps;
+            if sIdx>0
             if strcmpi(obj.params.calculateExpansionAccordingTo,'damaged')                
                 obj.roi.radius = mean(obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(sIdx));
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).ROI = obj.roi.radius;
@@ -284,6 +299,7 @@ classdef BeamDamageSimulation<handle
             % monomers' radius of expansion 
             obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricROI = ...
                 mean(obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(sIdx));
+            end
         end
         
         function ShutDownDiffusion(obj)
@@ -357,30 +373,36 @@ classdef BeamDamageSimulation<handle
              
             % Calculate the number of monomers in the ROI before UVC
             for stepIdx = 1:obj.params.numRecordingSteps
+                if stepIdx>0
                  [inROI,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric;
                 [dnaLengthIn] = obj.GetDnaLengthInROI(inROI,stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn(stepIdx) = dnaLengthIn;
+                end
             end
             
             % Calculate the densities in the ROI after UVC beam stated
             for stepIdx = obj.params.numRecordingSteps:obj.params.numBeamSteps+obj.params.numRecordingSteps+obj.params.numRepairSteps
                 % get the polymer's center of mass at that point                 
+                if stepIdx>0
                [inROI,~,numMonomersIn,monomersInConcentric] = obj.GetMonomerDensityInROI(stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).numBeadsIn(stepIdx)          = numMonomersIn;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).concentricDensity(stepIdx,:) = monomersInConcentric; 
                  [dnaLengthIn] = obj.GetDnaLengthInROI(inROI,stepIdx);
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).lengthIn(stepIdx) = dnaLengthIn;
+                end
             end
             
             % calculate the radius of expansion for the damaged monomers
             % before UVC 
             for stepIdx = 1:obj.params.numRecordingSteps
+                if stepIdx >0
                 [affectedMSDcm,nonAffectedMSDcm]=obj.CalculateBeadsRadiusOfExpension( obj.results.resultStruct(obj.simulationRound,obj.simulation).chainPosition(:,:,stepIdx),...
                     obj.results.resultStruct(obj.simulationRound,obj.simulation).inBeam );
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).affectedBeadsRadOfExpension(stepIdx)    = affectedMSDcm;
                 obj.results.resultStruct(obj.simulationRound,obj.simulation).nonAffectedBeadsRadOfExpension(stepIdx) = nonAffectedMSDcm;                
+                end
             end
                         
             if obj.params.saveAfterEachSimulation
@@ -789,8 +811,7 @@ classdef BeamDamageSimulation<handle
             if obj.params.fixDamagedMonomersToPlaceAfterBeam
                 inBeamInds=obj.results.resultStruct(obj.simulationRound,obj.simulation).beadsInIndex;
                 obj.handles.framework.objectManager.handles.chain.params.fixedBeadNum = inBeamInds;
-            end
-            
+            end            
         end
         
         function UpdateBeamPosition(obj)
@@ -902,8 +923,7 @@ classdef BeamDamageSimulation<handle
                 obj.handles.msdNonAffected = line('XData',0,'YData',NaN,'Parent',obj.handles.expensionAxes,'Color','b',...
                     'Linewidth',4,'DisplayName','MSD Non Affected');
                 legend(obj.handles.expensionAxes,get(obj.handles.expensionAxes,'Children'))
-            end
-                        
+            end                        
         end
         
         function UpdateGraphics(obj)
@@ -927,11 +947,13 @@ classdef BeamDamageSimulation<handle
                 % update additional connectors
                 if obj.params.showAdditionalPolymerConnectors
                     % remove previous connector graphics
+                    if obj.params.show3D
                     delete(obj.handles.projectedPolymerAdditionalConnectors(isgraphics(obj.handles.projectedPolymerAdditionalConnectors)));
                     cb = obj.params.simulatorParams.chain.connectedBeads;
                     for cIdx =1:size(cb,1)
                     obj.handles.projectedPolymerAdditionalConnectors(cIdx) = line('XData',[chainPos(cb(cIdx,1),1),chainPos(cb(cIdx,2),1)],...
                         'YData',[chainPos(cb(cIdx,1),2),chainPos(cb(cIdx,2),2)],'Color','g');
+                    end
                     end
                 end
             end
@@ -1169,7 +1191,8 @@ classdef BeamDamageSimulation<handle
                         'percentHistoneLoss',[],...
                         'affectedBeadsRadOfExpension',[],...
                         'nonAffectedBeadsRadOfExpension',[],...
-                        'chainPosition',[]);
+                        'chainPosition',[],...
+                        'radiusOfGyration',[]);
         end
     end
 end

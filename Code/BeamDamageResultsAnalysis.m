@@ -48,9 +48,9 @@ classdef BeamDamageResultsAnalysis<handle
             obj.numRecordingSteps  = obj.results(1,1).numRecordingSteps;
             obj.numBeamSteps       = obj.results(1,1).numBeamSteps;
             obj.numRepairSteps     = obj.results(1,1).numRepairSteps;
-            obj.recordingTime      = (obj.numRelaxationSteps-obj.numRelaxationSteps)*obj.dt;
-            obj.beamTime           = (obj.numRecordingSteps)*obj.dt;
-            obj.repairTime         = (obj.numRecordingSteps+obj.numBeamSteps)*obj.dt;
+            obj.recordingTime      = (obj.numRelaxationSteps-obj.numRelaxationSteps)*obj.dt; %sec
+            obj.beamTime           = (obj.numRecordingSteps)*obj.dt; % sec
+            obj.repairTime         = (obj.numRecordingSteps+obj.numBeamSteps)*obj.dt; %sec
         end
         
         function MeanNumBeadsIn(obj,plotFig)

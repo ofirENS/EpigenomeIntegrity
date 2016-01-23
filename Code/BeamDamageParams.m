@@ -149,30 +149,30 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;   % numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 200;
-            obj.numRelaxationSteps     = 100; % initialization step (burn-in time)
+            obj.numSimulationsPerRound = 1;
+            obj.numRelaxationSteps     = 1; % initialization step (burn-in time)
             obj.numRecordingSteps      = 100; % start recording before UVC beam
-            obj.numBeamSteps           = 200; % the steps until repair
-            obj.numRepairSteps         = 200; % repair and relaxation of the fiber
-            obj.dt                     = 0.001;
-            obj.dimension              = 2;
-            
+            obj.numBeamSteps           = 0; % the steps until repair
+            obj.numRepairSteps         = 0; % repair and relaxation of the fiber
+            obj.dt                     = 0.1;
+            obj.dimension              = 3;
+            d = 0.1;% step length in any dimension
             %___Domain parameters____
-            obj.domainRadius          = 3; % mu m^2
+            obj.domainRadius          = 100; % mu m^2
             obj.domainCenter          = [0 0 0];
-            
+          
             %__Polymer parameters and forces___
-            obj.numMonomers                       = 500;
-            obj.percentOfConnectedMonomers        = 1; % range: 0 to 100     
+            obj.numMonomers                       = 600;
+            obj.percentOfConnectedMonomers        = .01; % range: 0 to 100     
             obj.gyrationRadius                    = obj.domainRadius; %sqrt(obj.numMonomers/6)*obj.b; % the microenvironment of the UV beam
-            obj.b                                 = obj.gyrationRadius.*sqrt(6./obj.numMonomers);%sqrt(obj.dimension/1.75e-2); in practice the gyration radius decreases with crosslinking
+            obj.b                                 = 0.1;%obj.gyrationRadius.*sqrt(6./obj.numMonomers);%sqrt(obj.dimension/1.75e-2); in practice the gyration radius decreases with crosslinking
             obj.diffusionForce                    = true;
-            obj.diffusionConst                    = 4e-2;
+            obj.diffusionConst                    = (d^2)/(2*obj.dt);%4e-2;
             obj.shutDownDiffusionAfterRelaxationSteps = false;
             obj.springForce                       = true;
-            obj.springConst                       = obj.dimension.*obj.diffusionConst/obj.b^2; %1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
-            obj.connectedMonomers                 = [];            
-            obj.minParticleEqDistance             = obj.b.*ones(obj.numMonomers);% 0.1*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
+            obj.springConst                       = obj.diffusionConst/obj.b^2; %1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
+            obj.connectedMonomers                 = [];
+            obj.minParticleEqDistance             = obj.b.*zeros(obj.numMonomers);% 0.1*obj.b.*ones(obj.numMonomers); % sqrt(obj.dimension); % for spring force
             obj.minCrossLinkedParticlesEqDistance = 0;%0.5*obj.minParticleEqDistance(1);       % minimal distance for cross-linked particles   
             obj.crossLinkedParticlesSpringConst   = obj.springConst; % spring constant for crosslinks
             % Assign minimal contraction distance for connected monomers'

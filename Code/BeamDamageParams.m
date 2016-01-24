@@ -149,25 +149,28 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             
             %___Simulation parameters___
             obj.numRounds              = 1;   % numel(obj.tryConnectivity);
-            obj.numSimulationsPerRound = 1;
-            obj.numRelaxationSteps     = 1; % initialization step (burn-in time)
-            obj.numRecordingSteps      = 100; % start recording before UVC beam
+            obj.numSimulationsPerRound = 10;
+            obj.numRelaxationSteps     = 1500; % initialization step (burn-in time)
+            obj.numRecordingSteps      = 10; % start recording before UVC beam
             obj.numBeamSteps           = 0; % the steps until repair
             obj.numRepairSteps         = 0; % repair and relaxation of the fiber
-            obj.dt                     = 0.1;
+            obj.dt                     = 0.125;
             obj.dimension              = 3;
-            d = 0.1;% step length in any dimension
+            d = 0.01;% step length in any dimension mu/m
+            
             %___Domain parameters____
-            obj.domainRadius          = 100; % mu m^2
+            obj.domainRadius          = 100; % mu/m
             obj.domainCenter          = [0 0 0];
           
             %__Polymer parameters and forces___
-            obj.numMonomers                       = 600;
+            obj.numMonomers                       = 300;
             obj.percentOfConnectedMonomers        = .01; % range: 0 to 100     
             obj.gyrationRadius                    = obj.domainRadius; %sqrt(obj.numMonomers/6)*obj.b; % the microenvironment of the UV beam
-            obj.b                                 = 0.1;%obj.gyrationRadius.*sqrt(6./obj.numMonomers);%sqrt(obj.dimension/1.75e-2); in practice the gyration radius decreases with crosslinking
+            obj.b                                 = sqrt(obj.dimension);%0.1;%obj.gyrationRadius.*sqrt(6./obj.numMonomers);%sqrt(obj.dimension/1.75e-2); in practice the gyration radius decreases with crosslinking
+            p  = 1;% mode number
+            relexationTime  =  (obj.b^2)./(6*d^2 * sin(0.5*p*pi/obj.numMonomers)^2 );
             obj.diffusionForce                    = true;
-            obj.diffusionConst                    = (d^2)/(2*obj.dt);%4e-2;
+            obj.diffusionConst                    = 1;% 4e-2;% (d^2)/(2*obj.dt);%4e-2;
             obj.shutDownDiffusionAfterRelaxationSteps = false;
             obj.springForce                       = true;
             obj.springConst                       = obj.diffusionConst/obj.b^2; %1.75e-2;% obj.dimension*obj.diffusionConst/obj.b^2;
@@ -197,7 +200,7 @@ classdef BeamDamageParams<handle %{UNFINISHED}
             obj.mechanicalForceCenter    = [];
             obj.mechanicalForceDirection = 'out';
             obj.mechanicalForceMagnitude = obj.springConst; 
-            obj.mechanicalForceCutoff    = 2*obj.minParticleEqDistance(1);
+            obj.mechanicalForceCutoff    = 10*obj.b;%obj.minParticleEqDistance(1);
                                     
             %__UV Beam parameters___
             obj.beamRadius           = obj.gyrationRadius/6;% defines a unit of 1 mu/m in true space

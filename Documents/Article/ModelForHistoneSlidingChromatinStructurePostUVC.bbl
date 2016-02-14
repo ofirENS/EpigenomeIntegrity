@@ -30,10 +30,20 @@ H{\'e}l{\`e}ne Gaillard, Daniel~J Fitzgerald, Corey~L Smith, Craig~L Peterson,
   modulate dna damage accessibility to photolyase.
 \newblock {\em Journal of Biological Chemistry}, 278(20):17655--17663, 2003.
 
+\bibitem{green2002repair}
+Catherine~M Green and Genevi{\`e}ve Almouzni.
+\newblock When repair meets chromatin.
+\newblock {\em EMBO reports}, 3(1):28--33, 2002.
+
 \bibitem{luijsterburg2012ddb2}
 Martijn~S Luijsterburg, Michael Lindh, Klara Acs, Mischa~G Vrouwe, Alex Pines,
   Haico van Attikum, Leon~H Mullenders, and Nico~P Dantuma.
 \newblock Ddb2 promotes chromatin decondensation at uv-induced dna damage.
 \newblock {\em The Journal of cell biology}, 197(2):267--281, 2012.
+
+\bibitem{smerdon1991dna}
+Michael~J Smerdon.
+\newblock Dna repair and the role of chromatin structure.
+\newblock {\em Current opinion in cell biology}, 3(3):422--428, 1991.
 
 \end{thebibliography}

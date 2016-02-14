@@ -8,13 +8,15 @@
 	\title{Chromatin architecture post UVC irradiation}
 \maketitle
 \section{Introduction}
-    Maintaining the integrity of cellular genome and epigenome is one of the key elements allowing correct gene regulatory function. The constant exposure of the cellular genome to various sources of DNA damages imposes threat to the integrity of both the genetic and epigenetic information. Complete or partial failure to restore the damaged genetic information might lead to apoptosis and development of cancer [REF].
+    Maintaining the integrity of cellular genome and epigenome is one of the key elements allowing correct gene regulation. The constant exposure of the cellular genome to various sources of DNA damages imposes threat to the integrity of both the genetic and epigenetic information. Complete or partial failure to restore the damaged genetic information might lead to apoptosis and development of cancer [REF].
     
     Although several genetic repair pathways are well known [REFs], restoration of epigenetic information has only gained attention recently [REFs]. Disruption of the chromatin architecture, involving chromatin de-compaction and cross-link break, have been recently shown to induce cancer [REF]. It is therefore fundamental to understand how the cell restores chromatin architecture required for normal gene regulation after damages.
     
-	Our current understanding of the repair process is based on the Access-Repair-Restore model suggested by [REF]. Accordingly, following the detection of DNA lesion [REF] repair protein are recruited to DNA damage sites. To facilitate efficient access to DNA histones are removed, cross-links are broken and the chromatin in the micro-environment is generally de-compacted. Upon repair, repair proteins leave the damage region promoting the initiation of deposition of old and newly synthesized histones back into the chromatin and subsequently promoting chromatin compaction.
+   % UV induced damage activates the NER pathway. the ARR model is a framework by which the analysis of the repair process is done. 
     
-    Recently, experiments following the dynamics of tagged histones and DNA post UV-C, show a great imbalance between histone and DNA signal loss. This imbalance implies that chromatin de-compaction and expansion around the damage zone operates in parallel to exclusion of histones. %explain about sliding of histones as a potential mechanism 
+	Our current understanding of the repair process is based on the Access-Repair-Restore model \cite{green2002repair,smerdon1991dna}. Accordingly, following the detection of DNA lesion [REF] repair protein are recruited to DNA damage sites. To facilitate efficient access to DNA histones are removed, cross-links are broken and the chromatin in the micro-environment is generally de-compacted. Upon repair, repair proteins leave the damage region promoting the initiation of deposition of old and newly synthesized histones back into the chromatin and subsequently promoting chromatin compaction.
+    
+    Recently, experiments following the dynamics of tagged histones and DNA post UV-C, show an imbalance between histone and DNA signal loss. This imbalance implies that chromatin de-compaction and expansion around the damage zone operates in parallel to exclusion of histones. %explain about sliding of histones as a potential mechanism 
     Many structural changes are involved in the process of repair [REF].  Induction of UV-C light on chromatin, in the exposure time 0-120 promotes nucleotide fusion and activates the Nucleotide Excision Repair mechanism [REF].
     
 	To estimate the nucleosome reorganization following DNA damages, we have
@@ -28,14 +30,11 @@
 	We use the result of the analytical model to calibrate an \textit{in-silico} simulation of chromatin. We perform simulations in line with the experimental procedure to explore and compare functional healthy chromatin before UV damage to that post repair. % missing the results of the smimulations 
 		
  \section{Material and Methods} 
-	
-	We present here a model for nucleosomes and DNA re-organization following
-	UV damages. The cascade of events leading to tagged DNA and nucleosomes'
-	redistribution, results in signal extrusion from a region of interest (ROI) up
-	to a maximal loss, measured 15 minutes post UV-C.
-	
+
  \subsection{The experimental procedure}
 	Following the experimental protocol in \cite{adam2015imaging}, a two-dimensional initial damage region (DR), induced by the UV-C laser, is centered around the laser's focal point (Figure \ref{fig:ExperimentalProcedure} box A). Post UV-C the damaged region-- visualized by GFP-XPC, GFP-NER and tagged nucleosomes-- expands radially outward and reach its maximal area after 15 minutes (Figure \ref{fig:ExperimentalProcedure} box B). At the end of expansion, the region is defined as the ROI, in which DNA and nucleosome signals are measured and compared to signals measured in the ROI just prior to UV irradiation. The fraction of signal loss is calculated as the difference between the two measurements relative to time 0.
+	
+	% the experimental data includes normalized signal values 15 minutes post UVC for a range of UV dose. 
 	
 	\subsection{Modeling nucleosomes and DNA redistribution following UV damages}
 		\begin{figure}[H]
@@ -49,7 +48,7 @@
 	
 	For chromatin expansion, recruitment of repair and chromatin remodeling factors to bind to damaged DNA causes chromatin de-compaction and cross-links break to facilitate efficient repair \cite{gaillard2003chromatin,luijsterburg2012ddb2,deem2012epigenetic}. Accumulation of repair factors in the DR will generate a pushing force on surrounding chromatin in a radial outward direction \cite{dinant2007activation}. As a result, DNA and nucleosome outside the DR will be extruded from the ROI in equal proportions (Figure \ref{fig:ExperimentalProcedure} box A-C).
 	
-	An additional proportion of nucleosome signal loss is caused by the mechanism of nucleosome sliding. This mechanism allows nucleosome signal loss with no additional DNA signal loss. Repair proteins slide nucleosomes wrapped by damaged DNA away from high concentration of DNA damages to expose damaged DNA \cite{gaillard2003chromatin}. As a result the chromatin in the DR will loosen and remodeling and repair proteins will bind to the exposed damaged sites. This further contribute to the pushing of undamaged DNA outside the DR while retaining damaged DNA within it (Figure \ref{fig:ExperimentalProcedure} box D).  
+	An additional proportion of nucleosome signal loss is caused by the mechanism of nucleosome sliding. This mechanism allows nucleosome signal loss with no additional DNA signal loss (Figure \ref{fig:ExperimentalProcedure} box D). Repair proteins slide nucleosomes wrapped by damaged DNA away from high concentration of DNA damages to expose damaged DNA \cite{gaillard2003chromatin}. As a result the chromatin in the DR will loosen and remodeling and repair proteins will bind to the exposed damaged sites. This further contribute to the pushing of undamaged DNA outside the DR while retaining damaged DNA within it (Figure \ref{fig:ExperimentalProcedure} box D).  
 
     In-line with the description above, we construct a model representing
 	signal loss 15 minutes post UV-C as a function of the UV dose. We do not take into account the
@@ -57,7 +56,7 @@
 	
 
 	\subsection{Dynamics of DNA and nucleosome loss from the DR}
-	The DR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$, respectively (Figure \ref{fig:ExperimentalProcedure} box A,B). We assume an initial uniform distribution of DNA in the DR and its vicinity, such that the amount of DNA in $A(u)$ is $c_dA(u)$, with $c_d$ in units of $bp/\mu m^2$. 
+	The DR and the ROI are considered to be two-dimensional concentric circular regions, characterized by an area $A_0$ and $A(u)$, respectively (Figure \ref{fig:ExperimentalProcedure} box A-B). We assume an initial uniform distribution of DNA in the DR and its vicinity, such that the amount of DNA in $A(u)$ is $c_dA(u)$, with $c_d$ in units of $bp/\mu m^2$. 
 	
 	We restrict DNA damages to be inflicted only in $A_0$ immediately after UV induction. We set $T(u)$ to represent the amount of damaged DNA left in $A(u)$ 15 minutes post UV-C, while the undamaged DNA is assumed to be extruded. Therefore, the fraction of DNA signal loss, $D(u)$, is calculated as the ratio of extruded DNA to the total amount of DNA in the ROI, $c_dA(u)$. 
 	\begin{equation}\label{eq:DNALossFraction}
@@ -119,9 +118,7 @@
 		k_t = 8\times 10^{-4}, \quad k_sc_dA_0 = 0.31,\quad k_ac_n = 0.29, \quad k_bc_d = 0.24
 		\end{equation*}
 		with $R^2 = 0.94$ and $R^2 = 0.955$ for DNA and nucleosome loss fit respectively.
-		
-			
-
+					
 \subsection{Relative contribution of opening and sliding to DNA
 	and nucleosome signal loss}
 
@@ -131,7 +128,7 @@ total loss of DNA and nucleosome signals. The sliding contribution refers to all
 caused by either directly sliding nucleosome out of the DR or as the effect
 nucleosome sliding has on pushing chromatin out of the DR. Chromatin opening contribution refers to all signal loss caused by chromatin remodeling.
 
-We start by partitioning equation \eqref{eq:RoiArea}, describing the ROI into the two sub-mechanisms contributing to its expansion 
+We start by partitioning equation \eqref{eq:RoiArea}, describing the ROI into two sub-mechanisms contributing to its expansion 
 \begin{equation*}
 A(u) = A_P(u) +A_S(u)
 \end{equation*}
@@ -163,8 +160,7 @@ where here we have used the fact that $H_P(u) = D_P(u)$, i.e fraction of nucleos
 \section{The simulation framework}
 	To examine the similarity between the chromatin conformation before UV-C and after repair, we follow \textit{in-silico} the dynamics of DNA and nucleosome signal loss from a circular region of interest (ROI).
 	
-	The UV beam is consider to affect each horizontal slice of the nucleus in a similar manner \cite{adam2015imaging}. Therefore, we perform two-dimensional simulations in spherical domain with reflecting boundaries. Our simulation capture the UV damage micro-environment and not the entire nucleus. Simulations are performed for UV-C dosage $u$ ranging from 0 to 120 msec exposure.  
-
+	The UV beam is consider to affect each horizontal slice of the nucleus in a similar manner \cite{adam2015imaging}. Therefore, we perform two-dimensional simulations in spherical domain with reflecting boundaries. Our simulation capture the UV damage micro-environment and not the entire nucleus. 
 	
 	\subsection{The polymer model}
 	We use a randomly cross-linked Rouse chain of $N$ monomers connected by harmonic springs \cite{doi1988theory} to represent a coarse-grained model of the chromatin. Springs connecting adjacent monomers in the linear chain are allowed to contract to a minimal length $L_0>0$. Cross-links are represented by harmonic springs connecting a subset of $M\leq N$ non nearest-neighbor (NN), who allowed to contract to a minimal length $L_C>0$.  
@@ -215,10 +211,11 @@ where here we have used the fact that $H_P(u) = D_P(u)$, i.e fraction of nucleos
 	Damaged monomers are repaired with time dependent probability. The exclusion region is removed once a monomer is repaired and cross-links are allowd to be formed to other repaired or non-damaged monomers.  Cross-links are reintroduced by linking any two monomers located within an encounter distance of $\epsilon$ from one another. Cross-links post repair are allowed to be added up to the initial cross-linking percentage $\alpha$.
 	
 	\subsection{Measuring structural similarity}
-	A measure of similarity between the polymer spatial organization before UV and post repair is based on the comparison of their encounter probability matrices. Encounter probability matrix is obtained by dividing each cell $i,j$ in the encounter frequency matrix by the total number of encounter of monomer $i$ and $j$. The polymer's encounter matrix just prior the onset of UV-irradiation is compared to that at end simulation time. The similarity values is given by the mean square error between matrices. 
+	A measure of similarity between the polymer spatial organization before UV and post repair is based on the comparison of encounter probability between pairs of monomers.  Encounter probability matrix is obtained by dividing each cell $i,j$ in the encounter frequency matrix by the total number of encounter of monomer $i$ and $j$. The polymer's encounter matrix just prior the onset of UV-irradiation is compared to that at end simulation time. The similarity values is given by the mean square error between matrices. 
 	
 	\subsection{Parameter estimation}
-	We model a circular region of 3 $\mu m^2$ around the UVC laser's focal point. This area is represented by the Rouse polymer's gyration radius given by $R_g= \sqrt{N/6}b$. To estimate $b$ we then substitute $N=500, R_g=3\mu m$ to obtain $b=0.32$. 
+	% consider remove or re-estimate parameters
+	We model a circular region of 3 $\mu m^2$ around the UV-C laser's focal point. This area is represented by the Rouse polymer's gyration radius given by $R_g= \sqrt{N/6}b$. To estimate $b$ we then substitute $N=500, R_g=3\mu m$ to obtain $b=0.32$. 
 	
 	\section{Results}
 
@@ -248,6 +245,9 @@ where here we have used the fact that $H_P(u) = D_P(u)$, i.e fraction of nucleos
    			\caption{\textbf{Relative contribution of chromatin opening and nucleosome sliding to DNA (left) and histone (right) loss}. Sliding contribution is monotonically decreasing with UV dose for both DNA and nucleosome signals.}
    			\label{fig:relatiiveContributionToLoss}
    		\end{figure}	
+   		
+   \section{Discussion}
+   		
 	\bibliographystyle{plain}
 	\bibliography{ModelForHistoneSlidingChromatinStructurePostUVC} 
 \end{document}

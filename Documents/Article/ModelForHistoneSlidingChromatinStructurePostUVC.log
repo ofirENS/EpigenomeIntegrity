@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.2)  13 FEB 2016 17:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.6.2)  14 FEB 2016 01:41
 entering extended mode
-**SimulationFrameworkForChromatineArchitecturePostUVC.tex
+**ModelForHistoneSlidingChromatinStructurePostUVC.tex
 
-(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\SimulationFramework\MaterialAn
-dMethods\SimulationFrameworkForChromatineArchitecturePostUVC.tex
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Article\ModelForHistoneSlidingChromat
+inStructurePostUVC.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -148,8 +148,8 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks21
 \@floatcapt=\box29
 )
-(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\SimulationFramework\MaterialAn
-dMethods\SimulationFrameworkForChromatineArchitecturePostUVC.aux)
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Article\ModelForHistoneSlidingChromat
+inStructurePostUVC.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -191,12 +191,34 @@ LaTeX Warning: No \author given.
 
 [1
 
-{C:/Users/Ofir/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-<threeStagesOfSimulation.jpg, id=18, 963.6pt x 542.025pt>
+{C:/Users/Ofir/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (1.17616pt too wide) in paragraph at lines 40--40
+[]\OT1/cmr/bx/n/14.4 Modeling nu-cle-o-somes and DNA re-dis-tri-bu-tion fol-
+ []
+
+<ExperimentalProcedure.jpg, id=8, 722.7pt x 542.025pt>
+File: ExperimentalProcedure.jpg Graphic file (type jpg)
+
+<use ExperimentalProcedure.jpg>
+Package pdftex.def Info: ExperimentalProcedure.jpg used on input line 43.
+(pdftex.def)             Requested size: 272.99678pt x 219.39485pt.
+ [2] [3 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Article/ExperimentalProcedure
+.jpg>]
+Overfull \hbox (7.54552pt too wide) in paragraph at lines 52--53
+\OT1/cmr/m/n/12 with no ad-di-tional DNA sig-nal loss. Re-pair pro-teins slide 
+nu-cle-o-somes wrapped
+ []
+
+[4] [5]
+Overfull \hbox (9.5812pt too wide) in paragraph at lines 126--126
+[]\OT1/cmr/bx/n/14.4 Relative con-tri-bu-tion of open-ing and slid-ing to DNA
+ []
+
+[6] [7] [8] [9] <threeStagesOfSimulation.jpg, id=45, 963.6pt x 542.025pt>
 File: threeStagesOfSimulation.jpg Graphic file (type jpg)
 
 <use threeStagesOfSimulation.jpg>
-Package pdftex.def Info: threeStagesOfSimulation.jpg used on input line 54.
+Package pdftex.def Info: threeStagesOfSimulation.jpg used on input line 209.
 (pdftex.def)             Requested size: 350.99797pt x 191.97774pt.
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
@@ -204,35 +226,70 @@ Missing character: There is no ™ in font cmr12!
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no ™ in font cmr12!
- [3] [4 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Report/SimulationFramework/Ma
-terialAndMethods/threeStagesOfSimulation.jpg>]
-(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\SimulationFramework\MaterialAn
-dMethods\SimulationFrameworkForChromatineArchitecturePostUVC.bbl) [5]
-(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Report\SimulationFramework\MaterialAn
-dMethods\SimulationFrameworkForChromatineArchitecturePostUVC.aux) ) 
+ [10 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Article/threeStagesOfSimulation.
+jpg>]
+<histoneAndDnaVsUvDoseModelFit.jpg, id=49, 1686.3pt x 938.50626pt>
+File: histoneAndDnaVsUvDoseModelFit.jpg Graphic file (type jpg)
+
+<use histoneAndDnaVsUvDoseModelFit.jpg>
+Package pdftex.def Info: histoneAndDnaVsUvDoseModelFit.jpg used on input line 2
+27.
+(pdftex.def)             Requested size: 194.98825pt x 164.54178pt.
+ [11]
+<relatiiveContributionToDNALoss.jpg, id=53, 1686.3pt x 895.345pt>
+File: relatiiveContributionToDNALoss.jpg Graphic file (type jpg)
+
+<use relatiiveContributionToDNALoss.jpg>
+Package pdftex.def Info: relatiiveContributionToDNALoss.jpg used on input line 
+246.
+(pdftex.def)             Requested size: 194.98825pt x 164.54327pt.
+
+<relativeContributionToHistoneLoss.jpg, id=54, 1686.3pt x 895.345pt>
+File: relativeContributionToHistoneLoss.jpg Graphic file (type jpg)
+
+<use relativeContributionToHistoneLoss.jpg>
+Package pdftex.def Info: relativeContributionToHistoneLoss.jpg used on input li
+ne 247.
+(pdftex.def)             Requested size: 194.98825pt x 164.54327pt.
+
+Overfull \hbox (2.58759pt too wide) in paragraph at lines 246--248
+[][] [] 
+ []
+
+
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Article\ModelForHistoneSlidingChromat
+inStructurePostUVC.bbl [12 <D:/Ofir/ENS/EpigenomeIntegrity/Documents/Article/hi
+stoneAndDnaVsUvDoseModelFit.jpg>] [13 <D:/Ofir/ENS/EpigenomeIntegrity/Documents
+/Article/relatiiveContributionToDNALoss.jpg> <D:/Ofir/ENS/EpigenomeIntegrity/Do
+cuments/Article/relativeContributionToHistoneLoss.jpg>]) [14]
+(D:\Ofir\ENS\EpigenomeIntegrity\Documents\Article\ModelForHistoneSlidingChromat
+inStructurePostUVC.aux) ) 
 Here is how much of TeX's memory you used:
- 2155 strings out of 493921
- 28041 string characters out of 3144880
- 80122 words of memory out of 3000000
- 5437 multiletter control sequences out of 15000+200000
- 14096 words of font info for 54 fonts, out of 3000000 for 9000
+ 2205 strings out of 493921
+ 29025 string characters out of 3144880
+ 83295 words of memory out of 3000000
+ 5482 multiletter control sequences out of 15000+200000
+ 15952 words of font info for 61 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,12n,26p,1237b,232s stack positions out of 5000i,500n,10000p,200000b,50000s
-<d:/Program 
-Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/Program File
-s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><d:/Program Files 
-(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/Program Files (x86)/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/Program Files (x86)/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/Program Files (x86)/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Program Files (x86)/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on SimulationFrameworkForChromatineArchitecturePostUVC.pdf (5 pa
-ges, 423393 bytes).
+ 27i,12n,26p,1878b,272s stack positions out of 5000i,500n,10000p,200000b,50000s
+<d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmbx10.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmbx12.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmex10.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmmi12.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmmi6.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.p
+fb><d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+<d:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on ModelForHistoneSlidingChromatinStructurePostUVC.pdf (14 pages
+, 838507 bytes).
 PDF statistics:
- 59 PDF objects out of 1000 (max. 8388607)
+ 109 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

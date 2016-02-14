@@ -8,12 +8,13 @@
 	\title{Simulation framework for chromatin architecture post UVC irradiation}
 \maketitle
 \section{The simulation framework}
-	We follow \textit{in silico} the dynamics of DNA and nucleosome signal loss from a circular region of interest (ROI) up to 15 minutes post UV-C irradiation followed by a period post repair. To examine the re-organization of the chromatin post UV-C, we compare between the polymer configuration before UV-C and at the end of repair stage. Simulations are performed for a range of UV-C dosage $u$.  
+	To examine the similarity between the chromatin structure before UV-C and after repair, we follow \textit{in-silico} the dynamics of DNA and nucleosome signal loss from a circular region of interest (ROI). Following UV-C induction recruitment of repair protein to damage position on the chromatin results in the expansion of the damage region up to a maximum reached 15 minutes post UV-C.  
 	
-	To representing the dynamics of the chromatin in the UV damage micro-environment, simulations are performed in a three-dimensional spherical domain with reflecting boundaries. Results are reported as the projected values on the x-y plane, in-line with the experimental procedure \cite{adam2015imaging}. 
+	The UV beam is consider to affect each horizontal slice of the nucleus in a similar manner \cite{adam2015imaging}. Therefore, we perform two-dimensional simulations in spherical domain with reflecting boundaries. Our simulation capture the UV damage micro-environment and not the entire nucleus. Simulations are performed for UV-C dosage $u$ ranging from 0 to 120 msec exposure.  
+
 	
 	\subsection{The polymer model}
-	We use a cross-linked Rouse chain of $N$ monomers connected by harmonic springs \cite{doi1988theory} to represent a coarse-grained model of the chromatin. Springs connecting adjacent monomers in the linear chain are allowed to contract to a minimal length $L_0>0$. Cross-links are represented by harmonic springs connecting a subset of $M\leq N$ non nearest-neighbor (NN), who allowed to contract to a minimal length $L_C>0$. 
+	We use a randomly cross-linked Rouse chain of $N$ monomers connected by harmonic springs \cite{doi1988theory} to represent a coarse-grained model of the chromatin. Springs connecting adjacent monomers in the linear chain are allowed to contract to a minimal length $L_0>0$. Cross-links are represented by harmonic springs connecting a subset of $M\leq N$ non nearest-neighbor (NN), who allowed to contract to a minimal length $L_C>0$.  
 	The position $R_n$ of the $n^{th}$ monomer of the chain is  represented by the equation 
 	\begin{equation}
 	\frac{\partial R_n}{\partial t}(t) = \sum_m H_{nm}\left(-\frac{\partial U_0}{\partial R_m(t)}+g_m(t)\right) -\sum_m \hat{H}_{nm}\frac{\partial U_{L_c}}{\partial R_m (t)}
@@ -35,10 +36,14 @@
 	\end{equation}
     with $b>L$ the std of spring length. 
     	
-	The measure of cross-linking is given by the percentage $0\leq \alpha\leq 100$ of non-NN monomers connected out of the total. For each realization of the polymer, cross-links are added between pairs of monomers chosen uniformly at random. The dynamics of the cross-linked polymer is then simulated up to its relaxation time, determined by be the slowest mode of the linear chain \cite{doi1988theory}.
+	The measure of cross-linking is given by the percentage $0\leq \alpha\leq 100$ of non-NN monomers connected out of the total.
+	
+	 For each realization of the polymer, cross-links are added between pairs of monomers chosen uniformly at random. The dynamics of the cross-linked polymer is then simulated up to its relaxation time, determined by be the slowest mode of the linear chain \cite{doi1988theory}.
 
 	\subsection{UV irradiation}
-	At the end of relaxation steps an instantaneous UV beam is shot with its focal point placed at the polymer's center-of-mass (CM). Small fluctuations of monomers are not of interest at the scale of our simulation, therefore the diffusion force acting on the polymer is stopped at this point. Damages caused by UV are restricted to be contained within a fixed two-dimensional circular region of area $A_0$ centered at laser's focal point. Damages to DNA are represented by monomers labeled as damaged. For each UV dose $u$, damages caused by UV are uniformly distributed between the monomers in $A_0$ at the time of beam shot. With increase of UV dose, we increase the probability of damages linearly as $k_tu$, with $k_t$ in units of $bp/msec$. 
+	At the end of relaxation steps an instantaneous UV beam is shot with its focal point placed at the polymer's center-of-mass (CM). Small fluctuations of monomers are not of interest at the scale of our simulation, therefore the diffusion force acting on the polymer is stopped at this point. Damages caused by UV are restricted to be contained within a fixed two-dimensional circular region of area $A_0$ centered at laser's focal point. [EXPLAIN ABOUT THE DAMAGES]
+	
+	Damages to DNA are represented by monomers labeled as damaged. For each UV dose $u$, damages caused by UV are uniformly distributed between  monomers in $A_0$ at the time of beam shot. With increase of UV dose, we increase the probability of damages linearly as $k_tu$, with $k_t$ in units of $bp/msec$. 
 	
 	\subsubsection{The repair stage}	
 	To simulate the affect of repair proteins crowding at sites of DNA damage, a circular exclusion region is centered at each damaged monomer. An elastic pushing force originating from the damaged monomer and having affect radius $r_p$ is applied on any monomers entering the exclusion region. In addition, all cross-links from and to damaged monomers are removed to simulate chromatin de-compaction caused by the activity of chromatin remodlers and repair proteins \cite{gaillard2003chromatin}. 
